@@ -1,0 +1,6 @@
+Plans
+
+- Remove Game objects
+- Implement Attribute component (stores data) 
+
+Convert engine to 3D
