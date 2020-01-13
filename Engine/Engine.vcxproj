@@ -136,7 +136,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIAttribute.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AStarScene.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -145,14 +148,22 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
+    <ClCompile Include="Hex.cpp" />
+    <ClCompile Include="HexMaze.cpp" />
+    <ClCompile Include="HexMouse.cpp" />
+    <ClCompile Include="HexScene.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="LoadFNT.cpp" />
     <ClCompile Include="LoadTGA.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Maze.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="PathFind.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="PathFindSystem.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="RoamState.cpp" />
@@ -174,7 +185,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIAttribute.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AStarScene.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonSystem.h" />
     <ClInclude Include="Camera.h" />
@@ -184,14 +198,22 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />
+    <ClInclude Include="Hex.h" />
+    <ClInclude Include="HexMaze.h" />
+    <ClInclude Include="HexMouse.h" />
+    <ClInclude Include="HexScene.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="InputEvents.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LoadFNT.h" />
     <ClInclude Include="LoadTGA.h" />
+    <ClInclude Include="Maze.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="PathFind.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="PathFindSystem.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="RoamState.h" />

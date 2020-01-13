@@ -4,6 +4,8 @@ Component::Component()
 	: entity(0)
 	, active(true) {}
 
+Component::~Component() {}
+
 const bool & Component::IsActive() const {
 	return active;
 }

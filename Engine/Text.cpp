@@ -4,7 +4,7 @@
 
 Text::Text()
 	: text("")
-	, color(vec3f(0.f), 1.f)
+	, color(1.f)
 
 	, font(nullptr)
 	, scale(1.f)
@@ -16,7 +16,7 @@ Text::Text()
 
 void Text::Initialize() {
 	text = "";
-	color.Set(0.f, 0.f, 0.f, 1.f);
+	color.Set(1.f);
 
 	font = nullptr;
 	scale = 1.f;

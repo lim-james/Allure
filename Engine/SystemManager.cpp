@@ -29,6 +29,8 @@ void SystemManager::Update(const float & dt) {
 		s->Update(dt);
 	}
 
+	if (frameLayout.size() <= 1) return;
+
 	for (auto& s : *frame) {
 		s->Update(frameDelta[s]);
 		frameDelta[s] = 0.f;

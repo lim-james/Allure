@@ -1,6 +1,7 @@
 #include "Application.h"
 
-#include "Test.h"
+#include "AStarScene.h"
+#include "HexScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -47,15 +48,16 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	em->Subscribe("TIMER_STOP", &Application::OnTimerEvent, this);
 #endif
 
+	em->Subscribe("STEP", &Application::Step, this);
+
 	//sceneManager = new SceneManager;
 	// turn off vsync
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Add("ONE", new Test);
-	sceneManager->Add("TWO", new Test);
-	sceneManager->Add("THREE", new Test);
-	sceneManager->SetEntryPoint("ONE");
+	sceneManager->Add("ASTAR", new AStarScene);
+	sceneManager->Add("HEX", new HexScene);
+	sceneManager->SetEntryPoint("HEX");
 
 	context->BroadcastSize();
 	em->TriggerQueued();
@@ -68,29 +70,10 @@ void Application::Run() {
 
 	em->Trigger("CURSOR_SENSITIVITY", new Events::AnyType<float>(0.1f));
 
-	float t = 0.f;
-
+	bt = 0.f;
 	while (!context->ShouldClose()) {
-		glfwPollEvents();
-
-		const float et = static_cast<float>(timer.GetElapsedTime());
-		const float dt = static_cast<float>(timer.GetDeltaTime());
-
-		auto current = sceneManager->GetSource();
-
-		t += dt;
-		if (t >= FRAMERATE) {
-			current->FixedUpdate(t);
-			t = 0.f;
-		}
-
-		current->Update(dt);
-
-		em->TriggerQueued();
-
-		sceneManager->Segue();
-		context->SwapBuffers();
-		timer.Update();
+		//Step();
+		em->Trigger("STEP");
 	}
 }
 
@@ -136,3 +119,26 @@ void Application::OnTimerEvent(Events::Event* event) {
 	}
 }
 #endif
+
+void Application::Step() {
+	glfwPollEvents();
+
+	const float et = static_cast<float>(timer.GetElapsedTime());
+	const float dt = static_cast<float>(timer.GetDeltaTime());
+
+	auto current = sceneManager->GetSource();
+
+	bt += dt;
+	if (bt >= FRAMERATE) {
+		current->FixedUpdate(bt);
+		bt = 0.f;
+	}
+
+	current->Update(dt);
+
+	Events::EventsManager::GetInstance()->TriggerQueued();
+
+	sceneManager->Segue();
+	context->SwapBuffers();
+	timer.Update();
+}

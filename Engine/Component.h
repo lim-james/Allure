@@ -6,6 +6,7 @@ struct Component {
 	unsigned entity;
 
 	Component();
+	virtual ~Component();
 
 	virtual void Initialize() = 0;
 

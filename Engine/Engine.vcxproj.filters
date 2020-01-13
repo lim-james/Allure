@@ -46,6 +46,12 @@
     <Filter Include="Application\Scenes\Test">
       <UniqueIdentifier>{9ceff205-d65a-4d58-beee-00c797540f3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Scenes\AStar">
+      <UniqueIdentifier>{25368e4a-829b-4185-91a3-a501786c8b03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Animation">
+      <UniqueIdentifier>{6454f4c8-54c1-46e9-a384-b51fad5ec86c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -153,8 +159,41 @@
     <ClCompile Include="RoamState.cpp">
       <Filter>Application\Scenes\Test</Filter>
     </ClCompile>
+    <ClCompile Include="AStarScene.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationSystem.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
     <ClCompile Include="AIAttribute.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Application\Scenes\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFind.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFindSystem.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="Hex.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="HexScene.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="HexMaze.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="HexMouse.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +310,39 @@
     </ClInclude>
     <ClInclude Include="AIAttribute.h">
       <Filter>Application\Scenes\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="AStarScene.h">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationSystem.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze.h">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFind.h">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFindSystem.h">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="Hex.h">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="HexScene.h">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="HexMaze.h">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="HexMouse.h">
+      <Filter>Application\Scenes\AStar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
