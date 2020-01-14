@@ -58,6 +58,9 @@
     <Filter Include="Application\Scenes\Graph">
       <UniqueIdentifier>{405e57b5-0660-47e3-89fa-94f91c8da41f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Scenes\Debug">
+      <UniqueIdentifier>{6e2b9e5e-d64c-4705-80db-b3af95c5ce96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -197,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="Graph.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugScene.cpp">
+      <Filter>Application\Scenes\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="Edge.h">
       <Filter>Application\Scenes\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugScene.h">
+      <Filter>Application\Scenes\Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

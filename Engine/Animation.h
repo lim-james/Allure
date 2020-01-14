@@ -60,13 +60,11 @@ public:
 			if (loop) {
 				*target = original;
 				et = 0.f;
-			}
-			else {
+			} else {
 				*target = outcome;
 				completion();
 			}
-		}
-		else if (et > 0.f) {
+		} else if (et > 0.f) {
 			const T interval = outcome - *(target);
 			const float ratio = dt / (duration - et);
 			*(target) += interval * ratio;

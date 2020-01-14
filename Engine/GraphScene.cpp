@@ -31,7 +31,7 @@ void GraphScene::Awake() {
 	const unsigned cam = entities->Create();
 	entities->GetComponent<Transform>(cam)->translation.z = 1.f;
 	camera = entities->AddComponent<Camera>(cam);
-	camera->SetSize(10);
+	camera->SetSize(5);
 	camera->SetActive(true);
 	camera->clearColor.Set(0.f);
 
@@ -58,6 +58,7 @@ void GraphScene::CreateNode(Node * node) {
 	entityNodeMap[entity] = node;
 
 	entities->GetComponent<Transform>(entity)->translation = node->position;
+	entities->GetComponent<Transform>(entity)->scale.Set(2.f);
 
 	auto render = entities->AddComponent<Render>(entity);
 	render->SetActive(true);
@@ -120,12 +121,11 @@ void GraphScene::MouseButtonHandler(Events::Event * event) {
 	}
 }
 
-
 void GraphScene::OnMouseOverHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(0.7f)
+		vec3f(2.25f)
 	);
 	mouseOver = true;
 }
@@ -134,7 +134,7 @@ void GraphScene::OnMouseOutHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(1.f)
+		vec3f(2.f)
 	);
 	mouseOver = false;
 }
@@ -143,7 +143,7 @@ void GraphScene::OnMouseDownHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(1.2f)
+		vec3f(2.f)
 	);
 	
 	mouseDown = true;
@@ -160,7 +160,7 @@ void GraphScene::OnMouseUpHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(1.f)
+		vec3f(2.f)
 	);
 
 	mouseDown = false;

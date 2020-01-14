@@ -3,6 +3,7 @@
 #include "AStarScene.h"
 #include "HexScene.h"
 #include "GraphScene.h"
+#include "DebugScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -59,6 +60,7 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	sceneManager->Add("ASTAR", new AStarScene);
 	sceneManager->Add("HEX", new HexScene);
 	sceneManager->Add("GRAPH", new GraphScene);
+	sceneManager->Add("DEBUG", new DebugScene);
 	sceneManager->SetEntryPoint("GRAPH");
 
 	context->BroadcastSize();

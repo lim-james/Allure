@@ -49,10 +49,9 @@ void ButtonSystem::Update(const float & dt) {
 					}
 				} else {
 					if (prevMouseActions[GLFW_MOUSE_BUTTON_LEFT] != GLFW_RELEASE) {
+						PerformAction(MOUSE_UP, button);
 						PerformAction(MOUSE_CLICK, button);
 					}
-
-					PerformAction(MOUSE_UP, button);
 				}
 			} else {
 				if (prev) {
