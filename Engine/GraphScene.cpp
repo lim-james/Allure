@@ -10,6 +10,7 @@
 
 #include <Math/Random.hpp>
 #include <Events/EventsManager.h>
+#include <GLFW/glfw3.h>
 
 void GraphScene::Awake() {
 	Scene::Awake();
@@ -17,6 +18,7 @@ void GraphScene::Awake() {
 	selected = nullptr;
 
 	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &GraphScene::CursorPositionHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("MOUSE_BUTTON_INPUT", &GraphScene::MouseButtonHandler, this);
 
 	systems->Subscribe<RenderSystem>(0);
 	systems->Subscribe<ButtonSystem>(1);
@@ -34,12 +36,12 @@ void GraphScene::Awake() {
 	camera->clearColor.Set(0.f);
 
 	const unsigned label = entities->Create();
-	entities->GetComponent<Transform>(label)->translation.Set(0.f, -9.f, 0.f);
+	entities->GetComponent<Transform>(label)->translation.Set(0.f, -7.5f, 0.f);
 	const auto text = entities->AddComponent<Text>(label);
 	text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
 	text->SetActive(true);
 	text->scale = 0.5f;
-	text->text = "[Enter] to toggle lines.";
+	text->text = "[Enter] to toggle lines.\nDrag nodes around.\nClick two nodes to connect them.\nClick on an empty area to create a node.\n";
 }
 
 void GraphScene::Update(const float & dt) {
@@ -81,28 +83,40 @@ void GraphScene::CreateNode(Node * node) {
 }
 
 void GraphScene::CreateEdge(Edge * edge) {
-	const auto entity = entities->Create();
+	//const auto entity = entities->Create();
 
-	const auto position = (edge->from->position + edge->to->position) * 0.5f;
-	entities->GetComponent<Transform>(entity)->translation = position;
+	//const auto position = (edge->from->position + edge->to->position) * 0.5f;
+	//entities->GetComponent<Transform>(entity)->translation = position;
 
-	const auto text = entities->AddComponent<Text>(entity);
-	text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
-	text->SetActive(true);
-	text->scale = 0.5f;
-	text->text = std::to_string(edge->weight);
-	text->color.Set(1.f);
+	//const auto text = entities->AddComponent<Text>(entity);
+	//text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
+	//text->SetActive(true);
+	//text->scale = 0.5f;
+	//text->text = std::to_string(edge->weight);
+	//text->color.Set(1.f);
 }
 
 void GraphScene::CursorPositionHandler(Events::Event * event) {
 	Events::CursorPositionInput* input = static_cast<Events::CursorPositionInput*>(event);
 	mouseMoved = true;
+	mousePosition = input->position;
 
 	if (mouseDown && selected) {
 		auto position = camera->ScreenToWorldSpace(input->position);
 		position.y = -position.y;
 		selected->translation = position;
 		entityNodeMap[selected->entity]->position = position;
+	}
+}
+
+void GraphScene::MouseButtonHandler(Events::Event * event) {
+	Events::MouseButtonInput* input = static_cast<Events::MouseButtonInput*>(event);
+	if (!mouseOver) {
+		if (input->button == GLFW_MOUSE_BUTTON_LEFT && input->action == GLFW_RELEASE) {
+			auto position = camera->ScreenToWorldSpace(mousePosition);
+			graph.CreateNode(position.x, -position.y, 0.f);
+			mouseOver = true;
+		}
 	}
 }
 
@@ -113,6 +127,7 @@ void GraphScene::OnMouseOverHandler(unsigned entity) {
 		entities->GetComponent<Transform>(entity)->scale,
 		vec3f(0.7f)
 	);
+	mouseOver = true;
 }
 
 void GraphScene::OnMouseOutHandler(unsigned entity) {
@@ -121,6 +136,7 @@ void GraphScene::OnMouseOutHandler(unsigned entity) {
 		entities->GetComponent<Transform>(entity)->scale,
 		vec3f(1.f)
 	);
+	mouseOver = false;
 }
 
 void GraphScene::OnMouseDownHandler(unsigned entity) {

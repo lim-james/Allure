@@ -15,7 +15,8 @@ class GraphScene : public Scene {
 
 	Camera* camera;
 
-	bool mouseMoved, mouseDown;
+	vec2f mousePosition;
+	bool mouseOver, mouseMoved, mouseDown;
 	Transform* selected;
 
 	std::map<unsigned, Node*> entityNodeMap;
@@ -31,6 +32,7 @@ private:
 	void CreateEdge(Edge * edge);
 
 	void CursorPositionHandler(Events::Event* event);
+	void MouseButtonHandler(Events::Event* event);
 
 	void OnMouseOverHandler(unsigned entity);
 	void OnMouseOutHandler(unsigned entity);
