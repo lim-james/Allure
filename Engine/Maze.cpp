@@ -70,7 +70,12 @@ int Maze::GetMapIndex(const int & x, const int & y) const {
 		y < 0 || y >= i)
 		return -1;
 
-	return x + y * i;
+	return x * i + y;// *i;
+}
+
+vec2i Maze::GetMapPosition(const int & index) const {
+	const int i = static_cast<int>(size);
+	return vec2i(index / i, index % i);
 }
 
 vec2i Maze::ScreenToMapPosition(const vec2f & position) const {

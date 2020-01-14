@@ -30,6 +30,8 @@ public:
 	int GetMapIndex(const vec2i& position) const;
 	int GetMapIndex(const int& x, const int& y) const;
 
+	vec2i GetMapPosition(const int& index) const;
+
 	vec2i ScreenToMapPosition(const vec2f& position) const;
 	vec2f MapToScreenPosition(const vec2i& position) const;
 

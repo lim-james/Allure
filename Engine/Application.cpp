@@ -2,6 +2,7 @@
 
 #include "AStarScene.h"
 #include "HexScene.h"
+#include "GraphScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -57,7 +58,8 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	sceneManager = new SceneManager;
 	sceneManager->Add("ASTAR", new AStarScene);
 	sceneManager->Add("HEX", new HexScene);
-	sceneManager->SetEntryPoint("HEX");
+	sceneManager->Add("GRAPH", new GraphScene);
+	sceneManager->SetEntryPoint("GRAPH");
 
 	context->BroadcastSize();
 	em->TriggerQueued();

@@ -33,6 +33,8 @@ public:
 
 	void SetMaze(HexMaze* const _maze);
 
+	Transform * const GetTransform() const;
+
 	const std::vector<unsigned>& GetVision() const;
 
 private:

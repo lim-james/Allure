@@ -23,6 +23,7 @@
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventsManager.h" />
     <ClInclude Include="Helpers\FileHelpers.h" />
+    <ClInclude Include="Loaders\LoadCSV.hpp" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="MACROS.h" />
     <ClInclude Include="Math\LinePlane.hpp" />

@@ -113,6 +113,10 @@ void HexMouse::SetMaze(HexMaze * const _maze) {
 	vision.resize(maze->GetSize() * maze->GetSize(), FOG);
 }
 
+Transform * const HexMouse::GetTransform() const {
+	return transform;
+}
+
 const std::vector<unsigned>& HexMouse::GetVision() const {
 	return vision;
 }

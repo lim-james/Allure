@@ -19,7 +19,7 @@ void HexMaze::Generate(const unsigned& seed, const unsigned & _size, const vec2i
 
 		if (grid[chosen] == PATH) {
 			int r = rand() % 10;
-			if (r > 6) {
+			if (r > 5) {
 				grid[chosen] = WALL;
 			} else if (r > 3) {
 				grid[chosen] = MUD;
@@ -82,6 +82,11 @@ int HexMaze::GetMapIndex(const int & x, const int & y) const {
 		return -1;
 
 	return x + y * i;
+}
+
+vec2i HexMaze::GetMapPosition(const int & index) const {
+	const int i = static_cast<int>(size);
+	return vec2i(index % i, index / i);
 }
 
 vec2i HexMaze::ScreenToMapPosition(const vec2f & position) const {

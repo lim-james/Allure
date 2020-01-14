@@ -54,7 +54,7 @@ void HexScene::Awake() {
 		text->text = "Hold M to spawn Mice.";
 	}
 
-	maze.Generate(0, gridSize, vec2i(0), 0.5f);
+	maze.Generate(0, gridSize, vec2i(0), 0.7f);
 
 	for (int y = 0; y < gridSize; ++y) {
 		for (int x = 0; x < gridSize; ++x) {
@@ -71,6 +71,7 @@ void HexScene::Update(const float & dt) {
 	for (auto& mice : mouse) {
 		if (!mice.IsDoneExploring()) {
 			mice.Explore();
+			UpdateVision(mice);
 		}
 	}
 }
@@ -105,22 +106,35 @@ void HexScene::DrawPath(Events::Event * event) {
 void HexScene::UpdateVision(const HexMouse& mice) {
 	auto vision = mice.GetVision();
 
+	const auto micePosition = mice.GetTransform()->translation.xy;
+
 	for (unsigned i = 0; i < vision.size(); ++i) {
+		const auto mapPosition = maze.GetMapPosition(i);
+		const auto screenPosition = maze.MapToScreenPosition(mapPosition);
+
+		float a = grid[i]->tint.a;
+
+		if (Math::Length(screenPosition - micePosition) < 3.f) {
+			a = (a + 0.5f) * 0.5f;
+		} else {
+			a = (a + 0.2f) * 0.5f;
+		}
+
 		switch (vision[i]) {
 		case WALL:
-			grid[i]->tint.Set(0.2f, 0.2f, 0.2f, 0.5f);
+			grid[i]->tint.Set(0.2f, 0.2f, 0.2f, a);
 			break;
 		case FOG:
 			grid[i]->tint.Set(0.f);
 			break;
 		case PATH:
-			grid[i]->tint.Set(1.f, 1.f, 1.f, 0.5f);
+			grid[i]->tint.Set(0.4f, 0.5f, 0.2f, a);
 			break;
 		case WATER:
-			grid[i]->tint.Set(0.6f, 0.8f, 0.8f, 0.5f);
+			grid[i]->tint.Set(0.6f, 0.8f, 0.8f, a);
 			break;
 		case MUD:
-			grid[i]->tint.Set(0.6f, 0.2f, 0.2f, 0.5f);
+			grid[i]->tint.Set(0.6f, 0.2f, 0.2f, a);
 			break;
 		default:
 			break;
@@ -151,7 +165,7 @@ unsigned HexScene::CreateTile(const int & x, const int & y) {
 		render->tint.Set(0.f);
 		break;
 	case PATH:
-		render->tint.Set(1.f, 1.f, 1.f, 0.5f);
+		render->tint.Set(0.4f, 0.5f, 0.2f, 0.5f);
 		break;
 	case WATER:
 		render->tint.Set(0.6f, 0.8f, 0.8f, 0.5f);
@@ -165,8 +179,8 @@ unsigned HexScene::CreateTile(const int & x, const int & y) {
 
 	auto button = entities->AddComponent<Button>(tile);
 	button->SetActive(true);
-	button->BindHandler(MOUSE_OVER, &HexScene::OnMouseOverHandler, this);
-	button->BindHandler(MOUSE_OUT, &HexScene::OnMouseOutHandler, this);
+	//button->BindHandler(MOUSE_OVER, &HexScene::OnMouseOverHandler, this);
+	//button->BindHandler(MOUSE_OUT, &HexScene::OnMouseOutHandler, this);
 	button->BindHandler(MOUSE_DOWN, &HexScene::OnMouseDownHandler, this);
 	button->BindHandler(MOUSE_UP, &HexScene::OnMouseUpHandler, this);
 	button->BindHandler(MOUSE_CLICK, &HexScene::OnClick, this);
@@ -203,9 +217,6 @@ void HexScene::OnMouseOverHandler(unsigned entity) {
 		entities->GetComponent<Render>(entity)->tint.a,
 		1.f
 	);
-	auto pos = entities->GetComponent<Transform>(entity)->translation;
-	auto map = maze.ScreenToMapPosition(pos);
-	auto spos = maze.MapToScreenPosition(map);
 }
 
 void HexScene::OnMouseOutHandler(unsigned entity) {

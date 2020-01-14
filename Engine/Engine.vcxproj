@@ -148,7 +148,8 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
-    <ClCompile Include="Hex.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="GraphScene.cpp" />
     <ClCompile Include="HexMaze.cpp" />
     <ClCompile Include="HexMouse.cpp" />
     <ClCompile Include="HexScene.cpp" />
@@ -159,11 +160,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="PathFind.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="PathFindSystem.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="RoamState.cpp" />
@@ -195,10 +194,12 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderSystem.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />
-    <ClInclude Include="Hex.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="GraphScene.h" />
     <ClInclude Include="HexMaze.h" />
     <ClInclude Include="HexMouse.h" />
     <ClInclude Include="HexScene.h" />
@@ -209,11 +210,10 @@
     <ClInclude Include="LoadTGA.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="PathFind.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="PathFindSystem.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="RoamState.h" />
@@ -236,6 +236,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\Data\graph.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

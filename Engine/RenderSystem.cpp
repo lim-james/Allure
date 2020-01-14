@@ -339,7 +339,7 @@ void RenderSystem::KeyHandler(Events::Event * event) {
 		if (debugging)
 			Events::EventsManager::GetInstance()->Subscribe("DRAW_LINE", &RenderSystem::DrawLineHandler, this);
 		else
-			Events::EventsManager::GetInstance()->Unsubscribe("DRAW_LINE", this);
+			Events::EventsManager::GetInstance()->Unsubscribe("DRAW_LINE");
 	}
 }
 
