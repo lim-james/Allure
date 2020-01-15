@@ -18,6 +18,7 @@ class HexScene : public Scene {
 
 	Camera* camera;
 	Text* debugText;
+	Transform* highlight;
 
 	HexMaze maze;
 	std::vector<Render*> grid;

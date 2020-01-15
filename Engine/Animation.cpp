@@ -30,7 +30,6 @@ void Animation::Initialize() {
 	Clear();
 }
 
-
 void Animation::SetActive(const bool& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("ANIMATION_ACTIVE", new Events::AnyType<Animation*>(this));
@@ -38,7 +37,7 @@ void Animation::SetActive(const bool& state) {
 
 void Animation::Clear() {
 	for (auto& a : animations)
-		delete a;
+		delete a.second;
 
 	animations.clear();
 }

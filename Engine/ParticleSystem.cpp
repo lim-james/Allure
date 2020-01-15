@@ -24,13 +24,15 @@ void ParticleSystem::Update(const float& dt) {
 			auto transform = entities->GetComponent<Transform>(entity);
 			auto render = entities->GetComponent<Render>(entity);
 
-			const auto dir = Math::Normalized(transform->translation - position);
-
 			transform->translation += particle->velocity * dt;
 			particle->velocity += emitter->gravity * dt;
 
-			const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
-			particle->velocity += (emitter->accelRad + vAccelRad) * dt * dir;
+			const auto diff = transform->translation - position;
+			const float length = Math::Length(diff);
+			if (length > 0.f) {
+				const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
+				particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
+			}
 
 			const float ratio = particle->age / particle->lifetime;
 
@@ -124,6 +126,7 @@ void ParticleSystem::Update(const float& dt) {
 				);
 
 				render->tint = particle->startColor;
+				render->SetTexture(emitter->texture);
 			}
 
 			emitter->spawnTimer = emitter->spawnInterval;

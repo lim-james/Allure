@@ -53,13 +53,28 @@ void HexScene::Awake() {
 		text->scale = 0.5f;
 		text->text = "Hold M to spawn Mice.";
 	}
-
+	
 	maze.Generate(0, gridSize, vec2i(0), 0.7f);
 
 	for (int y = 0; y < gridSize; ++y) {
 		for (int x = 0; x < gridSize; ++x) {
 			CreateTile(x, y);
 		}
+	}
+
+	{
+		auto highlightTile = entities->Create();
+
+		highlight = entities->GetComponent<Transform>(highlightTile);
+		highlight->scale.Set(1.1f);
+
+		auto render = entities->AddComponent<Render>(highlightTile);
+		render->SetActive(true);
+		render->SetTexture("Files/Textures/hex.tga");
+		render->tint.Set(1.f);
+
+		auto animation = entities->AddComponent<Animation>(highlightTile);
+		animation->SetActive(true);
 	}
 }
 
@@ -179,8 +194,8 @@ unsigned HexScene::CreateTile(const int & x, const int & y) {
 
 	auto button = entities->AddComponent<Button>(tile);
 	button->SetActive(true);
-	//button->BindHandler(MOUSE_OVER, &HexScene::OnMouseOverHandler, this);
-	//button->BindHandler(MOUSE_OUT, &HexScene::OnMouseOutHandler, this);
+	button->BindHandler(MOUSE_OVER, &HexScene::OnMouseOverHandler, this);
+	button->BindHandler(MOUSE_OUT, &HexScene::OnMouseOutHandler, this);
 	button->BindHandler(MOUSE_DOWN, &HexScene::OnMouseDownHandler, this);
 	button->BindHandler(MOUSE_UP, &HexScene::OnMouseUpHandler, this);
 	button->BindHandler(MOUSE_CLICK, &HexScene::OnClick, this);
@@ -212,19 +227,22 @@ HexMouse HexScene::CreateMice(const float & x, const float & y) {
 }
 
 void HexScene::OnMouseOverHandler(unsigned entity) {
-	entities->GetComponent<Animation>(entity)->Animate(
-		AnimationBase(false, 0.2f),
-		entities->GetComponent<Render>(entity)->tint.a,
-		1.f
-	);
+	//entities->GetComponent<Animation>(entity)->Animate(
+	//	AnimationBase(false, 0.2f),
+	//	entities->GetComponent<Render>(entity)->tint.a,
+	//	1.f
+	//);
+
+	auto position = entities->GetComponent<Transform>(entity)->translation;
+	highlight->translation = position;
 }
 
 void HexScene::OnMouseOutHandler(unsigned entity) {
-	entities->GetComponent<Animation>(entity)->Animate(
-		AnimationBase(false, 0.2f),
-		entities->GetComponent<Render>(entity)->tint.a,
-		0.5f
-	);
+	//entities->GetComponent<Animation>(entity)->Animate(
+	//	AnimationBase(false, 0.2f),
+	//	entities->GetComponent<Render>(entity)->tint.a,
+	//	0.5f
+	//);
 }
 
 void HexScene::OnMouseDownHandler(unsigned entity) {

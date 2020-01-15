@@ -82,6 +82,7 @@ vec2f Camera::ScreenToWorldSpace(const vec2f & mousePosition) const {
 
 	vec2f result = unitPosition * size;
 	result.x *= aspectRatio;
+	//result.y = -result.y;
 
 	return result;
 }

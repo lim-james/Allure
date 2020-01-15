@@ -9,19 +9,24 @@ void AnimationSystem::Initialize() {
 
 void AnimationSystem::Update(const float & dt) {
 	for (auto& c : components) {
-		std::vector<AnimationBase*>& anims = c->animations;
+		auto& anims = c->animations;
 
-		if (!anims.size()) continue;
+		if (anims.empty()) continue;
 
-		for (auto& a : anims)
-			a->Update(static_cast<float>(dt));
+		std::vector<int> keys;
 
-		const int size = static_cast<int>(anims.size());
+		for (auto& a : anims) {
+			keys.push_back(a.first);
+			a.second->Update(static_cast<float>(dt));
+		}
+
+		const int size = static_cast<int>(keys.size());
 
 		for (int i = size - 1; i >= 0; --i) {
-			if (!c->animations[i]->IsActive()) {
-				delete anims[i];
-				anims.erase(anims.begin() + i);
+			const auto& key = keys[i];
+			if (!anims[key]->IsActive()) {
+				delete anims[key];
+				anims.erase(key);
 			}
 		}
 	}

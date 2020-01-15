@@ -61,6 +61,9 @@
     <Filter Include="Application\Scenes\Debug">
       <UniqueIdentifier>{6e2b9e5e-d64c-4705-80db-b3af95c5ce96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Scenes\Menu">
+      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -198,11 +201,14 @@
     <ClCompile Include="GraphScene.cpp">
       <Filter>Application\Scenes\Graph</Filter>
     </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DebugScene.cpp">
       <Filter>Application\Scenes\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Application\Scenes\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>Application\Scenes\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="DebugScene.h">
       <Filter>Application\Scenes\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>Application\Scenes\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 
 #include <functional>
 #include <vector>
+#include <map>
 
 class AnimationBase {
 
@@ -56,7 +57,7 @@ public:
 	void Update(const float& dt) override {
 		AnimationBase::Update(dt);
 
-		if (et > duration) {
+		if (et >= duration) {
 			if (loop) {
 				*target = original;
 				et = 0.f;
@@ -74,7 +75,7 @@ public:
 
 struct Animation : Component {
 
-	std::vector<AnimationBase*> animations;
+	std::map<int, AnimationBase*> animations;
 
 	Animation();
 	~Animation() override;
@@ -84,7 +85,11 @@ struct Animation : Component {
 
 	template<typename T>
 	void Animate(const AnimationBase& base, T& target, const T& outcome) {
-		animations.push_back(new AnimationData<T>(base, &target, outcome));
+		if (animations[(int)&target])
+			delete animations[(int)&target];
+
+		animations[(int)&target] = new AnimationData<T>(base, &target, outcome);
+		//animations.push_back(new AnimationData<T>(base, &target, outcome));
 	}
 
 	void Clear();

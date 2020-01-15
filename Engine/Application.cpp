@@ -4,6 +4,7 @@
 #include "HexScene.h"
 #include "GraphScene.h"
 #include "DebugScene.h"
+#include "MenuScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -54,14 +55,15 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 
 	//sceneManager = new SceneManager;
 	// turn off vsync
-	//glfwSwapInterval(0);
+	glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
 	sceneManager->Add("ASTAR", new AStarScene);
 	sceneManager->Add("HEX", new HexScene);
 	sceneManager->Add("GRAPH", new GraphScene);
 	sceneManager->Add("DEBUG", new DebugScene);
-	sceneManager->SetEntryPoint("GRAPH");
+	sceneManager->Add("MENU", new MenuScene);
+	sceneManager->SetEntryPoint("MENU");
 
 	context->BroadcastSize();
 	em->TriggerQueued();
@@ -113,7 +115,7 @@ void Application::OnEvent(Events::Event* event) {
 
 #if _DEBUG
 void Application::OnTimerEvent(Events::Event* event) {
-	const auto timer = static_cast<Events::AnyType<std::string>*>(event);
+	const auto timer = static_cast<Events::String*>(event);
 
 	if (event->name == "TIMER_START") {
 		timers[timer->data].Start();

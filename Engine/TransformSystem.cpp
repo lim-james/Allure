@@ -24,8 +24,8 @@ void TransformSystem::Update(const float & dt) {
 		item->quads.push_back(tree->GetRoot());
 	}
 
-	tree->Clear();
-	tree->Sort();
+	//tree->Clear();
+	//tree->Sort();
 
 	//system("cls");
 	//Console::Warn << *tree << '\n';
