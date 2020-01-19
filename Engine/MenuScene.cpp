@@ -19,9 +19,9 @@ void MenuScene::Awake() {
 	auto font = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
 
 	systems->Subscribe<RenderSystem>(0);
-	systems->Subscribe<ButtonSystem>(1);
-	systems->Subscribe<AnimationSystem>(2);
-	systems->Subscribe<ParticleSystem>(3);
+	//systems->Subscribe<ButtonSystem>(1);
+	//systems->Subscribe<AnimationSystem>(2);
+	systems->Subscribe<ParticleSystem>(1);
 
 	const unsigned cam = entities->Create();
 	entities->GetComponent<Transform>(cam)->translation.z = 1.f;
@@ -61,7 +61,7 @@ void MenuScene::Awake() {
 		emitter->SetActive(true);
 		//emitter->texture = Load::TGA("Files/Textures/circle.tga");
 
-		emitter->burstAmount = 100;
+		emitter->burstAmount = 50;
 		//emitter->spawnInterval = 0.2f;
 		//emitter->duration = 0.1f;
 		//emitter->loop = true;
@@ -95,15 +95,17 @@ void MenuScene::Awake() {
 		//emitter->endColorRange.Set(0.5f, 0.5f, 0.5f, 0.f);
 	}
 
-	buttonSize.Set(4.f, 1.5f);
+	buttonSize.Set(2.f, 1.f);
 
-	CreateButton("Play", vec2f(0.f, -2.f), buttonSize, vec4f(1.f));
+	//CreateButton("Play", vec2f(0.f, -2.f), buttonSize, vec4f(1.f));
 }
 
 void MenuScene::Update(const float & dt) {
 	Scene::Update(dt);
 
-	debugText->text = "FPS: " + std::to_string(static_cast<int>(1.f / dt)) + "\nCOUNT: " + std::to_string(entities->PoolCount());
+	const int FPS = static_cast<int>(1.f / dt);
+	avg = (FPS + avg) * 0.5f;
+	debugText->text = "FPS: " + std::to_string(FPS) + "\nCOUNT: " + std::to_string(entities->PoolCount());
 }
 
 unsigned MenuScene::CreateButton(const std::string & title, const vec2f & position, const vec2f & size, const vec4f& color) {
@@ -122,6 +124,7 @@ unsigned MenuScene::CreateButton(const std::string & title, const vec2f & positi
 	text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
 	text->text = title;
 	text->color.Set(0.f, 0.f, 0.f, 1.f);
+	text->scale = 0.5f;
 
 	auto button = entities->AddComponent<Button>(entity);
 	button->SetActive(true);

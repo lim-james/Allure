@@ -7,6 +7,8 @@
 #include <Math/Random.hpp>
 #include <MACROS.h>
 
+#include <thread>
+
 void ParticleSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("EMITTER_ACTIVE", &ParticleSystem::EmitterActiveHandler, this);
 }
@@ -18,38 +20,126 @@ void ParticleSystem::Update(const float& dt) {
 
 		const auto& position = entities->GetComponent<Transform>(emitter->entity)->GetWorldTranslation();
 
-		for (int i = static_cast<int>(group.size()) - 1; i >= 0; --i) {
-			const auto entity = group[i];
-			auto particle = entities->GetComponent<Particle>(entity);
-			auto transform = entities->GetComponent<Transform>(entity);
-			auto render = entities->GetComponent<Render>(entity);
+		if (group.size() > 1000) {
+			const unsigned threadCount = 8;
+			const unsigned interval = group.size() / (threadCount + 1);
+			std::vector<int> erase;
 
-			transform->translation += particle->velocity * dt;
-			particle->velocity += emitter->gravity * dt;
+			std::thread threads[threadCount];
 
-			const auto diff = transform->translation - position;
-			const float length = Math::Length(diff);
-			if (length > 0.f) {
-				const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
-				particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
+			for (unsigned t = 0; t < threadCount; ++t) {
+				threads[t] = std::thread([t, interval, &group, emitter, dt, position, &erase, this]() {
+					for (unsigned i = (t + 1) * interval; i < Math::Min((t + 2) * interval, group.size()); ++i) {
+						const auto entity = group[i];
+						auto particle = entities->GetComponent<Particle>(entity);
+						auto transform = entities->GetComponent<Transform>(entity);
+						auto render = entities->GetComponent<Render>(entity);
+
+						transform->translation += particle->velocity * dt;
+						particle->velocity += emitter->gravity * dt;
+
+						const auto diff = transform->translation - position;
+						const float length = Math::Length(diff);
+						if (length > 0.f) {
+							const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
+							particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
+						}
+
+						const float ratio = particle->age / particle->lifetime;
+
+						const vec3f dSize = particle->endSize - particle->startSize;
+						transform->scale = dSize * ratio + particle->startSize;
+
+						const vec4f dColor = particle->endColor - particle->startColor;
+						render->tint = dColor * ratio + particle->startColor;
+
+						particle->age += dt;
+
+						if (particle->age >= particle->lifetime) {
+							erase.push_back(i);
+						}
+					}
+				});
 			}
 
-			const float ratio = particle->age / particle->lifetime;
+			for (unsigned i = 0; i < interval; ++i) {
+				const auto entity = group[i];
+				auto particle = entities->GetComponent<Particle>(entity);
+				auto transform = entities->GetComponent<Transform>(entity);
+				auto render = entities->GetComponent<Render>(entity);
 
-			const vec3f dSize = particle->endSize - particle->startSize;
-			transform->scale = dSize * ratio + particle->startSize;
+				transform->translation += particle->velocity * dt;
+				particle->velocity += emitter->gravity * dt;
 
-			const vec4f dColor = particle->endColor - particle->startColor;
-			render->tint = dColor * ratio + particle->startColor;
+				const auto diff = transform->translation - position;
+				const float length = Math::Length(diff);
+				if (length > 0.f) {
+					const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
+					particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
+				}
 
-			particle->age += dt;
+				const float ratio = particle->age / particle->lifetime;
 
-			if (particle->age >= particle->lifetime) {
-				entities->Destroy(entity);
+				const vec3f dSize = particle->endSize - particle->startSize;
+				transform->scale = dSize * ratio + particle->startSize;
+
+				const vec4f dColor = particle->endColor - particle->startColor;
+				render->tint = dColor * ratio + particle->startColor;
+
+				particle->age += dt;
+
+				if (particle->age >= particle->lifetime) {
+					erase.push_back(i);
+				}
+			}
+
+			for (auto& t : threads) {
+				t.join();
+			}
+
+			//std::sort(erase.begin(), erase.end());
+
+			//std::cout << "Size " << erase.size() << '\n';
+			for (int i = static_cast<int>(erase.size() - 1); i >= 0; --i) {
+				entities->Destroy(group[i]);
 				group.erase(group.begin() + i);
 			}
-		}
+		} else {
+			auto end = static_cast<int>(group.size()) - 1;
 
+			for (int i = end; i >= 0; --i) {
+				const auto entity = group[i];
+				auto particle = entities->GetComponent<Particle>(entity);
+				auto transform = entities->GetComponent<Transform>(entity);
+				auto render = entities->GetComponent<Render>(entity);
+
+				transform->translation += particle->velocity * dt;
+				particle->velocity += emitter->gravity * dt;
+
+				const auto diff = transform->translation - position;
+				const float length = Math::Length(diff);
+				if (length > 0.f) {
+					const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
+					particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
+				}
+
+				const float ratio = particle->age / particle->lifetime;
+
+				const vec3f dSize = particle->endSize - particle->startSize;
+				transform->scale = dSize * ratio + particle->startSize;
+
+				const vec4f dColor = particle->endColor - particle->startColor;
+				render->tint = dColor * ratio + particle->startColor;
+
+				particle->age += dt;
+
+				if (particle->age >= particle->lifetime) {
+					entities->Destroy(entity);
+					group.erase(group.begin() + i);
+				}
+			}
+		}
+		
 		if (!emitter->IsActive()) continue;
 
 		if (emitter->duration > 0) {

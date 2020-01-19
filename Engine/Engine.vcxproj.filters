@@ -64,6 +64,9 @@
     <Filter Include="Application\Scenes\Menu">
       <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Input">
+      <UniqueIdentifier>{668cf806-6830-4f9b-82cd-e18f59c60868}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,9 +76,6 @@
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
-    <ClCompile Include="InputController.cpp">
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="LoadFNT.cpp">
@@ -210,18 +210,15 @@
     <ClCompile Include="MenuScene.cpp">
       <Filter>Application\Scenes\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="InputController.cpp">
+      <Filter>Application\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
-      <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="InputEvents.h">
-      <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="InputController.h">
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
@@ -367,6 +364,12 @@
     </ClInclude>
     <ClInclude Include="MenuScene.h">
       <Filter>Application\Scenes\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="InputEvents.h">
+      <Filter>Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputController.h">
+      <Filter>Application\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

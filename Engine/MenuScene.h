@@ -12,6 +12,8 @@
 
 class MenuScene : public Scene {
 
+	int avg;
+
 	vec2f buttonSize;
 
 	Camera* camera;
