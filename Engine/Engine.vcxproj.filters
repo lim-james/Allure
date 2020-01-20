@@ -213,6 +213,12 @@
     <ClCompile Include="InputController.cpp">
       <Filter>Application\Input</Filter>
     </ClCompile>
+    <ClCompile Include="HexGrid.cpp">
+      <Filter>Application\Scenes\Hex</Filter>
+    </ClCompile>
+    <ClCompile Include="Team.cpp">
+      <Filter>Application\Scenes\Hex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -370,6 +376,15 @@
     </ClInclude>
     <ClInclude Include="InputController.h">
       <Filter>Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="HexGrid.h">
+      <Filter>Application\Scenes\Hex</Filter>
+    </ClInclude>
+    <ClInclude Include="Team.h">
+      <Filter>Application\Scenes\Hex</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Application\Scenes\Hex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

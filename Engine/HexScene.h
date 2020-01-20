@@ -6,9 +6,12 @@
 #include "Camera.h"
 #include "Text.h"
 #include "Render.h"
+#include "Transform.h"
 
 #include "HexMaze.h"
-#include "HexMouse.h"
+
+#include "Team.h"
+#include "Unit.h"
 
 #include <vector>
 
@@ -20,9 +23,11 @@ class HexScene : public Scene {
 	Text* debugText;
 	Transform* highlight;
 
-	HexMaze maze;
+	HexMaze* maze;
 	std::vector<Render*> grid;
-	std::vector<HexMouse> mouse;
+
+	Team teams[2];
+	bool playerTurn;
 
 	bool mPressed;
 
@@ -37,10 +42,11 @@ private:
 	void KeyHandler(Events::Event* event);
 	void DrawPath(Events::Event* event);
 
-	void UpdateVision(const HexMouse& mice);
+	void UpdateVision();
 
 	unsigned CreateTile(const int& x, const int& y);
-	HexMouse CreateMice(const float& x, const float& y);
+	Unit * CreateUnit(const int& x, const int& y, const float& range);
+	//HexMouse CreateMice(const float& x, const float& y);
 
 	void OnMouseOverHandler(unsigned entity);
 	void OnMouseOutHandler(unsigned entity);

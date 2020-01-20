@@ -51,50 +51,6 @@ void MenuScene::Awake() {
 		text->text = "Allure 2D"; 
 	}
 
-	// cursor
-	{
-		const unsigned entity = entities->Create();
-
-		cursor = entities->GetComponent<Transform>(entity);
-
-		const auto emitter = entities->AddComponent<ParticleEmitter>(entity);
-		emitter->SetActive(true);
-		//emitter->texture = Load::TGA("Files/Textures/circle.tga");
-
-		emitter->burstAmount = 50;
-		//emitter->spawnInterval = 0.2f;
-		//emitter->duration = 0.1f;
-		//emitter->loop = true;
-
-		emitter->lifetime = 15.f;
-		emitter->lifetimeRange = 0.5f;
-
-		emitter->positionRange.Set(1.f, 1.f, 0.f);
-
-		emitter->angleRange = 180.f;
-
-		emitter->speed = 5.f;
-		//emitter->speedRange = 5.f;
-
-		emitter->accelRad = -5.f;
-		//emitter->accelRadRange = 5.f;
-
-		//emitter->gravity.Set(0.f, -4.f, 0.f);
-
-		emitter->startSize.Set(0.1f);
-		emitter->endSize.Set(0.f);
-		
-		emitter->startColor.Set(0.5f, 0.0f, 0.5f, 1.f);
-		emitter->startColorRange.Set(0.5f, 0.0f, 0.f, 0.f);
-		//emitter->startColor.Set(0.5f, 0.5f, 0.5f, 1.f);
-		//emitter->startColorRange.Set(0.5f, 0.5f, 0.5f, 0.f);
-
-		emitter->endColor.Set(1.f, 0.5f, 0.0f, 1.f);
-		emitter->endColorRange.Set(0.f, 0.5f, 0.0f, 0.f);
-		//emitter->endColor.Set(0.5f, 0.5f, 0.5f, 0.f);
-		//emitter->endColorRange.Set(0.5f, 0.5f, 0.5f, 0.f);
-	}
-
 	buttonSize.Set(2.f, 1.f);
 
 	//CreateButton("Play", vec2f(0.f, -2.f), buttonSize, vec4f(1.f));

@@ -63,7 +63,7 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	sceneManager->Add("GRAPH", new GraphScene);
 	sceneManager->Add("DEBUG", new DebugScene);
 	sceneManager->Add("MENU", new MenuScene);
-	sceneManager->SetEntryPoint("MENU");
+	sceneManager->SetEntryPoint("HEX");
 
 	context->BroadcastSize();
 	em->TriggerQueued();

@@ -54,7 +54,8 @@ void HexScene::Awake() {
 		text->text = "Hold M to spawn Mice.";
 	}
 	
-	maze.Generate(0, gridSize, vec2i(0), 0.7f);
+	maze = new HexMaze(gridSize, PATH);
+	maze->Generate(0, vec2i(0), 0.7f);
 
 	for (int y = 0; y < gridSize; ++y) {
 		for (int x = 0; x < gridSize; ++x) {
@@ -76,6 +77,18 @@ void HexScene::Awake() {
 		auto animation = entities->AddComponent<Animation>(highlightTile);
 		animation->SetActive(true);
 	}
+
+	teams[0].SetVision(gridSize);
+	teams[0].SetMaze(maze);
+	teams[1].SetVision(gridSize);
+	teams[1].SetMaze(maze);
+
+	teams[0].AddUnit(CreateUnit(1, 1, 4.f));
+	//teams[1].AddUnit(CreateUnit(10, 10));
+
+	playerTurn = false;
+
+	UpdateVision();
 }
 
 void HexScene::Update(const float & dt) {
@@ -83,12 +96,6 @@ void HexScene::Update(const float & dt) {
 
 	debugText->text = std::to_string(static_cast<int>(1.f / dt));
 
-	for (auto& mice : mouse) {
-		if (!mice.IsDoneExploring()) {
-			mice.Explore();
-			UpdateVision(mice);
-		}
-	}
 }
 
 void HexScene::KeyHandler(Events::Event * event) {
@@ -109,7 +116,7 @@ void HexScene::DrawPath(Events::Event * event) {
 	auto path = static_cast<Events::AnyType<std::vector<vec2i>>*>(event)->data;
 
 	for (auto& step : path) {
-		const auto i = maze.GetMapIndex(step);
+		const auto i = maze->GetMapIndex(step);
 		if (i < 0) break;
 
 		grid[i]->tint.a = 1.f;
@@ -118,49 +125,22 @@ void HexScene::DrawPath(Events::Event * event) {
 	//Events::EventsManager::GetInstance()->Trigger("STEP");
 }
 
-void HexScene::UpdateVision(const HexMouse& mice) {
-	auto vision = mice.GetVision();
+void HexScene::UpdateVision() {
+	auto vision = teams[static_cast<int>(playerTurn)].GetVision();
 
-	const auto micePosition = mice.GetTransform()->translation.xy;
+	const float a = 0.5f;
 
-	for (unsigned i = 0; i < vision.size(); ++i) {
-		const auto mapPosition = maze.GetMapPosition(i);
-		const auto screenPosition = maze.MapToScreenPosition(mapPosition);
-
-		float a = grid[i]->tint.a;
-
-		if (Math::Length(screenPosition - micePosition) < 3.f) {
-			a = (a + 0.5f) * 0.5f;
-		} else {
-			a = (a + 0.2f) * 0.5f;
-		}
-
-		switch (vision[i]) {
-		case WALL:
-			grid[i]->tint.Set(0.2f, 0.2f, 0.2f, a);
-			break;
-		case FOG:
-			grid[i]->tint.Set(0.f);
-			break;
-		case PATH:
-			grid[i]->tint.Set(0.4f, 0.5f, 0.2f, a);
-			break;
-		case WATER:
-			grid[i]->tint.Set(0.6f, 0.8f, 0.8f, a);
-			break;
-		case MUD:
-			grid[i]->tint.Set(0.6f, 0.2f, 0.2f, a);
-			break;
-		default:
-			break;
-		}
+	for (unsigned i = 0; i < vision->GetSize() * vision->GetSize(); ++i) {
+		const auto mapPosition = vision->GetMapPosition(i);
+		const auto screenPosition = vision->MapToScreenPosition(mapPosition);
+		grid[i]->tint = maze->GetColour(vision->GetMapData(i));
 	}
 }
 
 unsigned HexScene::CreateTile(const int & x, const int & y) {
 	auto tile = entities->Create();
 
-	const auto position = maze.MapToScreenPosition(vec2i(x, y));
+	const auto position = maze->MapToScreenPosition(vec2i(x, y));
 	entities->GetComponent<Transform>(tile)->translation.Set(
 		position,
 		0.f
@@ -171,26 +151,8 @@ unsigned HexScene::CreateTile(const int & x, const int & y) {
 	render->SetActive(true);
 	render->SetTexture("Files/Textures/hex.tga");
 
-	const int index = maze.GetMapIndex(x, y);
-	switch (maze.GetMapData(index)) {
-	case WALL:
-		render->tint.Set(0.2f, 0.2f, 0.2f, 0.5f);
-		break;
-	case FOG:
-		render->tint.Set(0.f);
-		break;
-	case PATH:
-		render->tint.Set(0.4f, 0.5f, 0.2f, 0.5f);
-		break;
-	case WATER:
-		render->tint.Set(0.6f, 0.8f, 0.8f, 0.5f);
-		break;
-	case MUD:
-		render->tint.Set(0.6f, 0.2f, 0.2f, 0.5f);
-		break;
-	default:
-		break;
-	}
+	const int index = maze->GetMapIndex(x, y);
+	render->tint = maze->GetColour(maze->GetMapData(index));
 
 	auto button = entities->AddComponent<Button>(tile);
 	button->SetActive(true);
@@ -208,41 +170,53 @@ unsigned HexScene::CreateTile(const int & x, const int & y) {
 	return tile;
 }
 
-HexMouse HexScene::CreateMice(const float & x, const float & y) {
+Unit * HexScene::CreateUnit(const int & x, const int & y, const float& range) {
 	auto entity = entities->Create();
 
 	auto transform = entities->GetComponent<Transform>(entity);
-	transform->translation.Set(x, y, 0.1f);
-	//transform->scale.Set(0.5f);
+	transform->translation.Set(maze->MapToScreenPosition(vec2i(x, y)), 0.1f);
+	//transform->scale.set(0.5f);
 
 	auto render = entities->AddComponent<Render>(entity);
 	render->SetActive(true);
 	render->tint.Set(0.f, 0.f, 1.f, 1.f);
-	render->SetTexture("Files/Textures/hex.tga");
+	render->SetTexture("files/textures/hex.tga");
 
-	HexMouse mice = HexMouse(entities->GetComponent<Transform>(entity));
-	mice.SetMaze(&maze);
-	mice.Explore();
-	return mice;
+	//auto button = 
+
+	Unit* unit = new Unit;
+	unit->transform = transform;
+	unit->range = range;
+
+	return unit;
 }
 
-void HexScene::OnMouseOverHandler(unsigned entity) {
-	//entities->GetComponent<Animation>(entity)->Animate(
-	//	AnimationBase(false, 0.2f),
-	//	entities->GetComponent<Render>(entity)->tint.a,
-	//	1.f
-	//);
+//HexMouse HexScene::CreateMice(const float & x, const float & y) {
+//	auto entity = entities->Create();
+//
+//	auto transform = entities->GetComponent<Transform>(entity);
+//	transform->translation.Set(x, y, 0.1f);
+//	//transform->scale.Set(0.5f);
+//
+//	auto render = entities->AddComponent<Render>(entity);
+//	render->SetActive(true);
+//	render->tint.Set(0.f, 0.f, 1.f, 1.f);
+//	render->SetTexture("Files/Textures/hex.tga");
+//
+//	HexMouse mice = HexMouse(entities->GetComponent<Transform>(entity));
+//	mice.SetMaze(&maze);
+//	mice.Explore();
+//	UpdateVision(mice);
+//	return mice;
+//}
 
+void HexScene::OnMouseOverHandler(unsigned entity) {
 	auto position = entities->GetComponent<Transform>(entity)->translation;
 	highlight->translation = position;
 }
 
 void HexScene::OnMouseOutHandler(unsigned entity) {
-	//entities->GetComponent<Animation>(entity)->Animate(
-	//	AnimationBase(false, 0.2f),
-	//	entities->GetComponent<Render>(entity)->tint.a,
-	//	0.5f
-	//);
+
 }
 
 void HexScene::OnMouseDownHandler(unsigned entity) {
@@ -263,22 +237,16 @@ void HexScene::OnMouseUpHandler(unsigned entity) {
 
 void HexScene::OnClick(unsigned entity) {
 	const vec3f screenSpace = entities->GetComponent<Transform>(entity)->translation;
-	const vec2i mapPosition = maze.ScreenToMapPosition(screenSpace.xy);
-	const int index = maze.GetMapIndex(mapPosition);
+	const vec2i mapPosition = maze->ScreenToMapPosition(screenSpace.xy);
+	const int index = maze->GetMapIndex(mapPosition);
 
 	if (index < 0) return;
 
 	if (mPressed) {
-		mouse.push_back(CreateMice(screenSpace.x, screenSpace.y));
+		//mouse.push_back(CreateMice(screenSpace.x, screenSpace.y));
 	} else {
-		if (!mouse.empty())
-			UpdateVision(mouse.front());
-
-		for (auto& mice : mouse) {
-			if (mice.IsDoneExploring()) {
-				mice.Goto(mapPosition);
-			}
-		}
+		//if (!mouse.empty())
+			//UpdateVision(mouse.front());
 	}
 }
 
