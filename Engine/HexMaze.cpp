@@ -36,15 +36,15 @@ bool HexMaze::IsBlocked(const vec2i & position) const {
 vec4f HexMaze::GetColour(const int & type) const {
 	switch (type) {
 	case WALL:
-		return vec4f(0.2f, 0.2f, 0.2f, 0.8f);
+		return vec4f(0.2f, 0.2f, 0.2f, 0.5f);
 	case FOG:
 		return vec4f(0.f);
 	case PATH:
-		return vec4f(0.4f, 0.5f, 0.2f, 0.8f);
+		return vec4f(0.4f, 0.5f, 0.2f, 0.5f);
 	case WATER:
-		return vec4f(0.6f, 0.8f, 0.8f, 0.8f);
+		return vec4f(0.6f, 0.8f, 0.8f, 0.5f);
 	case MUD:
-		return vec4f(0.6f, 0.2f, 0.2f, 0.8f);
+		return vec4f(0.6f, 0.2f, 0.2f, 0.5f);
 	default:
 		return vec4f(0.f);
 	}

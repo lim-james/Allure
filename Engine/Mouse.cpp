@@ -5,20 +5,6 @@
 
 #include <Events/EventsManager.h>
 
-DNode::DNode()
-	: previous(nullptr)
-	, g(0.f)
-	, h(0.f)
-	, position(-1.f) {}
-
-float DNode::f() const {
-	return g + h;
-}
-
-bool DNode::operator<(const DNode & rhs) const {
-	return position.x < rhs.position.x || position.y < rhs.position.y;
-}
-
 Mouse::Mouse(Transform * const transform) : transform(transform) {
 	directions[0] = vec2i(1, 0);
 	directions[1] = vec2i(0, 1);

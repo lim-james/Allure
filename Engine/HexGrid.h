@@ -1,6 +1,8 @@
 #ifndef HEX_GRID_H
 #define HEX_GRID_H
 
+#include "DNode.h"
+
 #include <Math/Vectors.hpp>
 
 #include <vector>
@@ -41,6 +43,8 @@ public:
 
 	std::vector<vec2f> GetTilesAtRange(const float& r, const vec2f& position) const;
 	std::vector<int> GetTileIndexesAtRange(const float& r, const vec2f& position) const;
+
+	std::vector<vec2i> GetPath(const vec2f& start, const vec2f& end) const;
 
 };
 

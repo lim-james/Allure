@@ -17,6 +17,9 @@
 
 class HexScene : public Scene {
 
+	float moveDelay;
+	float bt;
+
 	int gridSize;
 
 	Camera* camera;
@@ -25,6 +28,9 @@ class HexScene : public Scene {
 
 	HexMaze* maze;
 	std::vector<Render*> grid;
+	std::vector<vec2i> path;
+	
+	unsigned turnCount, moveCount;
 
 	Team teams[2];
 	bool playerTurn;
@@ -53,6 +59,8 @@ private:
 	void OnMouseDownHandler(unsigned entity);
 	void OnMouseUpHandler(unsigned entity);
 	void OnClick(unsigned entity);
+	
+	void SelectUnitHandler(unsigned entity);
 
 };
 

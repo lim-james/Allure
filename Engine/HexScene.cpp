@@ -18,6 +18,9 @@
 void HexScene::Awake() {
 	Scene::Awake();
 
+	moveDelay = 0.2f;
+	bt = 0.f;
+
 	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &HexScene::KeyHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("DRAW_PATH", &HexScene::DrawPath, this);
 
@@ -78,13 +81,16 @@ void HexScene::Awake() {
 		animation->SetActive(true);
 	}
 
+	turnCount = 10;
+	moveCount = 0;
+
 	teams[0].SetVision(gridSize);
 	teams[0].SetMaze(maze);
 	teams[1].SetVision(gridSize);
 	teams[1].SetMaze(maze);
 
 	teams[0].AddUnit(CreateUnit(1, 1, 4.f));
-	//teams[1].AddUnit(CreateUnit(10, 10));
+	teams[1].AddUnit(CreateUnit(10, 10, 4.f));
 
 	playerTurn = false;
 
@@ -96,6 +102,18 @@ void HexScene::Update(const float & dt) {
 
 	debugText->text = std::to_string(static_cast<int>(1.f / dt));
 
+	bt += dt;
+	if (bt > moveDelay) {
+		if (teams[playerTurn].Move()) {
+			UpdateVision();
+			bt = 0.f;
+		} else if (moveCount >= turnCount) {
+			Console::Warn << "Changed turn\n";
+			playerTurn = !playerTurn;
+			moveCount = 0;
+			UpdateVision();
+		}
+	}
 }
 
 void HexScene::KeyHandler(Events::Event * event) {
@@ -182,7 +200,9 @@ Unit * HexScene::CreateUnit(const int & x, const int & y, const float& range) {
 	render->tint.Set(0.f, 0.f, 1.f, 1.f);
 	render->SetTexture("files/textures/hex.tga");
 
-	//auto button = 
+	auto button = entities->AddComponent<Button>(entity);
+	button->SetActive(true);
+	button->BindHandler(MOUSE_CLICK, &HexScene::SelectUnitHandler, this);
 
 	Unit* unit = new Unit;
 	unit->transform = transform;
@@ -213,6 +233,29 @@ Unit * HexScene::CreateUnit(const int & x, const int & y, const float& range) {
 void HexScene::OnMouseOverHandler(unsigned entity) {
 	auto position = entities->GetComponent<Transform>(entity)->translation;
 	highlight->translation = position;
+
+	auto& team = teams[playerTurn];
+	auto selected = team.GetSelectedUnit();
+
+	if (selected && team.InSight(position) && moveCount < turnCount) {
+		auto vision = team.GetVision();
+		auto index = vision->GetMapIndex(vision->ScreenToMapPosition(position));
+
+		if (vision->GetMapData(index) == WALL)
+			return;
+
+		UpdateVision();
+
+		path = vision->GetPath(selected->transform->translation, position);
+		const unsigned movesLeft = turnCount - moveCount;
+		if (path.size() > movesLeft) {
+			path.erase(path.begin() + movesLeft, path.end());
+		}
+
+		for (auto& pos : path) {
+			grid[vision->GetMapIndex(pos)]->tint.a = 1.f;
+		}
+	}
 }
 
 void HexScene::OnMouseOutHandler(unsigned entity) {
@@ -242,11 +285,16 @@ void HexScene::OnClick(unsigned entity) {
 
 	if (index < 0) return;
 
-	if (mPressed) {
-		//mouse.push_back(CreateMice(screenSpace.x, screenSpace.y));
-	} else {
-		//if (!mouse.empty())
-			//UpdateVision(mouse.front());
+	auto& team = teams[playerTurn];
+	auto selected = team.GetSelectedUnit();
+	if (selected && !path.empty()) {
+		selected->path = path;
+		moveCount += path.size();
+		path.clear();
 	}
+}
+
+void HexScene::SelectUnitHandler(unsigned entity) {
+	teams[playerTurn].SelectUnit(entity);
 }
 

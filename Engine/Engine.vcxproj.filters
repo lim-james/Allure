@@ -219,6 +219,9 @@
     <ClCompile Include="Team.cpp">
       <Filter>Application\Scenes\Hex</Filter>
     </ClCompile>
+    <ClCompile Include="DNode.cpp">
+      <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>Application\Scenes\Hex</Filter>
+    </ClInclude>
+    <ClInclude Include="DNode.h">
+      <Filter>Application\Scenes\AStar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
