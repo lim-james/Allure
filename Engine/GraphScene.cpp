@@ -31,7 +31,7 @@ void GraphScene::Awake() {
 	const unsigned cam = entities->Create();
 	entities->GetComponent<Transform>(cam)->translation.z = 1.f;
 	camera = entities->AddComponent<Camera>(cam);
-	camera->SetSize(5);
+	camera->SetSize(10);
 	camera->SetActive(true);
 	camera->clearColor.Set(0.f);
 
