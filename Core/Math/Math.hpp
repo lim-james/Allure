@@ -29,6 +29,11 @@ namespace Math {
 	}
 
 	template<typename T>
+	inline T Mix(const T& a, const T& b, const float& amount) {
+		return amount * a + (1.f - amount) * b;
+	}
+
+	template<typename T>
 	T Clamp(const T& a, const T& lowerBound, const T& upperBound) {
 		if (a < lowerBound) return lowerBound;
 		if (a > upperBound) return upperBound;

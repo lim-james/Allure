@@ -11,6 +11,7 @@ struct Unit {
 	float range;
 
 	std::vector<vec2i> path;
+	std::vector<int> vision;
 
 };
 

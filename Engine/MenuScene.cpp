@@ -60,7 +60,6 @@ void MenuScene::Update(const float & dt) {
 	Scene::Update(dt);
 
 	const int FPS = static_cast<int>(1.f / dt);
-	avg = (FPS + avg) * 0.5f;
 	debugText->text = "FPS: " + std::to_string(FPS) + "\nCOUNT: " + std::to_string(entities->PoolCount());
 }
 

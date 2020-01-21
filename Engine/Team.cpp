@@ -1,6 +1,7 @@
 #include "Team.h"
 
 #include "HexMaze.h"
+#include "Animation.h"
 
 #include <Logger/Logger.h>
 
@@ -33,6 +34,10 @@ void Team::AddUnit(Unit * const unit) {
 	Scan(unit);
 }
 
+const std::vector<Unit*>& Team::GetUnits() const {
+	return units;
+}
+
 bool Team::SelectUnit(const unsigned & entity) {
 	for (auto& unit : units) {
 		if (unit->transform->entity == entity) {
@@ -48,13 +53,16 @@ Unit * const Team::GetSelectedUnit() const {
 	return selected;
 }
 
-bool Team::Move() {
+bool Team::Move(const float& dt, EntityManager * const entities) {
 	bool moved = false;
 
 	for (auto& unit : units) {
 		if (!unit->path.empty()) {
-
-			unit->transform->translation.xy = vision->MapToScreenPosition(unit->path.front());
+			entities->GetComponent<Animation>(unit->transform->entity)->Animate(
+				AnimationBase(false, dt * 0.9f),
+				unit->transform->translation.xy,
+				vision->MapToScreenPosition(unit->path.front())
+			);
 			unit->path.erase(unit->path.begin());
 			Scan(unit);
 			moved = true;
@@ -66,6 +74,8 @@ bool Team::Move() {
 
 void Team::Scan(Unit * const unit) {
 	bool deadend = true;
+
+	unit->vision.clear();
 
 	const vec2f& position = unit->transform->translation.xy;
 
@@ -79,6 +89,7 @@ void Team::Scan(Unit * const unit) {
 
 			if (index < 0) break;
 
+			unit->vision.push_back(index);
 			const int tile = maze->GetMapData(index);
 			vision->SetMapData(index, tile);
 

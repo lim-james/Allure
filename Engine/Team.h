@@ -3,6 +3,7 @@
 
 #include "HexGrid.h"
 #include "Unit.h"
+#include "EntityManager.h"
 
 class Team {
 
@@ -26,11 +27,12 @@ public:
 	bool InSight(const vec2f& position) const;
 
 	void AddUnit(Unit * const unit);
-	bool SelectUnit(const unsigned& entity);
+	const std::vector<Unit*>& GetUnits() const;
 
+	bool SelectUnit(const unsigned& entity);
 	Unit * const GetSelectedUnit() const;
 
-	bool Move();
+	bool Move(const float& dt, EntityManager * const entities);
 
 private:
 

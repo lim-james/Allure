@@ -258,7 +258,9 @@ std::vector<vec2i> HexGrid::GetPath(const vec2f & start, const vec2f & end) cons
 
 	auto last = closed.back();
 	while (last) {
-		path.insert(path.begin(), last->position);
+		for (unsigned i = 0; i < grid[GetMapIndex(last->position)]; ++i) {
+			path.insert(path.begin(), last->position);
+		}
 		last = last->previous;
 	}
 

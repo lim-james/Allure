@@ -13,6 +13,7 @@
 #include "InputEvents.h"
 
 #include <Events/EventsManager.h>
+#include <Math/Math.hpp>
 #include <GLFW/glfw3.h>
 
 void HexScene::Awake() {
@@ -22,7 +23,6 @@ void HexScene::Awake() {
 	bt = 0.f;
 
 	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &HexScene::KeyHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("DRAW_PATH", &HexScene::DrawPath, this);
 
 	gridSize = 12;
 
@@ -50,11 +50,10 @@ void HexScene::Awake() {
 	{
 		const unsigned label = entities->Create();
 		entities->GetComponent<Transform>(label)->translation.Set(0.f, -9.f, 0.f);
-		const auto text = entities->AddComponent<Text>(label);
-		text->SetFont(font);
-		text->SetActive(true);
-		text->scale = 0.5f;
-		text->text = "Hold M to spawn Mice.";
+		promptText = entities->AddComponent<Text>(label);
+		promptText->SetFont(font);
+		promptText->SetActive(true);
+		promptText->scale = 0.5f;
 	}
 	
 	maze = new HexMaze(gridSize, PATH);
@@ -81,16 +80,19 @@ void HexScene::Awake() {
 		animation->SetActive(true);
 	}
 
-	turnCount = 10;
+	maxMoves = 10;
 	moveCount = 0;
+	turnCount = 0;
 
 	teams[0].SetVision(gridSize);
 	teams[0].SetMaze(maze);
 	teams[1].SetVision(gridSize);
 	teams[1].SetMaze(maze);
 
-	teams[0].AddUnit(CreateUnit(1, 1, 4.f));
-	teams[1].AddUnit(CreateUnit(10, 10, 4.f));
+	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 4.f));
+	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 4.f));
+	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 4.f));
+	teams[1].AddUnit(CreateUnit(8, 8, vec4f(0.f, 1.f, 1.f, 1.f), 4.f));
 
 	playerTurn = false;
 
@@ -104,13 +106,14 @@ void HexScene::Update(const float & dt) {
 
 	bt += dt;
 	if (bt > moveDelay) {
-		if (teams[playerTurn].Move()) {
+		if (teams[playerTurn].Move(moveDelay, entities)) {
 			UpdateVision();
 			bt = 0.f;
-		} else if (moveCount >= turnCount) {
+		} else if (moveCount >= GetCurrentMaxMoves()) {
 			Console::Warn << "Changed turn\n";
 			playerTurn = !playerTurn;
 			moveCount = 0;
+			++turnCount;
 			UpdateVision();
 		}
 	}
@@ -119,39 +122,81 @@ void HexScene::Update(const float & dt) {
 void HexScene::KeyHandler(Events::Event * event) {
 	Events::KeyInput* input = static_cast<Events::KeyInput*>(event);
 
-	if (input->key == GLFW_KEY_M) {
+	if (input->key == GLFW_KEY_SPACE) {
 		if (input->action == GLFW_PRESS) {
-			mPressed = true;
+			spacePressed = true;
+			auto selected = teams[playerTurn].GetSelectedUnit();
+			if (selected) {
+				UpdateVision();
+				DrawView(selected);
+			}
 		}
 
 		if (input->action == GLFW_RELEASE) {
-			mPressed = false;
+			spacePressed = false;
+			UpdateVision();
+			DrawPath();
 		}
 	}
 }
 
-void HexScene::DrawPath(Events::Event * event) {
-	auto path = static_cast<Events::AnyType<std::vector<vec2i>>*>(event)->data;
-
-	for (auto& step : path) {
-		const auto i = maze->GetMapIndex(step);
-		if (i < 0) break;
-
-		grid[i]->tint.a = 1.f;
-	}
-
-	//Events::EventsManager::GetInstance()->Trigger("STEP");
-}
-
 void HexScene::UpdateVision() {
-	auto vision = teams[static_cast<int>(playerTurn)].GetVision();
+	auto vision = teams[playerTurn].GetVision();
 
 	const float a = 0.5f;
+
+	for (auto& unit : teams[playerTurn].GetUnits()) {
+		entities->GetComponent<Render>(unit->transform->entity)->SetActive(true);
+	}
+
+	std::map<unsigned, Render*> otherUnits;
+	for (auto& unit : teams[!playerTurn].GetUnits()) {
+		const auto mapPosition = vision->ScreenToMapPosition(unit->transform->translation.xy);
+		auto render = entities->GetComponent<Render>(unit->transform->entity);
+		render->SetActive(false);
+		otherUnits[vision->GetMapIndex(mapPosition)] = render;
+	}
 
 	for (unsigned i = 0; i < vision->GetSize() * vision->GetSize(); ++i) {
 		const auto mapPosition = vision->GetMapPosition(i);
 		const auto screenPosition = vision->MapToScreenPosition(mapPosition);
-		grid[i]->tint = maze->GetColour(vision->GetMapData(i));
+		const auto tile = vision->GetMapData(i);
+
+		entities->GetComponent<Animation>(grid[i]->entity)->Animate(
+			AnimationBase(false, 0.2f),
+			grid[i]->tint,
+			maze->GetColour(tile)
+		);
+
+		if (tile != FOG && otherUnits[i]) {
+			otherUnits[i]->SetActive(true);
+		}
+	}
+}
+
+void HexScene::Highlight(Render * const tile) {
+	//tile->tint = (tile->tint + vec4f(1.f, 1.f, 0.f, 1.f)) * 0.5f;
+	auto color = tile->tint; Math::Mix(tile->tint, vec4f(1.f, 1.f, 1.f, 1.f), 0.9f);
+	color.a = 1.f;
+
+	entities->GetComponent<Animation>(tile->entity)->Animate(
+		AnimationBase(false, 0.2f),
+		tile->tint,
+		color
+	);
+}
+
+void HexScene::DrawPath() {
+	for (auto& pos : path) {
+		//grid[maze->GetMapIndex(pos)]->tint.a = 1.f;
+		Highlight(grid[maze->GetMapIndex(pos)]);
+	}
+}
+
+void HexScene::DrawView(Unit * const unit) {
+	for (auto& index : unit->vision) {
+		//grid[index]->tint.a = 1.f;
+		Highlight(grid[index]);
 	}
 }
 
@@ -188,21 +233,26 @@ unsigned HexScene::CreateTile(const int & x, const int & y) {
 	return tile;
 }
 
-Unit * HexScene::CreateUnit(const int & x, const int & y, const float& range) {
+Unit * HexScene::CreateUnit(const int & x, const int & y, const vec4f& color, const float& range) {
 	auto entity = entities->Create();
 
 	auto transform = entities->GetComponent<Transform>(entity);
 	transform->translation.Set(maze->MapToScreenPosition(vec2i(x, y)), 0.1f);
-	//transform->scale.set(0.5f);
+	transform->scale.Set(0.5f);
 
 	auto render = entities->AddComponent<Render>(entity);
 	render->SetActive(true);
-	render->tint.Set(0.f, 0.f, 1.f, 1.f);
-	render->SetTexture("files/textures/hex.tga");
+	render->tint = color;
+	render->SetTexture("files/textures/circle.tga");
 
 	auto button = entities->AddComponent<Button>(entity);
 	button->SetActive(true);
+	button->BindHandler(MOUSE_OVER, &HexScene::UnitEnterHandler, this);
+	button->BindHandler(MOUSE_OUT, &HexScene::UnitExitHandler, this);
 	button->BindHandler(MOUSE_CLICK, &HexScene::SelectUnitHandler, this);
+
+	auto animation = entities->AddComponent<Animation>(entity);
+	animation->SetActive(true);
 
 	Unit* unit = new Unit;
 	unit->transform = transform;
@@ -236,24 +286,24 @@ void HexScene::OnMouseOverHandler(unsigned entity) {
 
 	auto& team = teams[playerTurn];
 	auto selected = team.GetSelectedUnit();
+	const auto max = GetCurrentMaxMoves();
 
-	if (selected && team.InSight(position) && moveCount < turnCount) {
+	if (selected && team.InSight(position) && moveCount < max) {
 		auto vision = team.GetVision();
 		auto index = vision->GetMapIndex(vision->ScreenToMapPosition(position));
 
 		if (vision->GetMapData(index) == WALL)
 			return;
 
-		UpdateVision();
-
 		path = vision->GetPath(selected->transform->translation, position);
-		const unsigned movesLeft = turnCount - moveCount;
+		const unsigned movesLeft = max - moveCount;
 		if (path.size() > movesLeft) {
 			path.erase(path.begin() + movesLeft, path.end());
 		}
 
-		for (auto& pos : path) {
-			grid[vision->GetMapIndex(pos)]->tint.a = 1.f;
+		if (!spacePressed) {
+			UpdateVision();
+			DrawPath();
 		}
 	}
 }
@@ -287,14 +337,32 @@ void HexScene::OnClick(unsigned entity) {
 
 	auto& team = teams[playerTurn];
 	auto selected = team.GetSelectedUnit();
-	if (selected && !path.empty()) {
+	if (!hovered && selected && !path.empty()) {
 		selected->path = path;
 		moveCount += path.size();
 		path.clear();
+	} else {
+		for (float i = 1.f; i < 5.f; ++i) {
+			for (auto& tile : maze->GetTileIndexesAtRange(1.f)) {
+				//entities->GetComponent< grid[tile]
+			}
+		}
 	}
+}
+
+void HexScene::UnitEnterHandler(unsigned entity) {
+	hovered = entities->GetComponent<Transform>(entity);
+}
+
+void HexScene::UnitExitHandler(unsigned entity) {
+	if (hovered->entity == entity)
+		hovered = nullptr;
 }
 
 void HexScene::SelectUnitHandler(unsigned entity) {
 	teams[playerTurn].SelectUnit(entity);
 }
 
+unsigned HexScene::GetCurrentMaxMoves() const {
+	return maxMoves * (turnCount / 2 + 1);
+}

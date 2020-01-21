@@ -23,19 +23,22 @@ class HexScene : public Scene {
 	int gridSize;
 
 	Camera* camera;
-	Text* debugText;
+	Text* debugText, *promptText;
 	Transform* highlight;
+
+	Transform* hovered;
 
 	HexMaze* maze;
 	std::vector<Render*> grid;
 	std::vector<vec2i> path;
 	
-	unsigned turnCount, moveCount;
+	unsigned maxMoves, moveCount;
+	unsigned turnCount;
 
 	Team teams[2];
 	bool playerTurn;
 
-	bool mPressed;
+	bool spacePressed;
 
 public:
 
@@ -46,12 +49,15 @@ public:
 private:
 
 	void KeyHandler(Events::Event* event);
-	void DrawPath(Events::Event* event);
 
 	void UpdateVision();
+	void Highlight(Render * const tile);
+
+	void DrawPath();
+	void DrawView(Unit * const unit);
 
 	unsigned CreateTile(const int& x, const int& y);
-	Unit * CreateUnit(const int& x, const int& y, const float& range);
+	Unit * CreateUnit(const int& x, const int& y, const vec4f& color, const float& range);
 	//HexMouse CreateMice(const float& x, const float& y);
 
 	void OnMouseOverHandler(unsigned entity);
@@ -60,7 +66,11 @@ private:
 	void OnMouseUpHandler(unsigned entity);
 	void OnClick(unsigned entity);
 	
+	void UnitEnterHandler(unsigned entity);
+	void UnitExitHandler(unsigned entity);
 	void SelectUnitHandler(unsigned entity);
+
+	unsigned GetCurrentMaxMoves() const;
 
 };
 
