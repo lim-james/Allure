@@ -44,13 +44,13 @@ void DebugScene::KeyHandler(Events::Event * event) {
 	if (input->key == GLFW_KEY_SPACE) {
 		if (input->action == GLFW_PRESS) {
 			entities->GetComponent<Animation>(square)->Animate(
-				AnimationBase(false, 0.2), 
+				AnimationBase(false, 0.2f), 
 				entities->GetComponent<Transform>(square)->scale,
 				vec3f(3.f)
 			);
 		} else if (input->action == GLFW_RELEASE) {
 			entities->GetComponent<Animation>(square)->Animate(
-				AnimationBase(false, 0.2), 
+				AnimationBase(false, 0.2f), 
 				entities->GetComponent<Transform>(square)->scale,
 				vec3f(1.f)
 			);
@@ -61,7 +61,7 @@ void DebugScene::KeyHandler(Events::Event * event) {
 
 void DebugScene::OnMouseOver(unsigned target) {
 	entities->GetComponent<Animation>(target)->Animate(
-		AnimationBase(false, 0.2), 
+		AnimationBase(false, 0.2f), 
 		entities->GetComponent<Transform>(target)->scale,
 		vec3f(2.75f)
 	);
@@ -70,7 +70,7 @@ void DebugScene::OnMouseOver(unsigned target) {
 
 void DebugScene::OnMouseOut(unsigned target) {
 	entities->GetComponent<Animation>(target)->Animate(
-		AnimationBase(false, 0.2), 
+		AnimationBase(false, 0.2f), 
 		entities->GetComponent<Transform>(target)->scale,
 		vec3f(3.f)
 	);

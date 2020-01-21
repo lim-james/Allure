@@ -90,7 +90,7 @@ void HexScene::Awake() {
 	teams[1].SetMaze(maze);
 
 	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 4.f));
-	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 4.f));
+	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 10.f));
 	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 4.f));
 	teams[1].AddUnit(CreateUnit(8, 8, vec4f(0.f, 1.f, 1.f, 1.f), 4.f));
 
@@ -342,9 +342,25 @@ void HexScene::OnClick(unsigned entity) {
 		moveCount += path.size();
 		path.clear();
 	} else {
-		for (float i = 1.f; i < 5.f; ++i) {
-			for (auto& tile : maze->GetTileIndexesAtRange(1.f)) {
-				//entities->GetComponent< grid[tile]
+		auto unit = team.GetUnitAt(screenSpace);
+		if (!unit) return;
+		for (float i = 1.f; i < unit->range; ++i) {
+			for (auto& tile : maze->GetTileIndexesAtRange(i, screenSpace.xy)) {
+				if (tile < 0) continue;
+				auto render = grid[tile];
+
+				auto animation = entities->GetComponent<Animation>(render->entity);
+				animation->Animate(
+					AnimationBase(false, 0.2f, i * 0.05f, [animation, render]() {
+						animation->Animate(
+							AnimationBase(false, 0.05f),
+							render->tint.a,
+							0.3f
+						);
+					}),
+					render->tint.a,
+					1.f
+				);
 			}
 		}
 	}

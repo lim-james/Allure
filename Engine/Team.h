@@ -28,6 +28,7 @@ public:
 
 	void AddUnit(Unit * const unit);
 	const std::vector<Unit*>& GetUnits() const;
+	Unit * const GetUnitAt(const vec3f& position) const;
 
 	bool SelectUnit(const unsigned& entity);
 	Unit * const GetSelectedUnit() const;

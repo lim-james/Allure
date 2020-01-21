@@ -38,6 +38,16 @@ const std::vector<Unit*>& Team::GetUnits() const {
 	return units;
 }
 
+Unit * const Team::GetUnitAt(const vec3f & position) const {
+	for (auto& unit : units) {
+		if (unit->transform->translation.xy == position.xy) {
+			return unit;
+		}
+	}
+
+	return nullptr;
+}
+
 bool Team::SelectUnit(const unsigned & entity) {
 	for (auto& unit : units) {
 		if (unit->transform->entity == entity) {
