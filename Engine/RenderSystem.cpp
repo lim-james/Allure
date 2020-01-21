@@ -43,6 +43,8 @@ void RenderSystem::Initialize() {
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	if (quadVAO == 0)
 		GenerateQuad();
