@@ -42,6 +42,8 @@ struct Text : Component {
 	short paragraphAlignment;
 	short verticalAlignment;
 
+	vec3f offset;
+
 	Text();
 
 	void Initialize() override;

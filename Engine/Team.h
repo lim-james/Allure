@@ -31,6 +31,7 @@ public:
 	Unit * const GetUnitAt(const vec3f& position) const;
 
 	bool SelectUnit(const unsigned& entity);
+	bool DestroyUnit(const unsigned& entity);
 	Unit * const GetSelectedUnit() const;
 
 	bool Move(const float& dt, EntityManager * const entities);

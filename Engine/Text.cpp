@@ -12,7 +12,9 @@ Text::Text()
 	, characterSpacing(1.f)
 
 	, paragraphAlignment(PARAGRAPH_CENTER)
-	, verticalAlignment(ALIGN_MIDDLE) {}
+	, verticalAlignment(ALIGN_MIDDLE) 
+
+	, offset(0.f) {}
 
 void Text::Initialize() {
 	text = "";
@@ -25,6 +27,8 @@ void Text::Initialize() {
 
 	paragraphAlignment = PARAGRAPH_CENTER;
 	verticalAlignment = ALIGN_MIDDLE;
+
+	offset.Set(0.f);
 }
 
 void Text::SetActive(const bool& state) {

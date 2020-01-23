@@ -24,7 +24,9 @@ class HexScene : public Scene {
 
 	Camera* camera;
 	Text* debugText, *promptText;
+
 	Transform* highlight;
+	Text* highlightText;
 
 	Transform* hovered;
 

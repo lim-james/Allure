@@ -7,6 +7,7 @@
 #include "RenderSystem.h"
 #include "ButtonSystem.h"
 #include "AnimationSystem.h"
+#include "ParticleSystem.h"
 
 #include "LoadFNT.h"
 
@@ -31,6 +32,7 @@ void HexScene::Awake() {
 	systems->Subscribe<RenderSystem>(0);
 	systems->Subscribe<ButtonSystem>(1);
 	systems->Subscribe<AnimationSystem>(2);
+	systems->Subscribe<ParticleSystem>(3);
 
 	const unsigned cam = entities->Create();
 	entities->GetComponent<Transform>(cam)->translation.z = 1.f;
@@ -43,16 +45,16 @@ void HexScene::Awake() {
 		const unsigned label = entities->Create();
 		entities->GetComponent<Transform>(label)->translation.Set(-15.f, 8.f, 0.f);
 		debugText = entities->AddComponent<Text>(label);
-		debugText->SetFont(font);
 		debugText->SetActive(true);
+		debugText->SetFont(font);
 	}
 
 	{
 		const unsigned label = entities->Create();
 		entities->GetComponent<Transform>(label)->translation.Set(0.f, -9.f, 0.f);
 		promptText = entities->AddComponent<Text>(label);
-		promptText->SetFont(font);
 		promptText->SetActive(true);
+		promptText->SetFont(font);
 		promptText->scale = 0.5f;
 	}
 	
@@ -78,6 +80,12 @@ void HexScene::Awake() {
 
 		auto animation = entities->AddComponent<Animation>(highlightTile);
 		animation->SetActive(true);
+
+		highlightText = entities->AddComponent<Text>(highlightTile);
+		highlightText->SetActive(true);
+		highlightText->SetFont(font);
+		highlightText->offset.Set(0.f, 1.f, 0.f);
+		highlightText->scale = 0.5f;
 	}
 
 	maxMoves = 10;
@@ -89,10 +97,10 @@ void HexScene::Awake() {
 	teams[1].SetVision(gridSize);
 	teams[1].SetMaze(maze);
 
-	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 4.f));
+	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 1.f));
 	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 10.f));
-	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 4.f));
-	teams[1].AddUnit(CreateUnit(8, 8, vec4f(0.f, 1.f, 1.f, 1.f), 4.f));
+	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 1.f));
+	teams[1].AddUnit(CreateUnit(9, 8, vec4f(0.f, 1.f, 1.f, 1.f), 4.f));
 
 	playerTurn = false;
 
@@ -110,13 +118,15 @@ void HexScene::Update(const float & dt) {
 			UpdateVision();
 			bt = 0.f;
 		} else if (moveCount >= GetCurrentMaxMoves()) {
-			Console::Warn << "Changed turn\n";
+			highlightText->text = "";
 			playerTurn = !playerTurn;
 			moveCount = 0;
 			++turnCount;
 			UpdateVision();
 		}
 	}
+
+	promptText->text = std::to_string(GetCurrentMaxMoves() - moveCount) + " moves left.";
 }
 
 void HexScene::KeyHandler(Events::Event * event) {
@@ -175,6 +185,9 @@ void HexScene::UpdateVision() {
 }
 
 void HexScene::Highlight(Render * const tile) {
+	highlightText->text = "Attack!";
+	highlightText->color.Set(1.f);
+
 	//tile->tint = (tile->tint + vec4f(1.f, 1.f, 0.f, 1.f)) * 0.5f;
 	auto color = tile->tint; Math::Mix(tile->tint, vec4f(1.f, 1.f, 1.f, 1.f), 0.9f);
 	color.a = 1.f;
@@ -191,6 +204,12 @@ void HexScene::DrawPath() {
 		//grid[maze->GetMapIndex(pos)]->tint.a = 1.f;
 		Highlight(grid[maze->GetMapIndex(pos)]);
 	}
+
+	highlightText->text = std::to_string(path.size());
+	if (path.size() == GetCurrentMaxMoves() - moveCount)
+		highlightText->color.Set(1.f, 0.f, 0.f, 1.f);
+	else
+		highlightText->color.Set(1.f);
 }
 
 void HexScene::DrawView(Unit * const unit) {
@@ -253,6 +272,20 @@ Unit * HexScene::CreateUnit(const int & x, const int & y, const vec4f& color, co
 
 	auto animation = entities->AddComponent<Animation>(entity);
 	animation->SetActive(true);
+
+	auto emitter = entities->AddComponent<ParticleEmitter>(entity);
+	emitter->SetActive(true);
+	emitter->duration = 0.1f;
+	emitter->burstAmount = 30;
+	emitter->speed = 5.f;
+	emitter->speedRange = 2.f;
+	emitter->angleRange.Set(0.f, 0.f, 180.f);
+	emitter->lifetime = 0.1f;
+	emitter->lifetimeRange = 0.1f;
+	emitter->startColor = color;
+	emitter->endColor = color;
+	emitter->startSize.Set(0.25f);
+	emitter->endSize.Set(0.f);
 
 	Unit* unit = new Unit;
 	unit->transform = transform;
@@ -335,32 +368,36 @@ void HexScene::OnClick(unsigned entity) {
 
 	if (index < 0) return;
 
-	auto& team = teams[playerTurn];
-	auto selected = team.GetSelectedUnit();
-	if (!hovered && selected && !path.empty()) {
-		selected->path = path;
-		moveCount += path.size();
-		path.clear();
-	} else {
-		auto unit = team.GetUnitAt(screenSpace);
-		if (!unit) return;
-		for (float i = 1.f; i < unit->range; ++i) {
-			for (auto& tile : maze->GetTileIndexesAtRange(i, screenSpace.xy)) {
-				if (tile < 0) continue;
-				auto render = grid[tile];
+	if (spacePressed) {
 
-				auto animation = entities->GetComponent<Animation>(render->entity);
-				animation->Animate(
-					AnimationBase(false, 0.2f, i * 0.05f, [animation, render]() {
-						animation->Animate(
-							AnimationBase(false, 0.05f),
-							render->tint.a,
-							0.3f
-						);
-					}),
-					render->tint.a,
-					1.f
-				);
+	} else {
+		auto& team = teams[playerTurn];
+		auto selected = team.GetSelectedUnit();
+		if (!hovered && selected && !path.empty()) {
+			selected->path = path;
+			moveCount += path.size();
+			path.clear();
+		} else {
+			auto unit = team.GetUnitAt(screenSpace);
+			if (!unit) return;
+			for (float i = 1.f; i < unit->range; ++i) {
+				for (auto& tile : maze->GetTileIndexesAtRange(i, screenSpace.xy)) {
+					if (tile < 0) continue;
+					auto render = grid[tile];
+
+					auto animation = entities->GetComponent<Animation>(render->entity);
+					animation->Animate(
+						AnimationBase(false, 0.2f, i * 0.05f, [animation, render]() {
+							animation->Animate(
+								AnimationBase(false, 0.05f),
+								render->tint.a,
+								0.3f
+							);
+						}),
+						render->tint.a,
+						1.f
+					);
+				}
 			}
 		}
 	}
@@ -376,7 +413,16 @@ void HexScene::UnitExitHandler(unsigned entity) {
 }
 
 void HexScene::SelectUnitHandler(unsigned entity) {
-	teams[playerTurn].SelectUnit(entity);
+	if (spacePressed) {
+		if (teams[!playerTurn].DestroyUnit(entity)) {
+			entities->GetComponent<ParticleEmitter>(entity)->Play([this, entity]() {
+				entities->Destroy(entity);
+			});
+			hovered = nullptr;
+		}
+	} else {
+		teams[playerTurn].SelectUnit(entity);
+	}
 }
 
 unsigned HexScene::GetCurrentMaxMoves() const {

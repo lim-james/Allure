@@ -59,6 +59,18 @@ bool Team::SelectUnit(const unsigned & entity) {
 	return false;
 }
 
+bool Team::DestroyUnit(const unsigned & entity) {
+	for (unsigned i = 0; i < units.size(); ++i) {
+		if (units[i]->transform->entity == entity) {
+			if (selected == units[i])
+				selected = nullptr;
+			units.erase(units.begin() + i);
+			return true;
+		}
+	}
+	return false;
+}
+
 Unit * const Team::GetSelectedUnit() const {
 	return selected;
 }
@@ -93,7 +105,7 @@ void Team::Scan(Unit * const unit) {
 	for (auto& pos : outerPositions) {
 		const auto dir = (pos - position) / unit->range;
 
-		for (float i = 1.f; i <= unit->range; ++i) {
+		for (float i = 0.f; i <= unit->range; ++i) {
 			const auto target = vision->ScreenToMapPosition(position + dir * i);
 			const int index = vision->GetMapIndex(target);
 
