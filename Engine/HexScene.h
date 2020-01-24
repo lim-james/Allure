@@ -53,13 +53,14 @@ private:
 	void KeyHandler(Events::Event* event);
 
 	void UpdateVision();
-	void Highlight(Render * const tile);
+	void Highlight(Render * const tile, const int& tileType);
 
 	void DrawPath();
 	void DrawView(Unit * const unit);
+	void DrawAttackArea(const vec3f& position, const float& range);
 
 	unsigned CreateTile(const int& x, const int& y);
-	Unit * CreateUnit(const int& x, const int& y, const vec4f& color, const float& range);
+	Unit * CreateUnit(const int& x, const int& y, const vec4f& color, const float& viewRange, const float& AOE);
 	//HexMouse CreateMice(const float& x, const float& y);
 
 	void OnMouseOverHandler(unsigned entity);
@@ -73,6 +74,7 @@ private:
 	void SelectUnitHandler(unsigned entity);
 
 	unsigned GetCurrentMaxMoves() const;
+	void EndTurn();
 
 };
 

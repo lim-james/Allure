@@ -8,7 +8,8 @@
 struct Unit {
 
 	Transform * transform;
-	float range;
+	float viewRange;
+	float AOE;
 
 	std::vector<vec2i> path;
 	std::vector<int> vision;

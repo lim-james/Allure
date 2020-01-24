@@ -9,7 +9,8 @@ class Team {
 
 	HexGrid* maze;
 
-	HexGrid* vision;
+	//HexGrid* vision;
+	std::vector<bool> vision;
 	std::vector<bool> visited;
 
 	std::vector<Unit*> units;
@@ -22,9 +23,9 @@ public:
 	void SetMaze(HexGrid * const _maze);
 
 	void SetVision(const unsigned& size);
-	HexGrid * const GetVision() const;
+	const std::vector<bool>& GetVision() const;
 
-	bool InSight(const vec2f& position) const;
+	bool InSight(const vec2f& screenPosition) const;
 
 	void AddUnit(Unit * const unit);
 	const std::vector<Unit*>& GetUnits() const;
@@ -32,6 +33,7 @@ public:
 
 	bool SelectUnit(const unsigned& entity);
 	bool DestroyUnit(const unsigned& entity);
+	bool DestroyUnit(Unit * const unit);
 	Unit * const GetSelectedUnit() const;
 
 	bool Move(const float& dt, EntityManager * const entities);

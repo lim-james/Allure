@@ -97,10 +97,10 @@ void HexScene::Awake() {
 	teams[1].SetVision(gridSize);
 	teams[1].SetMaze(maze);
 
-	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 1.f));
-	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 10.f));
-	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 1.f));
-	teams[1].AddUnit(CreateUnit(9, 8, vec4f(0.f, 1.f, 1.f, 1.f), 4.f));
+	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 1.f, 5.f));
+	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 10.f, 2.f));
+	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 1.f, 5.f));
+	teams[1].AddUnit(CreateUnit(9, 9, vec4f(0.f, 1.f, 1.f, 1.f), 4.f, 2.f));
 
 	playerTurn = false;
 
@@ -117,12 +117,6 @@ void HexScene::Update(const float & dt) {
 		if (teams[playerTurn].Move(moveDelay, entities)) {
 			UpdateVision();
 			bt = 0.f;
-		} else if (moveCount >= GetCurrentMaxMoves()) {
-			highlightText->text = "";
-			playerTurn = !playerTurn;
-			moveCount = 0;
-			++turnCount;
-			UpdateVision();
 		}
 	}
 
@@ -137,17 +131,21 @@ void HexScene::KeyHandler(Events::Event * event) {
 			spacePressed = true;
 			auto selected = teams[playerTurn].GetSelectedUnit();
 			if (selected) {
+				highlightText->text = "Attack!";
+				highlightText->color.Set(1.f);
+
 				UpdateVision();
 				DrawView(selected);
 			}
-		}
-
-		if (input->action == GLFW_RELEASE) {
+		} else if (input->action == GLFW_RELEASE) {
 			spacePressed = false;
 			UpdateVision();
 			DrawPath();
 		}
+	} else if (input->key == GLFW_KEY_ENTER && input->action == GLFW_RELEASE) {
+		EndTurn();
 	}
+
 }
 
 void HexScene::UpdateVision() {
@@ -161,35 +159,36 @@ void HexScene::UpdateVision() {
 
 	std::map<unsigned, Render*> otherUnits;
 	for (auto& unit : teams[!playerTurn].GetUnits()) {
-		const auto mapPosition = vision->ScreenToMapPosition(unit->transform->translation.xy);
+		const auto mapPosition = maze->ScreenToMapPosition(unit->transform->translation.xy);
 		auto render = entities->GetComponent<Render>(unit->transform->entity);
 		render->SetActive(false);
-		otherUnits[vision->GetMapIndex(mapPosition)] = render;
+		otherUnits[maze->GetMapIndex(mapPosition)] = render;
 	}
 
-	for (unsigned i = 0; i < vision->GetSize() * vision->GetSize(); ++i) {
-		const auto mapPosition = vision->GetMapPosition(i);
-		const auto screenPosition = vision->MapToScreenPosition(mapPosition);
-		const auto tile = vision->GetMapData(i);
+	for (unsigned i = 0; i < vision.size(); ++i) {
+		if (vision[i]) {
+			entities->GetComponent<Animation>(grid[i]->entity)->Animate(
+				AnimationBase(false, 0.2f),
+				grid[i]->tint,
+				maze->GetColour(maze->GetMapData(i))
+			);
 
-		entities->GetComponent<Animation>(grid[i]->entity)->Animate(
-			AnimationBase(false, 0.2f),
-			grid[i]->tint,
-			maze->GetColour(tile)
-		);
-
-		if (tile != FOG && otherUnits[i]) {
-			otherUnits[i]->SetActive(true);
+			if (otherUnits[i]) {
+				otherUnits[i]->SetActive(true);
+			}
+		} else {
+			entities->GetComponent<Animation>(grid[i]->entity)->Animate(
+				AnimationBase(false, 0.2f),
+				grid[i]->tint,
+				vec4f(0.f)
+			);
 		}
 	}
 }
 
-void HexScene::Highlight(Render * const tile) {
-	highlightText->text = "Attack!";
-	highlightText->color.Set(1.f);
-
+void HexScene::Highlight(Render * const tile, const int& tileType) {
 	//tile->tint = (tile->tint + vec4f(1.f, 1.f, 0.f, 1.f)) * 0.5f;
-	auto color = tile->tint; Math::Mix(tile->tint, vec4f(1.f, 1.f, 1.f, 1.f), 0.9f);
+	auto color = maze->GetColour(tileType);
 	color.a = 1.f;
 
 	entities->GetComponent<Animation>(tile->entity)->Animate(
@@ -202,7 +201,8 @@ void HexScene::Highlight(Render * const tile) {
 void HexScene::DrawPath() {
 	for (auto& pos : path) {
 		//grid[maze->GetMapIndex(pos)]->tint.a = 1.f;
-		Highlight(grid[maze->GetMapIndex(pos)]);
+		const int index = maze->GetMapIndex(pos);
+		Highlight(grid[index], maze->GetMapData(index));
 	}
 
 	highlightText->text = std::to_string(path.size());
@@ -215,7 +215,23 @@ void HexScene::DrawPath() {
 void HexScene::DrawView(Unit * const unit) {
 	for (auto& index : unit->vision) {
 		//grid[index]->tint.a = 1.f;
-		Highlight(grid[index]);
+		Highlight(grid[index], maze->GetMapData(index));
+	}
+}
+
+void HexScene::DrawAttackArea(const vec3f & position, const float& area) {
+	for (float i = 1.f; i < area; ++i) {
+		for (auto& tile : maze->GetTileIndexesAtRange(i, position.xy)) {
+			if (tile < 0) continue;
+
+			auto render = grid[tile];
+
+			entities->GetComponent<Animation>(render->entity)->Animate(
+				AnimationBase(false, 0.2f),
+				render->tint,
+				Math::Mix(vec4f(1.f, 0.f, 0.f, 1.f), render->tint, 0.5f)
+			);
+		}
 	}
 }
 
@@ -252,7 +268,7 @@ unsigned HexScene::CreateTile(const int & x, const int & y) {
 	return tile;
 }
 
-Unit * HexScene::CreateUnit(const int & x, const int & y, const vec4f& color, const float& range) {
+Unit * HexScene::CreateUnit(const int & x, const int & y, const vec4f& color, const float& viewRange, const float& AOE) {
 	auto entity = entities->Create();
 
 	auto transform = entities->GetComponent<Transform>(entity);
@@ -289,7 +305,8 @@ Unit * HexScene::CreateUnit(const int & x, const int & y, const vec4f& color, co
 
 	Unit* unit = new Unit;
 	unit->transform = transform;
-	unit->range = range;
+	unit->viewRange = viewRange;
+	unit->AOE = AOE;
 
 	return unit;
 }
@@ -321,14 +338,13 @@ void HexScene::OnMouseOverHandler(unsigned entity) {
 	auto selected = team.GetSelectedUnit();
 	const auto max = GetCurrentMaxMoves();
 
-	if (selected && team.InSight(position) && moveCount < max) {
-		auto vision = team.GetVision();
-		auto index = vision->GetMapIndex(vision->ScreenToMapPosition(position));
+	if (selected && team.InSight(position)) {
+		auto index = maze->GetMapIndex(maze->ScreenToMapPosition(position));
 
-		if (vision->GetMapData(index) == WALL)
+		if (maze->GetMapData(index) == WALL)
 			return;
 
-		path = vision->GetPath(selected->transform->translation, position);
+		path = maze->GetPath(selected->transform->translation, position);
 		const unsigned movesLeft = max - moveCount;
 		if (path.size() > movesLeft) {
 			path.erase(path.begin() + movesLeft, path.end());
@@ -337,6 +353,10 @@ void HexScene::OnMouseOverHandler(unsigned entity) {
 		if (!spacePressed) {
 			UpdateVision();
 			DrawPath();
+		} else {
+			UpdateVision();
+			DrawView(selected);
+			DrawAttackArea(position, selected->AOE);
 		}
 	}
 }
@@ -368,11 +388,33 @@ void HexScene::OnClick(unsigned entity) {
 
 	if (index < 0) return;
 
-	if (spacePressed) {
+	auto& team = teams[playerTurn];
+	auto selected = team.GetSelectedUnit();
 
+	if (spacePressed) {
+		if (selected) {
+			auto& opponent = teams[!playerTurn];
+			auto unit = opponent.GetUnitAt(screenSpace);
+			if (unit && opponent.DestroyUnit(unit)) {
+				const unsigned& unitEntity = unit->transform->entity;
+				entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, unitEntity]() {
+					entities->Destroy(unitEntity);
+				});
+			}
+			
+			for (float i = 1.f; i < selected->AOE; ++i) {
+				for (auto& tile : maze->GetTilesAtRange(i, screenSpace.xy)) {
+					auto unit = opponent.GetUnitAt(tile);
+					if (unit && opponent.DestroyUnit(unit)) {
+						const unsigned& unitEntity = unit->transform->entity;
+						entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, unitEntity]() {
+							entities->Destroy(unitEntity);
+						});
+					}
+				}
+			}
+		}
 	} else {
-		auto& team = teams[playerTurn];
-		auto selected = team.GetSelectedUnit();
 		if (!hovered && selected && !path.empty()) {
 			selected->path = path;
 			moveCount += path.size();
@@ -380,7 +422,7 @@ void HexScene::OnClick(unsigned entity) {
 		} else {
 			auto unit = team.GetUnitAt(screenSpace);
 			if (!unit) return;
-			for (float i = 1.f; i < unit->range; ++i) {
+			for (float i = 1.f; i < unit->viewRange; ++i) {
 				for (auto& tile : maze->GetTileIndexesAtRange(i, screenSpace.xy)) {
 					if (tile < 0) continue;
 					auto render = grid[tile];
@@ -414,12 +456,12 @@ void HexScene::UnitExitHandler(unsigned entity) {
 
 void HexScene::SelectUnitHandler(unsigned entity) {
 	if (spacePressed) {
-		if (teams[!playerTurn].DestroyUnit(entity)) {
-			entities->GetComponent<ParticleEmitter>(entity)->Play([this, entity]() {
-				entities->Destroy(entity);
-			});
-			hovered = nullptr;
-		}
+		//if (teams[!playerTurn].DestroyUnit(entity)) {
+		//	entities->GetComponent<ParticleEmitter>(entity)->Play([this, entity]() {
+		//		entities->Destroy(entity);
+		//	});
+		//	hovered = nullptr;
+		//}
 	} else {
 		teams[playerTurn].SelectUnit(entity);
 	}
@@ -427,4 +469,12 @@ void HexScene::SelectUnitHandler(unsigned entity) {
 
 unsigned HexScene::GetCurrentMaxMoves() const {
 	return maxMoves * (turnCount / 2 + 1);
+}
+
+void HexScene::EndTurn() {
+	highlightText->text = "";
+	playerTurn = !playerTurn;
+	moveCount = 0;
+	++turnCount;
+	UpdateVision();
 }

@@ -3,11 +3,10 @@
 #include "HexMaze.h"
 #include "Animation.h"
 
-#include <Logger/Logger.h>
+#include <Helpers/VectorHelpers.h>
 
 Team::Team() 
 	: maze(nullptr)
-	, vision(nullptr)
 	, selected(nullptr) {}
 
 void Team::SetMaze(HexGrid * const _maze) {
@@ -15,18 +14,18 @@ void Team::SetMaze(HexGrid * const _maze) {
 }
 
 void Team::SetVision(const unsigned & size) {
-	vision = new HexGrid(size, FOG);
+	vision.resize(size * size, false);
 	visited.resize(size * size, false);
 }
 
-HexGrid * const Team::GetVision() const {
+const std::vector<bool>& Team::GetVision() const {
 	return vision;
 }
 
-bool Team::InSight(const vec2f & position) const {
-	const auto map = vision->ScreenToMapPosition(position);
-	const auto index = vision->GetMapIndex(map);
-	return vision->GetMapData(index) != FOG;
+bool Team::InSight(const vec2f & screenPosition) const {
+	const auto map = maze->ScreenToMapPosition(screenPosition);
+	const auto index = maze->GetMapIndex(map);
+	return vision[index];
 }
 
 void Team::AddUnit(Unit * const unit) {
@@ -71,6 +70,15 @@ bool Team::DestroyUnit(const unsigned & entity) {
 	return false;
 }
 
+bool Team::DestroyUnit(Unit * const unit) {
+	if (Helpers::Remove(units, unit)) {
+		if (selected == unit)
+			selected = nullptr;
+		return true;
+	}
+	return false;
+}
+
 Unit * const Team::GetSelectedUnit() const {
 	return selected;
 }
@@ -83,7 +91,7 @@ bool Team::Move(const float& dt, EntityManager * const entities) {
 			entities->GetComponent<Animation>(unit->transform->entity)->Animate(
 				AnimationBase(false, dt * 0.9f),
 				unit->transform->translation.xy,
-				vision->MapToScreenPosition(unit->path.front())
+				maze->MapToScreenPosition(unit->path.front())
 			);
 			unit->path.erase(unit->path.begin());
 			Scan(unit);
@@ -101,21 +109,20 @@ void Team::Scan(Unit * const unit) {
 
 	const vec2f& position = unit->transform->translation.xy;
 
-	const auto outerPositions = vision->GetTilesAtRange(unit->range, position);
+	const auto outerPositions = maze->GetTilesAtRange(unit->viewRange, position);
 	for (auto& pos : outerPositions) {
-		const auto dir = (pos - position) / unit->range;
+		const auto dir = (pos - position) / unit->viewRange;
 
-		for (float i = 0.f; i <= unit->range; ++i) {
-			const auto target = vision->ScreenToMapPosition(position + dir * i);
-			const int index = vision->GetMapIndex(target);
+		for (float i = 0.f; i <= unit->viewRange; ++i) {
+			const auto target = maze->ScreenToMapPosition(position + dir * i);
+			const int index = maze->GetMapIndex(target);
 
 			if (index < 0) break;
 
 			unit->vision.push_back(index);
-			const int tile = maze->GetMapData(index);
-			vision->SetMapData(index, tile);
+			vision[index] = true;
 
-			if (tile == WALL) break;
+			if (maze->GetMapData(index) == WALL) break;
 		}
 	}
 
