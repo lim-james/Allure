@@ -62,11 +62,11 @@ void Test::KeyHandler(Events::Event * event) {
 	Events::KeyInput* input = static_cast<Events::KeyInput*>(event);
 	if (input->action == GLFW_RELEASE) {
 		if (input->key == GLFW_KEY_1) {
-			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene("ONE"));
+			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("ONE"));
 		} else if (input->key == GLFW_KEY_2) {
-			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene("TWO"));
+			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("TWO"));
 		} else if (input->key == GLFW_KEY_3) {
-			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene("THREE"));
+			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("THREE"));
 		} else if (input->key == GLFW_KEY_SPACE) {
 			Console::Warn << "Space pressed\n";
 			CreateFish(vec2f(Math::RandMinMax(-10.f, 10.f), Math::RandMinMax(-10.f, 10.f)));

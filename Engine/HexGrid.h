@@ -11,12 +11,13 @@ class HexGrid {
 
 protected:
 
-	vec2f directions[6];
-
 	unsigned size;
+	int defaultTile;
 	std::vector<int> grid;
 
 public:
+
+	vec2f directions[6];
 
 	HexGrid(const unsigned& size, const int& defaultTile);
 
@@ -43,8 +44,6 @@ public:
 
 	std::vector<vec2f> GetTilesAtRange(const float& r, const vec2f& position) const;
 	std::vector<int> GetTileIndexesAtRange(const float& r, const vec2f& position) const;
-
-	std::vector<vec2i> GetPath(const vec2f& start, const vec2f& end) const;
 
 };
 

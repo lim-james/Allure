@@ -21,3 +21,7 @@ void Button::SetActive(const bool & state) {
 	Events::EventsManager::GetInstance()->Trigger("BUTTON_ACTIVE", new Events::AnyType<Button*>(this));
 }
 
+void Button::BindHandler(const unsigned & action, const std::function<void(unsigned)>& handler) {
+	handlers[action] = handler;
+}
+

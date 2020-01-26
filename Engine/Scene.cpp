@@ -23,22 +23,16 @@ Scene::~Scene() {
 }
 
 void Scene::Awake() {
-	//Events::EventsManager::GetInstance()->Subscribe("NEAREST_ENTITY_WITH_TAG", &Scene::NearestEntityHanlder, this);
-	//Events::EventsManager::GetInstance()->Subscribe("FIRST_ENTITY_WITH_TAG", &Scene::FirstEntityHanlder, this);
-
 	systems->Subscribe<TransformSystem>(0);
 }
 
 void Scene::Reset() {
 	Events::EventsManager::GetInstance()->SubscribeContext(this);
-
-	//components->Start();
-	//entities->Start();
 	systems->Start();
 }
 
 void Scene::Start() {
-
+	Console::Warn << "Start\n";
 }
 
 void Scene::FixedUpdate(const float& dt) {
@@ -50,8 +44,6 @@ void Scene::Update(const float& dt) {
 }
 
 void Scene::Stop() {
-	//components->Stop();
-	//entities->Stop();
 	systems->Stop();
 
 	Events::EventsManager::GetInstance()->UnsubscribeContext(this);

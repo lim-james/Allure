@@ -8,10 +8,11 @@
 #include "ButtonSystem.h"
 #include "AnimationSystem.h"
 #include "ParticleSystem.h"
-
+// Utils
 #include "LoadFNT.h"
-
 #include "InputEvents.h"
+// Destination
+#include "MenuScene.h"
 
 #include <Events/EventsManager.h>
 #include <Math/Math.hpp>
@@ -59,8 +60,6 @@ void HexScene::Awake() {
 	}
 	
 	maze = new HexMaze(gridSize, PATH);
-	maze->Generate(0, vec2i(0), 0.7f);
-
 	for (int y = 0; y < gridSize; ++y) {
 		for (int x = 0; x < gridSize; ++x) {
 			CreateTile(x, y);
@@ -88,23 +87,8 @@ void HexScene::Awake() {
 		highlightText->scale = 0.5f;
 	}
 
-	maxMoves = 10;
-	moveCount = 0;
-	turnCount = 0;
-
 	teams[0].SetVision(gridSize);
-	teams[0].SetMaze(maze);
 	teams[1].SetVision(gridSize);
-	teams[1].SetMaze(maze);
-
-	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 1.f, 5.f));
-	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 10.f, 2.f));
-	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 1.f, 5.f));
-	teams[1].AddUnit(CreateUnit(9, 9, vec4f(0.f, 1.f, 1.f, 1.f), 4.f, 2.f));
-
-	playerTurn = false;
-
-	UpdateVision();
 }
 
 void HexScene::Update(const float & dt) {
@@ -120,7 +104,40 @@ void HexScene::Update(const float & dt) {
 		}
 	}
 
+	mazeBt += dt;
+	if (mazeBt > 0.2f) {
+		maze->Update();
+		//UpdateVision();
+		mazeBt = 0.f;
+	}
+
 	promptText->text = std::to_string(GetCurrentMaxMoves() - moveCount) + " moves left.";
+}
+
+void HexScene::InitializeGame() {
+	maze->Generate(0, vec2i(5, 5), 0.7f);
+
+	maxMoves = 10;
+	moveCount = 0;
+	turnCount = 0;
+
+	teams[0].SetName("Player");
+	teams[0].SetMaze(maze);
+
+	teams[1].SetName("Player");
+	teams[1].SetMaze(maze);
+
+	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 1.f, 5.f));
+	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 10.f, 2.f));
+	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 1.f, 5.f));
+	teams[1].AddUnit(CreateUnit(9, 9, vec4f(0.f, 1.f, 1.f, 1.f), 4.f, 2.f));
+
+	playerTurn = false;
+	UpdateVision();
+}
+
+void HexScene::SetMode(const unsigned & _mode) {
+	mode = _mode;
 }
 
 void HexScene::KeyHandler(Events::Event * event) {
@@ -249,9 +266,6 @@ unsigned HexScene::CreateTile(const int & x, const int & y) {
 	render->SetActive(true);
 	render->SetTexture("Files/Textures/hex.tga");
 
-	const int index = maze->GetMapIndex(x, y);
-	render->tint = maze->GetColour(maze->GetMapData(index));
-
 	auto button = entities->AddComponent<Button>(tile);
 	button->SetActive(true);
 	button->BindHandler(MOUSE_OVER, &HexScene::OnMouseOverHandler, this);
@@ -344,7 +358,7 @@ void HexScene::OnMouseOverHandler(unsigned entity) {
 		if (maze->GetMapData(index) == WALL)
 			return;
 
-		path = maze->GetPath(selected->transform->translation, position);
+		path = team.GetPath(selected->transform->translation, position);
 		const unsigned movesLeft = max - moveCount;
 		if (path.size() > movesLeft) {
 			path.erase(path.begin() + movesLeft, path.end());
@@ -393,12 +407,18 @@ void HexScene::OnClick(unsigned entity) {
 
 	if (spacePressed) {
 		if (selected) {
+			if (vfind(selected->vision, index) == selected->vision.end()) return;
+			
 			auto& opponent = teams[!playerTurn];
 			auto unit = opponent.GetUnitAt(screenSpace);
 			if (unit && opponent.DestroyUnit(unit)) {
 				const unsigned& unitEntity = unit->transform->entity;
-				entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, unitEntity]() {
+				entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, &team, &opponent,	unitEntity]() {
 					entities->Destroy(unitEntity);
+					if (opponent.IsDead()) {
+						winner = team.GetName();
+						Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("MENU"));
+					}
 				});
 			}
 			
@@ -407,8 +427,13 @@ void HexScene::OnClick(unsigned entity) {
 					auto unit = opponent.GetUnitAt(tile);
 					if (unit && opponent.DestroyUnit(unit)) {
 						const unsigned& unitEntity = unit->transform->entity;
-						entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, unitEntity]() {
+						entities->GetComponent<Render>(unitEntity)->tint.a = 0.f;
+						entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, &team, &opponent, unitEntity]() {
 							entities->Destroy(unitEntity);
+							if (opponent.IsDead()) {
+								winner = team.GetName();
+								Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("MENU"));
+							}
 						});
 					}
 				}
@@ -477,4 +502,16 @@ void HexScene::EndTurn() {
 	moveCount = 0;
 	++turnCount;
 	UpdateVision();
+}
+
+void HexScene::PrepareForSegue(Scene * destination) {
+	MenuScene* dest = dynamic_cast<MenuScene*>(destination);
+	if (dest) {
+		for (auto& team : teams) {
+			team.DestroyUnits([this](unsigned entity) { 
+				entities->Destroy(entity);
+			});
+		}
+		dest->SetTitle(winner + " won!");
+	}
 }

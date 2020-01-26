@@ -15,7 +15,13 @@
 
 #include <vector>
 
+#define PVP		0
+#define PVE		1
+#define AIvAI	2
+
 class HexScene : public Scene {
+
+	unsigned mode;
 
 	float moveDelay;
 	float bt;
@@ -30,6 +36,7 @@ class HexScene : public Scene {
 
 	Transform* hovered;
 
+	float mazeBt;
 	HexMaze* maze;
 	std::vector<Render*> grid;
 	std::vector<vec2i> path;
@@ -37,6 +44,7 @@ class HexScene : public Scene {
 	unsigned maxMoves, moveCount;
 	unsigned turnCount;
 
+	std::string winner;
 	Team teams[2];
 	bool playerTurn;
 
@@ -45,8 +53,10 @@ class HexScene : public Scene {
 public:
 
 	void Awake() override;
-
 	void Update(const float& dt) override;
+
+	void InitializeGame();
+	void SetMode(const unsigned& _mode);
 
 private:
 
@@ -75,6 +85,8 @@ private:
 
 	unsigned GetCurrentMaxMoves() const;
 	void EndTurn();
+
+	void PrepareForSegue(Scene* destination) override;
 
 };
 

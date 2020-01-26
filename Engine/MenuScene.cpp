@@ -1,13 +1,16 @@
 #include "MenuScene.h"
 
+// Systems
 #include "RenderSystem.h"
 #include "ButtonSystem.h"
 #include "AnimationSystem.h"
 #include "ParticleSystem.h"
-
+// Utils
 #include "LoadFNT.h"
 #include "LoadTGA.h"
 #include "InputEvents.h"
+// Destination
+#include "HexScene.h"
 
 #include <Events/EventsManager.h>
 
@@ -19,9 +22,9 @@ void MenuScene::Awake() {
 	auto font = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
 
 	systems->Subscribe<RenderSystem>(0);
-	//systems->Subscribe<ButtonSystem>(1);
-	//systems->Subscribe<AnimationSystem>(2);
-	systems->Subscribe<ParticleSystem>(1);
+	systems->Subscribe<ButtonSystem>(1);
+	systems->Subscribe<AnimationSystem>(2);
+	systems->Subscribe<ParticleSystem>(3);
 
 	const unsigned cam = entities->Create();
 	entities->GetComponent<Transform>(cam)->translation.z = 1.f;
@@ -45,15 +48,28 @@ void MenuScene::Awake() {
 	// title
 	{
 		const unsigned label = entities->Create();
-		const auto text = entities->AddComponent<Text>(label);
-		text->SetActive(true);
-		text->SetFont(font);
-		text->text = "Allure 2D"; 
+		titleText = entities->AddComponent<Text>(label);
+		titleText->SetActive(true);
+		titleText->SetFont(font);
+		titleText->text = "Allure 2D"; 
 	}
 
-	buttonSize.Set(2.f, 1.f);
+	buttonSize.Set(5.f, 1.5f);
 
-	//CreateButton("Play", vec2f(0.f, -2.f), buttonSize, vec4f(1.f));
+	CreateButton("PvP", vec2f(0.f, -2.f), buttonSize, vec3f(1.f))->BindHandler(MOUSE_CLICK, [this](unsigned target) {
+		chosenMode = PVP;
+		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("HEX"));
+	});
+
+	CreateButton("PvE", vec2f(0.f, -4.f), buttonSize, vec3f(1.f))->BindHandler(MOUSE_CLICK, [this](unsigned target) {
+		chosenMode = PVE;
+		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("HEX"));
+	});
+
+	CreateButton("AIvAI", vec2f(0.f, -6.f), buttonSize, vec3f(1.f))->BindHandler(MOUSE_CLICK, [this](unsigned target) {
+		chosenMode = AIvAI;
+		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("HEX"));
+	});
 }
 
 void MenuScene::Update(const float & dt) {
@@ -63,7 +79,11 @@ void MenuScene::Update(const float & dt) {
 	debugText->text = "FPS: " + std::to_string(FPS) + "\nCOUNT: " + std::to_string(entities->PoolCount());
 }
 
-unsigned MenuScene::CreateButton(const std::string & title, const vec2f & position, const vec2f & size, const vec4f& color) {
+void MenuScene::SetTitle(const std::string & title) {
+	titleText->text = title;
+}
+
+Button* MenuScene::CreateButton(const std::string & title, const vec2f & position, const vec2f & size, const vec3f& color) {
 	const unsigned entity = entities->Create();
 
 	auto transform = entities->GetComponent<Transform>(entity);
@@ -72,7 +92,7 @@ unsigned MenuScene::CreateButton(const std::string & title, const vec2f & positi
 
 	auto render = entities->AddComponent<Render>(entity);
 	render->SetActive(true);
-	render->tint = color;
+	render->tint = vec4f(color, 0.5f);
 
 	auto text = entities->AddComponent<Text>(entity);
 	text->SetActive(true);
@@ -87,12 +107,11 @@ unsigned MenuScene::CreateButton(const std::string & title, const vec2f & positi
 	button->BindHandler(MOUSE_OUT, &MenuScene::OnMouseOutHandler, this);
 	button->BindHandler(MOUSE_DOWN, &MenuScene::OnMouseDownHandler, this);
 	button->BindHandler(MOUSE_UP, &MenuScene::OnMouseUpHandler, this);
-	button->BindHandler(MOUSE_CLICK, &MenuScene::OnClick, this);
 
 	auto animation = entities->AddComponent<Animation>(entity);
 	animation->SetActive(true);
 
-	return entity;
+	return button;
 }
 
 void MenuScene::OnMouseOverHandler(unsigned entity) {
@@ -127,15 +146,20 @@ void MenuScene::OnMouseUpHandler(unsigned entity) {
 	);
 }
 
-void MenuScene::OnClick(unsigned entity) {
-	std::cout << "Entity count : " << entities->PoolCount() << '\n';
-}
-
 void MenuScene::CursorPositionHandler(Events::Event * event) {
 	auto input = static_cast<Events::CursorPositionInput*>(event);
 
 	auto position = camera->ScreenToWorldSpace(input->position);
 	position.y = -position.y;
-	cursor->translation = position;
+	//cursor->translation = position;
+}
+
+void MenuScene::PrepareForSegue(Scene * destination) {
+	HexScene* dest = dynamic_cast<HexScene*>(destination);
+	if (dest) {
+		dest->SetMode(chosenMode);
+		dest->InitializeGame();
+		Console::Warn << "Init\n";
+	}
 }
 

@@ -26,6 +26,8 @@ struct Button : Component {
 	template<typename Context>
 	void BindHandler(const unsigned& action, void(Context::*callback)(unsigned) const, Context* context);
 
+	void BindHandler(const unsigned& action, const std::function<void(unsigned)>& handler);
+
 private:
 
 	std::function<void(unsigned)> handlers[BUTTON_ACTION_COUNT];

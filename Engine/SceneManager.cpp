@@ -37,14 +37,18 @@ void SceneManager::Segue() {
 		auto d = scenes[destination];
 
 		if (s) {
-			s->PrepareForSegue(d);
 			s->Destroy();
 			Events::EventsManager::GetInstance()->TriggerQueued();
 			s->Stop();
+
+			d->Reset();
+			d->Start();
+			s->PrepareForSegue(d);
+		} else {
+			d->Reset();
+			d->Start();
 		}
 
-		d->Reset();
-		d->Start();
 
 		Events::EventsManager::GetInstance()->Trigger("BROADCAST_SIZE");
 
@@ -54,6 +58,6 @@ void SceneManager::Segue() {
 }
 
 void SceneManager::PresentHandler(Events::Event * event) {
-	destination = static_cast<Events::PresentScene*>(event)->data;
+	destination = static_cast<Events::String*>(event)->data;
 }
 

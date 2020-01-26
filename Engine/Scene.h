@@ -7,11 +7,6 @@
 
 #include <Events/Event.h>
 
-namespace Events {
-	typedef AnyType<std::string> PresentScene;
-}
-
-
 class Scene {
 
 protected:

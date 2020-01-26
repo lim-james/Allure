@@ -4,10 +4,15 @@ HexMaze::HexMaze(const unsigned & size, const int & defaultTile)
 	: HexGrid(size, defaultTile) { }
 
 void HexMaze::Generate(const unsigned& seed, const vec2i & start, const float & wallLoad) {
+	std::fill(grid.begin(), grid.end(), defaultTile);
 	srand(seed);
 
 	const unsigned total = size * size;
+	dir = 1;
+	stream = MapToScreenPosition(start);
 	const unsigned startIndex = GetMapIndex(start);
+
+	//grid[startIndex] = WATER;
 
 	for (unsigned i = 0; i < static_cast<unsigned>(total * wallLoad);) {
 		unsigned chosen = rand() % total;
@@ -26,6 +31,19 @@ void HexMaze::Generate(const unsigned& seed, const vec2i & start, const float & 
 			++i;
 		}
 	}
+}
+
+void HexMaze::Update() {
+	//stream += directions[1];
+	//const int index = GetMapIndex(ScreenToMapPosition(stream));
+	//if (index < 0) return;
+
+	//for (float r = 0.f; r < 2.f; ++r) {
+	//	for (auto i : GetTileIndexesAtRange(r, stream)) {
+	//		if (i < 0) continue;
+	//		grid[i] = WATER;
+	//	}
+	//}
 }
 
 bool HexMaze::IsBlocked(const vec2i & position) const {

@@ -1,6 +1,8 @@
 #include "HexGrid.h"
 
-HexGrid::HexGrid(const unsigned& size, const int& defaultTile) : size(size) {
+HexGrid::HexGrid(const unsigned& size, const int& defaultTile) 
+	: size(size) 
+	, defaultTile(defaultTile) {
 	directions[0] = vec2f(0.f,  0.866f);
 	directions[1] = vec2f( 0.75f,  0.433f);
 	directions[2] = vec2f( 0.75f, -0.433f);
@@ -84,7 +86,7 @@ vec2i HexGrid::GetMapPosition(const int & index) const {
 }
 
 vec2i HexGrid::ScreenToMapPosition(const vec2f & position) const {
-	const int halfSize = static_cast<int>(size) * 0.5f;
+	const int halfSize = size / 2;
 
 	vec2f result = position;
 	result.x = round((result.x - 0.5f) / 0.75f);
@@ -175,94 +177,3 @@ std::vector<int> HexGrid::GetTileIndexesAtRange(const float& r, const vec2f& pos
 	return result;
 }
 
-std::vector<vec2i> HexGrid::GetPath(const vec2f & start, const vec2f & end) const {
-	const auto position = ScreenToMapPosition(start);
-	const auto target = ScreenToMapPosition(end);
-
-	std::vector<DNode*> opened;
-	std::vector<DNode*> closed;
-
-	DNode* current = new DNode;
-	current->g = 0;
-	current->h = Math::LengthSquared<float>(target - position);
-	current->position = position;
-	current->previous = nullptr;
-
-	opened.push_back(current);
-
-	while (!opened.empty()) {
-		DNode* best = opened.front();
-		opened.erase(opened.begin());
-		closed.push_back(best);
-
-		if (best->position == target)
-			break;
-
-		const vec2f screenPosition = MapToScreenPosition(best->position);
-
-		for (auto& dir : directions) {
-			const vec2i pos = ScreenToMapPosition(dir + screenPosition);
-
-			if (GetMapData(pos) <= 0) continue;
-
-			bool found = false;
-			for (auto& node : closed) {
-				if (node->position == pos) {
-					found = true;
-					break;
-				}
-			}
-
-			if (found) continue;
-
-			unsigned i = 0;
-			for (; i < opened.size(); ++i) {
-				if (opened[i]->position == pos) {
-					break;
-				}
-			}
-
-			const float weight = static_cast<float>(GetMapData(GetMapIndex(pos)));
-
-			DNode* neighbour = new DNode;
-			neighbour->g = best->g + 1;
-			neighbour->h = Math::LengthSquared<float>(pos - target) * weight;
-			neighbour->position = pos;
-			neighbour->previous = best;
-
-			if (i != opened.size()) {
-				if (opened[i]->f() > neighbour->f()) {
-					delete opened[i];
-					opened[i] = neighbour;
-				} else {
-					delete neighbour;
-				}
-			} else {
-				i = 0;
-				for (; i < opened.size(); ++i) {
-					if (opened[i]->f() > neighbour->f()) {
-						opened.insert(opened.begin() + i, neighbour);
-						break;
-					}
-				}
-
-				if (i == opened.size()) {
-					opened.insert(opened.begin() + i, neighbour);
-					opened.push_back(neighbour);
-				}
-			}
-		}
-	}
-
-	std::vector<vec2i> path;
-
-	auto last = closed.back();
-	while (last) {
-		for (unsigned i = 0; i < grid[GetMapIndex(last->position)]; ++i) {
-			path.insert(path.begin(), last->position);
-		}
-		last = last->previous;
-	}
-
-	return path;
-}
