@@ -37,12 +37,13 @@ void GraphScene::Awake() {
 	camera->clearColor.Set(0.f);
 
 	const unsigned label = entities->Create();
-	entities->GetComponent<Transform>(label)->translation.Set(0.f, -7.5f, 0.f);
+	entities->GetComponent<Transform>(label)->translation.Set(-17.f, -7.5f, 0.f);
 	const auto text = entities->AddComponent<Text>(label);
 	text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
 	text->SetActive(true);
+	text->paragraphAlignment = PARAGRAPH_LEFT;
 	text->scale = 0.5f;
-	text->text = "[Enter] to toggle lines.\nDrag nodes around.\nClick two nodes to connect them.\nClick on an empty area to create a node.\n";
+	text->text = "[Enter] to toggle lines.\nDrag nodes around.\nClick two nodes to connect them.\nClick on an empty area to create a node.\nRight click to select a node to path find from.";
 }
 
 void GraphScene::Update(const float & dt) {
