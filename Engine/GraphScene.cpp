@@ -16,6 +16,7 @@ void GraphScene::Awake() {
 	Scene::Awake();
 
 	selected = nullptr;
+	start = end = nullptr;
 
 	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &GraphScene::CursorPositionHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MOUSE_BUTTON_INPUT", &GraphScene::MouseButtonHandler, this);
@@ -56,9 +57,10 @@ void GraphScene::CreateNode(Node * node) {
 	const auto entity = entities->Create();
 
 	entityNodeMap[entity] = node;
+	node->entity = entity;
 
 	entities->GetComponent<Transform>(entity)->translation = node->position;
-	entities->GetComponent<Transform>(entity)->scale.Set(2.f);
+	//entities->GetComponent<Transform>(entity)->scale.Set(1.f);
 
 	auto render = entities->AddComponent<Render>(entity);
 	render->SetActive(true);
@@ -95,6 +97,9 @@ void GraphScene::CreateEdge(Edge * edge) {
 	//text->scale = 0.5f;
 	//text->text = std::to_string(edge->weight);
 	//text->color.Set(1.f);
+	if (start && end) {
+		graph.PathFind(start, end);
+	}
 }
 
 void GraphScene::CursorPositionHandler(Events::Event * event) {
@@ -102,11 +107,13 @@ void GraphScene::CursorPositionHandler(Events::Event * event) {
 	mouseMoved = true;
 	mousePosition = input->position;
 
+	smPosition = camera->ScreenToWorldSpace(input->position);
+	smPosition.y = -smPosition.y;
+
 	if (mouseDown && selected) {
-		auto position = camera->ScreenToWorldSpace(input->position);
-		position.y = -position.y;
-		selected->translation = position;
-		entityNodeMap[selected->entity]->position = position;
+		selected->translation = smPosition;
+		entityNodeMap[selected->entity]->position = smPosition;
+		graph.PathFind(start, end);
 	}
 }
 
@@ -119,13 +126,31 @@ void GraphScene::MouseButtonHandler(Events::Event * event) {
 			mouseOver = true;
 		}
 	}
+
+	if (input->button == GLFW_MOUSE_BUTTON_RIGHT && input->action == GLFW_RELEASE) {
+		if (start) {
+			if (end) {
+				entities->GetComponent<Render>(start->entity)->tint.Set(1.f);
+				entities->GetComponent<Render>(end->entity)->tint.Set(1.f);
+				start = end = nullptr;
+				graph.ClearPath();
+			} else {
+				end = graph.GetNearestNode(smPosition);
+				entities->GetComponent<Render>(end->entity)->tint.Set(1.f, 1.f, 0.f, 1.f);
+				graph.PathFind(start, end);
+			}
+		} else {
+			start = graph.GetNearestNode(smPosition);
+			entities->GetComponent<Render>(start->entity)->tint.Set(1.f, 1.f, 0.f, 1.f);
+		}
+	}
 }
 
 void GraphScene::OnMouseOverHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(2.25f)
+		vec3f(1.25f)
 	);
 	mouseOver = true;
 }
@@ -134,7 +159,7 @@ void GraphScene::OnMouseOutHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(2.f)
+		vec3f(1.f)
 	);
 	mouseOver = false;
 }
@@ -143,7 +168,7 @@ void GraphScene::OnMouseDownHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(2.f)
+		vec3f(1.f)
 	);
 	
 	mouseDown = true;
@@ -160,7 +185,7 @@ void GraphScene::OnMouseUpHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(2.f)
+		vec3f(1.f)
 	);
 
 	mouseDown = false;

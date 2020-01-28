@@ -40,6 +40,7 @@ int HexGrid::GetMapData(const int & x, const int & y) const {
 }
 
 int HexGrid::GetMapData(const int & index) const {
+	if (index < 0) return -1;
 	return grid[index];
 }
 

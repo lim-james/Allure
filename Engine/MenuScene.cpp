@@ -159,7 +159,6 @@ void MenuScene::PrepareForSegue(Scene * destination) {
 	if (dest) {
 		dest->SetMode(chosenMode);
 		dest->InitializeGame();
-		Console::Warn << "Init\n";
 	}
 }
 

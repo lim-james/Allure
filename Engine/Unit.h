@@ -10,6 +10,7 @@ struct Unit {
 	Transform * transform;
 	float viewRange;
 	float AOE;
+	bool canAttack;
 
 	std::vector<vec2i> path;
 	std::vector<int> vision;

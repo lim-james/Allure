@@ -3,11 +3,15 @@
 // components
 #include "Transform.h"
 #include "Camera.h"
+#include "TeamContainer.h"
 // systems
 #include "RenderSystem.h"
 #include "ButtonSystem.h"
 #include "AnimationSystem.h"
 #include "ParticleSystem.h"
+#include "StateMachine.h"
+// states
+#include "IdleState.h"
 // Utils
 #include "LoadFNT.h"
 #include "InputEvents.h"
@@ -22,11 +26,10 @@ void HexScene::Awake() {
 	Scene::Awake();
 
 	moveDelay = 0.2f;
-	bt = 0.f;
 
 	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &HexScene::KeyHandler, this);
 
-	gridSize = 12;
+	gridSize = 20;
 
 	auto font = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
 
@@ -34,6 +37,9 @@ void HexScene::Awake() {
 	systems->Subscribe<ButtonSystem>(1);
 	systems->Subscribe<AnimationSystem>(2);
 	systems->Subscribe<ParticleSystem>(3);
+	systems->Subscribe<StateMachine>(4);
+
+	systems->Get<StateMachine>()->AttachState<States::Idle>("IDLE");
 
 	const unsigned cam = entities->Create();
 	entities->GetComponent<Transform>(cam)->translation.z = 1.f;
@@ -98,9 +104,15 @@ void HexScene::Update(const float & dt) {
 
 	bt += dt;
 	if (bt > moveDelay) {
-		if (teams[playerTurn].Move(moveDelay, entities)) {
+		auto& team = teams[playerTurn];
+		if (team.Move(moveDelay, entities)) {
 			UpdateVision();
 			bt = 0.f;
+		} else {
+			if (team.IsAI()) {
+				team.MakeMove(entities);
+				bt = 0.f;
+			}
 		}
 	}
 
@@ -115,17 +127,39 @@ void HexScene::Update(const float & dt) {
 }
 
 void HexScene::InitializeGame() {
+	bt = 0.f;
+	spacePressed = false;
+
 	maze->Generate(0, vec2i(5, 5), 0.7f);
 
 	maxMoves = 10;
 	moveCount = 0;
 	turnCount = 0;
 
-	teams[0].SetName("Player");
-	teams[0].SetMaze(maze);
+	if (mode == PVP) {
+		teams[0].SetName("Player");
+		teams[0].SetMaze(maze);
 
-	teams[1].SetName("Player");
-	teams[1].SetMaze(maze);
+		teams[1].SetName("Player");
+		teams[1].SetMaze(maze);
+	} else if (mode == PVE) {
+		teams[0].SetName("Player");
+		teams[0].SetAI(0);
+		teams[0].SetMaze(maze);
+
+		teams[1].SetName("AI");
+		teams[1].SetAI(CreateBrain(&teams[1]));
+		teams[1].SetMaze(maze);
+	} else if (mode == AIvAI) {
+		teams[0].SetName("Player");
+		teams[0].SetAI(CreateBrain(&teams[0]));
+		teams[0].SetMaze(maze);
+
+		teams[1].SetName("AI");
+		teams[1].SetAI(CreateBrain(&teams[1]));
+		teams[1].SetMaze(maze);
+	}
+
 
 	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 1.f, 5.f));
 	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 10.f, 2.f));
@@ -321,28 +355,23 @@ Unit * HexScene::CreateUnit(const int & x, const int & y, const vec4f& color, co
 	unit->transform = transform;
 	unit->viewRange = viewRange;
 	unit->AOE = AOE;
+	unit->canAttack = true;
 
 	return unit;
 }
 
-//HexMouse HexScene::CreateMice(const float & x, const float & y) {
-//	auto entity = entities->Create();
-//
-//	auto transform = entities->GetComponent<Transform>(entity);
-//	transform->translation.Set(x, y, 0.1f);
-//	//transform->scale.Set(0.5f);
-//
-//	auto render = entities->AddComponent<Render>(entity);
-//	render->SetActive(true);
-//	render->tint.Set(0.f, 0.f, 1.f, 1.f);
-//	render->SetTexture("Files/Textures/hex.tga");
-//
-//	HexMouse mice = HexMouse(entities->GetComponent<Transform>(entity));
-//	mice.SetMaze(&maze);
-//	mice.Explore();
-//	UpdateVision(mice);
-//	return mice;
-//}
+unsigned HexScene::CreateBrain(Team * const team) {
+	unsigned brain = entities->Create();
+
+	auto container = entities->AddComponent<StateContainer>(brain);
+	container->SetActive(true);
+	container->queuedState = "IDLE";
+
+	auto teamContainer = entities->AddComponent<TeamContainer>(brain);
+	teamContainer->team = team;
+
+	return brain;
+}
 
 void HexScene::OnMouseOverHandler(unsigned entity) {
 	auto position = entities->GetComponent<Transform>(entity)->translation;
@@ -358,7 +387,7 @@ void HexScene::OnMouseOverHandler(unsigned entity) {
 		if (maze->GetMapData(index) == WALL)
 			return;
 
-		path = team.GetPath(selected->transform->translation, position);
+		path = team.GetPath(selected->transform->translation, position, teams[!playerTurn]);
 		const unsigned movesLeft = max - moveCount;
 		if (path.size() > movesLeft) {
 			path.erase(path.begin() + movesLeft, path.end());
@@ -370,7 +399,8 @@ void HexScene::OnMouseOverHandler(unsigned entity) {
 		} else {
 			UpdateVision();
 			DrawView(selected);
-			DrawAttackArea(position, selected->AOE);
+			if (selected->canAttack) 
+				DrawAttackArea(position, selected->AOE);
 		}
 	}
 }
@@ -407,7 +437,9 @@ void HexScene::OnClick(unsigned entity) {
 
 	if (spacePressed) {
 		if (selected) {
-			if (vfind(selected->vision, index) == selected->vision.end()) return;
+			if (vfind(selected->vision, index) == selected->vision.end() || !selected->canAttack) return;
+
+			selected->canAttack = false;
 			
 			auto& opponent = teams[!playerTurn];
 			auto unit = opponent.GetUnitAt(screenSpace);
@@ -420,10 +452,13 @@ void HexScene::OnClick(unsigned entity) {
 						Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("MENU"));
 					}
 				});
+			} else if (maze->GetMapData(index) <= 0) {
+				maze->SetMapData(index, PATH);
 			}
 			
 			for (float i = 1.f; i < selected->AOE; ++i) {
 				for (auto& tile : maze->GetTilesAtRange(i, screenSpace.xy)) {
+					auto tileIndex = maze->GetMapIndex(maze->ScreenToMapPosition(tile));
 					auto unit = opponent.GetUnitAt(tile);
 					if (unit && opponent.DestroyUnit(unit)) {
 						const unsigned& unitEntity = unit->transform->entity;
@@ -435,9 +470,13 @@ void HexScene::OnClick(unsigned entity) {
 								Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("MENU"));
 							}
 						});
+					} else if (maze->GetMapData(tileIndex) <= 0) {
+						maze->SetMapData(tileIndex, PATH);
 					}
 				}
 			}
+
+			team.Scan(selected, screenSpace.xy);
 		}
 	} else {
 		if (!hovered && selected && !path.empty()) {
@@ -499,6 +538,10 @@ unsigned HexScene::GetCurrentMaxMoves() const {
 void HexScene::EndTurn() {
 	highlightText->text = "";
 	playerTurn = !playerTurn;
+	for (auto& unit : teams[playerTurn].GetUnits()) {
+		unit->canAttack = true;
+	}
+
 	moveCount = 0;
 	++turnCount;
 	UpdateVision();
@@ -511,6 +554,10 @@ void HexScene::PrepareForSegue(Scene * destination) {
 			team.DestroyUnits([this](unsigned entity) { 
 				entities->Destroy(entity);
 			});
+
+			if (team.IsAI()) {
+				entities->Destroy(team.GetAI());
+			}
 		}
 		dest->SetTitle(winner + " won!");
 	}

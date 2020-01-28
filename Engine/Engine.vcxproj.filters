@@ -67,11 +67,11 @@
     <Filter Include="Application\Input">
       <UniqueIdentifier>{668cf806-6830-4f9b-82cd-e18f59c60868}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Scenes\Hex\States">
+      <UniqueIdentifier>{5b929a04-07de-4b4e-8950-5c3de8d6c7bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Application</Filter>
     </ClCompile>
@@ -221,6 +221,18 @@
     </ClCompile>
     <ClCompile Include="DNode.cpp">
       <Filter>Application\Scenes\AStar</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleState.cpp">
+      <Filter>Application\Scenes\Hex\States</Filter>
+    </ClCompile>
+    <ClCompile Include="ExploreState.cpp">
+      <Filter>Application\Scenes\Hex\States</Filter>
+    </ClCompile>
+    <ClCompile Include="TeamContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Application\Scenes\Hex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +403,15 @@
     </ClInclude>
     <ClInclude Include="DNode.h">
       <Filter>Application\Scenes\AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleState.h">
+      <Filter>Application\Scenes\Hex\States</Filter>
+    </ClInclude>
+    <ClInclude Include="ExploreState.h">
+      <Filter>Application\Scenes\Hex\States</Filter>
+    </ClInclude>
+    <ClInclude Include="TeamContainer.h">
+      <Filter>Application\Scenes\Hex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

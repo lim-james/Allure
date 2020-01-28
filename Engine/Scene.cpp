@@ -31,9 +31,7 @@ void Scene::Reset() {
 	systems->Start();
 }
 
-void Scene::Start() {
-	Console::Warn << "Start\n";
-}
+void Scene::Start() { }
 
 void Scene::FixedUpdate(const float& dt) {
 

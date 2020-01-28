@@ -16,10 +16,13 @@ class GraphScene : public Scene {
 	Camera* camera;
 
 	vec2f mousePosition;
+	vec2f smPosition; // screenspace mouse position
 	bool mouseOver, mouseMoved, mouseDown;
 	Transform* selected;
 
 	std::map<unsigned, Node*> entityNodeMap;
+
+	Node *start, *end;
 
 public:
 

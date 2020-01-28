@@ -2,12 +2,26 @@
 
 #include "HexMaze.h"
 #include "Animation.h"
+#include "StateContainer.h"
 
 #include <Helpers/VectorHelpers.h>
+#include <Events/EventsManager.h>
 
 Team::Team() 
 	: maze(nullptr)
-	, selected(nullptr) {}
+	, selected(nullptr) { }
+
+void Team::SetAI(const unsigned & id) {
+	ai = id;
+}
+
+unsigned Team::GetAI() const {
+	return ai;
+}
+
+bool Team::IsAI() const {
+	return ai;
+}
 
 void Team::SetName(const std::string & _name) {
 	name = _name;
@@ -40,7 +54,7 @@ bool Team::InSight(const vec2f & screenPosition) const {
 
 void Team::AddUnit(Unit * const unit) {
 	units.push_back(unit);
-	Scan(unit);
+	Scan(unit, unit->transform->translation.xy);
 }
 
 const std::vector<Unit*>& Team::GetUnits() const {
@@ -98,6 +112,7 @@ bool Team::DestroyUnit(Unit * const unit) {
 }
 
 void Team::DestroyUnits(const std::function<void(unsigned)>& completion) {
+	selected = nullptr;
 	for (auto& unit : units) {
 		completion(unit->transform->entity);
 		delete unit;
@@ -105,7 +120,7 @@ void Team::DestroyUnits(const std::function<void(unsigned)>& completion) {
 	units.clear();
 }
 
-std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end) const {
+std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end, const Team& enemy) const {
 	const auto position = maze->ScreenToMapPosition(start);
 	const auto target = maze->ScreenToMapPosition(end);
 
@@ -120,6 +135,18 @@ std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end) const {
 
 	opened.push_back(current);
 
+	std::map<int, Unit*> unitIndexes;
+
+	for (auto& u : units) {
+		auto map = maze->ScreenToMapPosition(u->transform->translation);
+		unitIndexes[maze->GetMapIndex(map)] = u;
+	}
+
+	for (auto& u : enemy.units) {
+		auto map = maze->ScreenToMapPosition(u->transform->translation);
+		unitIndexes[maze->GetMapIndex(map)] = u;
+	}
+
 	while (!opened.empty()) {
 		DNode* best = opened.front();
 		opened.erase(opened.begin());
@@ -132,8 +159,9 @@ std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end) const {
 
 		for (auto& dir : maze->directions) {
 			const vec2i pos = maze->ScreenToMapPosition(dir + screenPosition);
+			const int index = maze->GetMapIndex(pos);
 
-			if (maze->GetMapData(pos) <= 0 || !vision[maze->GetMapIndex(pos)]) continue;
+			if (maze->GetMapData(pos) <= 0 || !vision[index] || unitIndexes[index]) continue;
 
 			bool found = false;
 			for (auto& node : closed) {
@@ -177,7 +205,7 @@ std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end) const {
 				}
 
 				if (i == opened.size()) {
-					opened.insert(opened.begin() + i, neighbour);
+					//opened.insert(opened.begin() + i, neighbour);
 					opened.push_back(neighbour);
 				}
 			}
@@ -202,13 +230,14 @@ bool Team::Move(const float& dt, EntityManager * const entities) {
 
 	for (auto& unit : units) {
 		if (!unit->path.empty()) {
+			const vec2f position = maze->MapToScreenPosition(unit->path.front());
 			entities->GetComponent<Animation>(unit->transform->entity)->Animate(
 				AnimationBase(false, dt * 0.9f),
 				unit->transform->translation.xy,
-				maze->MapToScreenPosition(unit->path.front())
+				position	
 			);
+			Scan(unit, position);
 			unit->path.erase(unit->path.begin());
-			Scan(unit);
 			moved = true;
 		}
 	}
@@ -216,12 +245,10 @@ bool Team::Move(const float& dt, EntityManager * const entities) {
 	return moved;
 }
 
-void Team::Scan(Unit * const unit) {
+void Team::Scan(Unit * const unit, const vec2f& position) {
 	bool deadend = true;
 
 	unit->vision.clear();
-
-	const vec2f& position = unit->transform->translation.xy;
 
 	const auto outerPositions = maze->GetTilesAtRange(unit->viewRange, position);
 	for (auto& pos : outerPositions) {
@@ -261,4 +288,9 @@ void Team::Scan(Unit * const unit) {
 
 	//if (deadend)
 	//	queuedPositions.pop();
+}
+
+void Team::MakeMove(EntityManager * const entities) {
+	Console::Warn << "Make move\n";
+	entities->GetComponent<StateContainer>(ai)->queuedState = "ROAM";
 }

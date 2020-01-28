@@ -9,6 +9,7 @@
 
 class Team {
 
+	unsigned ai;
 	std::string name;
 
 	HexGrid* maze;
@@ -23,6 +24,10 @@ class Team {
 public:
 
 	Team();
+
+	void SetAI(const unsigned& id);
+	unsigned GetAI() const;
+	bool IsAI() const;
 
 	void SetName(const std::string& _name);
 	const std::string& GetName() const;
@@ -47,13 +52,12 @@ public:
 	bool DestroyUnit(Unit * const unit);
 	void DestroyUnits(const std::function<void(unsigned)>& completion);
 
-	std::vector<vec2i> GetPath(const vec2f& start, const vec2f& end) const;
+	std::vector<vec2i> GetPath(const vec2f& start, const vec2f& end, const Team& enemy) const;
 
 	bool Move(const float& dt, EntityManager * const entities);
+	void Scan(Unit * const unit, const vec2f& position);
 
-private:
-
-	void Scan(Unit * const unit);
+	void MakeMove(EntityManager * const entities);
 
 };
 

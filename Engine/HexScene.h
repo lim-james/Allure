@@ -71,6 +71,8 @@ private:
 
 	unsigned CreateTile(const int& x, const int& y);
 	Unit * CreateUnit(const int& x, const int& y, const vec4f& color, const float& viewRange, const float& AOE);
+
+	unsigned CreateBrain(Team * const team);
 	//HexMouse CreateMice(const float& x, const float& y);
 
 	void OnMouseOverHandler(unsigned entity);
