@@ -234,6 +234,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Application\Scenes\Hex</Filter>
     </ClCompile>
+    <ClCompile Include="AttackState.cpp">
+      <Filter>Application\Scenes\Hex\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -412,6 +415,9 @@
     </ClInclude>
     <ClInclude Include="TeamContainer.h">
       <Filter>Application\Scenes\Hex</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackState.h">
+      <Filter>Application\Scenes\Hex\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

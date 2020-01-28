@@ -140,6 +140,7 @@
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AStarScene.cpp" />
+    <ClCompile Include="AttackState.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="AStarScene.h" />
+    <ClInclude Include="AttackState.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonSystem.h" />
     <ClInclude Include="Camera.h" />

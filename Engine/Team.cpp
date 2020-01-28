@@ -11,6 +11,10 @@ Team::Team()
 	: maze(nullptr)
 	, selected(nullptr) { }
 
+void Team::SetOpponent(Team * const _opponent) {
+	opponent = _opponent;
+}
+
 void Team::SetAI(const unsigned & id) {
 	ai = id;
 }
@@ -37,6 +41,14 @@ void Team::SetMaze(HexGrid * const _maze) {
 	maze = _maze;
 }
 
+HexGrid * const Team::GetMaze() const {
+	return maze;
+}
+
+std::stack<vec2i>& Team::GetQueuedPositions() {
+	return queuedPositions;
+}
+
 void Team::SetVision(const unsigned & size) {
 	vision.resize(size * size, false);
 	visited.resize(size * size, false);
@@ -44,6 +56,42 @@ void Team::SetVision(const unsigned & size) {
 
 const std::vector<bool>& Team::GetVision() const {
 	return vision;
+}
+
+void Team::UpdateVision() {
+	opponentUnits.clear();
+
+	for (auto& self : units) {
+		self->visibleUnits.clear();
+		for (auto& unit : opponent->GetUnits()) {
+			const auto mapPosition = maze->ScreenToMapPosition(unit->transform->translation.xy);
+			const auto index = maze->GetMapIndex(mapPosition);
+
+			if (vision[index]) {
+				opponentUnits[index] = unit;
+			}
+
+			if (self->vision[index]) {
+				self->visibleUnits[index] = unit;
+			}
+		}
+	}
+}
+
+Unit * const Team::GetOpponentUnit(const unsigned & index) {
+	return opponentUnits.find(index) == opponentUnits.end() ? nullptr : opponentUnits[index];
+}
+
+std::map<unsigned, Unit*>& Team::GetOpponentUnits() {
+	return opponentUnits;
+}
+
+bool Team::IsVisited(const unsigned & index) const {
+	return visited[index];
+}
+
+void Team::SetVisited(const unsigned & index, const bool & visibility) {
+	visited[index] = visibility;
 }
 
 bool Team::InSight(const vec2f & screenPosition) const {
@@ -86,6 +134,11 @@ bool Team::SelectUnit(const unsigned & entity) {
 	return false;
 }
 
+bool Team::SelectUnit(Unit * const unit) {
+	selected = unit;
+	return true;
+}
+
 Unit * const Team::GetSelectedUnit() const {
 	return selected;
 }
@@ -120,7 +173,7 @@ void Team::DestroyUnits(const std::function<void(unsigned)>& completion) {
 	units.clear();
 }
 
-std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end, const Team& enemy) const {
+std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end) const {
 	const auto position = maze->ScreenToMapPosition(start);
 	const auto target = maze->ScreenToMapPosition(end);
 
@@ -142,7 +195,7 @@ std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end, const T
 		unitIndexes[maze->GetMapIndex(map)] = u;
 	}
 
-	for (auto& u : enemy.units) {
+	for (auto& u : opponent->units) {
 		auto map = maze->ScreenToMapPosition(u->transform->translation);
 		unitIndexes[maze->GetMapIndex(map)] = u;
 	}
@@ -216,6 +269,9 @@ std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end, const T
 
 	auto last = closed.back();
 	while (last) {
+		if (!last->previous)
+			break;
+
 		for (int i = 0; i < maze->GetMapData(maze->GetMapIndex(last->position)); ++i) {
 			path.insert(path.begin(), last->position);
 		}
@@ -225,8 +281,8 @@ std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end, const T
 	return path;
 }
 
-bool Team::Move(const float& dt, EntityManager * const entities) {
-	bool moved = false;
+unsigned Team::Move(const float& dt, EntityManager * const entities) {
+	unsigned steps = 0;
 
 	for (auto& unit : units) {
 		if (!unit->path.empty()) {
@@ -238,11 +294,11 @@ bool Team::Move(const float& dt, EntityManager * const entities) {
 			);
 			Scan(unit, position);
 			unit->path.erase(unit->path.begin());
-			moved = true;
+			++steps;
 		}
 	}
 
-	return moved;
+	return steps;
 }
 
 void Team::Scan(Unit * const unit, const vec2f& position) {
@@ -262,6 +318,8 @@ void Team::Scan(Unit * const unit, const vec2f& position) {
 
 			unit->vision.push_back(index);
 			vision[index] = true;
+			if (GetOpponentUnit(index))
+				unit->visibleUnits[index] = unit;
 
 			if (maze->GetMapData(index) == WALL) break;
 		}
@@ -291,6 +349,6 @@ void Team::Scan(Unit * const unit, const vec2f& position) {
 }
 
 void Team::MakeMove(EntityManager * const entities) {
-	Console::Warn << "Make move\n";
-	entities->GetComponent<StateContainer>(ai)->queuedState = "ROAM";
+	//entities->GetComponent<StateContainer>(ai)->queuedState = targetState;
+	entities->GetComponent<StateContainer>(ai)->queuedState = "IDLE";
 }

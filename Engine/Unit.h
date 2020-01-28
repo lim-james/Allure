@@ -4,6 +4,7 @@
 #include "Transform.h"
 
 #include <vector>
+#include <map>
 
 struct Unit {
 
@@ -14,6 +15,7 @@ struct Unit {
 
 	std::vector<vec2i> path;
 	std::vector<int> vision;
+	std::map<unsigned, Unit*> visibleUnits;
 
 };
 
