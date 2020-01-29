@@ -33,9 +33,11 @@ void States::Explore::Update(const unsigned & target, const float & dt, EntityMa
 void States::Explore::Exit(const unsigned & target, EntityManager * const entities) {
 	auto team = entities->GetComponent<TeamContainer>(target)->team;
 	auto scout = team->GetSelectedUnit();
-	auto maze = team->GetMaze();
-	auto position = scout->transform->translation.xy;
-	auto mapPosition = maze->ScreenToMapPosition(position);
+	if (scout) {
+		auto maze = team->GetMaze();
+		auto position = scout->transform->translation.xy;
+		auto mapPosition = maze->ScreenToMapPosition(position);
+	}
 
 	//Console::Warn << team->GetQueuedPositions().top() << '\n';
 	//Print(team->GetQueuedPositions());

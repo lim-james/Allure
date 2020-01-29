@@ -71,7 +71,7 @@ void Team::UpdateVision() {
 				opponentUnits[index] = unit;
 			}
 
-			if (self->vision[index]) {
+			if (Helpers::Contains(self->vision, index)) {
 				self->visibleUnits[index] = unit;
 			}
 		}

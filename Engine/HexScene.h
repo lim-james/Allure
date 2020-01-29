@@ -75,6 +75,8 @@ private:
 	unsigned CreateBrain(Team * const team);
 	//HexMouse CreateMice(const float& x, const float& y);
 
+	void Attack(Team * const team, const vec3f& position);
+
 	void OnMouseOverHandler(unsigned entity);
 	void OnMouseOutHandler(unsigned entity);
 	void OnMouseDownHandler(unsigned entity);

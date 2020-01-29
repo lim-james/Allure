@@ -14,6 +14,9 @@ namespace Helpers {
 	template<typename T>
 	bool Remove(std::vector<T>& v, const T& item);
 
+	template<typename T>
+	inline bool Contains(std::vector<T>& v, const T& item);
+
 }
 
 template<typename T>
@@ -62,6 +65,11 @@ bool Helpers::Remove(std::vector<T>& v, const T& item) {
 	}
 
 	return false;
+}
+
+template<typename T>
+inline bool Helpers::Contains(std::vector<T>& v, const T& item) {
+	return std::find(v.begin(), v.end(), item) != v.end();
 }
 
 #endif

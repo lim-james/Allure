@@ -15,7 +15,6 @@ void States::Attack::Enter(const unsigned & target, EntityManager * const entiti
 			list.push_back(unit);
 		}
 	}
-
 }
 
 void States::Attack::Update(const unsigned & target, const float & dt, EntityManager * const entities) {
@@ -23,6 +22,7 @@ void States::Attack::Update(const unsigned & target, const float & dt, EntityMan
 	if (team->GetOpponentUnits().empty()) {
 		entities->GetComponent<StateContainer>(target)->queuedState = "EXPLORE";
 	}
+	Console::Warn << "Attacking\n";
 }
 
 void States::Attack::Exit(const unsigned & target, EntityManager * const entities) {

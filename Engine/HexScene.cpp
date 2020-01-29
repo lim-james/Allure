@@ -388,6 +388,55 @@ unsigned HexScene::CreateBrain(Team * const team) {
 	return brain;
 }
 
+void HexScene::Attack(Team * const team, const vec3f& position) {
+	const vec2i mapPosition = maze->ScreenToMapPosition(position.xy);
+	const int index = maze->GetMapIndex(mapPosition);
+
+	auto selected = team->GetSelectedUnit();
+	if (selected) {
+		if (vfind(selected->vision, index) == selected->vision.end() || !selected->canAttack) return;
+		selected->canAttack = false;
+
+		auto& opponent = teams[!playerTurn];
+		auto unit = opponent.GetUnitAt(position);
+		if (unit && opponent.DestroyUnit(unit)) {
+			const unsigned& unitEntity = unit->transform->entity;
+			entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, team, &opponent, unitEntity]() {
+				entities->Destroy(unitEntity);
+				if (opponent.IsDead()) {
+					winner = team->GetName();
+					Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("MENU"));
+				}
+			});
+		} else if (maze->GetMapData(index) <= 0) {
+			maze->SetMapData(index, PATH);
+		}
+
+		for (float i = 1.f; i < selected->AOE; ++i) {
+			for (auto& tile : maze->GetTilesAtRange(i, position.xy)) {
+				auto tileIndex = maze->GetMapIndex(maze->ScreenToMapPosition(tile));
+				auto unit = opponent.GetUnitAt(tile);
+				if (unit && opponent.DestroyUnit(unit)) {
+					const unsigned& unitEntity = unit->transform->entity;
+					entities->GetComponent<Render>(unitEntity)->tint.a = 0.f;
+					entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, team, &opponent, unitEntity]() {
+						entities->Destroy(unitEntity);
+						if (opponent.IsDead()) {
+							winner = team->GetName();
+							Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("MENU"));
+						}
+					});
+				} else if (maze->GetMapData(tileIndex) <= 0) {
+					maze->SetMapData(tileIndex, PATH);
+				}
+			}
+		}
+
+		team->Scan(selected, position.xy);
+		UpdateVision();
+	}
+}
+
 void HexScene::OnMouseOverHandler(unsigned entity) {
 	auto position = entities->GetComponent<Transform>(entity)->translation;
 	highlight->translation = position;
@@ -448,52 +497,12 @@ void HexScene::OnClick(unsigned entity) {
 	if (index < 0) return;
 
 	auto& team = teams[playerTurn];
-	auto selected = team.GetSelectedUnit();
 
 	if (spacePressed) {
-		if (selected) {
-			if (vfind(selected->vision, index) == selected->vision.end() || !selected->canAttack) return;
-
-			selected->canAttack = false;
-			
-			auto& opponent = teams[!playerTurn];
-			auto unit = opponent.GetUnitAt(screenSpace);
-			if (unit && opponent.DestroyUnit(unit)) {
-				const unsigned& unitEntity = unit->transform->entity;
-				entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, &team, &opponent,	unitEntity]() {
-					entities->Destroy(unitEntity);
-					if (opponent.IsDead()) {
-						winner = team.GetName();
-						Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("MENU"));
-					}
-				});
-			} else if (maze->GetMapData(index) <= 0) {
-				maze->SetMapData(index, PATH);
-			}
-			
-			for (float i = 1.f; i < selected->AOE; ++i) {
-				for (auto& tile : maze->GetTilesAtRange(i, screenSpace.xy)) {
-					auto tileIndex = maze->GetMapIndex(maze->ScreenToMapPosition(tile));
-					auto unit = opponent.GetUnitAt(tile);
-					if (unit && opponent.DestroyUnit(unit)) {
-						const unsigned& unitEntity = unit->transform->entity;
-						entities->GetComponent<Render>(unitEntity)->tint.a = 0.f;
-						entities->GetComponent<ParticleEmitter>(unitEntity)->Play([this, &team, &opponent, unitEntity]() {
-							entities->Destroy(unitEntity);
-							if (opponent.IsDead()) {
-								winner = team.GetName();
-								Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("MENU"));
-							}
-						});
-					} else if (maze->GetMapData(tileIndex) <= 0) {
-						maze->SetMapData(tileIndex, PATH);
-					}
-				}
-			}
-
-			team.Scan(selected, screenSpace.xy);
-		}
+		Attack(&team, screenSpace);
 	} else {
+		auto selected = team.GetSelectedUnit();
+
 		if (!hovered && selected && !path.empty()) {
 			selected->path = path;
 			path.clear();
