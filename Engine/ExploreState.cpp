@@ -4,69 +4,83 @@
 #include "TeamContainer.h"
 #include "HexMaze.h"
 
+#include <Math/Random.hpp>
+
 void States::Explore::Enter(const unsigned & target, EntityManager * const entities) {
+
 	auto team = entities->GetComponent<TeamContainer>(target)->team;
-	auto& positions = team->GetQueuedPositions();
 
-	Unit* scout = nullptr;
+	// check if there are any positions
 	for (auto& unit : team->GetUnits()) {
-		if (scout) {
-			if (unit->viewRange > scout->viewRange)
-				scout = unit;
-		} else {
-			scout = unit;
+		if (unit->queuedPositions.empty()) {
+			unit->chasing = false;
+			std::fill(unit->visited.begin(), unit->visited.end(), false);
+			unit->queuedPositions.push(team->GetMaze()->ScreenToMapPosition(unit->transform->translation));
 		}
-	}
-
-	team->SelectUnit(scout);
-	auto maze = team->GetMaze();
-
-	if (positions.empty()) {
-		positions.push(maze->ScreenToMapPosition(scout->transform->translation));
-	} else {
-
 	}
 }
 
 void States::Explore::Update(const unsigned & target, const float & dt, EntityManager * const entities) { }
 
 void States::Explore::Exit(const unsigned & target, EntityManager * const entities) {
-	auto team = entities->GetComponent<TeamContainer>(target)->team;
-	auto scout = team->GetSelectedUnit();
-	if (scout) {
-		auto maze = team->GetMaze();
-		auto position = scout->transform->translation.xy;
-		auto mapPosition = maze->ScreenToMapPosition(position);
-	}
 
+	auto team = entities->GetComponent<TeamContainer>(target)->team;
+	auto maze = team->GetMaze();
+
+	// DFS
+	for (auto& unit : team->GetUnits()) {
+
+		auto position = unit->transform->translation.xy;
+		auto mapPosition = maze->ScreenToMapPosition(position);
+
+		Scan(team, unit);
+		if (unit->queuedPositions.size()) {
+			const auto target = unit->queuedPositions.top();
+			unit->path = { target };
+		}
+	}
 	//Console::Warn << team->GetQueuedPositions().top() << '\n';
 	//Print(team->GetQueuedPositions());
 
-	Scan(team);
-	if (!team->GetQueuedPositions().empty())
-		scout->path = { team->GetQueuedPositions().top() };
 
 	if (team->GetOpponentUnits().size()) {
 		entities->GetComponent<StateContainer>(target)->queuedState = "ATTACK";
 	}
 }
 
-void States::Explore::Scan(Team * const team) {
+void States::Explore::Scan(Team * const team, Unit * const unit) {
 	bool deadend = true;
 
-	auto& positions = team->GetQueuedPositions();
+	auto& positions = unit->queuedPositions;
 	auto maze = team->GetMaze();
-	auto scout = team->GetSelectedUnit();
 
-	for (auto& dir : maze->directions) {
-		const auto test = maze->ScreenToMapPosition(scout->transform->translation.xy);
-		const auto newPosition = maze->ScreenToMapPosition(scout->transform->translation.xy + dir);
+	std::map<int, Unit*> selfUnits;
+	for (auto& unit : team->GetUnits()) {
+		const auto mapPosition = maze->ScreenToMapPosition(unit->transform->translation);
+		const auto index = maze->GetMapIndex(mapPosition);
+		selfUnits[index] = unit;
+	}
+
+	std::vector<unsigned> choices;
+	choices.resize(6, 0);
+	for (unsigned i = 0; i < 6; ++i) {
+		choices[i] = i;
+	}
+
+	// check dirs
+	while (choices.size()) {
+		const unsigned i = Math::RandMinMax((unsigned)0, choices.size());
+
+		auto dir = maze->directions[choices[i]];
+		choices.erase(choices.begin() + i);
+		// map pos
+		const auto newPosition = maze->ScreenToMapPosition(unit->transform->translation.xy + dir);
 		const int index = maze->GetMapIndex(newPosition);
-		//Scan(curr + dir);
 
-		if (index < 0 || team->IsVisited(index)) continue;
+		if (index < 0 || unit->visited[index] || team->GetOpponentUnit(index) || selfUnits[index]) continue;
 
-		team->SetVisited(index, true);
+		unit->visited[index] = true;
+
 		if (maze->GetMapData(index) == WALL) {
 			continue;
 		}
@@ -76,7 +90,6 @@ void States::Explore::Scan(Team * const team) {
 		deadend = false;
 		break;
 	}
-
 
 	if (deadend) {
 		positions.pop();

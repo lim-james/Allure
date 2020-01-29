@@ -31,6 +31,19 @@ void HexMaze::Generate(const unsigned& seed, const vec2i & start, const float & 
 			++i;
 		}
 	}
+
+	for (int x = 0; x < 3; ++x) {
+		for (int y = 0; y < 3; ++y) {
+			int index = GetMapIndex(vec2i(x, y));
+			if (grid[index] == WALL)
+				grid[index] = MUD;
+
+			index = GetMapIndex(vec2i(size - x - 1, size - y - 1));
+			if (grid[index] == WALL)
+				grid[index] = MUD;
+		}
+	}
+
 }
 
 void HexMaze::Update() {

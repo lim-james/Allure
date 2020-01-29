@@ -19,13 +19,11 @@ class Team {
 
 	HexGrid* maze;
 
-	std::stack<vec2i> queuedPositions;
-
 	//HexGrid* vision;
 	std::vector<bool> vision;
-	std::vector<bool> visited;
 
 	std::vector<Unit*> units;
+
 	Unit* selected;
 
 public:
@@ -44,17 +42,12 @@ public:
 	void SetMaze(HexGrid * const _maze);
 	HexGrid * const GetMaze() const;
 
-	std::stack<vec2i>& GetQueuedPositions();
-
 	void SetVision(const unsigned& size);
 	const std::vector<bool>& GetVision() const;
 
 	void UpdateVision();
 	Unit * const GetOpponentUnit(const unsigned& index);
 	std::map<unsigned, Unit*>& GetOpponentUnits();
-
-	bool IsVisited(const unsigned& index) const;
-	void SetVisited(const unsigned& index, const bool& visibility);
 
 	bool InSight(const vec2f& screenPosition) const;
 

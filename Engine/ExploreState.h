@@ -14,7 +14,8 @@ namespace States {
 
 	private:
 
-		void Scan(Team * const team);
+		std::map<int, Unit*> GetUnitMap(Team * const team);
+		void Scan(Team * const team, Unit * const unit);
 
 	};
 

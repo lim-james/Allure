@@ -18,5 +18,4 @@ void States::Idle::Update(const unsigned& target, const float& dt, EntityManager
 }
 
 void States::Idle::Exit(const unsigned& target, EntityManager * const entities) {
-
 }

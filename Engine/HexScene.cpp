@@ -30,6 +30,7 @@ void HexScene::Awake() {
 	moveDelay = 0.2f;
 
 	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &HexScene::KeyHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("ATTACK", &HexScene::AttackHandler, this);
 
 	gridSize = 12;
 
@@ -113,6 +114,9 @@ void HexScene::Update(const float & dt) {
 			const unsigned steps = team.Move(moveDelay, entities);
 			if (steps > 0) {
 				UpdateVision();
+				if (team.IsAI() && team.GetSelectedUnit()) {
+					DrawView(team.GetSelectedUnit());
+				}
 				bt = 0.f;
 
 				moveCount += steps;
@@ -129,6 +133,7 @@ void HexScene::Update(const float & dt) {
 			if (team.IsAI()) {
 				entities->GetComponent<StateContainer>(team.GetAI())->queuedState = "IDLE";
 				bt = 0.f;
+				EndTurn();
 			}
 		}
 	}
@@ -149,7 +154,7 @@ void HexScene::InitializeGame() {
 
 	maze->Generate(0, vec2i(5, 5), 0.7f);
 
-	maxMoves = 10;
+	maxMoves = 5;
 	moveCount = 0;
 	turnCount = 0;
 
@@ -177,10 +182,14 @@ void HexScene::InitializeGame() {
 		teams[1].SetAI(CreateBrain(&teams[1]));
 	}
 
-	teams[0].AddUnit(CreateUnit(1, 1, vec4f(1.f, 1.f, 0.f, 1.f), 1.f, 5.f));
-	teams[0].AddUnit(CreateUnit(3, 3, vec4f(1.f, 1.f, 0.f, 1.f), 10.f, 2.f));
-	teams[1].AddUnit(CreateUnit(10, 10, vec4f(0.f, 1.f, 1.f, 1.f), 1.f, 0.f));
-	teams[1].AddUnit(CreateUnit(9, 9, vec4f(0.f, 1.f, 1.f, 1.f), 4.f, 0.f));
+	float range = 1.f;
+	for (int x = 0; x < 2; ++x) {
+		for (int y = 0; y < 2; ++y) {
+			teams[0].AddUnit(CreateUnit(x, y, vec4f(1.f, 1.f, 0.f, 1.f), range, range));
+			teams[1].AddUnit(CreateUnit(gridSize - 1 - x, gridSize - 1 - y, vec4f(0.f, 1.f, 1.f, 1.f), range, range));
+			++range;
+		}
+	}
 
 	playerTurn = false;
 	UpdateVision();
@@ -193,7 +202,7 @@ void HexScene::SetMode(const unsigned & _mode) {
 void HexScene::KeyHandler(Events::Event * event) {
 	Events::KeyInput* input = static_cast<Events::KeyInput*>(event);
 
-	if (input->key == GLFW_KEY_SPACE) {
+	if (input->key == GLFW_KEY_SPACE && !teams[playerTurn].IsAI()) {
 		if (input->action == GLFW_PRESS) {
 			spacePressed = true;
 			auto selected = teams[playerTurn].GetSelectedUnit();
@@ -388,6 +397,11 @@ unsigned HexScene::CreateBrain(Team * const team) {
 	return brain;
 }
 
+void HexScene::AttackHandler(Events::Event * event) {
+	auto attack = static_cast<Events::Attack*>(event);
+	Attack(attack->team, attack->position);
+}
+
 void HexScene::Attack(Team * const team, const vec3f& position) {
 	const vec2i mapPosition = maze->ScreenToMapPosition(position.xy);
 	const int index = maze->GetMapIndex(mapPosition);
@@ -445,7 +459,7 @@ void HexScene::OnMouseOverHandler(unsigned entity) {
 	auto selected = team.GetSelectedUnit();
 	const auto max = GetCurrentMaxMoves();
 
-	if (selected && team.InSight(position)) {
+	if (selected && team.InSight(position) && !team.IsAI()) {
 		auto index = maze->GetMapIndex(maze->ScreenToMapPosition(position));
 
 		if (maze->GetMapData(index) == WALL)
@@ -555,7 +569,7 @@ void HexScene::SelectUnitHandler(unsigned entity) {
 }
 
 unsigned HexScene::GetCurrentMaxMoves() const {
-	return maxMoves * (turnCount / 2 + 1);
+	return maxMoves + turnCount;
 }
 
 void HexScene::EndTurn() {

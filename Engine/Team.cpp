@@ -37,7 +37,6 @@ const std::string& Team::GetName() const {
 
 void Team::SetMaze(HexGrid * const _maze) {
 	std::fill(vision.begin(), vision.end(), false);
-	std::fill(visited.begin(), visited.end(), false);
 	maze = _maze;
 }
 
@@ -45,13 +44,8 @@ HexGrid * const Team::GetMaze() const {
 	return maze;
 }
 
-std::stack<vec2i>& Team::GetQueuedPositions() {
-	return queuedPositions;
-}
-
 void Team::SetVision(const unsigned & size) {
 	vision.resize(size * size, false);
-	visited.resize(size * size, false);
 }
 
 const std::vector<bool>& Team::GetVision() const {
@@ -86,14 +80,6 @@ std::map<unsigned, Unit*>& Team::GetOpponentUnits() {
 	return opponentUnits;
 }
 
-bool Team::IsVisited(const unsigned & index) const {
-	return visited[index];
-}
-
-void Team::SetVisited(const unsigned & index, const bool & visibility) {
-	visited[index] = visibility;
-}
-
 bool Team::InSight(const vec2f & screenPosition) const {
 	const auto map = maze->ScreenToMapPosition(screenPosition);
 	const auto index = maze->GetMapIndex(map);
@@ -102,6 +88,7 @@ bool Team::InSight(const vec2f & screenPosition) const {
 
 void Team::AddUnit(Unit * const unit) {
 	units.push_back(unit);
+	unit->visited.resize(vision.size(), false);
 	Scan(unit, unit->transform->translation.xy);
 }
 
@@ -210,11 +197,20 @@ std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end) const {
 
 		const vec2f screenPosition = maze->MapToScreenPosition(best->position);
 
+		bool reached = false;
+
 		for (auto& dir : maze->directions) {
 			const vec2i pos = maze->ScreenToMapPosition(dir + screenPosition);
 			const int index = maze->GetMapIndex(pos);
 
-			if (maze->GetMapData(pos) <= 0 || !vision[index] || unitIndexes[index]) continue;
+			if (maze->GetMapData(pos) <= 0 || !vision[index] || unitIndexes[index]) {
+				if (pos == target) {
+					reached = true;
+					break;
+				} else {
+					continue;
+				}
+			}
 
 			bool found = false;
 			for (auto& node : closed) {
@@ -263,6 +259,8 @@ std::vector<vec2i> Team::GetPath(const vec2f & start, const vec2f & end) const {
 				}
 			}
 		}
+
+		if (reached) break;
 	}
 
 	std::vector<vec2i> path;

@@ -3,6 +3,25 @@
 
 #include "State.h"
 
+#include "Team.h"
+
+#include <Math/Vectors.hpp>
+#include <Events/Event.h>
+
+namespace Events {
+
+	struct Attack : Event {
+		Team * const team;
+		const vec3f position;
+
+		Attack(Team * const team, const vec3f& position)
+			: team(team)
+			, position(position) {}	
+	};
+
+}
+
+
 namespace States {
 	
 	struct Attack : State {
