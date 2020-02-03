@@ -92,6 +92,7 @@ void RenderSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("RENDER_ACTIVE", &RenderSystem::RenderActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("TEXTURE_CHANGE", &RenderSystem::TextureChangeHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("DRAW_LINE", &RenderSystem::DrawLineHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("TEXT_ACTIVE", &RenderSystem::TextActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("TEXT_FONT", &RenderSystem::TextFontHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &RenderSystem::ResizeHandler, this);

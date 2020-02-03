@@ -11,6 +11,8 @@
 
 class GraphScene : public Scene {
 
+	float bt;
+
 	Graph graph;
 
 	Camera* camera;

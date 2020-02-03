@@ -52,6 +52,12 @@ void GraphScene::Update(const float & dt) {
 
 	if (!mouseDown)
 		mouseMoved = false;
+
+	bt += dt;
+	if (bt > 0.2f) {
+		graph.Explore();
+		bt = 0.f;
+	}
 }
 
 void GraphScene::CreateNode(Node * node) {
@@ -114,7 +120,8 @@ void GraphScene::CursorPositionHandler(Events::Event * event) {
 	if (mouseDown && selected) {
 		selected->translation = smPosition;
 		entityNodeMap[selected->entity]->position = smPosition;
-		graph.PathFind(start, end);
+		if (start && end)
+			graph.PathFind(start, end);
 	}
 }
 

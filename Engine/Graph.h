@@ -5,6 +5,8 @@
 #include "Edge.h"
 
 #include <vector>
+#include <map>
+#include <stack>
 #include <functional>
 
 struct GNode {
@@ -21,7 +23,10 @@ class Graph {
 
 	std::vector<Node*> nodes;
 	std::vector<Edge*> edges;
+	std::map<Edge*, bool> visible;
 
+	bool doneExploring;
+	std::stack<Node*> explorePath;
 	std::vector<Edge*> path;
 
 	std::function<void(Node*)> createNodeHandler;
@@ -41,13 +46,16 @@ public:
 
 	Edge * const CreateEdge(const unsigned& from, const unsigned& to, const float& weight = 1.f);
 
-	void DrawEdges() const;
+	void DrawEdges();
 
 	template<typename Context>
 	void BindCreateNodeHandler(void(Context::*callback)(Node*), Context* context);
 
 	template<typename Context>
 	void BindCreateEdgeHandler(void(Context::*callback)(Edge*), Context* context);
+
+	bool IsDoneExploring() const;
+	void Explore();
 
 	void ClearPath();
 	void PathFind(Node * const start, Node * const end);
