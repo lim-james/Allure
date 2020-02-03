@@ -11,15 +11,19 @@
 
 class HexMaze : public HexGrid {
 
-	int dir;
+	float et;
+
+	float lastWave;
+	bool flowing;
+	vec2f dir;
 	vec2f stream;
 
 public:
 
 	HexMaze(const unsigned& size, const int& defaultTile);
 
-	void Generate(const unsigned& seed, const vec2i & start, const float & wallLoad);
-	void Update();
+	void Generate(const vec2i & start, const float & wallLoad);
+	bool Update(const float& dt);
 	
 	bool IsBlocked(const vec2i& position) const;
 

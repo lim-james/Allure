@@ -42,7 +42,6 @@ void States::Explore::Exit(const unsigned & target, EntityManager * const entiti
 	//Console::Warn << team->GetQueuedPositions().top() << '\n';
 	//Print(team->GetQueuedPositions());
 
-
 	if (team->GetOpponentUnits().size()) {
 		entities->GetComponent<StateContainer>(target)->queuedState = "ATTACK";
 	}
@@ -71,7 +70,7 @@ void States::Explore::Scan(Team * const team, Unit * const unit) {
 	while (choices.size()) {
 		const unsigned i = Math::RandMinMax((unsigned)0, choices.size());
 
-		auto dir = maze->directions[choices[i]];
+		auto dir = team->GetMaze()->directions[choices[i]];
 		choices.erase(choices.begin() + i);
 		// map pos
 		const auto newPosition = maze->ScreenToMapPosition(unit->transform->translation.xy + dir);

@@ -156,7 +156,6 @@
     <ClCompile Include="GraphScene.cpp" />
     <ClCompile Include="HexGrid.cpp" />
     <ClCompile Include="HexMaze.cpp" />
-    <ClCompile Include="HexMouse.cpp" />
     <ClCompile Include="HexScene.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputController.cpp" />
@@ -215,7 +214,6 @@
     <ClInclude Include="GraphScene.h" />
     <ClInclude Include="HexGrid.h" />
     <ClInclude Include="HexMaze.h" />
-    <ClInclude Include="HexMouse.h" />
     <ClInclude Include="HexScene.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="InputController.h" />

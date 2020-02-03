@@ -192,9 +192,6 @@
     <ClCompile Include="HexMaze.cpp">
       <Filter>Application\Scenes\Hex</Filter>
     </ClCompile>
-    <ClCompile Include="HexMouse.cpp">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClCompile>
     <ClCompile Include="HexScene.cpp">
       <Filter>Application\Scenes\Hex</Filter>
     </ClCompile>
@@ -228,14 +225,14 @@
     <ClCompile Include="ExploreState.cpp">
       <Filter>Application\Scenes\Hex\States</Filter>
     </ClCompile>
-    <ClCompile Include="TeamContainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClCompile>
     <ClCompile Include="AttackState.cpp">
       <Filter>Application\Scenes\Hex\States</Filter>
+    </ClCompile>
+    <ClCompile Include="TeamContainer.cpp">
+      <Filter>Application\Scenes\Hex</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -366,9 +363,6 @@
       <Filter>Application\Scenes\Hex</Filter>
     </ClInclude>
     <ClInclude Include="HexMaze.h">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClInclude>
-    <ClInclude Include="HexMouse.h">
       <Filter>Application\Scenes\Hex</Filter>
     </ClInclude>
     <ClInclude Include="GraphScene.h">

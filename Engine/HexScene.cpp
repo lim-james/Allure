@@ -120,13 +120,10 @@ void HexScene::Update(const float & dt) {
 				bt = 0.f;
 
 				moveCount += steps;
-				//if (moveCount >= GetCurrentMaxMoves()) 
-					//EndTurn();
 			} else {
 				if (team.IsAI()) {
 					team.MakeMove(entities);
 					bt = 0.f;
-					//entities->GetComponent<StateContainer>(team.GetAI())->queuedState = "IDLE";
 				}
 			}
 		} else {
@@ -140,8 +137,8 @@ void HexScene::Update(const float & dt) {
 
 	mazeBt += dt;
 	if (mazeBt > 0.2f) {
-		maze->Update();
-		//UpdateVision();
+		maze->Update(mazeBt);
+			//UpdateVision();
 		mazeBt = 0.f;
 	}
 
@@ -152,7 +149,7 @@ void HexScene::InitializeGame() {
 	bt = 0.f;
 	spacePressed = false;
 
-	maze->Generate(0, vec2i(5, 5), 0.7f);
+	maze->Generate(vec2i(5, 5), 0.7f);
 
 	maxMoves = 5;
 	moveCount = 0;
@@ -164,9 +161,9 @@ void HexScene::InitializeGame() {
 	teams[1].SetMaze(maze);
 
 	if (mode == PVP) {
-		teams[0].SetName("Player");
+		teams[0].SetName("Yellow Player");
 		teams[0].SetAI(0);
-		teams[1].SetName("Player");
+		teams[1].SetName("Cyan Player");
 		teams[1].SetAI(0);
 	} else if (mode == PVE) {
 		teams[0].SetName("Player");
@@ -175,18 +172,18 @@ void HexScene::InitializeGame() {
 		teams[1].SetName("AI");
 		teams[1].SetAI(CreateBrain(&teams[1]));
 	} else if (mode == AIvAI) {
-		teams[0].SetName("Player");
+		teams[0].SetName("Yellow AI");
 		teams[0].SetAI(CreateBrain(&teams[0]));
 
-		teams[1].SetName("AI");
+		teams[1].SetName("Cyan AI");
 		teams[1].SetAI(CreateBrain(&teams[1]));
 	}
 
 	float range = 1.f;
 	for (int x = 0; x < 2; ++x) {
 		for (int y = 0; y < 2; ++y) {
-			teams[0].AddUnit(CreateUnit(x, y, vec4f(1.f, 1.f, 0.f, 1.f), range, range));
-			teams[1].AddUnit(CreateUnit(gridSize - 1 - x, gridSize - 1 - y, vec4f(0.f, 1.f, 1.f, 1.f), range, range));
+			teams[0].AddUnit(CreateUnit(x, y, vec4f(1.f, 1.f, 0.f, 1.f), range, 2.f));
+			teams[1].AddUnit(CreateUnit(gridSize - 1 - x, gridSize - 1 - y, vec4f(0.f, 1.f, 1.f, 1.f), range, 2.f));
 			++range;
 		}
 	}

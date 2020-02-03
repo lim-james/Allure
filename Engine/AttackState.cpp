@@ -79,17 +79,12 @@ void States::Attack::Enter(const unsigned & target, EntityManager * const entiti
 
 		selected->chasing = false;
 		
-		//Console::Warn << "Attack\n";
 		Events::EventsManager::GetInstance()->Trigger("ATTACK", new Events::Attack(team, targetUnit->transform->translation));
-		//selected->path = team->GetPath(selected->transform->translation.xy, target->transform->translation.xy);
+		selected->canAttack = false;
 	}
 }
 
 void States::Attack::Update(const unsigned & target, const float & dt, EntityManager * const entities) {
-	//auto team = entities->GetComponent<TeamContainer>(target)->team;
-	//if (team->GetOpponentUnits().empty()) {
-	//	entities->GetComponent<StateContainer>(target)->queuedState = "EXPLORE";
-	//}
 }
 
 void States::Attack::Exit(const unsigned & target, EntityManager * const entities) {

@@ -45,7 +45,7 @@ HexGrid * const Team::GetMaze() const {
 }
 
 void Team::SetVision(const unsigned & size) {
-	vision.resize(size * size, false);
+	vision.resize(size * size, true);
 }
 
 const std::vector<bool>& Team::GetVision() const {
