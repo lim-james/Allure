@@ -13,9 +13,6 @@
 
 class TitleScene : public Scene {
 
-	vec2f buttonSize;
-
-	Transform* cursor;
 	Text* debugText;
 	Text* titleText;
 

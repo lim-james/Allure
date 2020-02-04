@@ -175,6 +175,7 @@ namespace Math {
 		return result;
 	}
 
+	// transpose mat4
 	template<typename T>
 	void Transpose(mat4<T>& mat) {
 		for (unsigned y = 0; y < 4; y++)
@@ -182,7 +183,7 @@ namespace Math {
 				std::swap(mat[y * 4 + x], mat[x * 4 + y]);
 	}
 
-	// set mat4f to zero
+	// set mat4 to zero
 	template<typename T>
 	void SetToZero(mat4<T>& mat) {
 		mat[0] = mat[1] = mat[2] = mat[3] = 0;
@@ -191,12 +192,148 @@ namespace Math {
 		mat[12] = mat[13] = mat[14] = mat[15] = 0;
 	}
 
-	// set mat4f to identity
+	// set mat4 to identity
 	template<typename T>
 	void SetToIdentity(mat4<T>& mat) {
 		SetToZero(mat);
 		mat[0] = mat[5] = mat[10] = mat[15] = 1;
 	}	
+
+	// inverse mat4 
+	template<typename T>
+	void Inverse(mat4<T>& mat) {
+		T inv[16], det;
+
+		inv[0] = mat[5] * mat[10] * mat[15] -
+			mat[5] * mat[11] * mat[14] -
+			mat[9] * mat[6] * mat[15] +
+			mat[9] * mat[7] * mat[14] +
+			mat[13] * mat[6] * mat[11] -
+			mat[13] * mat[7] * mat[10];
+
+		inv[4] = -mat[4] * mat[10] * mat[15] +
+			mat[4] * mat[11] * mat[14] +
+			mat[8] * mat[6] * mat[15] -
+			mat[8] * mat[7] * mat[14] -
+			mat[12] * mat[6] * mat[11] +
+			mat[12] * mat[7] * mat[10];
+
+		inv[8] = mat[4] * mat[9] * mat[15] -
+			mat[4] * mat[11] * mat[13] -
+			mat[8] * mat[5] * mat[15] +
+			mat[8] * mat[7] * mat[13] +
+			mat[12] * mat[5] * mat[11] -
+			mat[12] * mat[7] * mat[9];
+
+		inv[12] = -mat[4] * mat[9] * mat[14] +
+			mat[4] * mat[10] * mat[13] +
+			mat[8] * mat[5] * mat[14] -
+			mat[8] * mat[6] * mat[13] -
+			mat[12] * mat[5] * mat[10] +
+			mat[12] * mat[6] * mat[9];
+
+		inv[1] = -mat[1] * mat[10] * mat[15] +
+			mat[1] * mat[11] * mat[14] +
+			mat[9] * mat[2] * mat[15] -
+			mat[9] * mat[3] * mat[14] -
+			mat[13] * mat[2] * mat[11] +
+			mat[13] * mat[3] * mat[10];
+
+		inv[5] = mat[0] * mat[10] * mat[15] -
+			mat[0] * mat[11] * mat[14] -
+			mat[8] * mat[2] * mat[15] +
+			mat[8] * mat[3] * mat[14] +
+			mat[12] * mat[2] * mat[11] -
+			mat[12] * mat[3] * mat[10];
+
+		inv[9] = -mat[0] * mat[9] * mat[15] +
+			mat[0] * mat[11] * mat[13] +
+			mat[8] * mat[1] * mat[15] -
+			mat[8] * mat[3] * mat[13] -
+			mat[12] * mat[1] * mat[11] +
+			mat[12] * mat[3] * mat[9];
+
+		inv[13] = mat[0] * mat[9] * mat[14] -
+			mat[0] * mat[10] * mat[13] -
+			mat[8] * mat[1] * mat[14] +
+			mat[8] * mat[2] * mat[13] +
+			mat[12] * mat[1] * mat[10] -
+			mat[12] * mat[2] * mat[9];
+
+		inv[2] = mat[1] * mat[6] * mat[15] -
+			mat[1] * mat[7] * mat[14] -
+			mat[5] * mat[2] * mat[15] +
+			mat[5] * mat[3] * mat[14] +
+			mat[13] * mat[2] * mat[7] -
+			mat[13] * mat[3] * mat[6];
+
+		inv[6] = -mat[0] * mat[6] * mat[15] +
+			mat[0] * mat[7] * mat[14] +
+			mat[4] * mat[2] * mat[15] -
+			mat[4] * mat[3] * mat[14] -
+			mat[12] * mat[2] * mat[7] +
+			mat[12] * mat[3] * mat[6];
+
+		inv[10] = mat[0] * mat[5] * mat[15] -
+			mat[0] * mat[7] * mat[13] -
+			mat[4] * mat[1] * mat[15] +
+			mat[4] * mat[3] * mat[13] +
+			mat[12] * mat[1] * mat[7] -
+			mat[12] * mat[3] * mat[5];
+
+		inv[14] = -mat[0] * mat[5] * mat[14] +
+			mat[0] * mat[6] * mat[13] +
+			mat[4] * mat[1] * mat[14] -
+			mat[4] * mat[2] * mat[13] -
+			mat[12] * mat[1] * mat[6] +
+			mat[12] * mat[2] * mat[5];
+
+		inv[3] = -mat[1] * mat[6] * mat[11] +
+			mat[1] * mat[7] * mat[10] +
+			mat[5] * mat[2] * mat[11] -
+			mat[5] * mat[3] * mat[10] -
+			mat[9] * mat[2] * mat[7] +
+			mat[9] * mat[3] * mat[6];
+
+		inv[7] = mat[0] * mat[6] * mat[11] -
+			mat[0] * mat[7] * mat[10] -
+			mat[4] * mat[2] * mat[11] +
+			mat[4] * mat[3] * mat[10] +
+			mat[8] * mat[2] * mat[7] -
+			mat[8] * mat[3] * mat[6];
+
+		inv[11] = -mat[0] * mat[5] * mat[11] +
+			mat[0] * mat[7] * mat[9] +
+			mat[4] * mat[1] * mat[11] -
+			mat[4] * mat[3] * mat[9] -
+			mat[8] * mat[1] * mat[7] +
+			mat[8] * mat[3] * mat[5];
+
+		inv[15] = mat[0] * mat[5] * mat[10] -
+			mat[0] * mat[6] * mat[9] -
+			mat[4] * mat[1] * mat[10] +
+			mat[4] * mat[2] * mat[9] +
+			mat[8] * mat[1] * mat[6] -
+			mat[8] * mat[2] * mat[5];
+
+		det = mat[0] * inv[0] + mat[1] * inv[4] + mat[2] * inv[8] + mat[3] * inv[12];
+
+		if (det == 0)
+			return;
+
+		det = 1.0 / det;
+
+		for (int i = 0; i < 16; ++i)
+			mat[i] = inv[i] * det;
+	}
+
+	// return inversed mat4 
+	template<typename T>
+	mat4<T> Inversed(mat4<T>& mat) {
+		mat4<T> result = mat;
+		Inverse(result);
+		return result;
+	}
 };
 
 typedef Math::mat4<float> mat4f;

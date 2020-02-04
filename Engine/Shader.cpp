@@ -11,12 +11,50 @@ Shader::Shader()
 	: id(0)
 	, locations({}) {}
 
+Shader::Shader(const std::string & computePath) {
+	const unsigned computeShader = CreateShader(computePath, GL_COMPUTE_SHADER);
+
+	id = glCreateProgram();
+	glAttachShader(id, computeShader);
+	glLinkProgram(id);
+
+	int success;
+	glGetProgramiv(id, GL_LINK_STATUS, &success);
+
+	if (!success) {
+		char infoLog[512];
+		glGetProgramInfoLog(id, 512, 0, infoLog);
+		Console::Error << "Shader program link failed.\n" << infoLog << '\n';
+	}
+}
+
 Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
-	const unsigned vertexShader = CreateSahder(vertexPath, GL_VERTEX_SHADER);
-	const unsigned fragmentShader = CreateSahder(fragmentPath, GL_FRAGMENT_SHADER);
+	const unsigned vertexShader = CreateShader(vertexPath, GL_VERTEX_SHADER);
+	const unsigned fragmentShader = CreateShader(fragmentPath, GL_FRAGMENT_SHADER);
 
 	id = glCreateProgram();
 	glAttachShader(id, vertexShader);
+	glAttachShader(id, fragmentShader);
+	glLinkProgram(id);
+
+	int success;
+	glGetProgramiv(id, GL_LINK_STATUS, &success);
+
+	if (!success) {
+		char infoLog[512];
+		glGetProgramInfoLog(id, 512, 0, infoLog);
+		Console::Error << "Shader program link failed.\n" << infoLog << '\n';
+	}
+}
+
+Shader::Shader(const std::string & vertexPath, const std::string & geometryPath, const std::string & fragmentPath) {
+	const unsigned vertexShader = CreateShader(vertexPath, GL_VERTEX_SHADER);
+	const unsigned geometryShader = CreateShader(geometryPath, GL_GEOMETRY_SHADER);
+	const unsigned fragmentShader = CreateShader(fragmentPath, GL_FRAGMENT_SHADER);
+
+	id = glCreateProgram();
+	glAttachShader(id, vertexShader);
+	glAttachShader(id, geometryShader);
 	glAttachShader(id, fragmentShader);
 	glLinkProgram(id);
 
@@ -71,7 +109,7 @@ void Shader::SetMatrix4(const std::string& name, const mat4f& value) {
 	glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &value.a[0]);
 }
 
-unsigned Shader::CreateSahder(const std::string& path, const int& type) {
+unsigned Shader::CreateShader(const std::string& path, const int& type) {
 	const unsigned shader = glCreateShader(type);
 
 	std::ifstream ifs(path);
@@ -91,7 +129,13 @@ unsigned Shader::CreateSahder(const std::string& path, const int& type) {
 		if (!success) {
 			char infoLog[512];
 			glGetShaderInfoLog(shader, 512, 0, infoLog);
-			Console::Error << (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment") << " shader failed to compile\n" << infoLog << '\n';
+			std::string typeString = "Vertex";
+			if (type == GL_GEOMETRY_SHADER) {
+				typeString = "Geometry";
+			} else if (type == GL_FRAGMENT_SHADER) {
+				typeString = "Fragment";
+			}
+			Console::Error << typeString << " shader failed to compile\n" << infoLog << '\n';
 		}
 	} else {
 		Console::Error << "Failed to open " << path << '\n';

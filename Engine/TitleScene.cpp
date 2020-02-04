@@ -1,10 +1,9 @@
 #include "TitleScene.h"
 
+// components
+#include "Render.h"
 // Systems
-#include "RenderSystem.h"
-#include "ButtonSystem.h"
-#include "AnimationSystem.h"
-#include "ParticleSystem.h"
+#include "SpriteAnimationSystem.h"
 // Utils
 #include "LoadFNT.h"
 #include "InputEvents.h"
@@ -16,9 +15,7 @@ void TitleScene::Awake() {
 
 	auto font = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
 
-	systems->Subscribe<ButtonSystem>(1);
-	systems->Subscribe<AnimationSystem>(2);
-	systems->Subscribe<ParticleSystem>(3);
+	systems->Subscribe<SpriteAnimationSystem>(1);
 
 	// debug text
 	{
@@ -41,7 +38,32 @@ void TitleScene::Awake() {
 		titleText->text = "Allure 2D"; 
 	}
 
-	buttonSize.Set(5.f, 1.5f);
+	{
+		const unsigned icon = entities->Create();
+		entities->GetComponent<Transform>(icon)->translation.Set(0.f, -2.f, 0.f);
+
+		auto render = entities->AddComponent<Render>(icon);
+		render->SetActive(true);
+		render->SetTexture("Files/Fonts/Microsoft.tga");
+
+		auto sprite = entities->AddComponent<SpriteAnimation>(icon);
+		sprite->SetActive(true);
+
+		Keyframe kf;
+		kf.SetTilemapSize(16, 16);
+		kf.duration = 0.1f;
+
+		SpriteAnimationData anim;
+		for (int x = 0; x < 16; ++x) {
+			for (int y = 0; y < 16; ++y) {
+				kf.SetCellRect(x, y, 1, 1);
+				anim.frames.push_back(kf);
+			}
+		}
+
+		sprite->animations["MAIN"] = anim;
+		sprite->currentAnimation = "MAIN";
+	}
 }
 
 void TitleScene::Update(const float & dt) {

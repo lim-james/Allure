@@ -144,18 +144,6 @@ void RenderSystem::Update(const float& dt) {
 				instance.uvRect = c->uvRect;
 				instance.tint = c->tint;
 				instance.model = transform->GetWorldTransform();
-
-				//for (auto& quad : transform->quads) {
-				//	mat4f model;
-				//	Math::SetToTranslation(model, vec3f(quad->position, 0.f));
-				//	Math::Scale(model, vec3f(quad->size * 2.f - 0.01f, 1.f));
-				//	batch.push_back({
-				//		nullptr,
-				//		vec4f(),
-				//		vec4f(vec3f(0.f), 1.f),
-				//		model	
-				//	});
-				//}
 			}
 
 			count = batch.size();

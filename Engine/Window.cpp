@@ -14,7 +14,6 @@ Window::Window(const int& width, const int& height, const char* title, const boo
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	window = glfwCreateWindow(width, height, title, fullscreen ? glfwGetPrimaryMonitor() : nullptr, nullptr);
 
@@ -25,8 +24,6 @@ Window::Window(const int& width, const int& height, const char* title, const boo
 	}
 
 	glfwMakeContextCurrent(window);
-
-	glfwSetCursorPos(window, 0.0, 0.0);
 
 	glfwSetWindowSizeCallback(window, Window::Resize);
 
