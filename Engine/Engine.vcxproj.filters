@@ -43,32 +43,14 @@
     <Filter Include="Engine\Render\Particles">
       <UniqueIdentifier>{6f867f1d-9858-4a4e-8357-5b76acc1e9e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Scenes\Test">
-      <UniqueIdentifier>{9ceff205-d65a-4d58-beee-00c797540f3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Scenes\AStar">
-      <UniqueIdentifier>{25368e4a-829b-4185-91a3-a501786c8b03}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{6454f4c8-54c1-46e9-a384-b51fad5ec86c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Scenes\Hex">
-      <UniqueIdentifier>{7f439383-b51e-467f-b937-408746ea28df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Scenes\Graph">
-      <UniqueIdentifier>{405e57b5-0660-47e3-89fa-94f91c8da41f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Scenes\Debug">
-      <UniqueIdentifier>{6e2b9e5e-d64c-4705-80db-b3af95c5ce96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Scenes\Menu">
-      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Input">
       <UniqueIdentifier>{668cf806-6830-4f9b-82cd-e18f59c60868}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Scenes\Hex\States">
-      <UniqueIdentifier>{5b929a04-07de-4b4e-8950-5c3de8d6c7bb}</UniqueIdentifier>
+    <Filter Include="Application\Scenes\Title">
+      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -159,80 +141,20 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Engine\Render\Particles</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="TestStateOne.cpp">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="TestStateTwo.cpp">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="RoamState.cpp">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="AStarScene.cpp">
-      <Filter>Application\Scenes\AStar</Filter>
-    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
     <ClCompile Include="AnimationSystem.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="AIAttribute.cpp">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClCompile>
-    <ClCompile Include="Maze.cpp">
-      <Filter>Application\Scenes\AStar</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Application\Scenes\AStar</Filter>
-    </ClCompile>
-    <ClCompile Include="HexMaze.cpp">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClCompile>
-    <ClCompile Include="HexScene.cpp">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphScene.cpp">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugScene.cpp">
-      <Filter>Application\Scenes\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuScene.cpp">
-      <Filter>Application\Scenes\Menu</Filter>
-    </ClCompile>
     <ClCompile Include="InputController.cpp">
       <Filter>Application\Input</Filter>
     </ClCompile>
-    <ClCompile Include="HexGrid.cpp">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClCompile>
-    <ClCompile Include="Team.cpp">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClCompile>
-    <ClCompile Include="DNode.cpp">
-      <Filter>Application\Scenes\AStar</Filter>
-    </ClCompile>
-    <ClCompile Include="IdleState.cpp">
-      <Filter>Application\Scenes\Hex\States</Filter>
-    </ClCompile>
-    <ClCompile Include="ExploreState.cpp">
-      <Filter>Application\Scenes\Hex\States</Filter>
-    </ClCompile>
-    <ClCompile Include="AttackState.cpp">
-      <Filter>Application\Scenes\Hex\States</Filter>
-    </ClCompile>
-    <ClCompile Include="TeamContainer.cpp">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Application\Scenes\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -329,59 +251,11 @@
     <ClInclude Include="ParticleSystem.h">
       <Filter>Engine\Render\Particles</Filter>
     </ClInclude>
-    <ClInclude Include="Test.h">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClInclude>
-    <ClInclude Include="TestStateOne.h">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClInclude>
-    <ClInclude Include="TestStateTwo.h">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClInclude>
-    <ClInclude Include="RoamState.h">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClInclude>
-    <ClInclude Include="AIAttribute.h">
-      <Filter>Application\Scenes\Test</Filter>
-    </ClInclude>
-    <ClInclude Include="AStarScene.h">
-      <Filter>Application\Scenes\AStar</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
     <ClInclude Include="AnimationSystem.h">
       <Filter>Engine\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Maze.h">
-      <Filter>Application\Scenes\AStar</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Application\Scenes\AStar</Filter>
-    </ClInclude>
-    <ClInclude Include="HexScene.h">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClInclude>
-    <ClInclude Include="HexMaze.h">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphScene.h">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Edge.h">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugScene.h">
-      <Filter>Application\Scenes\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuScene.h">
-      <Filter>Application\Scenes\Menu</Filter>
     </ClInclude>
     <ClInclude Include="InputEvents.h">
       <Filter>Application\Input</Filter>
@@ -389,29 +263,8 @@
     <ClInclude Include="InputController.h">
       <Filter>Application\Input</Filter>
     </ClInclude>
-    <ClInclude Include="HexGrid.h">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClInclude>
-    <ClInclude Include="Team.h">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClInclude>
-    <ClInclude Include="DNode.h">
-      <Filter>Application\Scenes\AStar</Filter>
-    </ClInclude>
-    <ClInclude Include="IdleState.h">
-      <Filter>Application\Scenes\Hex\States</Filter>
-    </ClInclude>
-    <ClInclude Include="ExploreState.h">
-      <Filter>Application\Scenes\Hex\States</Filter>
-    </ClInclude>
-    <ClInclude Include="TeamContainer.h">
-      <Filter>Application\Scenes\Hex</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackState.h">
-      <Filter>Application\Scenes\Hex\States</Filter>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Application\Scenes\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

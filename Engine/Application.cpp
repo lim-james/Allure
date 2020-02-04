@@ -1,10 +1,6 @@
 #include "Application.h"
 
-#include "AStarScene.h"
-#include "HexScene.h"
-#include "GraphScene.h"
-#include "DebugScene.h"
-#include "MenuScene.h"
+#include "TitleScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -53,17 +49,12 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 
 	em->Subscribe("STEP", &Application::Step, this);
 
-	//sceneManager = new SceneManager;
 	// turn off vsync
-	glfwSwapInterval(0);
+	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Add("ASTAR", new AStarScene);
-	sceneManager->Add("HEX", new HexScene);
-	sceneManager->Add("GRAPH", new GraphScene);
-	sceneManager->Add("DEBUG", new DebugScene);
-	sceneManager->Add("MENU", new MenuScene);
-	sceneManager->SetEntryPoint("MENU");
+	sceneManager->Add("TITLE", new TitleScene);
+	sceneManager->SetEntryPoint("TITLE");
 
 	context->BroadcastSize();
 	em->TriggerQueued();
@@ -78,7 +69,6 @@ void Application::Run() {
 
 	bt = 0.f;
 	while (!context->ShouldClose()) {
-		//Step();
 		em->Trigger("STEP");
 	}
 }

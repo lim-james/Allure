@@ -12,8 +12,9 @@ class Scene {
 protected:
 
 	EntityManager* entities;
-	//ComponentsManager* components;
 	SystemManager* systems;
+	
+	unsigned mainCamera;
 
 public:
 
