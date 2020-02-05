@@ -2,7 +2,7 @@
 #define SHADER_H
 
 #include <Math/Vectors.hpp>
-#include <Math/Matrix.hpp>
+#include <Math/Mat4.hpp>
 
 #include <map>
 #include <string>

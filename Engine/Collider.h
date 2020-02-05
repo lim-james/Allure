@@ -3,6 +3,7 @@
 
 #include "Component.h"
 
+#include <vector>
 #include <functional>
 
 #define COLLIDER_ENTER			0
@@ -11,6 +12,9 @@
 #define COLLIDER_ACTION_COUNT	3
 
 struct Collider : Component {
+
+	std::string tag;
+	std::vector<std::string> ignore;
 
 	Collider();
 

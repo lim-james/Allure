@@ -6,6 +6,42 @@
 
 namespace Math {
 
+	template<typename T>
+	class Vector {
+
+		const int size;
+		T* data;
+
+	public:
+
+		Vector(const int& size);
+		~Vector();
+
+		inline T& operator[](const unsigned& i);
+		inline const T& operator[](const unsigned& i) const;
+
+	};
+
+	template<typename T>
+	Vector<T>::Vector(const int & size) :size(size) {
+		data = new T[size];
+	}
+
+	template<typename T>
+	Vector<T>::~Vector() {
+		delete data[];
+	}
+
+	template<typename T>
+	inline T & Vector<T>::operator[](const unsigned & i) {
+		return data[i];
+	}
+
+	template<typename T>
+	inline const T & Vector<T>::operator[](const unsigned & i) const {
+		return data[i];
+	}
+
 	template<typename T> struct vec2;
 	template<typename T> struct vec3;
 	template<typename T> struct vec4;

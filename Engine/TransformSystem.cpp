@@ -1,7 +1,7 @@
 #include "TransformSystem.h"
 
 #include <Events/EventsManager.h>
-#include <Math/MatrixTransform.hpp>
+#include <Math/Mat4Transform.hpp>
 #include <Logger/Logger.h>
 
 TransformSystem::~TransformSystem() {

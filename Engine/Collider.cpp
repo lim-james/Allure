@@ -2,13 +2,16 @@
 
 #include <Events/EventsManager.h>
 
-Collider::Collider() {
+Collider::Collider() : tag("") {
 	for (auto& h : handlers) {
 		h = nullptr;
 	}
 }
 
 void Collider::Initialize() {
+	tag = "";
+	ignore.clear();
+
 	for (auto& h : handlers) {
 		h = nullptr;
 	}

@@ -5,7 +5,7 @@
 
 #include <Events/Event.h>
 #include <Math/Vectors.hpp>
-#include <Math/Matrix.hpp>
+#include <Math/Mat4.hpp>
 
 struct Camera : Component {
 

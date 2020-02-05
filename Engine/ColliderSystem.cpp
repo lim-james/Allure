@@ -33,6 +33,15 @@ void ColliderSystem::Update(const float& dt) {
 				auto c2 = entities->GetComponent<Collider>(p2);
 				if (!c2) continue;
 
+				bool ignore = false;
+				for (auto& tag : c1->ignore) {
+					if (tag == c2->tag) {
+						ignore = true;
+						break;
+					}
+				}
+				if (ignore) continue;
+
 				const vec2f position2 = t2->GetWorldTranslation();
 				vec2f halfSize2 = t2->scale * 0.5f;
 				halfSize2.y = -halfSize2.y;

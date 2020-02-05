@@ -21,8 +21,6 @@ public:
 	void Awake() override;
 	void Update(const float& dt) override;
 
-private:
-
 };
 
 

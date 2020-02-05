@@ -1,7 +1,7 @@
-#ifndef MATRIX_TRANSFORM_HPP
-#define MATRIX_TRANSFORM_HPP
+#ifndef MAT4_TRANSFORM_HPP
+#define MAT4_TRANSFORM_HPP
 
-#include "Matrix.hpp"
+#include "Mat4.hpp"
 
 namespace Math {
 

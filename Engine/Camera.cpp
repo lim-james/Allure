@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 #include <Events/EventsManager.h>
-#include <Math/MatrixTransform.hpp>
+#include <Math/Mat4Transform.hpp>
 
 Camera::Camera()
 	: clearColor(0.f)

@@ -8,7 +8,7 @@ int main() {
 
 	Application app;
 
-	app.Initialize(1600, 900, "App", false);
+	app.Initialize(900, 1600, "Flappy Bird", false);
 	app.Run();
 	app.Exit();
 

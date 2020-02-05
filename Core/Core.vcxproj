@@ -28,8 +28,9 @@
     <ClInclude Include="MACROS.h" />
     <ClInclude Include="Math\LinePlane.hpp" />
     <ClInclude Include="Math\Math.hpp" />
+    <ClInclude Include="Math\Mat4.hpp" />
     <ClInclude Include="Math\Matrix.hpp" />
-    <ClInclude Include="Math\MatrixTransform.hpp" />
+    <ClInclude Include="Math\Mat4Transform.hpp" />
     <ClInclude Include="Math\Random.hpp" />
     <ClInclude Include="Math\Vectors.hpp" />
     <ClInclude Include="Helpers\StringHelpers.h" />

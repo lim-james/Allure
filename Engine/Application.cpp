@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "TitleScene.h"
+#include "NNScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -53,8 +54,8 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Add("TITLE", new TitleScene);
-	sceneManager->SetEntryPoint("TITLE");
+	sceneManager->Add("NN", new NNScene);
+	sceneManager->SetEntryPoint("NN");
 
 	context->BroadcastSize();
 	em->TriggerQueued();

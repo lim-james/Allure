@@ -4,7 +4,7 @@
 #include "Component.h"
 
 #include <Math/Vectors.hpp>
-#include <Math/Matrix.hpp>
+#include <Math/Mat4.hpp>
 #include <Containers/Quad.hpp>
 
 #include <vector>

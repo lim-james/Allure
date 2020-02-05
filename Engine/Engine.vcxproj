@@ -152,6 +152,9 @@
     <ClCompile Include="LoadFNT.cpp" />
     <ClCompile Include="LoadTGA.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NNScene.cpp" />
+    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="SpriteAnimationData.cpp" />
     <ClCompile Include="SpriteAnimationSystem.cpp" />
@@ -188,6 +191,9 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="Keyframe.h" />
+    <ClInclude Include="NNScene.h" />
+    <ClInclude Include="Physics.h" />
+    <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="InputEvents.h" />

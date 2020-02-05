@@ -24,7 +24,6 @@ void Scene::Awake() {
 	entities->GetComponent<Transform>(mainCamera)->translation.z = 1.f;
 	Camera * camera = entities->AddComponent<Camera>(mainCamera);
 	camera->SetActive(true);
-	camera->SetSize(10);
 	camera->clearColor.Set(0.f);
 }
 
