@@ -54,8 +54,9 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
+	sceneManager->Add("TITLE", new TitleScene);
 	sceneManager->Add("NN", new NNScene);
-	sceneManager->SetEntryPoint("NN");
+	sceneManager->SetEntryPoint("TITLE");
 
 	context->BroadcastSize();
 	em->TriggerQueued();
