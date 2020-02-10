@@ -6,15 +6,23 @@
 
 namespace Math {
 
-	template<typename T>
+	template<unsigned size, typename T>
 	class Vector {
 
-		const int size;
-		T* data;
 
 	public:
 
-		Vector(const int& size);
+		union {
+			struct {
+				T data[size];
+			};
+
+			struct {
+				T x, y, z;
+			};
+		};
+
+		Vector();
 		~Vector();
 
 		inline T& operator[](const unsigned& i);
@@ -22,23 +30,19 @@ namespace Math {
 
 	};
 
-	template<typename T>
-	Vector<T>::Vector(const int & size) :size(size) {
-		data = new T[size];
-	}
+	template<unsigned size, typename T>
+	Vector<size, T>::Vector() {}
 
-	template<typename T>
-	Vector<T>::~Vector() {
-		delete data[];
-	}
+	template<unsigned size, typename T>
+	Vector<size, T>::~Vector() {}
 
-	template<typename T>
-	inline T & Vector<T>::operator[](const unsigned & i) {
+	template<unsigned size, typename T>
+	inline T & Vector<size, T>::operator[](const unsigned & i) {
 		return data[i];
 	}
 
-	template<typename T>
-	inline const T & Vector<T>::operator[](const unsigned & i) const {
+	template<unsigned size, typename T>
+	inline const T & Vector<size, T>::operator[](const unsigned & i) const {
 		return data[i];
 	}
 

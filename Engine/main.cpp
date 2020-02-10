@@ -2,10 +2,11 @@
 //	_declspec(dllexport) unsigned NvOptimusEnablement = 0x00000001;
 //}
 
+//#include <Math/Vectors.hpp>
+
 #include "Application.h"
 
 int main() {
-
 	Application app;
 
 	app.Initialize(900, 1600, "Flappy Bird", false);
