@@ -18,23 +18,11 @@ void TitleScene::Awake() {
 
 	et = 0.0f;
 
-	entities->GetComponent<Camera>(mainCamera)->SetSize(10.f);
+	entities->GetComponent<Camera>(mainCamera)->SetSize(12.f);
 
 	// fonts
 	auto microsoft = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
 	auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
-
-	// debug text
-	{
-		const unsigned label = entities->Create();
-		entities->GetComponent<Transform>(label)->translation.Set(-15.f, 8.f, 0.f);
-		debugText = entities->AddComponent<Text>(label);
-		debugText->SetActive(true);
-		debugText->SetFont(courierNew);
-		debugText->scale = 0.5f;
-		debugText->paragraphAlignment = PARAGRAPH_LEFT;
-		debugText->verticalAlignment = ALIGN_TOP;
-	}
 
 	// title
 	{
@@ -43,16 +31,8 @@ void TitleScene::Awake() {
 		titleText->SetActive(true);
 		titleText->SetFont(microsoft);
 		titleText->text = "Allure 2D"; 
-		titleText->color.Set(1.0f, 1.0f, 0.f, 1.0f);
+		titleText->color.Set(0.54f, 0.09f, 0.8f, 1.0f);
 	}
-
-	//const unsigned image = entities->Create();
-	//auto transform = entities->GetComponent<Transform>(image);
-	//transform->translation.y = -2.0f;
-	//transform->scale.Set(5.0f);
-	//auto render = entities->AddComponent<Render>(image);
-	//render->SetActive(true);
-	//render->SetTexture("Files/Fonts/CourierNew.tga");
 
 	// creating console
 	{
@@ -101,10 +81,7 @@ void TitleScene::Update(const float & dt) {
 
 	et += dt;
 
-	const int FPS = static_cast<int>(1.f / dt);
-	debugText->text = "FPS: " + std::to_string(FPS) + "\nCOUNT: " + std::to_string(entities->PoolCount());
-
-	entities->GetComponent<Render>(cursor)->tint.a = abs(sin(et * 3.f));
+	entities->GetComponent<Render>(cursor)->tint.a = abs(sin(et * 3.f)) * static_cast<float>(selected);
 }
 
 void TitleScene::KeyHandler(Events::Event * event) {

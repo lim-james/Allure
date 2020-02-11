@@ -15,7 +15,6 @@ class TitleScene : public Scene {
 
 	float et;
 
-	Text* debugText;
 	Text* titleText;
 	
 	// Console attributes

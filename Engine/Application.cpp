@@ -58,7 +58,7 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	sceneManager->Add("TITLE", new TitleScene);
 	sceneManager->Add("GRAPH", new GraphScene);
 	sceneManager->Add("NN", new NNScene);
-	sceneManager->SetEntryPoint("GRAPH");
+	sceneManager->SetEntryPoint("TITLE");
 
 	context->BroadcastSize();
 	em->TriggerQueued();
