@@ -4,6 +4,7 @@
 #include "Scene.h"
 
 #include "Transform.h"
+#include "Render.h"
 #include "Camera.h"
 #include "Text.h"
 #include "Button.h"
@@ -15,10 +16,15 @@
 
 class TitleScene : public Scene {
 
-	Text* titleText;
+	bool transition;
+	float transitionDelay;
+
 	Camera* camera;
 	Transform* mouse;
 	
+	Text* titleText;
+	Render* buttonRender;
+
 	UITextFieldManager* textFieldManager;
 
 public:
@@ -30,7 +36,19 @@ public:
 
 private:
 
+	// event handler
+
 	void CursorPositionHandler(Events::Event* event);
+
+	void OnMouseOver(unsigned target);
+	void OnMouseOut(unsigned target);
+	void OnMouseDown(unsigned target);
+	void OnMouseUp(unsigned target);
+	void OnClick(unsigned target);
+
+	// helper methods
+
+	void FadeOut();
 
 };
 

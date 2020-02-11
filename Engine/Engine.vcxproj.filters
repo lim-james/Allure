@@ -73,6 +73,9 @@
     <Filter Include="Application\UIManagers">
       <UniqueIdentifier>{5211ae78-7534-4247-89ac-2c245d175e92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Scenes\Canvas">
+      <UniqueIdentifier>{c3cb104a-5342-4c30-9e4a-559b0521536a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -209,6 +212,9 @@
     </ClCompile>
     <ClCompile Include="UITextFieldManager.cpp">
       <Filter>Application\UIManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="CanvasScene.cpp">
+      <Filter>Application\Scenes\Canvas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="UITextFieldManager.h">
       <Filter>Application\UIManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="CanvasScene.h">
+      <Filter>Application\Scenes\Canvas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "TitleScene.h"
+#include "CanvasScene.h"
 #include "GraphScene.h"
 #include "NNScene.h"
 
@@ -56,6 +57,7 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 
 	sceneManager = new SceneManager;
 	sceneManager->Add("TITLE", new TitleScene);
+	sceneManager->Add("CANVAS", new CanvasScene);
 	sceneManager->Add("GRAPH", new GraphScene);
 	sceneManager->Add("NN", new NNScene);
 	sceneManager->SetEntryPoint("TITLE");
