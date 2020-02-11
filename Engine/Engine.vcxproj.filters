@@ -64,6 +64,9 @@
     <Filter Include="Application\Scenes\NN">
       <UniqueIdentifier>{cd268514-27b2-4973-8dcd-3e8dea2e19f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Lua">
+      <UniqueIdentifier>{a4f067df-5ded-44a7-a466-1de3953825c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -188,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaScript.cpp">
+      <Filter>Application\Lua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
       <Filter>Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaScript.h">
+      <Filter>Application\Lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

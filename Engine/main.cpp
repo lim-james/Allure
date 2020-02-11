@@ -6,24 +6,22 @@
 
 #include "Application.h"
 
-#include <Lua/LuaScript.h>
+#include "LuaScript.h"
 
 int main() { 
+	Application app;
 
 	LuaScript* script = new LuaScript("Files/Scripts/Config.lua");
 
-	Console::Warn << "Width : " << script->Get<float>("window.size.width") << '\n';
-	Console::Warn << "Height: " << script->Get<float>("window.size.height") << '\n';
-	Console::Warn << "Title : " << script->Get<std::string>("window.title") << '\n';
-	Console::Warn << "Full  : " << script->Get<bool>("window.fullscreen") << '\n';
+	app.Initialize(
+		script->Get<int>("window.size.width"), 
+		script->Get<int>("window.size.height"), 
+		script->Get<std::string>("window.title").c_str(), 
+		script->Get<bool>("window.fullscreen")
+	);
 
 	delete script;
 
-	while (true) {}
-
-	Application app;
-
-	app.Initialize(1600, 900, "Allure 2D", false);
 	app.Run();
 	app.Exit();
 

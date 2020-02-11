@@ -1,7 +1,11 @@
 #include "LuaScript.h"
 
+#include <Helpers/FileHelpers.h>
+
 LuaScript::LuaScript(const std::string & filepath) : level(0) {
 	L = luaL_newstate();
+
+	//Console::Warn << Helpers::ReadFile(filepath) << '\n';
 
 	if (luaL_loadfile(L, filepath.c_str()) || lua_pcall(L, 0, 0, 0)) {
 		Console::Error << "Script not loaded: \"" << filepath << "\"\n";
@@ -13,8 +17,12 @@ LuaScript::~LuaScript() {
 	if (L) lua_close(L);
 }
 
-bool LuaScript::LuaGetToStack(const std::string & identifier)
-{
+//template<>
+//std::string LuaScript::LuaGetDefault() {
+//	return "null";
+//}
+
+bool LuaScript::LuaGetToStack(const std::string & identifier) {
 	level = 0;
 	std::string var = "";
 	for (unsigned int i = 0; i < identifier.size(); i++) {
@@ -30,7 +38,7 @@ bool LuaScript::LuaGetToStack(const std::string & identifier)
 				return false;
 			} else {
 				var = "";
-				level++;
+				++level;
 			}
 		} else {
 			var += identifier.at(i);
