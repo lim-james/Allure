@@ -70,6 +70,9 @@
     <Filter Include="Application\Scenes\Graph">
       <UniqueIdentifier>{8cd67a58-8427-41ca-bf2a-824ae25bff71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\UIManagers">
+      <UniqueIdentifier>{5211ae78-7534-4247-89ac-2c245d175e92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -203,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="GraphScene.cpp">
       <Filter>Application\Scenes\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="UITextFieldManager.cpp">
+      <Filter>Application\UIManagers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Application\Scenes\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="UITextFieldManager.h">
+      <Filter>Application\UIManagers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

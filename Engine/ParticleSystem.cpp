@@ -225,6 +225,9 @@ void ParticleSystem::Update(const float& dt) {
 
 				render->tint = particle->startColor;
 				render->SetTexture(emitter->texture);
+
+				render->SetActive(true);
+				particle->SetActive(true);
 			}
 
 			emitter->spawnTimer = emitter->spawnInterval;
@@ -241,7 +244,7 @@ void ParticleSystem::EmitterActiveHandler(Events::Event* event) {
 
 unsigned ParticleSystem::CreateParticle() const {
 	const unsigned id = entities->Create();
-	entities->AddComponent<Render>(id)->SetActive(true);
-	entities->AddComponent<Particle>(id)->SetActive(true);
+	entities->AddComponent<Render>(id); //->SetActive(true);
+	entities->AddComponent<Particle>(id); //->SetActive(true);
 	return id;
 }

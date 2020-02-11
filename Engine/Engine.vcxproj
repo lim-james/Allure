@@ -178,6 +178,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComparator.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
+    <ClCompile Include="UITextFieldManager.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +229,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformComparator.h" />
     <ClInclude Include="TransformSystem.h" />
+    <ClInclude Include="UITextFieldManager.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

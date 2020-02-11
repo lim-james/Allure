@@ -8,35 +8,29 @@
 #include "Text.h"
 #include "Button.h"
 
+#include "UITextFieldManager.h"
+
 #include <Math/Vectors.hpp>
 #include <Events/Event.h>
 
 class TitleScene : public Scene {
 
-	float et;
-
 	Text* titleText;
+	Camera* camera;
+	Transform* mouse;
 	
-	// Console attributes
-	bool selected;
-	int cursorPosition;
-	bool shiftHeld;
-	unsigned textField;
-	unsigned cursor;
+	UITextFieldManager* textFieldManager;
 
 public:
 
 	void Awake() override;
 	void Update(const float& dt) override;
 
+	void Destroy() override;
+
 private:
 
-	void KeyHandler(Events::Event* event);
-	void TextHandler(Events::Event* event);
-
-	void ToggleConsole();
-	void TextFieldDidSelect(unsigned target);
-	void UpdateCursorOffset(unsigned target);
+	void CursorPositionHandler(Events::Event* event);
 
 };
 

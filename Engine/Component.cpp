@@ -11,7 +11,7 @@ bool Component::IsActive() const {
 }
 
 void Component::SetActive(const bool & _active) {
-	flags |= (ACTIVE_BIT & static_cast<unsigned>(_active));
+	flags = (flags & !ACTIVE_BIT) | (ACTIVE_BIT * _active);
 }
 
 bool Component::IsDynamic() const {
@@ -19,6 +19,6 @@ bool Component::IsDynamic() const {
 }
 
 void Component::SetDynamic(const bool & _active) {
-	flags |= (DYNAMIC_BIT & static_cast<unsigned>(_active));
+	flags = (flags & !DYNAMIC_BIT) | (DYNAMIC_BIT * _active);
 }
 
