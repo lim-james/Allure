@@ -149,6 +149,7 @@
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphScene.cpp" />
     <ClCompile Include="InputController.cpp" />
+    <ClCompile Include="IrwenScene.cpp" />
     <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="LoadFNT.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="GraphScene.h" />
+    <ClInclude Include="IrwenScene.h" />
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="LuaScript.h" />
     <ClInclude Include="NNScene.h" />

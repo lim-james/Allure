@@ -70,6 +70,9 @@
     <Filter Include="Application\Scenes\Graph">
       <UniqueIdentifier>{8cd67a58-8427-41ca-bf2a-824ae25bff71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Scenes\IrwenScene">
+      <UniqueIdentifier>{8b7651b3-405f-4278-98d8-962b2dc7cc0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -203,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="GraphScene.cpp">
       <Filter>Application\Scenes\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="IrwenScene.cpp">
+      <Filter>Application\Scenes\IrwenScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Application\Scenes\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="IrwenScene.h">
+      <Filter>Application\Scenes\IrwenScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
