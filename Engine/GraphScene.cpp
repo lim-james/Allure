@@ -13,6 +13,10 @@
 #include <GLFW/glfw3.h>
 
 void GraphScene::Awake() {
+
+	systems->Subscribe<ButtonSystem>(1);
+	systems->Subscribe<AnimationSystem>(2);
+
 	Scene::Awake();
 
 	selected = nullptr;
@@ -21,9 +25,7 @@ void GraphScene::Awake() {
 	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &GraphScene::CursorPositionHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MOUSE_BUTTON_INPUT", &GraphScene::MouseButtonHandler, this);
 
-	systems->Subscribe<RenderSystem>(0);
-	systems->Subscribe<ButtonSystem>(1);
-	systems->Subscribe<AnimationSystem>(2);
+	entities->GetComponent<Camera>(mainCamera)->SetSize(10.f);
 
 	graph.BindCreateNodeHandler(&GraphScene::CreateNode, this);
 	graph.BindCreateEdgeHandler(&GraphScene::CreateEdge, this);
