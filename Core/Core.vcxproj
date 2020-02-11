@@ -25,6 +25,12 @@
     <ClInclude Include="Helpers\FileHelpers.h" />
     <ClInclude Include="Loaders\LoadCSV.hpp" />
     <ClInclude Include="Logger\Logger.h" />
+    <ClInclude Include="Lua\lauxlib.h" />
+    <ClInclude Include="Lua\lua.h" />
+    <ClInclude Include="Lua\lua.hpp" />
+    <ClInclude Include="Lua\luaconf.h" />
+    <ClInclude Include="Lua\lualib.h" />
+    <ClInclude Include="Lua\LuaScript.h" />
     <ClInclude Include="MACROS.h" />
     <ClInclude Include="Math\LinePlane.hpp" />
     <ClInclude Include="Math\Math.hpp" />
@@ -44,6 +50,7 @@
     <ClCompile Include="Helpers\FileHelpers.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="Helpers\StringHelpers.cpp" />
+    <ClCompile Include="Lua\LuaScript.cpp" />
     <ClCompile Include="Timer\Timer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
