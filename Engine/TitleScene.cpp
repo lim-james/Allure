@@ -234,7 +234,7 @@ void TitleScene::UpdateCursorOffset(unsigned target) {
 	}
 
 	int lineNumer = 0;
-	for (unsigned i = 0; i < cursorPosition; ++i) {
+	for (int i = 0; i < cursorPosition; ++i) {
 		const char& c = text->text[i];
 		if (c == '\0') continue;
 

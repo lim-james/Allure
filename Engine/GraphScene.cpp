@@ -25,18 +25,14 @@ void GraphScene::Awake() {
 	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &GraphScene::CursorPositionHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MOUSE_BUTTON_INPUT", &GraphScene::MouseButtonHandler, this);
 
+	camera = entities->GetComponent<Camera>(mainCamera);
+	camera->SetActive(true);
+	camera->clearColor.Set(0.f);
 	entities->GetComponent<Camera>(mainCamera)->SetSize(10.f);
 
 	graph.BindCreateNodeHandler(&GraphScene::CreateNode, this);
 	graph.BindCreateEdgeHandler(&GraphScene::CreateEdge, this);
 	graph.Create("Files/Data/graph.csv");
-
-	const unsigned cam = entities->Create();
-	entities->GetComponent<Transform>(cam)->translation.z = 1.f;
-	camera = entities->AddComponent<Camera>(cam);
-	camera->SetSize(10);
-	camera->SetActive(true);
-	camera->clearColor.Set(0.f);
 
 	const unsigned label = entities->Create();
 	entities->GetComponent<Transform>(label)->translation.Set(-17.f, -7.5f, 0.f);
