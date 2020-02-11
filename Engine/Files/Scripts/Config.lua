@@ -1,6 +1,6 @@
 window = {
 	size = {
-		width = 2000,
+		width = 1600,
 		height = 900
 	},
 	title = "Allure 2D",

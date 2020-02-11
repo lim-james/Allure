@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "TitleScene.h"
+#include "GraphScene.h"
 #include "NNScene.h"
 
 #include "InputEvents.h"
@@ -55,8 +56,9 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 
 	sceneManager = new SceneManager;
 	sceneManager->Add("TITLE", new TitleScene);
+	sceneManager->Add("GRAPH", new GraphScene);
 	sceneManager->Add("NN", new NNScene);
-	sceneManager->SetEntryPoint("TITLE");
+	sceneManager->SetEntryPoint("GRAPH");
 
 	context->BroadcastSize();
 	em->TriggerQueued();

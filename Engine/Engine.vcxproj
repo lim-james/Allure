@@ -146,6 +146,8 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="GraphScene.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -188,12 +190,16 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderSystem.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="GraphScene.h" />
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="LuaScript.h" />
     <ClInclude Include="NNScene.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="SpriteAnimation.h" />

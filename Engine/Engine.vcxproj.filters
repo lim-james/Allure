@@ -67,6 +67,9 @@
     <Filter Include="Application\Lua">
       <UniqueIdentifier>{a4f067df-5ded-44a7-a466-1de3953825c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Scenes\Graph">
+      <UniqueIdentifier>{8cd67a58-8427-41ca-bf2a-824ae25bff71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -194,6 +197,12 @@
     </ClCompile>
     <ClCompile Include="LuaScript.cpp">
       <Filter>Application\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Application\Scenes\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphScene.cpp">
+      <Filter>Application\Scenes\Graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +337,18 @@
     </ClInclude>
     <ClInclude Include="LuaScript.h">
       <Filter>Application\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge.h">
+      <Filter>Application\Scenes\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Application\Scenes\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphScene.h">
+      <Filter>Application\Scenes\Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Application\Scenes\Graph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
