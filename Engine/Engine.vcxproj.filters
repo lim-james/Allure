@@ -40,9 +40,6 @@
     <Filter Include="Engine\Button">
       <UniqueIdentifier>{8d4b3432-99e1-412e-b04b-da003fb2cb78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Render\Particles">
-      <UniqueIdentifier>{6f867f1d-9858-4a4e-8357-5b76acc1e9e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{6454f4c8-54c1-46e9-a384-b51fad5ec86c}</UniqueIdentifier>
     </Filter>
@@ -67,14 +64,17 @@
     <Filter Include="Application\Lua">
       <UniqueIdentifier>{a4f067df-5ded-44a7-a466-1de3953825c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Scenes\Graph">
-      <UniqueIdentifier>{8cd67a58-8427-41ca-bf2a-824ae25bff71}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\UIManagers">
       <UniqueIdentifier>{5211ae78-7534-4247-89ac-2c245d175e92}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Scenes\Canvas">
       <UniqueIdentifier>{c3cb104a-5342-4c30-9e4a-559b0521536a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Particles">
+      <UniqueIdentifier>{6f867f1d-9858-4a4e-8357-5b76acc1e9e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Scenes\Editor">
+      <UniqueIdentifier>{4147d874-d910-43c3-be03-ab5cb46689f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -148,13 +148,13 @@
       <Filter>Engine\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
-      <Filter>Engine\Render\Particles</Filter>
+      <Filter>Engine\Particles</Filter>
     </ClCompile>
     <ClCompile Include="ParticleEmitter.cpp">
-      <Filter>Engine\Render\Particles</Filter>
+      <Filter>Engine\Particles</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Engine\Render\Particles</Filter>
+      <Filter>Engine\Particles</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Engine\Animation</Filter>
@@ -204,17 +204,17 @@
     <ClCompile Include="LuaScript.cpp">
       <Filter>Application\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphScene.cpp">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClCompile>
     <ClCompile Include="UITextFieldManager.cpp">
       <Filter>Application\UIManagers</Filter>
     </ClCompile>
     <ClCompile Include="CanvasScene.cpp">
       <Filter>Application\Scenes\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Application\Scenes\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorScene.cpp">
+      <Filter>Application\Scenes\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,22 +291,19 @@
       <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
-      <Filter>Engine\Render\Particles</Filter>
+      <Filter>Engine\Particles</Filter>
     </ClInclude>
     <ClInclude Include="ParticleEmitter.h">
-      <Filter>Engine\Render\Particles</Filter>
+      <Filter>Engine\Particles</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
-      <Filter>Engine\Render\Particles</Filter>
+      <Filter>Engine\Particles</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
     <ClInclude Include="AnimationSystem.h">
       <Filter>Engine\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="InputEvents.h">
-      <Filter>Application\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputController.h">
       <Filter>Application\Input</Filter>
@@ -350,23 +347,26 @@
     <ClInclude Include="LuaScript.h">
       <Filter>Application\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="Edge.h">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphScene.h">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Application\Scenes\Graph</Filter>
-    </ClInclude>
     <ClInclude Include="UITextFieldManager.h">
       <Filter>Application\UIManagers</Filter>
     </ClInclude>
     <ClInclude Include="CanvasScene.h">
       <Filter>Application\Scenes\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="InputEvents.h">
+      <Filter>Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge.h">
+      <Filter>Application\Scenes\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Application\Scenes\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Application\Scenes\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorScene.h">
+      <Filter>Application\Scenes\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

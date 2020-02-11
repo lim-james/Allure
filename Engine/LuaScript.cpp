@@ -17,10 +17,44 @@ LuaScript::~LuaScript() {
 	if (L) lua_close(L);
 }
 
-//template<>
-//std::string LuaScript::LuaGetDefault() {
-//	return "null";
-//}
+void LuaScript::Clean() {
+	int n = lua_gettop(L);
+	lua_pop(L, n);
+}
+
+std::vector<std::string> LuaScript::GetKeys(const std::string & identifier) {
+	std::string code =
+		"function getKeys(identifier) "
+		"s = \"\""
+		"for k, v in pairs(_G[identifier]) do "
+		"    s = s..k..\",\" "
+		"    end "
+		"return s "
+		"end"; // function for getting table keys
+
+	luaL_loadstring(L, code.c_str()); // execute code
+	lua_pcall(L, 0, 0, 0);
+	lua_getglobal(L, "getKeys"); // get function
+	lua_pushstring(L, identifier.c_str());
+	lua_pcall(L, 1, 1, 0); // execute function
+
+	std::string test = lua_tostring(L, -1);
+	std::vector<std::string> strings;
+	std::string temp = "";
+	std::cout << "TEMP:" << test << std::endl;
+
+	for (unsigned int i = 0; i < test.size(); i++) {
+		if (test.at(i) != ',') {
+			temp += test.at(i);
+		} else {
+			strings.push_back(temp);
+			temp = "";
+		}
+	}
+
+	Clean();
+	return strings;
+}
 
 bool LuaScript::LuaGetToStack(const std::string & identifier) {
 	level = 0;

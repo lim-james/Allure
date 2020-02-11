@@ -90,9 +90,6 @@ Edge * const Graph::CreateEdge(const unsigned & from, const unsigned & to, const
 	nodes[to]->edges.push_back(edge);
 
 	edges.push_back(edge);
-	visible[edge] = false;
-
-	doneExploring = false;
 
 	if (createEdgeHandler)
 		createEdgeHandler(edge);
@@ -114,41 +111,13 @@ void Graph::DrawEdges() {
 		if (inPath) {
 			line.tint.Set(1.f, 1.f, 0.f, 1.f);
 		} else {
-			line.tint.Set(visible[e] ? 0.75f : 0.25f);
+			line.tint.Set(0.5f);
 		}
+
 		line.Set(e->from->position, e->to->position);
 		Events::EventsManager::GetInstance()->Trigger("DRAW_LINE", new Events::AnyType<Line>(line));
 	}
 	
-}
-
-bool Graph::IsDoneExploring() const {
-	return doneExploring;
-}
-
-void Graph::Explore() {
-	if (doneExploring) return;
-
-	if (explorePath.empty()) {
-		explorePath.push(nodes.front());
-	} 
-
-	auto current = explorePath.top();
-
-	for (auto& edge : current->edges) {
-		// finding first unexplore path
-		if (!visible[edge]) {
-			auto target = edge->from == current ? edge->to : edge->from;
-			explorePath.push(target);
-			visible[edge] = true;
-			return;
-		}
-	}
-
-	// note has reached a dead end
-
-	explorePath.pop();
-	doneExploring = explorePath.empty();
 }
 
 void Graph::ClearPath() {

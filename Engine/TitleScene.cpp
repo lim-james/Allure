@@ -10,6 +10,7 @@
 #include "LoadTGA.h"
 #include "LoadFNT.h"
 #include "InputEvents.h"
+#include "EditorScene.h"
 
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
@@ -21,7 +22,7 @@ void TitleScene::Awake() {
 
 	Scene::Awake();
 
-	transition = false;
+	destination = "";
 	transitionDelay = 0.f;
 
 	camera = entities->GetComponent<Camera>(mainCamera);
@@ -46,18 +47,6 @@ void TitleScene::Awake() {
 
 		auto animation = entities->AddComponent<Animation>(label);
 		animation->SetActive(true);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f),
-			titleText->color.a,
-			1.f
-		);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f),
-			transform->translation.y,
-			0.f
-		);
 	}
 
 	// open button
@@ -77,7 +66,7 @@ void TitleScene::Awake() {
 		text->SetFont(microsoft);
 		text->text = "Open canvas"; 
 		text->scale = 0.5f;
-		text->color.Set(0.f);
+		text->color.Set(0.f, 0.f, 0.f, 1.f);
 
 		auto button = entities->AddComponent<Button>(entity);
 		button->BindHandler(MOUSE_OVER, &TitleScene::OnMouseOver, this);
@@ -88,26 +77,6 @@ void TitleScene::Awake() {
 
 		auto animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f, [button]() {
-				button->SetActive(true);
-			}),
-			buttonRender->tint.a,
-			0.5f
-		);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f),
-			text->color.a,
-			1.f
-		);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f),
-			transform->translation.y,
-			-7.f
-		);
 	}
 
 	{
@@ -153,25 +122,69 @@ void TitleScene::Awake() {
 		//emitter->endColorRange.Set(0.5f, 0.5f, 0.5f, 0.f);
 	}
 
-	textFieldManager = new UITextFieldManager(entities);
-
 	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &TitleScene::CursorPositionHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("DROP_INPUT", &TitleScene::DropHandler, this);
+}
+
+void TitleScene::Start() {
+	entities->GetComponent<ParticleEmitter>(mouse->entity)->SetActive(true);
+
+	{
+		auto transform = entities->GetComponent<Transform>(titleText->entity);
+		auto animation = entities->GetComponent<Animation>(titleText->entity);
+
+		animation->Animate(
+			AnimationBase(false, 0.5f, 5.f),
+			titleText->color.a,
+			1.f
+		);
+
+		animation->Animate(
+			AnimationBase(false, 0.5f, 5.f),
+			transform->translation.y,
+			0.f
+		);
+	}
+
+	{
+		auto button = entities->GetComponent<Button>(buttonRender->entity);
+		auto transform = entities->GetComponent<Transform>(buttonRender->entity);
+		auto animation = entities->GetComponent<Animation>(buttonRender->entity);
+
+		animation->Animate(
+			AnimationBase(false, 0.5f, 5.f, [button]() {
+				button->SetActive(true);
+			}),
+			buttonRender->tint.a,
+			0.5f
+		);
+
+		animation->Animate(
+			AnimationBase(false, 0.5f, 5.f),
+			transform->translation.y,
+			-7.f
+		);
+	}
 }
 
 void TitleScene::Update(const float & dt) {
 	Scene::Update(dt);
 
-	textFieldManager->Update(dt);
-
-	if (transition) {
+	if (!destination.empty()) {
 		transitionDelay -= dt;
-		if (transitionDelay <= 0.f)
-			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("CANVAS"));
+		if (transitionDelay <= 0.f) {
+			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String(destination));
+			destination = "";
+			transitionDelay = 0.0f;
+		}
 	}
 }
 
-void TitleScene::Destroy() {
-	delete textFieldManager;
+void TitleScene::PrepareForSegue(Scene * destination) {
+	EditorScene* scene = dynamic_cast<EditorScene*>(destination);
+	if (scene) {
+		scene->SetFile(file);
+	}
 }
 
 void TitleScene::CursorPositionHandler(Events::Event * event) {
@@ -180,6 +193,16 @@ void TitleScene::CursorPositionHandler(Events::Event * event) {
 	auto position = camera->ScreenToWorldSpace(input->position);
 	position.y = -position.y;
 	mouse->translation = position;
+}
+
+void TitleScene::DropHandler(Events::Event * event) {
+	auto drop = static_cast<Events::DropInput*>(event);
+
+	file = drop->paths[0];
+
+	FadeOut();
+	destination = "EDITOR";
+	transitionDelay = 5.f;
 }
 
 void TitleScene::OnMouseOver(unsigned target) {
@@ -228,7 +251,7 @@ void TitleScene::OnMouseUp(unsigned target) {
 
 void TitleScene::OnClick(unsigned target) {
 	FadeOut();
-	transition = true;
+	destination = "CANVAS";
 	transitionDelay = 5.f;
 }
 
@@ -255,7 +278,7 @@ void TitleScene::FadeOut() {
 
 	{
 		auto transform = entities->GetComponent<Transform>(buttonRender->entity);
-		auto animation = entities->AddComponent<Animation>(buttonRender->entity);
+		auto animation = entities->GetComponent<Animation>(buttonRender->entity);
 
 		animation->Animate(
 			AnimationBase(false, 0.5f),

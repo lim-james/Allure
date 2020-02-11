@@ -16,7 +16,7 @@
 
 class TitleScene : public Scene {
 
-	bool transition;
+	std::string destination;
 	float transitionDelay;
 
 	Camera* camera;
@@ -25,20 +25,22 @@ class TitleScene : public Scene {
 	Text* titleText;
 	Render* buttonRender;
 
-	UITextFieldManager* textFieldManager;
+	std::string file;
 
 public:
 
 	void Awake() override;
+	void Start() override;
 	void Update(const float& dt) override;
 
-	void Destroy() override;
+	void PrepareForSegue(Scene* destination) override;
 
 private:
 
 	// event handler
 
 	void CursorPositionHandler(Events::Event* event);
+	void DropHandler(Events::Event* event);
 
 	void OnMouseOver(unsigned target);
 	void OnMouseOut(unsigned target);

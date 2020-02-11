@@ -6,6 +6,12 @@
 #include <fstream>
 #include <streambuf>
 
+struct stat Helpers::GetFileInfo(const std::string & filepath) {
+	struct stat fileInfo;
+	stat(filepath.c_str(), &fileInfo);
+	return fileInfo;
+}
+
 std::string Helpers::GetFileName(const std::string & filepath) {
 	return Helpers::Split(filepath, '\\').back();
 }

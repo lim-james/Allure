@@ -23,10 +23,7 @@ class Graph {
 
 	std::vector<Node*> nodes;
 	std::vector<Edge*> edges;
-	std::map<Edge*, bool> visible;
 
-	bool doneExploring;
-	std::stack<Node*> explorePath;
 	std::vector<Edge*> path;
 
 	std::function<void(Node*)> createNodeHandler;
@@ -53,9 +50,6 @@ public:
 
 	template<typename Context>
 	void BindCreateEdgeHandler(void(Context::*callback)(Edge*), Context* context);
-
-	bool IsDoneExploring() const;
-	void Explore();
 
 	void ClearPath();
 	void PathFind(Node * const start, Node * const end);

@@ -6,6 +6,7 @@
 #include <Logger/Logger.h>
 
 #include <string>
+#include <vector>
 
 class LuaScript {
 
@@ -17,8 +18,15 @@ public:
 	LuaScript(const std::string& filepath);
 	~LuaScript();
 
+	void Clean();
+
 	template<typename T>
 	T Get(const std::string& identifier);
+
+	template<typename T>
+	std::vector<T> GetVector(const std::string& identifer);
+
+	std::vector<std::string> GetKeys(const std::string& identifier);
 
 private:
 
@@ -55,6 +63,25 @@ T LuaScript::Get(const std::string & identifier) {
 
 	lua_pop(L, level + 1);
 	return result;
+}
+
+template<typename T>
+std::vector<T> LuaScript::GetVector(const std::string & identifer) {
+	std::vector<T> v;
+	LuaGetToStack(identifer.c_str());
+
+	if (lua_isnil(L, -1)) { // array is not found
+		return std::vector<T>();
+	}
+
+	lua_pushnil(L);
+	while (lua_next(L, -2)) {
+		v.push_back((T)lua_tonumber(L, -1));
+		lua_pop(L, 1);
+	}
+
+	Clean();
+	return v;
 }
 
 //template<typename T>
