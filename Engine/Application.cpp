@@ -6,6 +6,7 @@
 #include "MainMenuScene.h"
 #include "SplashScene.h"
 #include "GameScene.h"
+#include "PlayerEditScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -64,6 +65,7 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	sceneManager->Add("SPLASH", new SplashScene);
 	sceneManager->Add("MAINMENU", new MainMenuScene);
 	sceneManager->Add("GAME", new GameScene);
+	sceneManager->Add("PE", new PlayerEditScene);
 	sceneManager->SetEntryPoint("SPLASH");
 
 	context->BroadcastSize();

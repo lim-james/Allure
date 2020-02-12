@@ -160,6 +160,8 @@
     <ClCompile Include="NNScene.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerEditScene.cpp" />
     <ClCompile Include="SplashScene.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="SpriteAnimationData.cpp" />
@@ -207,6 +209,8 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerEditScene.h" />
     <ClInclude Include="SplashScene.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="InputController.h" />

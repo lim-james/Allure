@@ -47,17 +47,6 @@ void GameScene::Awake()
 	auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 
 	{
-		const unsigned label = entities->Create();
-		entities->GetComponent<Transform>(label)->translation.Set(-17.f, -7.5f, 0.f);
-		const auto text = entities->AddComponent<Text>(label);
-		text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
-		text->SetActive(true);
-		text->paragraphAlignment = PARAGRAPH_LEFT;
-		text->scale = 0.5f;
-		text->text = "Move cursor near npc and it will start to chase.\nMove cursor away and the npc will return to the nearest node";
-	}
-
-	{
 		// text field
 		textField = entities->Create();
 
@@ -99,12 +88,11 @@ void GameScene::Awake()
 	player.transform = entities->GetComponent<Transform>(player.id);
 	player.transform->scale.Set(2, 2, 1);
 	player.node = graph.GetNearestNode(player.transform->translation);
+	player.distance = 5.f;
+	player.speed = 1.f;
 	auto render = entities->AddComponent<Render>(player.id);
 	render->SetActive(true);
 	render->SetTexture("Files/Textures/player.tga");
-
-
-	//script = new LuaScript("Files/Scripts/States.lua");
 }
 
 void GameScene::Update(const float & dt)
@@ -121,7 +109,7 @@ void GameScene::Update(const float & dt)
 		bt = 0.f;
 	}
 
-	if (Math::LengthSquared(player.transform->translation - vec3f(smPosition, 0)) <= 5.f) {
+	if (Math::LengthSquared(player.transform->translation - vec3f(smPosition, 0)) <= player.distance) {
 		player.transform->translation = Math::Lerp(player.transform->translation, vec3f(smPosition, 0), dt);
 		returnClosest = false;
 	}
@@ -251,20 +239,20 @@ void GameScene::CreateNode(Node * node)
 	render->SetActive(true);
 	render->SetTexture("Files/Textures/hexagon.tga");
 
-	const auto text = entities->AddComponent<Text>(entity);
-	text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
-	text->SetActive(true);
-	text->scale = 0.5f;
-	text->text = std::to_string(node->id);
-	text->color.Set(0.f, 0.f, 0.f, 1.f);
+	//const auto text = entities->AddComponent<Text>(entity);
+	//text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
+	//text->SetActive(true);
+	//text->scale = 0.5f;
+	//text->text = std::to_string(node->id);
+	//text->color.Set(0.f, 0.f, 0.f, 1.f);
 
-	auto button = entities->AddComponent<Button>(entity);
-	button->SetActive(true);
-	button->BindHandler(MOUSE_OVER, &GameScene::OnMouseOverHandler, this);
-	button->BindHandler(MOUSE_OUT, &GameScene::OnMouseOutHandler, this);
-	button->BindHandler(MOUSE_DOWN, &GameScene::OnMouseDownHandler, this);
-	button->BindHandler(MOUSE_UP, &GameScene::OnMouseUpHandler, this);
-	button->BindHandler(MOUSE_CLICK, &GameScene::OnClick, this);
+	//auto button = entities->AddComponent<Button>(entity);
+	//button->SetActive(true);
+	//button->BindHandler(MOUSE_OVER, &GameScene::OnMouseOverHandler, this);
+	//button->BindHandler(MOUSE_OUT, &GameScene::OnMouseOutHandler, this);
+	//button->BindHandler(MOUSE_DOWN, &GameScene::OnMouseDownHandler, this);
+	//button->BindHandler(MOUSE_UP, &GameScene::OnMouseUpHandler, this);
+	//button->BindHandler(MOUSE_CLICK, &GameScene::OnClick, this);
 
 	auto animation = entities->AddComponent<Animation>(entity);
 	animation->SetActive(true);
@@ -295,8 +283,10 @@ void GameScene::KeyHandler(Events::Event* event) {
 
 	if (input->key == GLFW_KEY_TAB && input->action == !GLFW_RELEASE)
 	{
-		//script->Set<int>("graph.node1.posx", 10, false, false);
-		selection = true;
+		//UpdateNodePosition();
+		entities->GetComponent<Text>(textField)->text = "here";
+		//script->Set<int>("graph.node1.posx", 10, true, true);
+		//selection = true;
 	}
 
 	if (input->action == GLFW_PRESS && input->key == GLFW_KEY_GRAVE_ACCENT) {
@@ -312,17 +302,26 @@ void GameScene::KeyHandler(Events::Event* event) {
 	}
 	else if (input->key == GLFW_KEY_ENTER && input->action == GLFW_PRESS) {
 		auto& text = entities->GetComponent<Text>(textField)->text;
-		if (isCaps) {
-			text.insert(text.begin() + cursorPos, '\n');
-			++cursorPos;
-			UpdateCursorOffset(textField);
+		//if (isCaps) {
+		//	text.insert(text.begin() + cursorPos, '\n');
+		//	++cursorPos;
+		//	UpdateCursorOffset(textField);
+		//}
+		//else {
+		//	//DidReturn(this);
+		//	text.clear();
+		//	cursorPos = 0;
+		//	UpdateCursorOffset(textField);
+		//}
+		if (text == "player.distance=15") {
+			player.distance = 15;
 		}
-		else {
-			//DidReturn(this);
-			text.clear();
-			cursorPos = 0;
-			UpdateCursorOffset(textField);
+		if (text == "player.alpha=0.5") {
+			player.alpha = 0.5f;
+			entities->GetComponent<Render>(player.id);
 		}
+
+		text = "";
 	}
 	else if (input->key == GLFW_KEY_LEFT && input->action != GLFW_RELEASE) {
 		if (cursorPos != 0) {
@@ -458,7 +457,7 @@ void GameScene::OnClick(unsigned entity)
 }
 
 void GameScene::UpdateNodePosition() {
-	LuaScript* graphscript = new LuaScript("Files/Scripts/Graph.lua");
+	LuaScript* graphscript = new LuaScript("Files/Scripts/GraphUpdate.lua");
 	int i = 1;
 	for (auto nodes : graph.nodes) {
 		std::string tempx = "graph.node";
@@ -468,10 +467,11 @@ void GameScene::UpdateNodePosition() {
 		tempy += std::to_string(i);
 		tempy += ".posy";
 
-		int posX = script->Get<int>(tempx);
-		int posY = script->Get<int>(tempy);
+		int posX = graphscript->Get<int>(tempx);
+		int posY = graphscript->Get<int>(tempy);
 
 		nodes->position.Set(posX, posY, 0);
+		auto render = entities->GetComponent<Render>(nodes->entity);
 		++i;
 	}
 	delete graphscript;

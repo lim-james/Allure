@@ -216,6 +216,12 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Application\Scenes\IrwenScene</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEditScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -370,6 +376,12 @@
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>Application\Scenes\IrwenScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEditScene.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

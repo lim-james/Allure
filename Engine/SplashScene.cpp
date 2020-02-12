@@ -59,7 +59,7 @@ void SplashScene::Update(const float & dt)
 		entities->GetComponent<Text>(textID)->color.a -= 0.5 * dt;
 	}
 	else {
-		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("GAME"));
+		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("PE"));
 	}
 	
 }

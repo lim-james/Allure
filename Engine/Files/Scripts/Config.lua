@@ -3,6 +3,6 @@ window = {
 		width = 1600,
 		height = 900
 	},
-	title = "Allure 2D",
+	title = "AGDev Assignment 2 Showcase",
 	fullscreen = false
 }

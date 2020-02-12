@@ -5,7 +5,7 @@ graph = {
 	},
 	node2 = {
 		posx = 0,
-		posy = 8
+		posy = -4
 	},
 	node3 = {
 		posx = 8,

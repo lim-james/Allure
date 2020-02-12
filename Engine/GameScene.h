@@ -3,9 +3,8 @@
 
 #include "Scene.h"
 
-#include "Graph.h"
+#include "Player.h"
 #include "Camera.h"
-#include "Transform.h"
 
 #include "LuaScript.h"
 
@@ -36,14 +35,7 @@ class GameScene : public Scene {
 	int cursorPos;
 	bool isCaps;
 
-	struct Player {
-		unsigned int id;
-		Transform* transform;
-		float speed;
-		Node* node;
-	};
-
-	Player player;
+	Player player = Player::GetInstance();
 	bool returnClosest;
 public:
 

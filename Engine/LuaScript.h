@@ -4,6 +4,7 @@
 #include "lua.hpp"
 
 #include <Logger/Logger.h>
+#include "Math/Vectors.hpp"
 
 #include <string>
 
@@ -17,19 +18,39 @@ public:
 	LuaScript(const std::string& filepath);
 	~LuaScript();
 
-	inline void clean(void);
-
 	template<typename T>
 	T Get(const std::string& identifier);
-
-	//template<typename T>
-	//T Set(const std::string& identifier, T value);
 
 	template<typename T>
 	bool Set(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate);
 
 	template<typename T>
 	bool LuaSetDefault(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate);
+
+	float GetDistanceSquareValue(const char* variableName, vec3f source, vec3f destination) {
+		if (!L) {
+			std::cout << "SCRIPT CANNOT LOAD" << std::endl;
+			return -1.f;
+		}
+
+		lua_getglobal(L, variableName);
+		lua_pushnumber(L, source.x);
+		lua_pushnumber(L, source.y);
+		lua_pushnumber(L, source.z);
+		lua_pushnumber(L, destination.x);
+		lua_pushnumber(L, destination.y);
+		lua_pushnumber(L, destination.z);
+
+		float distanceSquare = -1.f;
+		if (lua_pcall((L), 6, 1, 0) != 0)
+			std::cout << "Unable to call " << variableName << " : " << std::endl;
+		else
+			distanceSquare = (float)lua_tonumber(L, -1);
+		
+		Clean();
+
+		return distanceSquare;
+	}
 
 private:
 
@@ -46,7 +67,7 @@ private:
 	}
 
 	template<typename T>
-	T LuaSet(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate) {
+	bool LuaSet(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate) {
 		return false;
 	}
 
@@ -72,16 +93,6 @@ T LuaScript::Get(const std::string & identifier) {
 	lua_pop(L, level + 1);
 	return result;
 }
-
-//template<typename T>
-//T LuaScript::Set(const std::string& identifier, T value) {
-//	if (!L) {
-//		Console::Error << "Script not loaded\n";
-//		return LuaGetDefault<T>();
-//	}
-//
-//	T result;
-//}
 
 template<typename T>
 bool LuaScript::Set(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate)
@@ -115,12 +126,19 @@ bool LuaScript::Set(const std::string& variableName, const T value, const bool b
 //template<typename T>
 //T LuaScript::LuaGet(const std::string & identifier)
 
-//template <>
-//inline bool LuaScript::LuaSet<int>(const std::string& variableName, const int iValue, const bool bOverwrite, const bool bUpdate) {
-//	lua_getglobal(L, "SetToLuaFile");
-//	char outputString[80];
-//	sprintf(outputString, "%s = %d", variableName.c_str(), iValue);
-//}
+template <>
+inline bool LuaScript::LuaSet<int>(const std::string& variableName, const int iValue, const bool bOverwrite, const bool bUpdate) {
+	lua_getglobal(L, "SetToLuaFile");
+	char outputString[80];
+	sprintf_s(outputString, "%s = %d", variableName.c_str(), iValue);
+	lua_pushstring(L, outputString);
+	lua_pushinteger(L, bOverwrite);
+
+	if (lua_pcall(L, 2, 0, 0) != 0)
+		std::cout << "Unable to save to LUA file" << std::endl;
+
+	return true;
+}
 
 
 template<typename T>
