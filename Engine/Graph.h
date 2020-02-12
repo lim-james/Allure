@@ -3,6 +3,7 @@
 
 #include "Node.h"
 #include "Edge.h"
+#include "LuaScript.h"
 
 #include <vector>
 #include <map>
@@ -21,8 +22,6 @@ struct GNode {
 
 class Graph {
 
-	std::vector<Node*> nodes;
-	std::vector<Edge*> edges;
 	std::map<Edge*, bool> visible;
 
 	bool doneExploring;
@@ -33,10 +32,13 @@ class Graph {
 	std::function<void(Edge*)> createEdgeHandler;
 
 public:
+	std::vector<Node*> nodes;
+	std::vector<Edge*> edges;
 
 	~Graph();
 
 	void Create(const std::string& filepath);
+	void Create(LuaScript* script);
 	void Update();
 
 	Node * const CreateNode(const float& x, const float& y, const float& z);

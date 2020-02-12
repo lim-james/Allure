@@ -22,6 +22,7 @@ LuaScript::~LuaScript() {
 //	return "null";
 //}
 
+
 bool LuaScript::LuaGetToStack(const std::string & identifier) {
 	level = 0;
 	std::string var = "";

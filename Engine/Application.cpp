@@ -3,7 +3,9 @@
 #include "TitleScene.h"
 #include "GraphScene.h"
 #include "NNScene.h"
-#include "IrwenScene.h"
+#include "MainMenuScene.h"
+#include "SplashScene.h"
+#include "GameScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -59,8 +61,10 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	sceneManager->Add("TITLE", new TitleScene);
 	sceneManager->Add("GRAPH", new GraphScene);
 	sceneManager->Add("NN", new NNScene);
-	sceneManager->Add("IRWEN", new IrwenScene);
-	sceneManager->SetEntryPoint("IRWEN");
+	sceneManager->Add("SPLASH", new SplashScene);
+	sceneManager->Add("MAINMENU", new MainMenuScene);
+	sceneManager->Add("GAME", new GameScene);
+	sceneManager->SetEntryPoint("SPLASH");
 
 	context->BroadcastSize();
 	em->TriggerQueued();

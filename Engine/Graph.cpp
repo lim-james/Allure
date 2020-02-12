@@ -28,8 +28,69 @@ void Graph::Create(const std::string & filepath) {
 			CreateNode(row[1], row[2], row[3]);
 		} else if (row.front() == 1.f) {
 			CreateEdge(row[1], row[2], row[3]);
-		}
+		}	
 	}
+}
+
+void Graph::Create(LuaScript* script) {
+	//LuaScript* script = new LuaScript("Files/Scripts/Graph.lua");
+	int i = 1;
+	while (true) {
+		std::string tempx = "graph.node";
+		tempx += std::to_string(i);
+		tempx += ".posx";
+		std::string tempy = "graph.node";
+		tempy += std::to_string(i);
+		tempy += ".posy";
+
+		int posX = script->Get<int>(tempx);
+		int posY = script->Get<int>(tempy);
+
+		if (posX == 0 && posY == 0)
+			break;
+
+		CreateNode(posX, posY, 0);
+		++i;
+	}
+	i = 1;
+	while (true) {
+		std::string start = "graph.edge";
+		start += std::to_string(i);
+		start += ".start";
+		std::string end = "graph.edge";
+		end += std::to_string(i);
+		end += ".endnode";
+		std::string weight = "graph.edge";
+		weight += std::to_string(i);
+		weight += ".weight";
+
+		int m_istart = script->Get<int>(start);
+		int m_iend = script->Get<int>(end);
+		int m_iweight = script->Get<int>(weight);
+
+		if (m_istart == 0 && m_iend == 0)
+			break;
+
+		CreateEdge(m_istart, m_iend, m_iweight);
+		++i;
+	}
+
+	//for (int i = 1; i <= numNodes; ++i) {
+	//	std::string tempx = "graph.node";
+	//	tempx += std::to_string(i);
+	//	//tempx += "one";
+	//	tempx += ".posx";
+	//	std::string tempy= "graph.node";
+	//	tempy += std::to_string(i);
+	//	//tempy += "one";
+	//	tempy += ".posy";
+
+	//	std::cout << tempx << ", " << tempy << std::endl;
+
+	//	CreateNode(script->Get<int>(tempx), script->Get<int>(tempy), 0);
+	//}
+
+
 }
 
 void Graph::Update() {

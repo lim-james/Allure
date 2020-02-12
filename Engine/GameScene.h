@@ -1,5 +1,5 @@
-#ifndef IRWEN_SCENE_H
-#define IRWEN_SCENE_H
+#ifndef GAME_SCENE_H
+#define GAME_SCENE_H
 
 #include "Scene.h"
 
@@ -7,9 +7,11 @@
 #include "Camera.h"
 #include "Transform.h"
 
+#include "LuaScript.h"
+
 #include <map>
 
-class IrwenScene : public Scene {
+class GameScene : public Scene {
 
 	float bt;
 
@@ -26,17 +28,41 @@ class IrwenScene : public Scene {
 
 	Node *start, *end;
 
+	LuaScript* script;
 
+	unsigned textField;
+	unsigned cursor;
+	bool selection;
+	int cursorPos;
+	bool isCaps;
+
+	struct Player {
+		unsigned int id;
+		Transform* transform;
+		float speed;
+		Node* node;
+	};
+
+	Player player;
+	bool returnClosest;
 public:
 
 	void Awake() override;
 	void Update(const float& dt) override;
+	void FixedUpdate(const float& dt) override;
+
 
 private:
+
+	void TextFieldDidSelect(unsigned target);
+	void UpdateCursorOffset(unsigned target);
 
 	void CreateNode(Node * node);
 	void CreateEdge(Edge * edge);
 
+	void TextHandler(Events::Event* event);
+
+	void KeyHandler(Events::Event* event);
 	void CursorPositionHandler(Events::Event* event);
 	void MouseButtonHandler(Events::Event* event);
 
@@ -45,6 +71,8 @@ private:
 	void OnMouseDownHandler(unsigned entity);
 	void OnMouseUpHandler(unsigned entity);
 	void OnClick(unsigned entity);
+
+	void UpdateNodePosition();
 
 };
 

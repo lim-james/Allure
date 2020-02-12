@@ -76,6 +76,11 @@ namespace Math {
 		return value >= min && value <= max;
 	}
 
+	template<typename T>
+	T Lerp(const T& from, const T& to, const float& t) {
+		return from + (to - from) * t;
+	}
+
 }
 
 #endif

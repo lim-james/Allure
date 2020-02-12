@@ -17,8 +17,19 @@ public:
 	LuaScript(const std::string& filepath);
 	~LuaScript();
 
+	inline void clean(void);
+
 	template<typename T>
 	T Get(const std::string& identifier);
+
+	//template<typename T>
+	//T Set(const std::string& identifier, T value);
+
+	template<typename T>
+	bool Set(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate);
+
+	template<typename T>
+	bool LuaSetDefault(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate);
 
 private:
 
@@ -32,6 +43,11 @@ private:
 	template<typename T>
 	T LuaGet(const std::string& identifier) {
 		return 0;
+	}
+
+	template<typename T>
+	T LuaSet(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate) {
+		return false;
 	}
 
 	void PrintError(const std::string& identifier, const std::string& reason) const;
@@ -58,7 +74,59 @@ T LuaScript::Get(const std::string & identifier) {
 }
 
 //template<typename T>
+//T LuaScript::Set(const std::string& identifier, T value) {
+//	if (!L) {
+//		Console::Error << "Script not loaded\n";
+//		return LuaGetDefault<T>();
+//	}
+//
+//	T result;
+//}
+
+template<typename T>
+bool LuaScript::Set(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate)
+{
+	if (!L) {
+		Console::Error << "Script not loaded\n";
+		return false;
+	}
+
+	T result = false;
+	// If overwriting existing variable, then don't check if it exists in the Lua file
+	if (bOverwrite)
+	{
+		// variable succesfully on top of stack
+		result = LuaSet<T>(variableName, value, bOverwrite, bUpdate);
+	}
+	else
+	{
+		// Check if the variable exists in the Lua file
+		if (LuaGetToStack(variableName))
+		{
+			// variable succesfully on top of stack
+			result = LuaSet<T>(variableName, value, bOverwrite, bUpdate);
+		}
+	}
+
+	//clean();
+	return result;
+}
+
+//template<typename T>
 //T LuaScript::LuaGet(const std::string & identifier)
+
+//template <>
+//inline bool LuaScript::LuaSet<int>(const std::string& variableName, const int iValue, const bool bOverwrite, const bool bUpdate) {
+//	lua_getglobal(L, "SetToLuaFile");
+//	char outputString[80];
+//	sprintf(outputString, "%s = %d", variableName.c_str(), iValue);
+//}
+
+
+template<typename T>
+inline bool LuaScript::LuaSetDefault(const std::string& variableName, const T value, const bool bOverwrite, const bool bUpdate) {
+	return false;
+}
 
 template<>
 inline std::string LuaScript::LuaGetDefault<std::string>() {
