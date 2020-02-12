@@ -52,7 +52,7 @@ public:
 	void BindCreateEdgeHandler(void(Context::*callback)(Edge*), Context* context);
 
 	void ClearPath();
-	void PathFind(Node * const start, Node * const end);
+	std::vector<Edge*> PathFind(Node * const start, Node * const end);
 
 };
 

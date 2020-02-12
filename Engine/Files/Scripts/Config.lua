@@ -6,3 +6,4 @@ window = {
 	title = "Allure 2D",
 	fullscreen = false
 }
+

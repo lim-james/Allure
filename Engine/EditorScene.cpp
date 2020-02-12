@@ -14,6 +14,7 @@
 
 #include <Events/EventsManager.h>
 #include <Helpers/FileHelpers.h>
+#include <GLFW/glfw3.h>
 
 void EditorScene::Awake() {
 
@@ -80,6 +81,7 @@ void EditorScene::Awake() {
 		animation->SetActive(true);
 	}
 
+	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &EditorScene::KeyHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("DROP_INPUT", &EditorScene::DropHandler, this);
 }
 
@@ -148,11 +150,21 @@ void EditorScene::SetFile(const std::string & _filepath) {
 	UpdateEmitter();
 }
 
+void EditorScene::KeyHandler(Events::Event * event) {
+	auto input = static_cast<Events::KeyInput*>(event);
+	if (input->action == GLFW_PRESS && input->key == GLFW_KEY_SPACE) {
+		LuaScript* script = new LuaScript(filepath);
+
+		script->Set("emitter.accelRad", 10.f, nullptr);
+
+		delete script;
+	}
+}
+
 void EditorScene::DropHandler(Events::Event * event) {
 	auto drop = static_cast<Events::DropInput*>(event);
 	SetFile(drop->paths[0]);
 }
-
 
 void EditorScene::OnMouseOver(unsigned target) {
 	auto render = entities->GetComponent<Render>(target);

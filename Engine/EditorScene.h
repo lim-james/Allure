@@ -30,6 +30,7 @@ public:
 
 private:
 
+	void KeyHandler(Events::Event * event);
 	void DropHandler(Events::Event * event);
 
 	void OnMouseOver(unsigned target);

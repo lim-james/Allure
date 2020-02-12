@@ -35,6 +35,8 @@ class CanvasScene : public Scene {
 		Node * node;
 		std::string filepath;
 		time_t lastMod;
+
+		std::vector<Node*> path;
 	};
 
 	std::vector<Emitter> emitters;
@@ -61,11 +63,17 @@ private:
 	void OnMouseUpHandler(unsigned entity);
 	void OnClick(unsigned entity);
 
+	void OnMouseOver(unsigned target);
+	void OnMouseOut(unsigned target);
+	void OnMouseDown(unsigned target);
+	void OnMouseUp(unsigned target);
+	void OnCloseClicked(unsigned target);
+
 	// helpers methods
 
 	void CreateNode(Node * node);
 	void CreateEdge(Edge * edge);
-	Transform* CreateEmitter(const std::string& filepath);
+	void CreateEmitter(const std::string& filepath, const vec3f& position);
 
 	void UpdateEmitter(ParticleEmitter* emitter, const std::string& filepath);
 

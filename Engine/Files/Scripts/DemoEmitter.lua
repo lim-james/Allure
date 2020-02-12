@@ -13,7 +13,7 @@ emitter = {
 	angle = { 0.0, 0.0, 0.0 },
 	angleRange = { 180.0, 180.0, 180.0 },
 
-	speed = 15.0,
+	speed = 5.0,
 	speedRange = 5.0,
 
 	offset = { 0.0, 0.0, 0.0 },

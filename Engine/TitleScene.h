@@ -18,6 +18,7 @@ class TitleScene : public Scene {
 
 	std::string destination;
 	float transitionDelay;
+	float splashDelay;
 
 	Camera* camera;
 	Transform* mouse;

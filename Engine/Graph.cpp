@@ -124,7 +124,7 @@ void Graph::ClearPath() {
 	path.clear();
 }
 
-void Graph::PathFind(Node * const start, Node * const end) {
+std::vector<Edge*> Graph::PathFind(Node * const start, Node * const end) {
 	Update();
 
 	std::vector<GNode*> opened;
@@ -209,5 +209,5 @@ void Graph::PathFind(Node * const start, Node * const end) {
 		last = last->previous;
 	}
 
-	path;
+	return path;
 }

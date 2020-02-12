@@ -24,6 +24,7 @@ void TitleScene::Awake() {
 
 	destination = "";
 	transitionDelay = 0.f;
+	splashDelay = 5.f;
 
 	camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
@@ -134,13 +135,13 @@ void TitleScene::Start() {
 		auto animation = entities->GetComponent<Animation>(titleText->entity);
 
 		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f),
+			AnimationBase(false, 0.5f, splashDelay),
 			titleText->color.a,
 			1.f
 		);
 
 		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f),
+			AnimationBase(false, 0.5f, splashDelay),
 			transform->translation.y,
 			0.f
 		);
@@ -152,7 +153,7 @@ void TitleScene::Start() {
 		auto animation = entities->GetComponent<Animation>(buttonRender->entity);
 
 		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f, [button]() {
+			AnimationBase(false, 0.5f, splashDelay, [button]() {
 				button->SetActive(true);
 			}),
 			buttonRender->tint.a,
@@ -160,7 +161,7 @@ void TitleScene::Start() {
 		);
 
 		animation->Animate(
-			AnimationBase(false, 0.5f, 5.f),
+			AnimationBase(false, 0.5f, splashDelay),
 			transform->translation.y,
 			-7.f
 		);

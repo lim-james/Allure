@@ -5,8 +5,6 @@
 LuaScript::LuaScript(const std::string & filepath) : level(0) {
 	L = luaL_newstate();
 
-	//Console::Warn << Helpers::ReadFile(filepath) << '\n';
-
 	if (luaL_loadfile(L, filepath.c_str()) || lua_pcall(L, 0, 0, 0)) {
 		Console::Error << "Script not loaded: \"" << filepath << "\"\n";
 		L = nullptr;

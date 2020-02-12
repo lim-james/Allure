@@ -27,6 +27,8 @@ void CanvasScene::Awake() {
 
 	Scene::Awake();
 
+	auto microsoft = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
+
 	graph.BindCreateNodeHandler(&CanvasScene::CreateNode, this);
 	graph.BindCreateEdgeHandler(&CanvasScene::CreateEdge, this);
 	graph.Create("Files/Data/graph.csv");
@@ -34,9 +36,39 @@ void CanvasScene::Awake() {
 	camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
 
+	{
+		const unsigned entity = entities->Create();
+
+		auto transform = entities->GetComponent<Transform>(entity);
+		transform->translation.y = -7.25f;
+		transform->scale.Set(7.f, 1.5f, 0.f);
+
+		auto buttonRender = entities->AddComponent<Render>(entity);
+		buttonRender->SetActive(true);
+		buttonRender->tint.Set(1.f, 1.f, 1.f, 0.f);
+
+		auto text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(microsoft);
+		text->text = "Close editor";
+		text->scale = 0.5f;
+		text->color.Set(0.f, 0.f, 0.f, 1.f);
+
+		auto button = entities->AddComponent<Button>(entity);
+		button->BindHandler(MOUSE_OVER, &CanvasScene::OnMouseOver, this);
+		button->BindHandler(MOUSE_OUT, &CanvasScene::OnMouseOut, this);
+		button->BindHandler(MOUSE_DOWN, &CanvasScene::OnMouseDown, this);
+		button->BindHandler(MOUSE_UP, &CanvasScene::OnMouseUp, this);
+		button->BindHandler(MOUSE_CLICK, &CanvasScene::OnCloseClicked, this);
+
+		auto animation = entities->AddComponent<Animation>(entity);
+		animation->SetActive(true);
+	}
+
 	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &CanvasScene::CursorPositionHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MOUSE_BUTTON_INPUT", &CanvasScene::MouseButtonHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("DROP_INPUT", &CanvasScene::DropHandler, this);
+
 }
 
 void CanvasScene::Start() {
@@ -94,6 +126,13 @@ void CanvasScene::MouseButtonHandler(Events::Event * event) {
 			auto position = camera->ScreenToWorldSpace(mousePosition);
 			graph.CreateNode(position.x, -position.y, 0.f);
 			mouseOver = true;
+		} else if (input->button == GLFW_MOUSE_BUTTON_RIGHT && input->action == GLFW_RELEASE) {
+			auto position = camera->ScreenToWorldSpace(mousePosition);
+			Node* dest = graph.GetNearestNode(position);
+
+			for (auto& emitter : emitters) {
+				//emitter.path = graph.PathFind(emitter.node, dest);
+			}
 		}
 	}
 
@@ -122,8 +161,7 @@ void CanvasScene::DropHandler(Events::Event * event) {
 	for (int i = 0; i < drop->count; ++i) {
 		auto filepath = drop->paths[i];
 
-		auto transform = CreateEmitter(filepath);
-		transform->translation = smPosition;
+		CreateEmitter(filepath, smPosition);
 	}
 }
 
@@ -131,7 +169,7 @@ void CanvasScene::OnMouseOverHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(1.25f)
+		vec3f(1.f)
 	);
 	mouseOver = true;
 }
@@ -140,7 +178,7 @@ void CanvasScene::OnMouseOutHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(1.f)
+		vec3f(0.5f)
 	);
 	mouseOver = false;
 }
@@ -149,7 +187,7 @@ void CanvasScene::OnMouseDownHandler(unsigned entity) {
 	entities->GetComponent<Animation>(entity)->Animate(
 		AnimationBase(false, 0.2f),
 		entities->GetComponent<Transform>(entity)->scale,
-		vec3f(1.f)
+		vec3f(0.5f)
 	);
 
 	mouseDown = true;
@@ -181,24 +219,75 @@ void CanvasScene::OnClick(unsigned entity) {
 	}
 }
 
+void CanvasScene::OnMouseOver(unsigned target) {
+	auto render = entities->GetComponent<Render>(target);
+	auto animation = entities->GetComponent<Animation>(target);
+
+	animation->Animate(
+		AnimationBase(false, 0.2f),
+		render->tint.a,
+		1.f
+	);
+}
+
+void CanvasScene::OnMouseOut(unsigned target) {
+	auto render = entities->GetComponent<Render>(target);
+	auto animation = entities->GetComponent<Animation>(target);
+
+	animation->Animate(
+		AnimationBase(false, 0.2f),
+		render->tint.a,
+		0.5f
+	);
+}
+
+void CanvasScene::OnMouseDown(unsigned target) {
+	auto transform = entities->GetComponent<Transform>(target);
+	auto animation = entities->GetComponent<Animation>(target);
+
+	animation->Animate(
+		AnimationBase(false, 0.2f),
+		transform->scale,
+		vec3f(7.f, 1.5f, 0.f) * 0.9f
+	);
+}
+
+void CanvasScene::OnMouseUp(unsigned target) {
+	auto transform = entities->GetComponent<Transform>(target);
+	auto animation = entities->GetComponent<Animation>(target);
+
+	animation->Animate(
+		AnimationBase(false, 0.2f),
+		transform->scale,
+		vec3f(7.f, 1.5f, 0.f)
+	);
+}
+
+void CanvasScene::OnCloseClicked(unsigned target) {
+	Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String("TITLE"));
+}
+
 void CanvasScene::CreateNode(Node * node) {
 	const auto entity = entities->Create();
 
 	entityNodeMap[entity] = node;
 	node->entity = entity;
 
-	entities->GetComponent<Transform>(entity)->translation = node->position;
-
+	auto transform = entities->GetComponent<Transform>(entity);
+	transform->translation = node->position;
+	transform->scale.Set(0.5f);
+	
 	auto render = entities->AddComponent<Render>(entity);
 	render->SetActive(true);
 	render->SetTexture("Files/Textures/circle.tga");
+	render->tint.Set(0.5f);
 
-	const auto text = entities->AddComponent<Text>(entity);
-	text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
-	text->SetActive(true);
-	text->scale = 0.5f;
-	text->text = std::to_string(node->id);
-	text->color.Set(0.f, 0.f, 0.f, 1.f);
+	//const auto text = entities->AddComponent<Text>(entity);
+	//text->SetFont(Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga"));
+	//text->SetActive(true);
+	//text->scale = 0.5f;
+	//text->text = std::to_string(node->id);
+	//text->color.Set(0.f, 0.f, 0.f, 1.f);
 
 	auto button = entities->AddComponent<Button>(entity);
 	button->SetActive(true);
@@ -218,10 +307,11 @@ void CanvasScene::CreateEdge(Edge * edge) {
 	}
 }
 
-Transform* CanvasScene::CreateEmitter(const std::string& filepath) {
+void CanvasScene::CreateEmitter(const std::string& filepath, const vec3f& position) {
 	const unsigned entity = entities->Create();
 
 	auto transform = entities->GetComponent<Transform>(entity);
+	transform->translation = position;
 
 	const auto emitter = entities->AddComponent<ParticleEmitter>(entity);
 	emitter->SetActive(true);
@@ -234,8 +324,6 @@ Transform* CanvasScene::CreateEmitter(const std::string& filepath) {
 		filepath,
 		Helpers::GetFileInfo(filepath).st_mtime
 	});
-
-	return transform;
 }
 
 void CanvasScene::UpdateEmitter(ParticleEmitter* emitter, const std::string& filepath) {
