@@ -3,7 +3,7 @@
 #include <fstream>
 #include <time.h>
 
-namespace Console {
+namespace Debug {
 
 	HANDLE Logger::hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::ostringstream Logger::logs = std::ostringstream();

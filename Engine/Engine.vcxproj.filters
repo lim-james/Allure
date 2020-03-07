@@ -58,23 +58,11 @@
     <Filter Include="Engine\Sprite Animation">
       <UniqueIdentifier>{6cecf106-1e7f-4279-96e5-99be757c586b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Scenes\NN">
-      <UniqueIdentifier>{cd268514-27b2-4973-8dcd-3e8dea2e19f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Lua">
-      <UniqueIdentifier>{a4f067df-5ded-44a7-a466-1de3953825c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\UIManagers">
       <UniqueIdentifier>{5211ae78-7534-4247-89ac-2c245d175e92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Scenes\Canvas">
-      <UniqueIdentifier>{c3cb104a-5342-4c30-9e4a-559b0521536a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Particles">
       <UniqueIdentifier>{6f867f1d-9858-4a4e-8357-5b76acc1e9e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Scenes\Editor">
-      <UniqueIdentifier>{4147d874-d910-43c3-be03-ab5cb46689f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -192,29 +180,14 @@
     <ClCompile Include="Keyframe.cpp">
       <Filter>Engine\Sprite Animation</Filter>
     </ClCompile>
-    <ClCompile Include="NNScene.cpp">
-      <Filter>Application\Scenes\NN</Filter>
-    </ClCompile>
     <ClCompile Include="Physics.cpp">
       <Filter>Engine\Physics</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Engine\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="LuaScript.cpp">
-      <Filter>Application\Lua</Filter>
-    </ClCompile>
     <ClCompile Include="UITextFieldManager.cpp">
       <Filter>Application\UIManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="CanvasScene.cpp">
-      <Filter>Application\Scenes\Canvas</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Application\Scenes\Canvas</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorScene.cpp">
-      <Filter>Application\Scenes\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,38 +308,17 @@
     <ClInclude Include="Keyframe.h">
       <Filter>Engine\Sprite Animation</Filter>
     </ClInclude>
-    <ClInclude Include="NNScene.h">
-      <Filter>Application\Scenes\NN</Filter>
-    </ClInclude>
     <ClInclude Include="Physics.h">
       <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
       <Filter>Engine\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="LuaScript.h">
-      <Filter>Application\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="UITextFieldManager.h">
       <Filter>Application\UIManagers</Filter>
     </ClInclude>
-    <ClInclude Include="CanvasScene.h">
-      <Filter>Application\Scenes\Canvas</Filter>
-    </ClInclude>
     <ClInclude Include="InputEvents.h">
       <Filter>Application\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Edge.h">
-      <Filter>Application\Scenes\Canvas</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>Application\Scenes\Canvas</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Application\Scenes\Canvas</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorScene.h">
-      <Filter>Application\Scenes\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,49 +2,8 @@
 #define VECTORS_HPP
 
 #include <iostream>
-#include <sstream>
 
 namespace Math {
-
-	template<unsigned size, typename T>
-	class Vector {
-
-
-	public:
-
-		union {
-			struct {
-				T data[size];
-			};
-
-			struct {
-				T x, y, z;
-			};
-		};
-
-		Vector();
-		~Vector();
-
-		inline T& operator[](const unsigned& i);
-		inline const T& operator[](const unsigned& i) const;
-
-	};
-
-	template<unsigned size, typename T>
-	Vector<size, T>::Vector() {}
-
-	template<unsigned size, typename T>
-	Vector<size, T>::~Vector() {}
-
-	template<unsigned size, typename T>
-	inline T & Vector<size, T>::operator[](const unsigned & i) {
-		return data[i];
-	}
-
-	template<unsigned size, typename T>
-	inline const T & Vector<size, T>::operator[](const unsigned & i) const {
-		return data[i];
-	}
 
 	template<typename T> struct vec2;
 	template<typename T> struct vec3;

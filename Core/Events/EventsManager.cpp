@@ -102,52 +102,52 @@ namespace Events {
 
 	void EventsManager::Debug() const {
 		int count = 0;
-		Console::Warn << "Empty callbacks:\n";
+		Debug::Warn << "Empty callbacks:\n";
 
 		for (auto& callback : emptyCallbacks) {
-			Console::Warn << callback.first << ": " << callback.second.size() << '\n';
+			Debug::Warn << callback.first << ": " << callback.second.size() << '\n';
 			count += callback.second.size();
 		}
 
-		Console::Warn << "Count: " << count << "\n\n";
+		Debug::Warn << "Count: " << count << "\n\n";
 
 		count = 0;
-		Console::Warn << "Event callbacks:\n";
+		Debug::Warn << "Event callbacks:\n";
 
 		for (auto& callback : eventCallbacks) {
-			Console::Warn << callback.first << ": " << callback.second.size() << '\n';
+			Debug::Warn << callback.first << ": " << callback.second.size() << '\n';
 			count += callback.second.size();
 		}
 
-		Console::Warn << "Count: " << count << "\n\n";
+		Debug::Warn << "Count: " << count << "\n\n";
 
 		count = 0;
-		Console::Warn << "Empty context callbacks:\n";
+		Debug::Warn << "Empty context callbacks:\n";
 
 		for (auto& context : emptyContextCallbacks) {
-			Console::Warn << context.first << ": ";
+			Debug::Warn << context.first << ": ";
 			for (auto& callback : context.second) {
 				std::cout << callback.first << ", ";
 				++count;
 			}
 
 			std::cout << '\n';
-			Console::Warn << "Count: " << count << "\n\n";
+			Debug::Warn << "Count: " << count << "\n\n";
 			count = 0;
 		}
 
 		count = 0;
-		Console::Warn << "Event context callbacks:\n";
+		Debug::Warn << "Event context callbacks:\n";
 
 		for (auto& context : eventContextCallbacks) {
-			Console::Warn << context.first << ": ";
+			Debug::Warn << context.first << ": ";
 			for (auto& callback : context.second) {
 				std::cout << callback.first << ", ";
 				++count;
 			}
 
 			std::cout << '\n';
-			Console::Warn << "Count: " << count << "\n\n";
+			Debug::Warn << "Count: " << count << "\n\n";
 			count = 0;
 		}
 	}

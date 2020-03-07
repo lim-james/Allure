@@ -12,7 +12,7 @@ unsigned Load::TGA(const std::string& filepath) {
 
 	std::ifstream fileStream(filepath, std::ios::binary);
 	if (!fileStream.is_open()) {
-		Console::Log << "Impossible to open " << filepath << ". Are you in the right directory ?\n";
+		Debug::Log << "Impossible to open " << filepath << ". Are you in the right directory ?\n";
 		return 0;
 	}
 

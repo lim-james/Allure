@@ -1,9 +1,6 @@
 #include "Application.h"
 
 #include "TitleScene.h"
-#include "CanvasScene.h"
-#include "EditorScene.h"
-#include "NNScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -22,7 +19,7 @@ Application::Application()
 void Application::Initialize(const int& width, const int& height, const char* title, const bool& fullscreen) {
 	// initialize GLFW
 	if (!glfwInit()) {
-		Console::Error << "GLFW INITIALISATION FAILED.\n";
+		Debug::Error << "GLFW INITIALISATION FAILED.\n";
 		return;
 	}
 
@@ -33,7 +30,7 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	glewExperimental = true;
 	const GLenum err = glewInit();
 	if (err != GLEW_OK) {
-		Console::Error << glewGetErrorString(err) << '\n';
+		Debug::Error << glewGetErrorString(err) << '\n';
 	}
 
 	auto em = Events::EventsManager::GetInstance();
@@ -57,9 +54,6 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 
 	sceneManager = new SceneManager;
 	sceneManager->Add("TITLE", new TitleScene);
-	sceneManager->Add("CANVAS", new CanvasScene);
-	sceneManager->Add("EDITOR", new EditorScene);
-	sceneManager->Add("NN", new NNScene);
 	sceneManager->SetEntryPoint("TITLE");
 
 	context->BroadcastSize();
@@ -117,7 +111,7 @@ void Application::OnTimerEvent(Events::Event* event) {
 		timers[timer->data].Start();
 	} else if (event->name == "TIMER_STOP") {
 		timers[timer->data].Update();
-		Console::Log << "[TIMER] " << timer->data << " : " << timers[timer->data].GetElapsedTime() << '\n';
+		Debug::Log << "[TIMER] " << timer->data << " : " << timers[timer->data].GetElapsedTime() << '\n';
 	}
 }
 #endif

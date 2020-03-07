@@ -20,7 +20,7 @@ std::string Helpers::ReadFile(const std::string& filepath) {
 	std::ifstream ifs(filepath);
 
 	if (!ifs.is_open()) {
-		Console::Warn << filepath << " not valid.\n";
+		Debug::Warn << filepath << " not valid.\n";
 		return "";
 	}
 

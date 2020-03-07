@@ -10,7 +10,6 @@
 #include "LoadTGA.h"
 #include "LoadFNT.h"
 #include "InputEvents.h"
-#include "EditorScene.h"
 
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
@@ -182,10 +181,6 @@ void TitleScene::Update(const float & dt) {
 }
 
 void TitleScene::PrepareForSegue(Scene * destination) {
-	EditorScene* scene = dynamic_cast<EditorScene*>(destination);
-	if (scene) {
-		scene->SetFile(file);
-	}
 }
 
 void TitleScene::CursorPositionHandler(Events::Event * event) {

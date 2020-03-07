@@ -32,6 +32,7 @@
     <ClInclude Include="Math\Matrix.hpp" />
     <ClInclude Include="Math\Mat4Transform.hpp" />
     <ClInclude Include="Math\Random.hpp" />
+    <ClInclude Include="Math\Vectors (unused).h" />
     <ClInclude Include="Math\Vectors.hpp" />
     <ClInclude Include="Helpers\StringHelpers.h" />
     <ClInclude Include="Containers\QuadTree.hpp" />

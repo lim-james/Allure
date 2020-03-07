@@ -24,7 +24,7 @@
 #define YELLOW			14
 #define WHITE			15
 
-namespace Console {
+namespace Debug {
 
 	class Logger {
 

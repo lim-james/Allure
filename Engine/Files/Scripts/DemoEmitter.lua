@@ -30,7 +30,7 @@ emitter = {
 	endSize = { 0.0, 0.0, 0.0 },
 	endSizeRange = { 0.0, 0.0, 0.0 },
 
-	texture = "Files/Textures/queen.tga",
+	texture = "Files/Textures/special_pack.tga",
 
 	startColor = { 0.5, 0.0, 0.0, 1.0 },
 	startColorRange = { 0.5, 0.0, 0.0, 0.0 },

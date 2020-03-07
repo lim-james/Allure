@@ -24,7 +24,7 @@ Shader::Shader(const std::string & computePath) {
 	if (!success) {
 		char infoLog[512];
 		glGetProgramInfoLog(id, 512, 0, infoLog);
-		Console::Error << "Shader program link failed.\n" << infoLog << '\n';
+		Debug::Error << "Shader program link failed.\n" << infoLog << '\n';
 	}
 }
 
@@ -43,7 +43,7 @@ Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
 	if (!success) {
 		char infoLog[512];
 		glGetProgramInfoLog(id, 512, 0, infoLog);
-		Console::Error << "Shader program link failed.\n" << infoLog << '\n';
+		Debug::Error << "Shader program link failed.\n" << infoLog << '\n';
 	}
 }
 
@@ -64,7 +64,7 @@ Shader::Shader(const std::string & vertexPath, const std::string & geometryPath,
 	if (!success) {
 		char infoLog[512];
 		glGetProgramInfoLog(id, 512, 0, infoLog);
-		Console::Error << "Shader program link failed.\n" << infoLog << '\n';
+		Debug::Error << "Shader program link failed.\n" << infoLog << '\n';
 	}
 }
 
@@ -135,10 +135,10 @@ unsigned Shader::CreateShader(const std::string& path, const int& type) {
 			} else if (type == GL_FRAGMENT_SHADER) {
 				typeString = "Fragment";
 			}
-			Console::Error << typeString << " shader failed to compile\n" << infoLog << '\n';
+			Debug::Error << typeString << " shader failed to compile\n" << infoLog << '\n';
 		}
 	} else {
-		Console::Error << "Failed to open " << path << '\n';
+		Debug::Error << "Failed to open " << path << '\n';
 	}
 
 	return shader;

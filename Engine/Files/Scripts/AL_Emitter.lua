@@ -21,7 +21,7 @@ emitter = {
 
 	gravity = { 0.0, 0.0, 0.0 },
 
-	accelRad = 5.0,
+	accelRad = -5.0,
 	accelRadRange = 0.0,
 
 	startSize = { 0.5, 0.5, 0.5 },
@@ -30,9 +30,9 @@ emitter = {
 	endSize = { 0.0, 0.0, 0.0 },
 	endSizeRange = { 0.0, 0.0, 0.0 },
 
-	texture = "Files/Textures/Circle.tga",
+	texture = "",
 
-	startColor = { 0.5, 0.5, 0.5, 1.0 },
+	startColor = { 0.5, 0.0, 0.5, 1.0 },
 	startColorRange = { 0.5, 0.4, 0.0, 0.0 },
 
 	endColor = { 1.0, 0.5, 0.0, 1.0 },
