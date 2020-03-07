@@ -144,6 +144,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="InputController.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderSystem.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DemoScene.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />

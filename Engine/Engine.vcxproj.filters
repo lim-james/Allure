@@ -64,6 +64,9 @@
     <Filter Include="Engine\Particles">
       <UniqueIdentifier>{6f867f1d-9858-4a4e-8357-5b76acc1e9e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Scenes\Demo">
+      <UniqueIdentifier>{43d48a77-6355-470e-a17b-0f2df3391c20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -188,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="UITextFieldManager.cpp">
       <Filter>Application\UIManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoScene.cpp">
+      <Filter>Application\Scenes\Demo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="InputEvents.h">
       <Filter>Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene.h">
+      <Filter>Application\Scenes\Demo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

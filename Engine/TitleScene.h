@@ -31,10 +31,8 @@ class TitleScene : public Scene {
 public:
 
 	void Awake() override;
-	void Start() override;
+	void Create() override;
 	void Update(const float& dt) override;
-
-	void PrepareForSegue(Scene* destination) override;
 
 private:
 

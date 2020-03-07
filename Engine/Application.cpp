@@ -53,8 +53,7 @@ void Application::Initialize(const int& width, const int& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Add("TITLE", new TitleScene);
-	sceneManager->SetEntryPoint("TITLE");
+	sceneManager->Present(new TitleScene);
 
 	context->BroadcastSize();
 	em->TriggerQueued();
@@ -117,8 +116,6 @@ void Application::OnTimerEvent(Events::Event* event) {
 #endif
 
 void Application::Step() {
-	glfwPollEvents();
-
 	const float et = static_cast<float>(timer.GetElapsedTime());
 	const float dt = static_cast<float>(timer.GetDeltaTime());
 
@@ -131,6 +128,8 @@ void Application::Step() {
 	}
 
 	current->Update(dt);
+
+	glfwPollEvents();
 
 	Events::EventsManager::GetInstance()->TriggerQueued();
 

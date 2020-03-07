@@ -2,7 +2,6 @@
 #define SCENE_H
 
 #include "EntityManager.h"
-//#include "ComponentsManager.h"
 #include "SystemManager.h"
 
 #include <Events/Event.h>
@@ -10,6 +9,9 @@
 class Scene {
 
 protected:
+
+	static int count;
+	std::string name;
 
 	EntityManager* entities;
 	SystemManager* systems;
@@ -25,10 +27,10 @@ public:
 
 	// subscribe to events, subscribe ECS
 	virtual void Awake();
-	// subscribe to events
-	virtual void Reset();
 	// creation of game objects
-	virtual void Start();
+	virtual void Create();
+	// subscribe to events
+	virtual void Enter();
 
 	// updates every fixed timestep
 	virtual void FixedUpdate(const float& dt);
@@ -36,11 +38,15 @@ public:
 	virtual void Update(const float& dt);
 
 	// unsubscribe events
-	virtual void Stop();
+	virtual void Exit();
 	virtual void Destroy();
 
 	virtual void PrepareForSegue(Scene* destination);
 
 };
+
+namespace Events {
+	typedef AnyType<Scene*> PresentScene;
+}
 
 #endif

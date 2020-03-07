@@ -10,20 +10,31 @@
 #include "LoadTGA.h"
 #include "LoadFNT.h"
 #include "InputEvents.h"
+// destination
+#include "DemoScene.h"
 
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
 void TitleScene::Awake() {
+	Scene::Awake();
+
+	name = "Title" + std::to_string(++count);
+
 	systems->Subscribe<ButtonSystem>(1);
 	systems->Subscribe<ParticleSystem>(2);
 	systems->Subscribe<AnimationSystem>(3);
 
-	Scene::Awake();
+	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &TitleScene::CursorPositionHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("DROP_INPUT", &TitleScene::DropHandler, this);
 
 	destination = "";
 	transitionDelay = 0.f;
 	splashDelay = 5.f;
+}
+
+void TitleScene::Create() {
+	Scene::Create();
 
 	camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
@@ -43,7 +54,7 @@ void TitleScene::Awake() {
 		titleText->SetActive(true);
 		titleText->SetFont(microsoft);
 		titleText->text = "Allure 2D"; 
-		titleText->color.Set(1.f, 1.f, 1.f, 0.0f);
+		titleText->color.Set(1.f);
 
 		auto animation = entities->AddComponent<Animation>(label);
 		animation->SetActive(true);
@@ -59,7 +70,7 @@ void TitleScene::Awake() {
 
 		buttonRender = entities->AddComponent<Render>(entity);
 		buttonRender->SetActive(true);
-		buttonRender->tint.Set(1.f, 1.f, 1.f, 0.f);
+		buttonRender->tint.Set(1.f, 1.f, 1.f, 0.5f);
 
 		auto text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
@@ -69,6 +80,7 @@ void TitleScene::Awake() {
 		text->color.Set(0.f, 0.f, 0.f, 1.f);
 
 		auto button = entities->AddComponent<Button>(entity);
+		button->SetActive(true);
 		button->BindHandler(MOUSE_OVER, &TitleScene::OnMouseOver, this);
 		button->BindHandler(MOUSE_OUT, &TitleScene::OnMouseOut, this);
 		button->BindHandler(MOUSE_DOWN, &TitleScene::OnMouseDown, this);
@@ -86,12 +98,6 @@ void TitleScene::Awake() {
 
 		const auto emitter = entities->AddComponent<ParticleEmitter>(entity);
 		emitter->SetActive(true);
-		//emitter->texture = Load::TGA("Files/Textures/circle.tga");
-
-		//emitter->burstAmount = 50;
-		//emitter->spawnInterval = 0.2f;
-		//emitter->duration = 0.1f;
-		//emitter->loop = true;
 
 		emitter->lifetime = 5.f;
 		emitter->lifetimeRange = 0.5f;
@@ -101,69 +107,17 @@ void TitleScene::Awake() {
 		emitter->angleRange = 180.f;
 
 		emitter->speed = 5.f;
-		//emitter->speedRange = 5.f;
 
 		emitter->accelRad = -5.f;
-		//emitter->accelRadRange = 5.f;
-
-		//emitter->gravity.Set(0.f, -4.f, 0.f);
 
 		emitter->startSize.Set(0.1f);
 		emitter->endSize.Set(0.f);
 
 		emitter->startColor.Set(0.5f, 0.0f, 0.5f, 1.f);
 		emitter->startColorRange.Set(0.5f, 0.0f, 0.f, 0.f);
-		//emitter->startColor.Set(0.5f, 0.5f, 0.5f, 1.f);
-		//emitter->startColorRange.Set(0.5f, 0.5f, 0.5f, 0.f);
 
 		emitter->endColor.Set(1.f, 0.5f, 0.0f, 1.f);
 		emitter->endColorRange.Set(0.f, 0.5f, 0.0f, 0.f);
-		//emitter->endColor.Set(0.5f, 0.5f, 0.5f, 0.f);
-		//emitter->endColorRange.Set(0.5f, 0.5f, 0.5f, 0.f);
-	}
-
-	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &TitleScene::CursorPositionHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("DROP_INPUT", &TitleScene::DropHandler, this);
-}
-
-void TitleScene::Start() {
-	entities->GetComponent<ParticleEmitter>(mouse->entity)->SetActive(true);
-
-	{
-		auto transform = entities->GetComponent<Transform>(titleText->entity);
-		auto animation = entities->GetComponent<Animation>(titleText->entity);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, splashDelay),
-			titleText->color.a,
-			1.f
-		);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, splashDelay),
-			transform->translation.y,
-			0.f
-		);
-	}
-
-	{
-		auto button = entities->GetComponent<Button>(buttonRender->entity);
-		auto transform = entities->GetComponent<Transform>(buttonRender->entity);
-		auto animation = entities->GetComponent<Animation>(buttonRender->entity);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, splashDelay, [button]() {
-				button->SetActive(true);
-			}),
-			buttonRender->tint.a,
-			0.5f
-		);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f, splashDelay),
-			transform->translation.y,
-			-7.f
-		);
 	}
 }
 
@@ -173,14 +127,11 @@ void TitleScene::Update(const float & dt) {
 	if (!destination.empty()) {
 		transitionDelay -= dt;
 		if (transitionDelay <= 0.f) {
-			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::String(destination));
+			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene(new DemoScene));
 			destination = "";
 			transitionDelay = 0.0f;
 		}
 	}
-}
-
-void TitleScene::PrepareForSegue(Scene * destination) {
 }
 
 void TitleScene::CursorPositionHandler(Events::Event * event) {

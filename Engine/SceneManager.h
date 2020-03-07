@@ -5,30 +5,30 @@
 
 #include <Events/Event.h>
 
-#include <map>
-#include <string>
+#include <stack>
+#include <queue>
 
 class SceneManager {
 
-	std::string source;
-	std::string destination;
-
-	std::map<std::string, Scene*> scenes;
+	std::stack<Scene*> sceneStack;
+	std::queue<Scene*> queuedScenes;
 
 public:
 
 	SceneManager();
 	~SceneManager();
 
-	void Add(const std::string& identifier, Scene * const scene);
-	Scene* GetSource();
-
-	void SetEntryPoint(const std::string& identifier);
+	Scene* GetSource() const;
+	void Queue(Scene * const scene);
+	void Present(Scene * const scene);
 	void Segue();
 
 private:
 
 	void PresentHandler(Events::Event* event);
+	void DismissHandler();
+
+	void Transit(Scene * const source, Scene * const destination);
 
 };
 
