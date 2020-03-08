@@ -222,9 +222,6 @@
     <ClCompile Include="ScriptSystem.cpp">
       <Filter>Base\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="DemoScene.cpp">
-      <Filter>Assets\Scenes\Demo</Filter>
-    </ClCompile>
     <ClCompile Include="Script.cpp">
       <Filter>Base\Scripting</Filter>
     </ClCompile>
@@ -236,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="TitleTransition.cpp">
       <Filter>Assets\Scripts\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoScene.cpp">
+      <Filter>Assets\Scenes\Demo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -371,9 +371,6 @@
     <ClInclude Include="ScriptSystem.h">
       <Filter>Base\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="DemoScene.h">
-      <Filter>Assets\Scenes\Demo</Filter>
-    </ClInclude>
     <ClInclude Include="Script.h">
       <Filter>Base\Scripting</Filter>
     </ClInclude>
@@ -391,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Base\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene.h">
+      <Filter>Assets\Scenes\Demo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

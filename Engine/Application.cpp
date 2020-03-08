@@ -9,9 +9,6 @@
 #include <Logger/Logger.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-// standard
-#include <iostream>
-#include <thread>
 
 Application::Application()
 	: context(nullptr) {}

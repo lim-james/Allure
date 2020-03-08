@@ -1,4 +1,5 @@
-revamp vector class
-scripting class
+string parsing for components
 depth sorting
 GUI?
+
+revamp vector class

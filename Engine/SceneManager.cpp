@@ -23,8 +23,6 @@ Scene* SceneManager::GetSource() const {
 
 void SceneManager::Queue(Scene * const scene) {
 	queuedScenes.push(scene);
-	scene->Awake();
-	scene->Exit();
 }
 
 void SceneManager::Present(Scene * const scene) {
@@ -37,15 +35,28 @@ void SceneManager::Segue() {
 		Scene* source;
 		if (sceneStack.empty())
 			source = nullptr;
-		else 
+		else
 			source = sceneStack.top();
 
 		Scene* destination = queuedScenes.front();
 		queuedScenes.pop();
 		sceneStack.push(destination);
 
-		Transit(source, destination);
-		destination->Create();
+		if (source) {
+			Events::EventsManager::GetInstance()->TriggerQueued();
+			source->Exit();
+
+			destination->Awake();
+			destination->Create();
+			destination->Enter();
+			source->PrepareForSegue(destination);
+		} else {
+			destination->Awake();
+			destination->Create();
+			destination->Enter();
+		}
+
+		Events::EventsManager::GetInstance()->Trigger("BROADCAST_SIZE");
 	}
 }
 
@@ -58,25 +69,16 @@ void SceneManager::DismissHandler() {
 
 	Scene* previous = sceneStack.top();
 	sceneStack.pop();
-	Scene* current = sceneStack.top(); 
+	Scene* current = sceneStack.top();
 
-	Transit(previous, current);
+	Events::EventsManager::GetInstance()->TriggerQueued();
+	current->Exit();
+
+	previous->Enter();
+	current->PrepareForSegue(previous);
+
+	Events::EventsManager::GetInstance()->Trigger("BROADCAST_SIZE");
 
 	previous->Destroy();
 	delete previous;
 }
-
-void SceneManager::Transit(Scene * const source, Scene * const destination) {
-	if (source) {
-		Events::EventsManager::GetInstance()->TriggerQueued();
-		source->Exit();
-
-		destination->Enter();
-		source->PrepareForSegue(destination);
-	} else {
-		destination->Enter();
-	}
-
-	Events::EventsManager::GetInstance()->Trigger("BROADCAST_SIZE");
-}
-

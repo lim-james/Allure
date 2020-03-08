@@ -139,6 +139,7 @@
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
+    <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="FollowCursor.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -147,7 +148,6 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="InputController.cpp" />

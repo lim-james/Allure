@@ -28,8 +28,6 @@ private:
 	void PresentHandler(Events::Event* event);
 	void DismissHandler();
 
-	void Transit(Scene * const source, Scene * const destination);
-
 };
 
 #endif

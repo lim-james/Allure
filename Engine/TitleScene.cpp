@@ -33,6 +33,7 @@ void TitleScene::Create() {
 	// manager 
 	const unsigned manager = entities->Create();
 	auto transition = entities->AddComponent<TitleTransition>(manager);
+	transition->SetActive(true);
 
 	// title
 	{
@@ -117,6 +118,4 @@ void TitleScene::Create() {
 		follow->SetActive(true);
 		follow->camera = entities->GetComponent<Camera>(mainCamera);
 	}
-
-	transition->SetActive(true);
 }
