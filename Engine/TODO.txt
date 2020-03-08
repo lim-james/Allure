@@ -1,5 +1,4 @@
 revamp vector class
-scene stack
 scripting class
 depth sorting
 GUI?

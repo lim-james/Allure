@@ -6,21 +6,23 @@
 #include <Math/Vectors.hpp>
 #include <Events/EventsManager.h>
 
-int Scene::count = 0;
-
 Scene::Scene() {
 	entities = new EntityManager;
 	systems = new SystemManager(entities);
+	scripts = new ScriptSystem;
 }
 
 Scene::~Scene() {
 	delete entities;
 	delete systems;
+	delete scripts;
 }
 
 void Scene::Awake() {
 	systems->Subscribe<TransformSystem>(0);
 	systems->Subscribe<RenderSystem>(0);
+
+	scripts->Awake();
 }
 
 void Scene::Create() {
@@ -34,19 +36,26 @@ void Scene::Create() {
 void Scene::Enter() {
 	Events::EventsManager::GetInstance()->SubscribeContext(this);
 	systems->Start();
+	scripts->Start();
 }
 
-void Scene::FixedUpdate(const float& dt) { }
+void Scene::FixedUpdate(const float& dt) {
+	scripts->FixedUpdate();
+}
 
 void Scene::Update(const float& dt) {
 	systems->Update(dt);
+	scripts->Update();
 }
 
 void Scene::Exit() {
+	scripts->Stop();
 	systems->Stop();
 	Events::EventsManager::GetInstance()->UnsubscribeContext(this);
 }
 
-void Scene::Destroy() { }
+void Scene::Destroy() { 
+	scripts->Destroy();
+}
 
 void Scene::PrepareForSegue(Scene * destination) { }

@@ -138,6 +138,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="BaseScript.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="ScriptSystem.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="SpriteAnimationData.cpp" />
     <ClCompile Include="SpriteAnimationSystem.cpp" />
@@ -195,6 +197,8 @@
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="BaseScript.h" />
+    <ClInclude Include="ScriptSystem.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="InputEvents.h" />

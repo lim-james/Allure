@@ -13,8 +13,6 @@
 void DemoScene::Create() {
 	Scene::Create();
 
-	name = "Demo" + std::to_string(++count);
-
 	// fonts
 	auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 
@@ -30,6 +28,9 @@ void DemoScene::Create() {
 		titleText->SetFont(courierNew);
 		titleText->text = "Demo";
 		titleText->color.Set(1.f);
+
+		auto script = entities->AddComponent<BaseScript>(label);
+		script->SetActive(true);
 	}
 
 	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &DemoScene::KeyHandler, this);
@@ -37,9 +38,5 @@ void DemoScene::Create() {
 
 void DemoScene::KeyHandler(Events::Event * event) {
 	Events::EventsManager::GetInstance()->Trigger("DISMISS_SCENE");
-	//Events::KeyInput* input = static_cast<Events::KeyInput*>(event);
-
-	//if (input->action == GLFW_PRESS)
-	//	Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene(new TitleScene));
 }
 

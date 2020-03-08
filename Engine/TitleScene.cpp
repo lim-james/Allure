@@ -19,8 +19,6 @@
 void TitleScene::Awake() {
 	Scene::Awake();
 
-	name = "Title" + std::to_string(++count);
-
 	systems->Subscribe<ButtonSystem>(1);
 	systems->Subscribe<ParticleSystem>(2);
 	systems->Subscribe<AnimationSystem>(3);
@@ -58,6 +56,9 @@ void TitleScene::Create() {
 
 		auto animation = entities->AddComponent<Animation>(label);
 		animation->SetActive(true);
+
+		auto script = entities->AddComponent<BaseScript>(label);
+		script->SetActive(true);
 	}
 
 	// open button

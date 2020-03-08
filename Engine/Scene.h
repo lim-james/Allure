@@ -3,6 +3,7 @@
 
 #include "EntityManager.h"
 #include "SystemManager.h"
+#include "ScriptSystem.h"
 
 #include <Events/Event.h>
 
@@ -10,11 +11,9 @@ class Scene {
 
 protected:
 
-	static int count;
-	std::string name;
-
 	EntityManager* entities;
 	SystemManager* systems;
+	ScriptSystem* scripts;
 	
 	unsigned mainCamera;
 
