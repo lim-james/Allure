@@ -138,7 +138,9 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="BaseScript.cpp" />
+    <ClCompile Include="ButtonAnimation.cpp" />
+    <ClCompile Include="FollowCursor.cpp" />
+    <ClCompile Include="Script.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -174,6 +176,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TitleTransition.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComparator.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
@@ -185,6 +188,7 @@
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonAnimation.h" />
     <ClInclude Include="ButtonSystem.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
@@ -192,13 +196,15 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="DemoScene.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="FollowCursor.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
-    <ClInclude Include="BaseScript.h" />
+    <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptSystem.h" />
+    <ClInclude Include="ScriptTemplate.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="InputEvents.h" />
@@ -207,6 +213,7 @@
     <ClInclude Include="LoadTGA.h" />
     <ClInclude Include="SpriteAnimationData.h" />
     <ClInclude Include="SpriteAnimationSystem.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEmitter.h" />
@@ -222,6 +229,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="TitleTransition.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformComparator.h" />
     <ClInclude Include="TransformSystem.h" />

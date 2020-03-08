@@ -3,21 +3,31 @@
 #include <Events/EventsManager.h>
 #include <Helpers/VectorHelpers.h>
 
-ScriptSystem::ScriptSystem() {
+ScriptSystem::ScriptSystem(EntityManager * const entities) : entities(entities) {
 	Events::EventsManager::GetInstance()->Subscribe("SCRIPT_ACTIVE", &ScriptSystem::ActiveHandler, this);
+
+	time.et = 0.0f;
 }
 
 ScriptSystem::~ScriptSystem() {}
 
 void ScriptSystem::Awake() {
-	for (auto& s : scripts)
+	started = false;
+	for (auto& s : scripts) {
+		Setup(s);
 		s->Awake();
+	}
 }
 
 void ScriptSystem::Start() {
-	Events::EventsManager::GetInstance()->SubscribeContext(this);
-	for (auto& s : scripts)
+	started = true;
+	Events::EventsManager* events = Events::EventsManager::GetInstance();
+	events->SubscribeContext(this);
+
+	for (auto& s : scripts) {
+		events->SubscribeContext(s);
 		s->Start();
+	}
 }
 
 void ScriptSystem::FixedUpdate() {
@@ -25,15 +35,22 @@ void ScriptSystem::FixedUpdate() {
 		s->FixedUpdate();
 }
 
-void ScriptSystem::Update() {
+void ScriptSystem::Update(const float& dt) {
+	time.dt = dt;
+	time.et += dt;
 	for (auto& s : scripts)
 		s->Update();
 }
 
 void ScriptSystem::Stop() {
-	for (auto& s : scripts)
+	started = false;
+	Events::EventsManager* events = Events::EventsManager::GetInstance();
+	events->UnsubscribeContext(this);
+	
+	for (auto& s : scripts) {
 		s->Stop();
-	Events::EventsManager::GetInstance()->UnsubscribeContext(this);
+		events->UnsubscribeContext(s);
+	}
 }
 
 void ScriptSystem::Destroy() {
@@ -42,12 +59,14 @@ void ScriptSystem::Destroy() {
 }
 
 void ScriptSystem::ActiveHandler(Events::Event * event) {
-	auto& c = static_cast<Events::AnyType<BaseScript*>*>(event)->data;
+	auto& c = static_cast<Events::AnyType<Script*>*>(event)->data;
 
 	if (c->IsActive()) {
 		if (Helpers::Insert(scripts, c)) {
+			Setup(c);
 			c->Awake();
-			c->Start();
+			if (started) 
+				c->Start();
 		}
 	} else {
 		if (Helpers::Remove(scripts, c)) {
@@ -55,3 +74,10 @@ void ScriptSystem::ActiveHandler(Events::Event * event) {
 		}
 	}
 }
+
+void ScriptSystem::Setup(Script * const script) {
+	script->time = &time;
+	script->entities = entities;
+	script->transform = script->GetComponent<Transform>();
+}
+

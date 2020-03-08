@@ -2,19 +2,15 @@
 
 // components
 #include "Render.h"
+#include "ButtonAnimation.h"
+#include "FollowCursor.h"
+#include "TitleTransition.h"
 // Systems
 #include "ButtonSystem.h"
 #include "ParticleSystem.h"
 #include "AnimationSystem.h"
 // Utils
-#include "LoadTGA.h"
 #include "LoadFNT.h"
-#include "InputEvents.h"
-// destination
-#include "DemoScene.h"
-
-#include <Events/EventsManager.h>
-#include <GLFW/glfw3.h>
 
 void TitleScene::Awake() {
 	Scene::Awake();
@@ -22,24 +18,21 @@ void TitleScene::Awake() {
 	systems->Subscribe<ButtonSystem>(1);
 	systems->Subscribe<ParticleSystem>(2);
 	systems->Subscribe<AnimationSystem>(3);
-
-	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &TitleScene::CursorPositionHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("DROP_INPUT", &TitleScene::DropHandler, this);
-
-	destination = "";
-	transitionDelay = 0.f;
-	splashDelay = 5.f;
 }
 
 void TitleScene::Create() {
 	Scene::Create();
 
-	camera = entities->GetComponent<Camera>(mainCamera);
+	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
 
 	// fonts
 	auto microsoft = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
 	auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
+
+	// manager 
+	const unsigned manager = entities->Create();
+	auto transition = entities->AddComponent<TitleTransition>(manager);
 
 	// title
 	{
@@ -47,17 +40,18 @@ void TitleScene::Create() {
 
 		auto transform = entities->GetComponent<Transform>(label);
 		transform->translation.y = -0.25f;
+		transition->titleTransform = transform;
 
-		titleText = entities->AddComponent<Text>(label);
-		titleText->SetActive(true);
-		titleText->SetFont(microsoft);
-		titleText->text = "Allure 2D"; 
-		titleText->color.Set(1.f);
+		auto text = entities->AddComponent<Text>(label);
+		text->SetActive(true);
+		text->SetFont(microsoft);
+		text->text = "Allure 2D"; 
+		text->color.Set(1.f);
 
 		auto animation = entities->AddComponent<Animation>(label);
 		animation->SetActive(true);
 
-		auto script = entities->AddComponent<BaseScript>(label);
+		auto script = entities->AddComponent<Script>(label);
 		script->SetActive(true);
 	}
 
@@ -68,10 +62,11 @@ void TitleScene::Create() {
 		auto transform = entities->GetComponent<Transform>(entity);
 		transform->translation.y = -7.25f;
 		transform->scale.Set(7.f, 1.5f, 0.f);
+		transition->buttonTransform = transform;
 
-		buttonRender = entities->AddComponent<Render>(entity);
-		buttonRender->SetActive(true);
-		buttonRender->tint.Set(1.f, 1.f, 1.f, 0.5f);
+		auto render = entities->AddComponent<Render>(entity);
+		render->SetActive(true);
+		render->tint.Set(1.f, 1.f, 1.f, 0.5f);
 
 		auto text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
@@ -80,25 +75,23 @@ void TitleScene::Create() {
 		text->scale = 0.5f;
 		text->color.Set(0.f, 0.f, 0.f, 1.f);
 
-		auto button = entities->AddComponent<Button>(entity);
-		button->SetActive(true);
-		button->BindHandler(MOUSE_OVER, &TitleScene::OnMouseOver, this);
-		button->BindHandler(MOUSE_OUT, &TitleScene::OnMouseOut, this);
-		button->BindHandler(MOUSE_DOWN, &TitleScene::OnMouseDown, this);
-		button->BindHandler(MOUSE_UP, &TitleScene::OnMouseUp, this);
-		button->BindHandler(MOUSE_CLICK, &TitleScene::OnClick, this);
-
 		auto animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
+
+		auto button = entities->AddComponent<Button>(entity);
+		button->SetActive(true);
+		button->BindHandler(MOUSE_CLICK, &TitleTransition::Transition, transition);
+
+		auto buttonAnim = entities->AddComponent<ButtonAnimation>(entity);
+		buttonAnim->SetActive(true);
 	}
 
 	{
 		const unsigned entity = entities->Create();
 
-		mouse = entities->GetComponent<Transform>(entity);
-
 		const auto emitter = entities->AddComponent<ParticleEmitter>(entity);
 		emitter->SetActive(true);
+		transition->emitter = emitter;
 
 		emitter->lifetime = 5.f;
 		emitter->lifetimeRange = 0.5f;
@@ -119,126 +112,11 @@ void TitleScene::Create() {
 
 		emitter->endColor.Set(1.f, 0.5f, 0.0f, 1.f);
 		emitter->endColorRange.Set(0.f, 0.5f, 0.0f, 0.f);
-	}
-}
 
-void TitleScene::Update(const float & dt) {
-	Scene::Update(dt);
-
-	if (!destination.empty()) {
-		transitionDelay -= dt;
-		if (transitionDelay <= 0.f) {
-			Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene(new DemoScene));
-			destination = "";
-			transitionDelay = 0.0f;
-		}
-	}
-}
-
-void TitleScene::CursorPositionHandler(Events::Event * event) {
-	auto input = static_cast<Events::CursorPositionInput*>(event);
-
-	auto position = camera->ScreenToWorldSpace(input->position);
-	position.y = -position.y;
-	mouse->translation = position;
-}
-
-void TitleScene::DropHandler(Events::Event * event) {
-	auto drop = static_cast<Events::DropInput*>(event);
-
-	file = drop->paths[0];
-
-	FadeOut();
-	destination = "EDITOR";
-	transitionDelay = 5.f;
-}
-
-void TitleScene::OnMouseOver(unsigned target) {
-	auto render = entities->GetComponent<Render>(target);
-	auto animation = entities->GetComponent<Animation>(target);
-
-	animation->Animate(
-		AnimationBase(false, 0.2f),
-		render->tint.a,
-		1.f
-	);
-}
-
-void TitleScene::OnMouseOut(unsigned target) {
-	auto render = entities->GetComponent<Render>(target);
-	auto animation = entities->GetComponent<Animation>(target);
-
-	animation->Animate(
-		AnimationBase(false, 0.2f),
-		render->tint.a,
-		0.5f
-	);
-}
-
-void TitleScene::OnMouseDown(unsigned target) {
-	auto transform = entities->GetComponent<Transform>(target);
-	auto animation = entities->GetComponent<Animation>(target);
-
-	animation->Animate(
-		AnimationBase(false, 0.2f),
-		transform->scale,
-		vec3f(7.f, 1.5f, 0.f) * 0.9f
-	);
-}
-
-void TitleScene::OnMouseUp(unsigned target) {
-	auto transform = entities->GetComponent<Transform>(target);
-	auto animation = entities->GetComponent<Animation>(target);
-
-	animation->Animate(
-		AnimationBase(false, 0.2f),
-		transform->scale,
-		vec3f(7.f, 1.5f, 0.f)
-	);
-}
-
-void TitleScene::OnClick(unsigned target) {
-	FadeOut();
-	destination = "CANVAS";
-	transitionDelay = 5.f;
-}
-
-void TitleScene::FadeOut() {
-	entities->GetComponent<Button>(buttonRender->entity)->SetActive(false);
-	entities->GetComponent<ParticleEmitter>(mouse->entity)->SetActive(false);
-
-	{
-		auto transform = entities->GetComponent<Transform>(titleText->entity);
-		auto animation = entities->GetComponent<Animation>(titleText->entity);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f),
-			titleText->color.a,
-			0.f
-		);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f),
-			transform->translation.y,
-			0.25f
-		);
+		auto follow = entities->AddComponent<FollowCursor>(entity);
+		follow->SetActive(true);
+		follow->camera = entities->GetComponent<Camera>(mainCamera);
 	}
 
-	{
-		auto transform = entities->GetComponent<Transform>(buttonRender->entity);
-		auto animation = entities->GetComponent<Animation>(buttonRender->entity);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f),
-			buttonRender->tint.a,
-			0.f
-		);
-
-		animation->Animate(
-			AnimationBase(false, 0.5f),
-			transform->translation.y,
-			-7.25f
-		);
-	}
+	transition->SetActive(true);
 }
-

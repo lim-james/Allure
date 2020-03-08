@@ -13,17 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Application">
-      <UniqueIdentifier>{96b7720e-6a7f-4034-b300-3807cf53bbe7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{ca445617-e151-492f-8874-0550ef31c364}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Render">
       <UniqueIdentifier>{1b1ea0fe-25b3-4a51-9a44-606639618ea4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Scenes">
-      <UniqueIdentifier>{8140c76b-a830-47b4-b984-b37e5e8896ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Base">
       <UniqueIdentifier>{beb10316-5459-4464-972e-08ed33fdec9b}</UniqueIdentifier>
@@ -43,12 +37,6 @@
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{6454f4c8-54c1-46e9-a384-b51fad5ec86c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Input">
-      <UniqueIdentifier>{668cf806-6830-4f9b-82cd-e18f59c60868}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Scenes\Title">
-      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Render\Utilities">
       <UniqueIdentifier>{731a9685-335a-40b9-80fe-dad17de8d728}</UniqueIdentifier>
     </Filter>
@@ -58,31 +46,67 @@
     <Filter Include="Engine\Sprite Animation">
       <UniqueIdentifier>{6cecf106-1e7f-4279-96e5-99be757c586b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\UIManagers">
-      <UniqueIdentifier>{5211ae78-7534-4247-89ac-2c245d175e92}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Particles">
       <UniqueIdentifier>{6f867f1d-9858-4a4e-8357-5b76acc1e9e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Scenes\Demo">
+    <Filter Include="Assets">
+      <UniqueIdentifier>{c5ba01b0-aca4-433d-96d0-1f9516f79e60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{96b7720e-6a7f-4034-b300-3807cf53bbe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Input">
+      <UniqueIdentifier>{668cf806-6830-4f9b-82cd-e18f59c60868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\UIManagers">
+      <UniqueIdentifier>{5211ae78-7534-4247-89ac-2c245d175e92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Scripting">
+      <UniqueIdentifier>{5550feda-31c9-4a1c-9329-0ece8079b3f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts">
+      <UniqueIdentifier>{8c27ff49-8065-4e56-9eb9-c907cbbcbc60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes">
+      <UniqueIdentifier>{254b132c-5b0a-4253-ba78-712a52f0c797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Demo">
       <UniqueIdentifier>{43d48a77-6355-470e-a17b-0f2df3391c20}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Scripting">
-      <UniqueIdentifier>{5550feda-31c9-4a1c-9329-0ece8079b3f8}</UniqueIdentifier>
+    <Filter Include="Assets\Scenes\Title">
+      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Scene">
+      <UniqueIdentifier>{8140c76b-a830-47b4-b984-b37e5e8896ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Common">
+      <UniqueIdentifier>{63b9d320-41aa-40d8-934c-514d986d3cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Common\UI">
+      <UniqueIdentifier>{a629f47c-d2bc-4a27-800b-7564890e3a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Common\Mouse">
+      <UniqueIdentifier>{c9c4dcfc-6d11-481c-8f10-a0424b58891e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Title">
+      <UniqueIdentifier>{43bad25f-669f-426a-bd0b-fd500975463d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Time">
+      <UniqueIdentifier>{e1534a0c-a3f4-49dc-b515-0ec84cd411bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
-      <Filter>Application</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Application</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Application\Scenes</Filter>
+      <Filter>Base\Scene</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Application\Scenes</Filter>
+      <Filter>Base\Scene</Filter>
     </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>Engine\Base</Filter>
@@ -157,13 +181,13 @@
       <Filter>Engine\Animation</Filter>
     </ClCompile>
     <ClCompile Include="InputController.cpp">
-      <Filter>Application\Input</Filter>
+      <Filter>Base\Input</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>Application\Scenes\Title</Filter>
+      <Filter>Assets\Scenes\Title</Filter>
     </ClCompile>
     <ClCompile Include="LoadFNT.cpp">
       <Filter>Engine\Render\Utilities</Filter>
@@ -193,30 +217,39 @@
       <Filter>Engine\Physics</Filter>
     </ClCompile>
     <ClCompile Include="UITextFieldManager.cpp">
-      <Filter>Application\UIManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="DemoScene.cpp">
-      <Filter>Application\Scenes\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseScript.cpp">
-      <Filter>Application\Scripting</Filter>
+      <Filter>Base\UIManagers</Filter>
     </ClCompile>
     <ClCompile Include="ScriptSystem.cpp">
-      <Filter>Application\Scripting</Filter>
+      <Filter>Base\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoScene.cpp">
+      <Filter>Assets\Scenes\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Base\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonAnimation.cpp">
+      <Filter>Assets\Scripts\Common\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowCursor.cpp">
+      <Filter>Assets\Scripts\Common\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleTransition.cpp">
+      <Filter>Assets\Scripts\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
-      <Filter>Application</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
-      <Filter>Application</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Application\Scenes</Filter>
+      <Filter>Base\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Application\Scenes</Filter>
+      <Filter>Base\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Engine\Base</Filter>
@@ -294,10 +327,10 @@
       <Filter>Engine\Animation</Filter>
     </ClInclude>
     <ClInclude Include="InputController.h">
-      <Filter>Application\Input</Filter>
+      <Filter>Base\Input</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>Application\Scenes\Title</Filter>
+      <Filter>Assets\Scenes\Title</Filter>
     </ClInclude>
     <ClInclude Include="LoadFNT.h">
       <Filter>Engine\Render\Utilities</Filter>
@@ -330,19 +363,34 @@
       <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="UITextFieldManager.h">
-      <Filter>Application\UIManagers</Filter>
+      <Filter>Base\UIManagers</Filter>
     </ClInclude>
     <ClInclude Include="InputEvents.h">
-      <Filter>Application\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoScene.h">
-      <Filter>Application\Scenes\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseScript.h">
-      <Filter>Application\Scripting</Filter>
+      <Filter>Base\Input</Filter>
     </ClInclude>
     <ClInclude Include="ScriptSystem.h">
-      <Filter>Application\Scripting</Filter>
+      <Filter>Base\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene.h">
+      <Filter>Assets\Scenes\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Base\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonAnimation.h">
+      <Filter>Assets\Scripts\Common\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptTemplate.h">
+      <Filter>Assets\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowCursor.h">
+      <Filter>Assets\Scripts\Common\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleTransition.h">
+      <Filter>Assets\Scripts\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Base\Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

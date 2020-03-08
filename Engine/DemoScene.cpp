@@ -4,10 +4,6 @@
 #include "Transform.h"
 #include "Text.h"
 
-#include "TitleScene.h"
-#include "InputEvents.h"
-
-#include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
 void DemoScene::Create() {
@@ -29,14 +25,8 @@ void DemoScene::Create() {
 		titleText->text = "Demo";
 		titleText->color.Set(1.f);
 
-		auto script = entities->AddComponent<BaseScript>(label);
+		auto script = entities->AddComponent<Script>(label);
 		script->SetActive(true);
 	}
-
-	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &DemoScene::KeyHandler, this);
-}
-
-void DemoScene::KeyHandler(Events::Event * event) {
-	Events::EventsManager::GetInstance()->Trigger("DISMISS_SCENE");
 }
 

@@ -9,13 +9,12 @@
 Scene::Scene() {
 	entities = new EntityManager;
 	systems = new SystemManager(entities);
-	scripts = new ScriptSystem;
+	scripts = new ScriptSystem(entities);
 }
 
 Scene::~Scene() {
 	delete entities;
 	delete systems;
-	delete scripts;
 }
 
 void Scene::Awake() {
@@ -45,7 +44,7 @@ void Scene::FixedUpdate(const float& dt) {
 
 void Scene::Update(const float& dt) {
 	systems->Update(dt);
-	scripts->Update();
+	scripts->Update(dt);
 }
 
 void Scene::Exit() {

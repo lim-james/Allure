@@ -84,11 +84,13 @@ struct Animation : Component {
 	void SetActive(const bool& state) override;
 
 	template<typename T>
-	void Animate(const AnimationBase& base, T& target, const T& outcome) {
-		if (animations[(int)&target])
-			delete animations[(int)&target];
+	void Animate(const AnimationBase& base, T* target, const T& outcome) {
+		const int t = (int)target;
+	
+		if (animations[t])
+			delete animations[t];
 
-		animations[(int)&target] = new AnimationData<T>(base, &target, outcome);
+		animations[t] = new AnimationData<T>(base, target, outcome);
 		//animations.push_back(new AnimationData<T>(base, &target, outcome));
 	}
 

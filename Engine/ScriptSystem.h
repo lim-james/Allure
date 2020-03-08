@@ -1,30 +1,37 @@
 #ifndef SCRIPT_SYSTEM_H
 #define SCRIPT_SYSTEM_H
 
-#include "BaseScript.h"
+#include "Script.h"
 
 #include <Events/Event.h>
 #include <vector>
 
 class ScriptSystem {
 
-	std::vector<BaseScript*> scripts;
+	Time time;
+
+	EntityManager * const entities;
+	bool started;
+
+	std::vector<Script*> scripts;
 
 public:
 
-	ScriptSystem();
+	ScriptSystem(EntityManager * const entities);
 	~ScriptSystem();
 
 	void Awake();
 	void Start();
 	void FixedUpdate();
-	void Update();
+	void Update(const float& dt);
 	void Stop();
 	void Destroy();
 
 private:
 
 	void ActiveHandler(Events::Event* event);
+
+	void Setup(Script * const script);
 
 };
 

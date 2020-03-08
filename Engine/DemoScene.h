@@ -11,10 +11,6 @@ public:
 
 	void Create() override;
 
-private:
-
-	void KeyHandler(Events::Event* event);
-
 };
 
 #endif
