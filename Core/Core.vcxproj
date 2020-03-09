@@ -22,6 +22,8 @@
     <ClInclude Include="Containers\Comparator.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventsManager.h" />
+    <ClInclude Include="Handler\Handler.hpp" />
+    <ClInclude Include="Handler\variadic_placeholder.h" />
     <ClInclude Include="Helpers\FileHelpers.h" />
     <ClInclude Include="Loaders\LoadCSV.hpp" />
     <ClInclude Include="Logger\Logger.h" />

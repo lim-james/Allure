@@ -1,3 +1,4 @@
+handler class
 string parsing for components
 depth sorting
 GUI?
