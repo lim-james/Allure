@@ -49,8 +49,8 @@ int main() {
 	handler.Bind(&Test::StringHandler, &test, std::string("Wahtsup"));
 	handler.Bind(&Test::StandardHandler, &test);
 
-	handler.Invoke();
-	handler.Invoke(100);
+	handler();
+	handler(100);
 
 	return 0;
 

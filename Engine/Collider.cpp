@@ -4,7 +4,7 @@
 
 Collider::Collider() : tag("") {
 	for (auto& h : handlers) {
-		h = nullptr;
+		h.UnbindAll();
 	}
 }
 
@@ -13,7 +13,7 @@ void Collider::Initialize() {
 	ignore.clear();
 
 	for (auto& h : handlers) {
-		h = nullptr;
+		h.UnbindAll();
 	}
 }
 

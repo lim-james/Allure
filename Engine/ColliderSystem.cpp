@@ -86,9 +86,6 @@ void ColliderSystem::ActiveHandler(Events::Event* event) {
 }
 
 void ColliderSystem::PerformAction(const unsigned& index, Collider * const c1, Collider * const c2) {
-	auto callback1 = c1->handlers[index]; 
-	auto callback2 = c2->handlers[index]; 
-
-	if (callback1) callback1(c2->entity);
-	if (callback2) callback2(c1->entity);
+	c1->handlers[index](c2->entity);
+	c2->handlers[index](c1->entity);
 }

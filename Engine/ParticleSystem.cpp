@@ -148,10 +148,8 @@ void ParticleSystem::Update(const float& dt) {
 					emitter->age = 0.f;
 				} else {
 					if (group.empty()) {
-						if (emitter->completion) {
-							emitter->completion();
-							emitter->completion = nullptr;
-						}
+						emitter->completion();
+						emitter->completion.UnbindAll();
 					}
 
 					continue;

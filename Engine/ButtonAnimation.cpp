@@ -5,10 +5,10 @@ void ButtonAnimation::Awake() {
 	animation = GetComponent<Animation>();
 	button = GetComponent<Button>();
 
-	button->BindHandler(MOUSE_OVER, &ButtonAnimation::OnMouseOver, this);
-	button->BindHandler(MOUSE_OUT, &ButtonAnimation::OnMouseOut, this);
-	button->BindHandler(MOUSE_DOWN, &ButtonAnimation::OnMouseDown, this);
-	button->BindHandler(MOUSE_UP, &ButtonAnimation::OnMouseUp, this);
+	button->handlers[MOUSE_OVER].Bind(&ButtonAnimation::OnMouseOver, this);
+	button->handlers[MOUSE_OUT].Bind(&ButtonAnimation::OnMouseOut, this);
+	button->handlers[MOUSE_DOWN].Bind(&ButtonAnimation::OnMouseDown, this);
+	button->handlers[MOUSE_UP].Bind(&ButtonAnimation::OnMouseUp, this);
 }
 
 void ButtonAnimation::OnMouseOver(unsigned target) {

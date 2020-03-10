@@ -3,7 +3,8 @@
 
 #include "Component.h"
 
-#include <functional>
+#include <Handler/Handler.hpp>
+
 #include <vector>
 #include <map>
 
@@ -15,7 +16,7 @@ protected:
 	float duration;
 	float delay;
 
-	std::function<void()> completion;
+	Handler<void, void> completion;
 
 	float et;
 
@@ -25,7 +26,7 @@ public:
 		const bool& loop = false,
 		const float& duration = 0.f,
 		const float& delay = 0.f,
-		std::function<void()> completion = []() {});
+		Handler<void, void> completion = nullptr);
 
 	virtual ~AnimationBase() {}
 

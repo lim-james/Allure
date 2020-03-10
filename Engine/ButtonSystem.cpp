@@ -105,6 +105,5 @@ void ButtonSystem::MouseButtonHandler(Events::Event* event) {
 }
 
 void ButtonSystem::PerformAction(const unsigned& index, Button * const self) {
-	auto& callback = self->handlers[index];
-	if (callback) callback(self->entity);
+	self->handlers[index](self->entity);
 }

@@ -49,7 +49,7 @@ unsigned UITextFieldManager::Create(const vec3f & position, const vec3f size, Fo
 
 	auto button = entities->AddComponent<Button>(textField);
 	button->SetActive(true);
-	button->BindHandler(MOUSE_CLICK, &UITextFieldManager::DidSelect, this);
+	button->handlers[MOUSE_CLICK].Bind(&UITextFieldManager::DidSelect, this);
 
 	return textField;
 }

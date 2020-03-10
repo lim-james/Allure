@@ -4,7 +4,7 @@
 #include "Component.h"
 
 #include <Math/Vectors.hpp>
-#include <functional>
+#include <Handler/Handler.hpp>
 
 struct ParticleEmitter : Component {
 
@@ -48,14 +48,14 @@ struct ParticleEmitter : Component {
 	vec4f endColor;
 	vec4f endColorRange;
 
-	std::function<void()> completion;
+	Handler<void, void> completion;
 
 	ParticleEmitter();
 
 	void Initialize() override;
 	void SetActive(const bool& state) override;
 
-	void Play(const std::function<void()>& _completion = nullptr);
+	void Play();
 
 };
 

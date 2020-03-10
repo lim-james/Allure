@@ -76,7 +76,6 @@ void ParticleEmitter::SetActive(const bool& state) {
 	Events::EventsManager::GetInstance()->Trigger("EMITTER_ACTIVE", new Events::AnyType<ParticleEmitter*>(this));
 }
 
-void ParticleEmitter::Play(const std::function<void()>& _completion) {
+void ParticleEmitter::Play() {
 	age = 0.f;
-	completion = _completion;
 }

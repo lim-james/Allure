@@ -2,7 +2,7 @@
 
 #include <Events/EventsManager.h>
 
-AnimationBase::AnimationBase(const bool& loop, const float& duration, const float& delay, std::function<void()> completion)
+AnimationBase::AnimationBase(const bool& loop, const float& duration, const float& delay, Handler<void,void> completion)
 	: loop(loop)
 	, duration(duration)
 	, delay(delay)

@@ -49,6 +49,10 @@
     <ClCompile Include="Helpers\StringHelpers.cpp" />
     <ClCompile Include="Timer\Timer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Handler\Handler_NonVoid.inl" />
+    <None Include="Handler\Handler_Void.inl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{77DC6921-CEB6-48C5-A710-E5D394EEC56F}</ProjectGuid>
