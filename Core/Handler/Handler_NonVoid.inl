@@ -1,4 +1,4 @@
-#include "Handler.hpp"
+#include "Handler.h"
 
 template<typename ReturnType, typename ... ParameterTypes>
 Handler<ReturnType, ParameterTypes...>::Handler() {}

@@ -3,7 +3,7 @@
 
 #include "Component.h"
 
-#include <Handler/Handler.hpp>
+#include <Handler/Handler.h>
 #include <vector>
 
 #define COLLIDER_ENTER			0

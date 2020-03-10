@@ -1,7 +1,7 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include "Vectors.hpp"
+#include "Vectors.h"
 
 namespace Math {
 	

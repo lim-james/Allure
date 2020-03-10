@@ -2,7 +2,7 @@
 #define INPUT_EVENTS_H
 
 #include <Events/Event.h>
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 
 namespace Events {
 

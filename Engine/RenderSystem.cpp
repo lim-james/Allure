@@ -111,14 +111,14 @@ void RenderSystem::Update(const float& dt) {
 		const auto& projection = cam->GetProjectionMatrix();
 		const auto& lookAt = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
 
-		const Math::vec2<GLint> origin(
+		const Math::vec<2, GLint> origin(
 			static_cast<GLint>(viewport.origin.x),
 			static_cast<GLint>(viewport.origin.y)
 		);
 
-		const Math::vec2<GLint> size(
 			static_cast<GLsizei>(viewport.size.w),
 			static_cast<GLsizei>(viewport.size.h)
+		const Math::vec<2, GLint> size(
 		);
 
 		glViewport(origin.x, origin.y, size.x, size.y);

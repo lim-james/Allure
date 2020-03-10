@@ -69,16 +69,25 @@
     <ClInclude Include="Math\Mat4Transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Vectors.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vectors (unused).h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Handler\Handler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Handler\variadic_placeholder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Encoding\APO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Encoding\AON.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\Handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vectors %28deprecated%29.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vectors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\Rect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,6 +113,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Handler\Handler_Void.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Math\Vectors.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

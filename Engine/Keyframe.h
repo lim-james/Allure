@@ -1,7 +1,7 @@
 #ifndef KEYFRAME_H
 #define KEYFRAME_H
 
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 
 struct Keyframe {
 

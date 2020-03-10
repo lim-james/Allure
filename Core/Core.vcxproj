@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Containers\Comparator.h" />
+    <ClInclude Include="Encoding\AON.hpp" />
+    <ClInclude Include="Encoding\APO.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventsManager.h" />
-    <ClInclude Include="Handler\Handler.hpp" />
+    <ClInclude Include="Handler\Handler.h" />
     <ClInclude Include="Handler\variadic_placeholder.h" />
     <ClInclude Include="Helpers\FileHelpers.h" />
     <ClInclude Include="Loaders\LoadCSV.hpp" />
@@ -34,13 +36,14 @@
     <ClInclude Include="Math\Matrix.hpp" />
     <ClInclude Include="Math\Mat4Transform.hpp" />
     <ClInclude Include="Math\Random.hpp" />
-    <ClInclude Include="Math\Vectors (unused).h" />
-    <ClInclude Include="Math\Vectors.hpp" />
+    <ClInclude Include="Math\Vectors.h" />
+    <ClInclude Include="Math\Vectors %28deprecated%29.hpp" />
     <ClInclude Include="Helpers\StringHelpers.h" />
     <ClInclude Include="Containers\QuadTree.hpp" />
     <ClInclude Include="Containers\Quad.hpp" />
     <ClInclude Include="Timer\Timer.h" />
     <ClInclude Include="Helpers\VectorHelpers.h" />
+    <ClInclude Include="Types\Rect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Events\EventsManager.cpp" />
@@ -52,6 +55,7 @@
   <ItemGroup>
     <None Include="Handler\Handler_NonVoid.inl" />
     <None Include="Handler\Handler_Void.inl" />
+    <None Include="Math\Vectors.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

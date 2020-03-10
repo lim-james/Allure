@@ -1,7 +1,7 @@
 #ifndef QUAD_H
 #define QUAD_H
 
-#include "../Math/Vectors.hpp"
+#include "../Math/Vectors.h"
 
 #include <vector>
 

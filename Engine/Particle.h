@@ -3,7 +3,7 @@
 
 #include "Component.h"
 
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 
 struct Particle : Component {
 

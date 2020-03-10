@@ -3,7 +3,7 @@
 
 #include "Component.h"
 
-#include <Handler/Handler.hpp>
+#include <Handler/Handler.h>
 
 #define MOUSE_CLICK	0
 #define MOUSE_DOWN	1

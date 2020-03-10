@@ -1,7 +1,7 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 
 struct Line {
 	vec2f offset;

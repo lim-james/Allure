@@ -3,8 +3,8 @@
 
 #include "Component.h"
 
-#include <Math/Vectors.hpp>
-#include <Handler/Handler.hpp>
+#include <Math/Vectors.h>
+#include <Handler/Handler.h>
 
 struct ParticleEmitter : Component {
 

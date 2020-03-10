@@ -3,7 +3,7 @@
 #include "TransformSystem.h"
 #include "RenderSystem.h"
 
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 #include <Events/EventsManager.h>
 
 Scene::Scene() {

@@ -1,7 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 #include <Events/Event.h>
 
 struct GLFWwindow;

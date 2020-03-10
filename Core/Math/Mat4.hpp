@@ -2,7 +2,7 @@
 #define MAT4_HPP
 
 #include "Math.hpp"
-#include "Vectors.hpp"
+#include "Vectors.h"
 
 namespace Math {
 
@@ -73,8 +73,8 @@ namespace Math {
 	}
 	// mat4 * vec3 = mat3
 	template<typename T>
-	inline vec3<T> operator*(const mat4<T>& lhs, const vec3<T>& rhs) {
-		vec3<T> result(
+	inline vec<3, T> operator*(const mat4<T>& lhs, const vec<3, T>& rhs) {
+		vec<3, T> result(
 			rhs.x * lhs[0] + rhs.y * lhs[4] + rhs.z * lhs[8] + lhs[12],
 			rhs.x * lhs[1] + rhs.y * lhs[5] + rhs.z * lhs[9] + lhs[13],
 			rhs.x * lhs[2] + rhs.y * lhs[6] + rhs.z * lhs[10] + lhs[14]
@@ -84,8 +84,8 @@ namespace Math {
 	}
 	// mat4 * vec4 = vec4
 	template<typename T>
-	inline vec4<T> operator*(const mat4<T>& lhs, const vec4<T>& rhs) {
-		vec4<T> result(
+	inline vec<4, T> operator*(const mat4<T>& lhs, const vec<4, T>& rhs) {
+		vec<4, T> result(
 			rhs.x * lhs[0] + rhs.y * lhs[4] + rhs.z * lhs[8] + rhs.w * lhs[12],
 			rhs.x * lhs[1] + rhs.y * lhs[5] + rhs.z * lhs[9] + rhs.w * lhs[13],
 			rhs.x * lhs[2] + rhs.y * lhs[6] + rhs.z * lhs[10] + rhs.w * lhs[14],

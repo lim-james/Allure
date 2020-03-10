@@ -1,7 +1,7 @@
 #ifndef LINE_PLANE_HPP
 #define LINE_PLANE_HPP
 
-#include "Vectors.hpp"
+#include "Vectors.h"
 
 namespace Math {
 

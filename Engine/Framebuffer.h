@@ -1,7 +1,7 @@
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H
 
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 #include <GL/glew.h>
 
 #include <vector>

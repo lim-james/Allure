@@ -1,7 +1,7 @@
 #ifndef INPUT_CONTROLLER_H
 #define INPUT_CONTROLLER_H
 
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 #include <Events/Event.h>
 
 struct GLFWwindow;

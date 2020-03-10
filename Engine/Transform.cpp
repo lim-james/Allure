@@ -31,6 +31,18 @@ void Transform::SetActive(const bool & _active) {
 	Events::EventsManager::GetInstance()->Trigger("TRANSFORM_ACTIVE", new Events::AnyType<Transform*>(this));
 }
 
+void Transform::Unpack() {
+	//translation = data.Get<vec3f>("translation");
+	//rotation = data.Get<vec3f>("rotation");
+	//scale = data.Get<vec3f>("scale");
+}
+
+void Transform::Pack() {
+	//data.Set("translation", translation);
+	//data.Set("rotation", rotation);
+	//data.Set("scale", scale);
+}
+
 void Transform::UpdateAxes() {
 	const float yawRad = Math::Rad(rotation.y);
 	const float pitchRad = Math::Rad(-rotation.x);

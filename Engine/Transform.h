@@ -3,13 +3,14 @@
 
 #include "Component.h"
 
-#include <Math/Vectors.hpp>
+#include <Encoding/APO.h>
+#include <Math/Vectors.h>
 #include <Math/Mat4.hpp>
 #include <Containers/Quad.hpp>
 
 #include <vector>
 
-struct Transform : Component {
+struct Transform : Component, APO {
 
 	vec3f translation;
 	vec3f rotation;
@@ -19,9 +20,17 @@ struct Transform : Component {
 
 	Transform();
 
-	void Initialize() override;
+	// component abstract methods
 
+	void Initialize() override;
 	void SetActive(const bool& _active) override;
+
+	// APO methods
+
+	void Unpack() override;
+	void Pack() override;
+
+	// transform methods
 
 	void UpdateAxes();
 
@@ -53,8 +62,8 @@ private:
 	vec3f worldRotation;
 	vec3f worldTranslation;
 
-	Math::vec3<vec3f> localAxes;
-	Math::vec3<vec3f> worldAxes;
+	Math::vec<3, vec3f> localAxes;
+	Math::vec<3, vec3f> worldAxes;
 		
 	mat4f localTransform;
 	mat4f worldTransform;

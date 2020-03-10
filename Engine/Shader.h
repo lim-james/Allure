@@ -1,7 +1,7 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 #include <Math/Mat4.hpp>
 
 #include <map>

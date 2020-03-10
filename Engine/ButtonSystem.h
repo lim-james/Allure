@@ -6,7 +6,7 @@
 #include "Camera.h"
 
 #include <Events/Event.h>
-#include <Math/Vectors.hpp>
+#include <Math/Vectors.h>
 
 #include <vector>
 #include <map>
