@@ -15,12 +15,12 @@ void Particle::Initialize() {
 	age = 0.f;
 	lifetime = 0.f;
 
-	velocity.Set(0.f);
+	velocity = vec3f(0.f);
 
-	startSize.Set(1.f);
-	endSize.Set(1.f);
+	startSize = vec3f(1.f);
+	endSize = vec3f(1.f);
 
-	startColor.Set(1.f);
-	endColor.Set(1.f);
+	startColor = vec3f(1.f);
+	endColor = vec3f(1.f);
 }
 

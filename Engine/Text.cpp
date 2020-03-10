@@ -18,7 +18,7 @@ Text::Text()
 
 void Text::Initialize() {
 	text = "";
-	color.Set(1.f);
+	color = vec4f(1.f);
 
 	font = nullptr;
 	scale = 1.f;
@@ -28,7 +28,7 @@ void Text::Initialize() {
 	paragraphAlignment = PARAGRAPH_CENTER;
 	verticalAlignment = ALIGN_MIDDLE;
 
-	offset.Set(0.f);
+	offset = vec3f(0.f);
 }
 
 void Text::SetActive(const bool& state) {

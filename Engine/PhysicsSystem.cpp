@@ -11,7 +11,7 @@ PhysicsSystem::~PhysicsSystem() {
 }
 
 void PhysicsSystem::Initialize() {
-	gravity.Set(0.f, -9.8f * 5.f, 0.f);
+	gravity = vec3f(0.f, -9.8f * 5.f, 0.f);
 
 	Events::EventsManager::GetInstance()->Subscribe("PHYSICS_ACTIVE", &PhysicsSystem::ActiveHandler, this);
 }

@@ -19,9 +19,9 @@ void Transform::Initialize() {
 		children[i]->SetParent(nullptr);
 	children.clear();
 
-	translation.Set(0.f);
-	rotation.Set(0.f);
-	scale.Set(1.f);
+	translation = vec3f(0.f);
+	rotation = vec3f(0.f);
+	scale = vec3f(1.f);
 
 	UpdateAxes();
 }
@@ -38,9 +38,9 @@ void Transform::Unpack() {
 }
 
 void Transform::Pack() {
-	//data.Set("translation", translation);
-	//data.Set("rotation", rotation);
-	//data.Set("scale", scale);
+	//data = vec4f("translation", translation);
+	//data = vec4f("rotation", rotation);
+	//data = vec4f("scale", scale);
 }
 
 void Transform::UpdateAxes() {

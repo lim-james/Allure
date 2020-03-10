@@ -28,7 +28,7 @@ Font* Load::FNT(const std::string& fntPath, const std::string& tgaPath) {
 	const float baseUnit = 1.f / common["base"];
 	font->lineHeight = common["lineHeight"] * baseUnit;
 
-	font->scale.Set(common["scaleW"], common["scaleH"]);
+	font->scale = vec2f(common["scaleW"], common["scaleH"]);
 	const vec2f texSize(font->scale);
 
 	// skip line
@@ -75,7 +75,7 @@ Font* Load::FNT(const std::string& fntPath, const std::string& tgaPath) {
 		uvRect.y = 1.f - uvRect.y;
 
 		vec4f v;
-		v.Set(
+		v = vec4f(
 			0.f, 
 			-character.rect.size.h,
 			uvRect.origin.u,
@@ -83,7 +83,7 @@ Font* Load::FNT(const std::string& fntPath, const std::string& tgaPath) {
 		);
 		vertices.push_back(v);
 
-		v.Set(
+		v = vec4f(
 			character.rect.size.w, 
 			-character.rect.size.h,
 			uvRect.origin.u + uvRect.size.w,
@@ -91,7 +91,7 @@ Font* Load::FNT(const std::string& fntPath, const std::string& tgaPath) {
 		);
 		vertices.push_back(v);
 
-		v.Set(
+		v = vec4f(
 			character.rect.size.w, 
 			0.f,
 			uvRect.origin.u + uvRect.size.w,
@@ -99,7 +99,7 @@ Font* Load::FNT(const std::string& fntPath, const std::string& tgaPath) {
 		);
 		vertices.push_back(v);
 
-		v.Set(vec2f(0.f), uvRect.origin);
+		v = vec4f(vec2f(0.f), uvRect.origin);
 		vertices.push_back(v);
 
 		indices.push_back(offset + 0);

@@ -8,7 +8,7 @@ Window::Window()
 	, window(nullptr) {}
 
 Window::Window(const int& width, const int& height, const char* title, const bool& fullscreen) {
-	size.Set(width, height);
+	size = vec2i(width, height);
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

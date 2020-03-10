@@ -42,33 +42,33 @@ void ParticleEmitter::Initialize() {
 	lifetime = 1.f;
 	lifetimeRange = 0.f;
 
-	angle.Set(0.f);
-	angleRange.Set(0.f);
+	angle = vec3f(0.f);
+	angleRange = vec3f(0.f);
 
 	speed = 1.f;
 	speedRange = 0.f;
 
-	offset.Set(0.f);
-	positionRange.Set(0.f);
+	offset = vec3f(0.f);
+	positionRange = vec3f(0.f);
 
-	gravity.Set(0.f);
+	gravity = vec3f(0.f);
 
 	accelRad = 0.f;
 	accelRadRange = 0.f;
 
-	startSize.Set(1.f);
-	startSizeRange.Set(0.f);
+	startSize = vec3f(1.f);
+	startSizeRange = vec3f(0.f);
 
-	endSize.Set(1.f);
-	endSizeRange.Set(0.f);
+	endSize = vec3f(1.f);
+	endSizeRange = vec3f(0.f);
 
 	texture = 0;
 
-	startColor.Set(1.f);
-	startColorRange.Set(0.f);
+	startColor = vec4f(1.f);
+	startColorRange = vec4f(0.f);
 
-	endColor.Set(1.f);
-	endColorRange.Set(0.f);
+	endColor = vec4f(1.f);
+	endColorRange = vec4f(0.f);
 }
 
 void ParticleEmitter::SetActive(const bool& state) {

@@ -15,7 +15,7 @@ void Keyframe::SetTilemapSize(const int& width, const int& height) {
 }
 
 void Keyframe::SetCellRect(const int& x, const int& y, const int& width, const int& height) {
-	cellRect.Set(
+	cellRect = vec4f(
 		static_cast<float>(x),
 		static_cast<float>(y),
 		static_cast<float>(width),

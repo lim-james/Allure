@@ -18,11 +18,11 @@ UITextFieldManager::UITextFieldManager(EntityManager * const entities)
 	cursor = entities->Create();
 
 	auto transform = entities->GetComponent<Transform>(cursor);
-	transform->scale.Set(0.1f, 0.7f, 1.0f);
+	transform->scale = vec3f(0.1f, 0.7f, 1.0f);
 
 	auto render = entities->AddComponent<Render>(cursor);
 	render->SetActive(true);
-	render->tint.Set(1.0f);
+	render->tint = vec4f(1.0f);
 
 	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &UITextFieldManager::KeyHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("TEXT_INPUT", &UITextFieldManager::TextHandler, this);
@@ -37,7 +37,7 @@ unsigned UITextFieldManager::Create(const vec3f & position, const vec3f size, Fo
 
 	auto render = entities->AddComponent<Render>(textField);
 	render->SetActive(true);
-	render->tint.Set(0.2f, 0.2f, 0.2f, 0.0f);
+	render->tint = vec4f(0.2f, 0.2f, 0.2f, 0.0f);
 
 	auto text = entities->AddComponent<Text>(textField);
 	text->SetActive(true);

@@ -29,7 +29,7 @@ void Scene::Create() {
 	entities->GetComponent<Transform>(mainCamera)->translation.z = 1.f;
 	Camera * camera = entities->AddComponent<Camera>(mainCamera);
 	camera->SetActive(true);
-	camera->clearColor.Set(0.f);
+	camera->clearColor = vec4f(0.f);
 }
 
 void Scene::Enter() {

@@ -81,13 +81,25 @@
     <ClInclude Include="Handler\Handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Vectors %28deprecated%29.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Types\Rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Base\BaseTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Base\vec2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Base\VectorOperators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Base\vec3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Base\vec4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -115,7 +127,16 @@
     <None Include="Handler\Handler_Void.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Math\Vectors.inl">
+    <None Include="Math\Base\VectorOperators.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Math\Base\vec2.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Math\Base\vec3.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Math\Base\vec4.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

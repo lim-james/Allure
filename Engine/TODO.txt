@@ -2,5 +2,4 @@ string parsing for components
 GUI?
 implement handler for events
 depth sorting
-
-revamp vector class
+fix resize lag

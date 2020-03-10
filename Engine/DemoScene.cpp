@@ -23,7 +23,7 @@ void DemoScene::Create() {
 		titleText->SetActive(true);
 		titleText->SetFont(courierNew);
 		titleText->text = "Demo";
-		titleText->color.Set(1.f);
+		titleText->color = vec4f(1.f);
 
 		auto script = entities->AddComponent<Script>(label);
 		script->SetActive(true);

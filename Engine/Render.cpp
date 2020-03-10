@@ -14,10 +14,10 @@ Render::Render()
 
 void Render::Initialize() {
 	SetTexture(0);
-	uvRect.Set(vec2f(0.f), vec2f(1.f));
-	tint.Set(1.f);
-	tilemapUnit.Set(1.f);
-	cellRect.Set(vec2f(0.f), vec2f(1.f));
+	uvRect = vec4f(vec2f(0.f), vec2f(1.f));
+	tint = vec4f(1.f);
+	tilemapUnit = vec2f(1.f);
+	cellRect = vec4f(vec2f(0.f), vec2f(1.f));
 }
 
 void Render::SetActive(const bool& state) {
@@ -50,7 +50,7 @@ void Render::SetTilemapSize(const int& width, const int& height) {
 }
 
 void Render::SetCellRect(const int& x, const int& y, const int& width, const int& height) {
-	cellRect.Set(
+	cellRect = vec4f(
 		static_cast<float>(x),
 		static_cast<float>(y),
 		static_cast<float>(width),

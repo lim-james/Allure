@@ -47,7 +47,7 @@ void TitleScene::Create() {
 		text->SetActive(true);
 		text->SetFont(microsoft);
 		text->text = "Allure 2D"; 
-		text->color.Set(1.f);
+		text->color = vec4f(1.f);
 
 		auto animation = entities->AddComponent<Animation>(label);
 		animation->SetActive(true);
@@ -62,19 +62,19 @@ void TitleScene::Create() {
 
 		auto transform = entities->GetComponent<Transform>(entity);
 		transform->translation.y = -7.25f;
-		transform->scale.Set(7.f, 1.5f, 0.f);
+		transform->scale = vec3f(7.f, 1.5f, 0.f);
 		transition->buttonTransform = transform;
 
 		auto render = entities->AddComponent<Render>(entity);
 		render->SetActive(true);
-		render->tint.Set(1.f, 1.f, 1.f, 0.5f);
+		render->tint = vec4f(1.f, 1.f, 1.f, 0.5f);
 
 		auto text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
 		text->SetFont(microsoft);
 		text->text = "Open canvas"; 
 		text->scale = 0.5f;
-		text->color.Set(0.f, 0.f, 0.f, 1.f);
+		text->color = vec4f(0.f, 0.f, 0.f, 1.f);
 
 		auto animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
@@ -97,7 +97,7 @@ void TitleScene::Create() {
 		emitter->lifetime = 5.f;
 		emitter->lifetimeRange = 0.5f;
 
-		emitter->positionRange.Set(1.f, 1.f, 0.f);
+		emitter->positionRange = vec3f(1.f, 1.f, 0.f);
 
 		emitter->angleRange = 180.f;
 
@@ -105,14 +105,14 @@ void TitleScene::Create() {
 
 		emitter->accelRad = -5.f;
 
-		emitter->startSize.Set(0.1f);
-		emitter->endSize.Set(0.f);
+		emitter->startSize = vec3f(0.15f);
+		emitter->endSize = vec3f(0.f);
 
-		emitter->startColor.Set(0.5f, 0.0f, 0.5f, 1.f);
-		emitter->startColorRange.Set(0.5f, 0.0f, 0.f, 0.f);
+		emitter->startColor = vec4f(0.5f, 0.0f, 0.5f, 1.f);
+		emitter->startColorRange = vec4f(0.5f, 0.0f, 0.f, 0.f);
 
-		emitter->endColor.Set(1.f, 0.5f, 0.0f, 1.f);
-		emitter->endColorRange.Set(0.f, 0.5f, 0.0f, 0.f);
+		emitter->endColor = vec4f(1.f, 0.5f, 0.0f, 1.f);
+		emitter->endColorRange = vec4f(0.f, 0.5f, 0.0f, 0.f);
 
 		auto follow = entities->AddComponent<FollowCursor>(entity);
 		follow->SetActive(true);

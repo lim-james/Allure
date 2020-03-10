@@ -29,7 +29,7 @@ Camera::Camera()
 Camera::~Camera() {}
 
 void Camera::Initialize() {
-	clearColor.Set(0.f);
+	clearColor = vec4f(0.f);
 
 	size = 5.f;
 
@@ -37,7 +37,7 @@ void Camera::Initialize() {
 	farPlane = 100.0f;
 
 	depth = 0.0f;
-	viewportRect.Set(vec2f(0.f), vec2f(1.f));
+	viewportRect = vec4f(vec2f(0.f), vec2f(1.f));
 
 	vec2i size;
 	Events::EventsManager::GetInstance()->Trigger("GET_WINDOW_SIZE", new Events::AnyType<vec2i*>(&size));

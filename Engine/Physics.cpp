@@ -18,8 +18,8 @@ void Physics::Initialize() {
 	inverseMass = 1.f;
 
 	drag = 0.f;
-	force.Set(0.f);
-	velocity.Set(0.f);
+	force = vec3f(0.f);
+	velocity = vec3f(0.f);
 }
 
 void Physics::SetActive(const bool & state) {

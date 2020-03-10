@@ -1,145 +1,4 @@
-#include "Vectors.h"
-
-#include <string>
-
-// default constructor
-
-template<unsigned size, typename T>
-Math::vec<size, T>::vec() {
-	SetZero();
-}
-
-// default destructor
-
-template<unsigned size, typename T>
-Math::vec<size, T>::~vec() {}
-
-// custom constructors
-
-template<unsigned size, typename T>
-template <typename ... Arguments>
-Math::vec<size, T>::vec(Arguments ... arguments) {
-	Set(arguments...);
-}
-
-template<unsigned size, typename T>
-template<unsigned s>
-Math::vec<size, T>::vec(const vec<s, T>& v) {
-	Set(v);
-}
-
-template<unsigned size, typename T>
-template<unsigned s1, unsigned s2>
-Math::vec<size, T>::vec(const vec<s1, T>& v1, const vec<s2, T>& v2) {
-	Set(v1, v2);
-}
-
-template<unsigned size, typename T>
-template<typename t>
-Math::vec<size, T>::vec(const vec<size, t>& v) {
-	Set(v);
-}
-
-// member operators
-// = operator
-// [] operator
-
-template<unsigned size, typename T>
-Math::vec<size, T>& Math::vec<size, T>::operator=(const T& v) {
-	for (unsigned i = 0; i < size; ++i)
-		data[i] = v;
-	return *this;
-}
-
-template<unsigned size, typename T>
-Math::vec<size, T>& Math::vec<size, T>::operator=(const vec<size, T>&  v) {
-	for (unsigned i = 0; i < size; ++i)
-		data[i] = v[i];
-	return *this;
-}
-
-template<unsigned size, typename T>
-inline T& Math::vec<size, T>::operator[](const unsigned& i) {
-	return data[i];
-}
-
-template<unsigned size, typename T>
-inline const T& Math::vec<size, T>::operator[](const unsigned& i) const {
-	return data[i];
-}
-
-// setters
-// set zero
-// join vectors
-// set values
-
-template<unsigned size, typename T>
-void Math::vec<size, T>::SetZero() {
-	for (unsigned i = 0; i < size; ++i)
-		data[i] = static_cast<T>(0);
-}
-
-template<unsigned size, typename T>
-template<typename ...Arguments>
-void Math::vec<size, T>::Set(Arguments ...arguments) {
-	//static_assert(sizeof...(arguments) == size, "Missing arguments.");
-	static_assert(sizeof...(arguments) == size || sizeof...(arguments) == 1, "Missing arguments.");
-
-	unsigned index = 0;
-	T temp[] = { (data[index++] = arguments, static_cast<T>(0))... };
-
-	if (index == 1) {
-		for (unsigned i = 1; i < size; ++i)
-			data[i] = data[0];
-	}
-}
-
-template<unsigned size, typename T>
-template<unsigned s>
-void Math::vec<size, T>::Set(const vec<s, T>& v) {
-	if (s < size) {
-		for (unsigned i = 0; i < s; ++i)
-			data[i] = v.data[i];
-
-		for (unsigned i = s; i < size; ++i)
-			data[i] = static_cast<T>(0);
-	} else {
-		for (unsigned i = 0; i < size; ++i)
-			data[i] = v.data[i];
-	}
-}
-
-template<unsigned size, typename T>
-template<unsigned s1, unsigned s2>
-void Math::vec<size, T>::Set(const vec<s1, T>& v1, const vec<s2, T>& v2) {
-	if (s1 < size) {
-		for (unsigned i = 0; i < s1; ++i)
-			data[i] = v1.data[i];
-
-		const int r = size - s1;
-
-		if (s2 < r) {
-			for (unsigned i = 0; i < s2; ++i)
-				data[i + s1] = v2.data[i];
-
-			for (unsigned i = 0; i < r - s2; ++i)
-				data[i + r] = 0;
-		} else {
-			for (unsigned i = 0; i < r; ++i)
-				data[i + s1] = v2.data[i];
-		}
-	} else {
-		for (unsigned i = 0; i < size; ++i)
-			data[i] = v1.data[i];
-	}
-}
-
-template<unsigned size, typename T>
-template<typename t>
-void Math::vec<size, T>::Set(const vec<size, t>& v) {
-	for (unsigned i = 0; i < size; ++i)
-		data[i] = static_cast<T>(v.data[i]);
-}
+#include "VectorOperators.h"
 
 // math operators
 
@@ -281,7 +140,7 @@ inline Math::vec<size, T>& Math::operator*=(vec<size, T>& lhs, const T& rhs) {
 // T / vector
 // /= vector
 // /= T
-	
+
 template<unsigned size, typename T>
 inline Math::vec<size, T> Math::operator/(const vec<size, T>& lhs, const vec<size, T>& rhs) {
 	vec<size, T> result;
@@ -437,11 +296,10 @@ Math::vec<3, T> Math::Cross(const vec<3, T>& lhs, const vec<3, T>& rhs) {
 		lhs.y * rhs.z - lhs.z * rhs.y,
 		lhs.z * rhs.x - lhs.x * rhs.z,
 		lhs.x * rhs.y - lhs.y * rhs.x
-	);
+		);
 }
 
 template<unsigned size, typename T>
 inline Math::vec<size, T> Math::Project(const vec<size, T>& v, const vec<size, T>& onto) {
 	return Dot(v, onto) / LengthSquared(onto) * onto;
 }
-

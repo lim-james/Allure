@@ -30,6 +30,11 @@
     <ClInclude Include="Loaders\LoadCSV.hpp" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="MACROS.h" />
+    <ClInclude Include="Math\Base\BaseTypes.h" />
+    <ClInclude Include="Math\Base\vec2.h" />
+    <ClInclude Include="Math\Base\vec3.h" />
+    <ClInclude Include="Math\Base\vec4.h" />
+    <ClInclude Include="Math\Base\VectorOperators.h" />
     <ClInclude Include="Math\LinePlane.hpp" />
     <ClInclude Include="Math\Math.hpp" />
     <ClInclude Include="Math\Mat4.hpp" />
@@ -37,7 +42,6 @@
     <ClInclude Include="Math\Mat4Transform.hpp" />
     <ClInclude Include="Math\Random.hpp" />
     <ClInclude Include="Math\Vectors.h" />
-    <ClInclude Include="Math\Vectors %28deprecated%29.hpp" />
     <ClInclude Include="Helpers\StringHelpers.h" />
     <ClInclude Include="Containers\QuadTree.hpp" />
     <ClInclude Include="Containers\Quad.hpp" />
@@ -55,7 +59,10 @@
   <ItemGroup>
     <None Include="Handler\Handler_NonVoid.inl" />
     <None Include="Handler\Handler_Void.inl" />
-    <None Include="Math\Vectors.inl" />
+    <None Include="Math\Base\vec2.inl" />
+    <None Include="Math\Base\vec3.inl" />
+    <None Include="Math\Base\vec4.inl" />
+    <None Include="Math\Base\VectorOperators.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
