@@ -116,9 +116,9 @@ void RenderSystem::Update(const float& dt) {
 			static_cast<GLint>(viewport.origin.y)
 		);
 
+		const Math::vec<2, GLint> size(
 			static_cast<GLsizei>(viewport.size.w),
 			static_cast<GLsizei>(viewport.size.h)
-		const Math::vec<2, GLint> size(
 		);
 
 		glViewport(origin.x, origin.y, size.x, size.y);
