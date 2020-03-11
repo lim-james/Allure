@@ -1,10 +1,12 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <Encoding/APO.h>
+
 #define ACTIVE_BIT	0b1
 #define DYNAMIC_BIT	0b10
 
-struct Component {
+struct Component : APO {
 
 	unsigned entity;
 
@@ -19,6 +21,9 @@ struct Component {
 
 	bool IsDynamic() const;
 	virtual void SetDynamic(const bool& _active);
+
+	virtual void Unpack();
+	virtual void Pack();
 
 private:
 

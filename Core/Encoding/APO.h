@@ -6,11 +6,14 @@
 // Allure Parsable Object
 struct APO {
 
-	virtual void Unpack() = 0;
-	virtual void Pack() = 0;
+	void Parse(const std::string& encoded);
+	void ToString();
 	
 protected:
 
+	virtual void Unpack() = 0;
+	virtual void Pack() = 0;
+	
 	AON data;
 
 };

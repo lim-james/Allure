@@ -27,6 +27,24 @@ void Handler<ReturnType, void>::Bind(
 }
 
 template<typename ReturnType>
+template<typename MethodContext, typename Context>
+void Handler<ReturnType, void>::Bind(
+	ReturnType(MethodContext::* callback)(void),
+	Context * context
+) {
+	customCallbacks.push_back(std::bind(callback, static_cast<MethodContext*>(context)));
+}
+
+template<typename ReturnType>
+template<typename MethodContext, typename Context>
+void Handler<ReturnType, void>::Bind(
+	ReturnType(MethodContext::* callback)(void) const,
+	Context * context
+) {
+	customCallbacks.push_back(std::bind(callback, static_cast<MethodContext*>(context)));
+}
+
+template<typename ReturnType>
 void Handler<ReturnType, void>::Bind(ReturnType(*callback)(void)) {
 	customCallbacks.push_back(callback);
 }
@@ -49,6 +67,26 @@ void Handler<ReturnType, void>::Bind(
 	ArgumentTypes... arguments
 ) {
 	customCallbacks.push_back(std::bind(callback, context, arguments...));
+}
+
+template<typename ReturnType>
+template<typename MethodContext, typename Context, typename ...ArgumentTypes>
+void Handler<ReturnType, void>::Bind(
+	ReturnType(MethodContext::* callback)(ArgumentTypes...),
+	Context * context,
+	ArgumentTypes... arguments
+) {
+	customCallbacks.push_back(std::bind(callback, static_cast<MethodContext*>(context), arguments...));
+}
+
+template<typename ReturnType>
+template<typename MethodContext, typename Context, typename ...ArgumentTypes>
+void Handler<ReturnType, void>::Bind(
+	ReturnType(MethodContext::* callback)(ArgumentTypes...) const,
+	Context * context,
+	ArgumentTypes... arguments
+) {
+	customCallbacks.push_back(std::bind(callback, static_cast<MethodContext*>(context), arguments...));
 }
 
 template<typename ReturnType>

@@ -3,14 +3,13 @@
 
 #include "Component.h"
 
-#include <Encoding/APO.h>
 #include <Math/Vectors.h>
 #include <Math/Mat4.hpp>
 #include <Containers/Quad.hpp>
 
 #include <vector>
 
-struct Transform : Component, APO {
+struct Transform : Component {
 
 	vec3f translation;
 	vec3f rotation;

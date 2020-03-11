@@ -22,3 +22,13 @@ void Component::SetDynamic(const bool & _active) {
 	flags = (flags & !DYNAMIC_BIT) | (DYNAMIC_BIT * _active);
 }
 
+void Component::Unpack() {
+	entity = data.Get<unsigned>("entity");
+	flags = data.Get<unsigned>("flags");
+}
+
+void Component::Pack() {
+	data.Set("entity", entity);
+	data.Set("flags", flags);
+}
+

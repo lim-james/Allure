@@ -9,6 +9,9 @@
 
 struct AON {
 
+	void Reset();
+	std::string ToString() const;
+
 	template<typename T>
 	T Get(const std::string& key);
 

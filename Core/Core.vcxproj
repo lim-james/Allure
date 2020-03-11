@@ -50,6 +50,8 @@
     <ClInclude Include="Types\Rect.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Encoding\AON.cpp" />
+    <ClCompile Include="Encoding\APO.cpp" />
     <ClCompile Include="Events\EventsManager.cpp" />
     <ClCompile Include="Helpers\FileHelpers.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />

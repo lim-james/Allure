@@ -82,6 +82,8 @@ void TitleScene::Create() {
 		auto button = entities->AddComponent<Button>(entity);
 		button->SetActive(true);
 		button->handlers[MOUSE_CLICK].Bind(&TitleTransition::Transition, transition);
+		button->handlers[MOUSE_OVER].Bind(&APO::ToString, transform);
+		//transform->ToString();
 
 		auto buttonAnim = entities->AddComponent<ButtonAnimation>(entity);
 		buttonAnim->SetActive(true);

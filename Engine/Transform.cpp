@@ -36,15 +36,17 @@ Component * Transform::Clone() const {
 }
 
 void Transform::Unpack() {
-	//translation = data.Get<vec3f>("translation");
-	//rotation = data.Get<vec3f>("rotation");
-	//scale = data.Get<vec3f>("scale");
+	Component::Unpack();
+	translation = data.Get<vec3f>("translation");
+	rotation = data.Get<vec3f>("rotation");
+	scale = data.Get<vec3f>("scale");
 }
 
 void Transform::Pack() {
-	//data = vec4f("translation", translation);
-	//data = vec4f("rotation", rotation);
-	//data = vec4f("scale", scale);
+	Component::Pack();
+	data.Set("translation", translation);
+	data.Set("rotation", rotation);
+	data.Set("scale", scale);
 }
 
 void Transform::UpdateAxes() {
