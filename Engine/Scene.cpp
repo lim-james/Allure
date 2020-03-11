@@ -3,10 +3,20 @@
 #include "TransformSystem.h"
 #include "RenderSystem.h"
 
+#include "LoadFNT.h"
+
 #include <Math/Vectors.h>
 #include <Events/EventsManager.h>
 
+#include <fstream>
+
 Scene::Scene() {
+	entities = new EntityManager;
+	systems = new SystemManager(entities);
+	scripts = new ScriptSystem(entities);
+}
+
+Scene::Scene(const std::string & filepath) : filepath(filepath) {
 	entities = new EntityManager;
 	systems = new SystemManager(entities);
 	scripts = new ScriptSystem(entities);
@@ -15,6 +25,7 @@ Scene::Scene() {
 Scene::~Scene() {
 	delete entities;
 	delete systems;
+	delete scripts;
 }
 
 void Scene::Awake() {
@@ -30,6 +41,8 @@ void Scene::Create() {
 	Camera * camera = entities->AddComponent<Camera>(mainCamera);
 	camera->SetActive(true);
 	camera->clearColor = vec4f(0.f);
+
+	if (!filepath.empty()) Load(filepath);
 }
 
 void Scene::Enter() {
@@ -58,3 +71,45 @@ void Scene::Destroy() {
 }
 
 void Scene::PrepareForSegue(Scene * destination) { }
+
+void Scene::Load(const std::string & filepath) {
+	std::ifstream ifs(filepath);
+
+	if (!ifs.is_open()) {
+		Debug::Error << "Scene file \"" << filepath << "\" not found.\n";
+		return;
+	}
+
+	std::string result = "";
+	std::string buffer;
+
+	while (!ifs.eof()) {
+		std::getline(ifs, buffer);
+
+		if (buffer == ">>>") {
+			const AENotation notation(result);
+			const unsigned entity = notation.Get<unsigned>("entity");
+
+			while (entity >= entities->PoolCount()) {
+				entities->Create();
+			}
+ 
+			AEObject* object = nullptr;
+
+			if (notation.Get("type") == "Transform") {
+				object = static_cast<AEObject*>(entities->AddComponent<Transform>(entity));
+			} else if (notation.Get("type") == "Text") {
+				auto text = entities->AddComponent<Text>(entity);
+				auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
+				text->SetFont(courierNew);
+				object = static_cast<AEObject*>(text);
+			} 
+
+			object->Parse(notation);
+
+			result = "";
+		} else {
+			result += buffer + '\n';
+		}
+	}
+}

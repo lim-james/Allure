@@ -70,6 +70,11 @@ void Handler<ReturnType, ParameterTypes...>::Bind(
 	));
 }
 
+template<typename ReturnType, typename ...ParameterTypes>
+void Handler<ReturnType, ParameterTypes...>::Bind(std::function<ReturnType(ParameterTypes...)> callback) {
+	customCallbacks.push_back(callback);
+}
+
 template<typename ReturnType, typename ... ParameterTypes>
 template<typename Context>
 void Handler<ReturnType, ParameterTypes...>::Bind(
@@ -108,6 +113,11 @@ void Handler<ReturnType, ParameterTypes...>::Bind(
 
 template<typename ReturnType, typename ...ParameterTypes>
 void Handler<ReturnType, ParameterTypes...>::Bind(ReturnType (*callback)(void)) {
+	customCallbacks.push_back(callback);
+}
+
+template<typename ReturnType, typename ...ParameterTypes>
+void Handler<ReturnType, ParameterTypes...>::Bind(std::function<ReturnType(void)> callback) {
 	customCallbacks.push_back(callback);
 }
 

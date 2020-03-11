@@ -10,24 +10,24 @@ bool Component::IsActive() const {
 	return flags & ACTIVE_BIT;
 }
 
-void Component::SetActive(const bool & _active) {
-	flags = (flags & !ACTIVE_BIT) | (ACTIVE_BIT * _active);
+void Component::SetActive(const bool & state) {
+	flags = (flags & !ACTIVE_BIT) | (ACTIVE_BIT * state);
 }
 
 bool Component::IsDynamic() const {
 	return flags & DYNAMIC_BIT;
 }
 
-void Component::SetDynamic(const bool & _active) {
-	flags = (flags & !DYNAMIC_BIT) | (DYNAMIC_BIT * _active);
+void Component::SetDynamic(const bool & state) {
+	flags = (flags & !DYNAMIC_BIT) | (DYNAMIC_BIT * state);
 }
 
-void Component::Unpack() {
+void Component::Unpack(const AENotation& data) {
 	entity = data.Get<unsigned>("entity");
 	flags = data.Get<unsigned>("flags");
 }
 
-void Component::Pack() {
+void Component::Pack(AENotation& data) {
 	data.Set("entity", entity);
 	data.Set("flags", flags);
 }

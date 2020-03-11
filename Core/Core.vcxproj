@@ -20,8 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Containers\Comparator.h" />
-    <ClInclude Include="Encoding\AON.hpp" />
-    <ClInclude Include="Encoding\APO.h" />
+    <ClInclude Include="Encoding\AENotation.hpp" />
+    <ClInclude Include="Encoding\AEObject.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventsManager.h" />
     <ClInclude Include="Handler\Handler.h" />
@@ -50,8 +50,8 @@
     <ClInclude Include="Types\Rect.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Encoding\AON.cpp" />
-    <ClCompile Include="Encoding\APO.cpp" />
+    <ClCompile Include="Encoding\AENotation.cpp" />
+    <ClCompile Include="Encoding\AEObject.cpp" />
     <ClCompile Include="Events\EventsManager.cpp" />
     <ClCompile Include="Helpers\FileHelpers.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
@@ -61,6 +61,7 @@
   <ItemGroup>
     <None Include="Handler\Handler_NonVoid.inl" />
     <None Include="Handler\Handler_Void.inl" />
+    <None Include="Helpers\StringHelpers.inl" />
     <None Include="Math\Base\vec2.inl" />
     <None Include="Math\Base\vec3.inl" />
     <None Include="Math\Base\vec4.inl" />

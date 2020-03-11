@@ -72,12 +72,6 @@
     <ClInclude Include="Handler\variadic_placeholder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Encoding\APO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Encoding\AON.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Handler\Handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -102,6 +96,12 @@
     <ClInclude Include="Math\Base\vec4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Encoding\AENotation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Encoding\AEObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logger\Logger.cpp">
@@ -119,10 +119,10 @@
     <ClCompile Include="Helpers\FileHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Encoding\AON.cpp">
+    <ClCompile Include="Encoding\AEObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Encoding\APO.cpp">
+    <ClCompile Include="Encoding\AENotation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,6 +143,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Math\Base\vec4.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Helpers\StringHelpers.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

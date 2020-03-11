@@ -1,6 +1,6 @@
 #include "TitleTransition.h"
 
-#include "DemoScene.h"
+#include "Scene.h"
 
 #include <Events/EventsManager.h>
 
@@ -53,7 +53,7 @@ void TitleTransition::Start() {
 
 void TitleTransition::Update() {
 	if (transitionDelay < 0.0f) {
-		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene(new DemoScene));
+		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene(new Scene("Files/Scenes/Demo.scene")));
 		transitionDelay = 0.0f;
 	} else if (transitionDelay > 0.0f) {
 		transitionDelay -= time->dt;

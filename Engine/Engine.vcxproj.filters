@@ -58,9 +58,6 @@
     <Filter Include="Assets\Scenes">
       <UniqueIdentifier>{254b132c-5b0a-4253-ba78-712a52f0c797}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scenes\Demo">
-      <UniqueIdentifier>{43d48a77-6355-470e-a17b-0f2df3391c20}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Scenes\Title">
       <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
     </Filter>
@@ -234,9 +231,6 @@
     <ClCompile Include="TitleTransition.cpp">
       <Filter>Assets\Scripts\Title</Filter>
     </ClCompile>
-    <ClCompile Include="DemoScene.cpp">
-      <Filter>Assets\Scenes\Demo</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -388,9 +382,6 @@
     </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Application\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoScene.h">
-      <Filter>Assets\Scenes\Demo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

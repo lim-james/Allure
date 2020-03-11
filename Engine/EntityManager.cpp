@@ -38,6 +38,10 @@ void EntityManager::Destroy(const unsigned & id) {
 	}
 }
 
+unsigned EntityManager::PoolCount() const {
+	return entities.size();
+}
+
 void EntityManager::Expand() {
 	const unsigned id = entities.size();
 	entities.push_back({});

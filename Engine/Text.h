@@ -46,9 +46,18 @@ struct Text : Component {
 
 	Text();
 
+	// component abstract methods
+
 	void Initialize() override;
 	Component* Clone() const override;
 	void SetActive(const bool& state) override;
+
+	// AEObject methods
+
+	void Unpack(const AENotation& data) override;
+	void Pack(AENotation& data) override;
+
+	// text methods
 
 	Font * const GetFont() const;
 	void SetFont(Font * const _font);

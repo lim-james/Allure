@@ -27,8 +27,9 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(ParameterTypes...), Context* context);
 	template<typename MethodContext, typename Context>
 	void Bind(ReturnType (MethodContext::*callback)(ParameterTypes...) const, Context* context);
-	// void functions
+	// non members
 	void Bind(ReturnType (*callback)(ParameterTypes...));
+	void Bind(std::function<ReturnType(ParameterTypes...)> callback);
 
 	// void class methods
 	template<typename Context>
@@ -39,8 +40,9 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(void), Context* context);
 	template<typename MethodContext, typename Context>
 	void Bind(ReturnType (MethodContext::*callback)(void) const, Context* context);
-	// void functions
+	// non members
 	void Bind(ReturnType (*callback)(void));
+	void Bind(std::function<ReturnType(void)> callback);
 
 	// custom methods
 	template<typename Context, typename ... ArgumentTypes>
@@ -51,8 +53,7 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
 	template<typename MethodContext, typename Context, typename ... ArgumentTypes>
 	void Bind(ReturnType (MethodContext::*callback)(ArgumentTypes...) const, Context* context, ArgumentTypes... arguments);
-	// void functions
-	// void functions
+	// non member
 	template<typename ... ArgumentTypes>
 	void Bind(ReturnType (*callback)(ArgumentTypes...), ArgumentTypes... arguments);
 
@@ -101,8 +102,9 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(void), Context* context);
 	template<typename MethodContext, typename Context>
 	void Bind(ReturnType (MethodContext::*callback)(void) const, Context* context);
-	// void functions
+	// non member
 	void Bind(ReturnType (*callback)(void));
+	void Bind(std::function<ReturnType(void)> callback);
 
 	// custom methods
 	template<typename Context, typename ... ArgumentTypes>
@@ -113,7 +115,7 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
 	template<typename MethodContext, typename Context, typename ... ArgumentTypes>
 	void Bind(ReturnType (MethodContext::*callback)(ArgumentTypes...) const, Context* context, ArgumentTypes... arguments);
-	// void functions
+	// non member
 	template<typename ... ArgumentTypes>
 	void Bind(ReturnType (*callback)(ArgumentTypes...), ArgumentTypes... arguments);
 

@@ -26,8 +26,8 @@ void Transform::Initialize() {
 	UpdateAxes();
 }
 
-void Transform::SetActive(const bool & _active) {
-	Component::SetActive(_active);
+void Transform::SetActive(const bool & state) {
+	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("TRANSFORM_ACTIVE", new Events::AnyType<Transform*>(this));
 }
 
@@ -35,15 +35,16 @@ Component * Transform::Clone() const {
 	return new Transform(*this);
 }
 
-void Transform::Unpack() {
-	Component::Unpack();
+void Transform::Unpack(const AENotation& data) {
+	Component::Unpack(data);
 	translation = data.Get<vec3f>("translation");
 	rotation = data.Get<vec3f>("rotation");
 	scale = data.Get<vec3f>("scale");
 }
 
-void Transform::Pack() {
-	Component::Pack();
+void Transform::Pack(AENotation& data) {
+	data.Set("type", "Transform");
+	Component::Pack(data);
 	data.Set("translation", translation);
 	data.Set("rotation", rotation);
 	data.Set("scale", scale);

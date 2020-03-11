@@ -50,6 +50,11 @@ void Handler<ReturnType, void>::Bind(ReturnType(*callback)(void)) {
 }
 
 template<typename ReturnType>
+void Handler<ReturnType, void>::Bind(std::function<ReturnType(void)> callback) {
+	customCallbacks.push_back(callback);
+}
+
+template<typename ReturnType>
 template<typename Context, typename ...ArgumentTypes>
 void Handler<ReturnType, void>::Bind(
 	ReturnType(Context::* callback)(ArgumentTypes...),

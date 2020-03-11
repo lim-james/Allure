@@ -37,9 +37,7 @@ public:
 	template<typename ComponentType>
 	ComponentType* GetComponent(const unsigned& id);
 
-	unsigned PoolCount() {
-		return entities.size();
-	}
+	unsigned PoolCount() const;
 
 private:
 	

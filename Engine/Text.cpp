@@ -40,6 +40,39 @@ void Text::SetActive(const bool& state) {
 	Events::EventsManager::GetInstance()->Trigger("TEXT_ACTIVE", new Events::AnyType<Text*>(this));
 }
 
+void Text::Unpack(const AENotation & data) {
+	Component::Unpack(data);
+
+	text = data.Get("text");
+	color = data.Get<vec4f>("color");
+
+	scale = data.Get<float>("scale");
+	lineSpacing = data.Get<float>("lineSpacing");
+	characterSpacing = data.Get<float>("characterSpacing");
+
+	paragraphAlignment = data.Get<short>("paragraphAlignment");
+	verticalAlignment = data.Get<short>("verticalAlignment");
+
+	offset = data.Get<vec3f>("offset");
+}
+
+void Text::Pack(AENotation & data) {
+	data.Set("type", "Text");
+	Component::Pack(data);
+
+	data.Set("text", text);
+	data.Set("color", color);
+
+	data.Set("scale", scale);
+	data.Set("lineSpacing", lineSpacing);
+	data.Set("characterSpacing", characterSpacing);
+
+	data.Set("paragraphAlignment", paragraphAlignment);
+	data.Set("verticalAlignment", verticalAlignment);
+
+	data.Set("offset", offset);
+}
+
 Font * const Text::GetFont() const {
 	return font;
 }

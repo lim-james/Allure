@@ -22,13 +22,13 @@ struct Transform : Component {
 	// component abstract methods
 
 	void Initialize() override;
-	void SetActive(const bool& _active) override;
+	void SetActive(const bool& state) override;
 	Component* Clone() const override;
 
-	// APO methods
+	// AEObject methods
 
-	void Unpack() override;
-	void Pack() override;
+	void Unpack(const AENotation& data) override;
+	void Pack(AENotation& data) override;
 
 	// transform methods
 

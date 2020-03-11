@@ -225,7 +225,7 @@ template<unsigned size, typename T>
 std::istream& Math::operator>>(std::istream& is, vec<size, T>& v) {
 	unsigned index = 0;
 
-	for (int i; is >> i;) {
+	for (T i; is >> i;) {
 		v[index++] = i;
 
 		if (is.peek() == ',')

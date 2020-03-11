@@ -139,7 +139,6 @@
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
-    <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="FollowCursor.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -194,7 +193,6 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderSystem.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="DemoScene.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FollowCursor.h" />
     <ClInclude Include="Font.h" />

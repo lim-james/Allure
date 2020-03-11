@@ -1,12 +1,12 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include <Encoding/APO.h>
+#include <Encoding/AEObject.h>
 
 #define ACTIVE_BIT	0b1
 #define DYNAMIC_BIT	0b10
 
-struct Component : APO {
+struct Component : AEObject {
 
 	unsigned entity;
 
@@ -17,13 +17,13 @@ struct Component : APO {
 	virtual Component* Clone() const = 0;
 
 	bool IsActive() const;
-	virtual void SetActive(const bool& _active);
+	virtual void SetActive(const bool& state);
 
 	bool IsDynamic() const;
-	virtual void SetDynamic(const bool& _active);
+	virtual void SetDynamic(const bool& state);
 
-	virtual void Unpack();
-	virtual void Pack();
+	virtual void Unpack(const AENotation& data);
+	virtual void Pack(AENotation& data);
 
 private:
 

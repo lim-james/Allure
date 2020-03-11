@@ -14,6 +14,8 @@ protected:
 	EntityManager* entities;
 	SystemManager* systems;
 	ScriptSystem* scripts;
+
+	std::string filepath;
 	
 	unsigned mainCamera;
 
@@ -21,6 +23,7 @@ public:
 
 	// Initialization of local variables
 	Scene();
+	Scene(const std::string& filepath);
 	// Destruction
 	virtual ~Scene();
 
@@ -41,6 +44,10 @@ public:
 	virtual void Destroy();
 
 	virtual void PrepareForSegue(Scene* destination);
+
+protected:
+
+	void Load(const std::string& filepath);
 
 };
 
