@@ -16,6 +16,7 @@ struct Physics : Component {
 	Physics();
 	 
 	void Initialize() override;
+	Component* Clone() const override;
 	void SetActive(const bool& state) override;
 
 	void SetMass(const float& _mass);

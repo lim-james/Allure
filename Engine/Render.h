@@ -28,6 +28,7 @@ struct Render : Component {
 	Render();
 
 	void Initialize() override;
+	Component* Clone() const override;
 	void SetActive(const bool& state) override;
 
 	const unsigned& GetTexture() const;

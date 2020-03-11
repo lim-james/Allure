@@ -30,6 +30,10 @@ void Animation::Initialize() {
 	Clear();
 }
 
+Component * Animation::Clone() const {
+	return new Animation(*this);
+}
+
 void Animation::SetActive(const bool& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("ANIMATION_ACTIVE", new Events::AnyType<Animation*>(this));

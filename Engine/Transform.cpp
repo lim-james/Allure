@@ -31,6 +31,10 @@ void Transform::SetActive(const bool & _active) {
 	Events::EventsManager::GetInstance()->Trigger("TRANSFORM_ACTIVE", new Events::AnyType<Transform*>(this));
 }
 
+Component * Transform::Clone() const {
+	return new Transform(*this);
+}
+
 void Transform::Unpack() {
 	//translation = data.Get<vec3f>("translation");
 	//rotation = data.Get<vec3f>("rotation");

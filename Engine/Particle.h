@@ -21,6 +21,7 @@ struct Particle : Component {
 	Particle();
 
 	void Initialize() override;
+	Component* Clone() const override;
 
 };
 

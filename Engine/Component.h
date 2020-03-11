@@ -12,6 +12,7 @@ struct Component {
 	virtual ~Component();
 
 	virtual void Initialize() = 0;
+	virtual Component* Clone() const = 0;
 
 	bool IsActive() const;
 	virtual void SetActive(const bool& _active);

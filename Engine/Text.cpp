@@ -31,6 +31,10 @@ void Text::Initialize() {
 	offset = vec3f(0.f);
 }
 
+Component * Text::Clone() const {
+	return new Text(*this);
+}
+
 void Text::SetActive(const bool& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("TEXT_ACTIVE", new Events::AnyType<Text*>(this));

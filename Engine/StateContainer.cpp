@@ -11,6 +11,10 @@ void StateContainer::Initialize() {
 	currentState = "";
 }
 
+Component * StateContainer::Clone() const {
+	return new StateContainer(*this);
+}
+
 void StateContainer::SetActive(const bool& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("STATE_CONTAINER_ACTIVE", new Events::AnyType<StateContainer*>(this));

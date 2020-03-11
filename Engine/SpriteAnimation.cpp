@@ -10,6 +10,10 @@ void SpriteAnimation::Initialize() {
 	currentAnimation = "";
 }
 
+Component * SpriteAnimation::Clone() const {
+	return new SpriteAnimation(*this);
+}
+
 void SpriteAnimation::SetActive(const bool& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Queue("SPRITE_ANIMATION_ACTIVE", new Events::AnyType<SpriteAnimation*>(this));

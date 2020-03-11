@@ -22,6 +22,10 @@ void Physics::Initialize() {
 	velocity = vec3f(0.f);
 }
 
+Component * Physics::Clone() const {
+	return new Physics(*this);
+}
+
 void Physics::SetActive(const bool & state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("PHYSICS_ACTIVE", new Events::AnyType<Physics*>(this));

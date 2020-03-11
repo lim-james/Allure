@@ -24,6 +24,7 @@ struct Transform : Component, APO {
 
 	void Initialize() override;
 	void SetActive(const bool& _active) override;
+	Component* Clone() const override;
 
 	// APO methods
 

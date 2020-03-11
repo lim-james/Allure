@@ -82,6 +82,7 @@ struct Animation : Component {
 	~Animation() override;
 
 	void Initialize() override;
+	Component* Clone() const override;
 	void SetActive(const bool& state) override;
 
 	template<typename T>

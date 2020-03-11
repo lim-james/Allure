@@ -71,6 +71,10 @@ void ParticleEmitter::Initialize() {
 	endColorRange = vec4f(0.f);
 }
 
+Component * ParticleEmitter::Clone() const {
+	return new ParticleEmitter(*this);
+}
+
 void ParticleEmitter::SetActive(const bool& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("EMITTER_ACTIVE", new Events::AnyType<ParticleEmitter*>(this));

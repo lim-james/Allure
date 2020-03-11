@@ -24,3 +24,7 @@ void Particle::Initialize() {
 	endColor = vec3f(1.f);
 }
 
+Component * Particle::Clone() const {
+	return new Particle(*this);
+}
+

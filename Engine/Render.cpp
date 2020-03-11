@@ -20,6 +20,10 @@ void Render::Initialize() {
 	cellRect = vec4f(vec2f(0.f), vec2f(1.f));
 }
 
+Component * Render::Clone() const {
+	return new Render(*this);
+}
+
 void Render::SetActive(const bool& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("RENDER_ACTIVE", new Events::AnyType<Render*>(this));

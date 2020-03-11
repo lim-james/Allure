@@ -16,6 +16,7 @@ struct Script : Component {
 
 	// when script is created
 	void Initialize() override;
+	Component* Clone() const override;
 	void SetActive(const bool& state) override;
 
 protected:

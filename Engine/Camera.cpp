@@ -46,6 +46,10 @@ void Camera::Initialize() {
 	UpdateViewport();
 }
 
+Component * Camera::Clone() const {
+	return new Camera(*this);
+}
+
 void Camera::SetActive(const bool& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("CAMERA_ACTIVE", new Events::AnyType<Camera*>(this));

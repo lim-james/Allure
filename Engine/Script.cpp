@@ -6,6 +6,10 @@ void Script::Initialize() {
 
 }
 
+Component * Script::Clone() const {
+	return new Script(*this);
+}
+
 void Script::Awake() {
 
 }

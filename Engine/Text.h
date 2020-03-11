@@ -47,6 +47,7 @@ struct Text : Component {
 	Text();
 
 	void Initialize() override;
+	Component* Clone() const override;
 	void SetActive(const bool& state) override;
 
 	Font * const GetFont() const;
