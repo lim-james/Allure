@@ -1,5 +1,6 @@
-string parsing for components
 GUI?
+improve parsing
+add fileid
 implement handler for events
 depth sorting
 fix resize lag

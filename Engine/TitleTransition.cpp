@@ -33,6 +33,12 @@ void TitleTransition::FadeOut() {
 		&buttonTransform->translation.y,
 		-7.25f
 	);
+
+	titleAnimation->Animate(
+		base,
+		&grid->tint.a,
+		0.f
+	);
 }
 
 void TitleTransition::Transition(unsigned target) {

@@ -14,6 +14,7 @@ struct TitleTransition : Script {
 	ParticleEmitter* emitter;
 	Transform* titleTransform;
 	Transform* buttonTransform;
+	Render* grid;
 
 private:
 

@@ -131,6 +131,6 @@ void Application::Step() {
 	Events::EventsManager::GetInstance()->TriggerQueued();
 
 	sceneManager->Segue();
-	context->SwapBuffers();
+	context->UpdateFrame(dt);
 	timer.Update();
 }

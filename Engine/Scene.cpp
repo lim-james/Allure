@@ -37,7 +37,7 @@ void Scene::Awake() {
 
 void Scene::Create() {
 	mainCamera = entities->Create();
-	entities->GetComponent<Transform>(mainCamera)->translation.z = 1.f;
+	entities->GetComponent<Transform>(mainCamera)->translation.z = 10.f;
 	Camera * camera = entities->AddComponent<Camera>(mainCamera);
 	camera->SetActive(true);
 	camera->clearColor = vec4f(0.f);

@@ -4,10 +4,11 @@
 #include <GLFW/glfw3.h>
 
 Window::Window()
-	: size(0)
+	: resizeDelay(0.2f)
+	, size(0)
 	, window(nullptr) {}
 
-Window::Window(const int& width, const int& height, const char* title, const bool& fullscreen) {
+Window::Window(const int& width, const int& height, const char* title, const bool& fullscreen) : resizeDelay(0.2f) {
 	size = vec2i(width, height);
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
@@ -27,10 +28,9 @@ Window::Window(const int& width, const int& height, const char* title, const boo
 
 	glfwSetWindowSizeCallback(window, Window::Resize);
 
-	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &Window::ResizeHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("_WINDOW_RESIZE", &Window::ResizeHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("BROADCAST_SIZE", &Window::BroadcastSize, this);
 	Events::EventsManager::GetInstance()->Subscribe("GET_WINDOW_SIZE", &Window::GetSizeHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("SWAP_BUFFERS", &Window::SwapBuffers, this);
 }
 
 Window::~Window() {
@@ -46,6 +46,19 @@ void Window::MakeCurrent() const {
 	glfwMakeContextCurrent(window);
 }
 
+void Window::UpdateFrame(const float & dt) {
+	glfwSwapBuffers(window);
+
+	if (resizing) {
+		if (bt >= resizeDelay) {
+			resizing = false;
+			BroadcastSize();
+		} else {
+			bt += dt;
+		}
+	}
+}
+
 void Window::SetTitle(const char* title) const {
 	glfwSetWindowTitle(window, title);
 }
@@ -58,22 +71,18 @@ bool Window::ShouldClose() const {
 	return glfwWindowShouldClose(window);
 }
 
-void Window::SwapBuffers() const {
-	glfwSwapBuffers(window);
-}
-
 void Window::BroadcastSize() const {
 	Events::EventsManager::GetInstance()->Trigger("WINDOW_RESIZE", new Events::AnyType<vec2i>(size));
 }
 
 void Window::Resize(GLFWwindow* window, int width, int height) {
-	glViewport(0, 0, width, height);
-
 	const vec2i size(width, height);
-	Events::EventsManager::GetInstance()->Trigger("WINDOW_RESIZE", new Events::AnyType<vec2i>(size));
+	Events::EventsManager::GetInstance()->Trigger("_WINDOW_RESIZE", new Events::AnyType<vec2i>(size));
 }
 
 void Window::ResizeHandler(Events::Event* event) {
+	resizing = true;
+	bt = 0.0f;
 	size = static_cast<Events::AnyType<vec2i>*>(event)->data;
 }
 

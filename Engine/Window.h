@@ -8,6 +8,11 @@ struct GLFWwindow;
 
 class Window {
 
+	const float resizeDelay;
+	bool resizing;
+
+	float bt;
+
 	vec2i size;
 
 	GLFWwindow* window;
@@ -21,12 +26,12 @@ public:
 	GLFWwindow* Get() const;
 
 	void MakeCurrent() const;
+	void UpdateFrame(const float& dt);
 
 	void SetTitle(const char* title) const;
 
 	void Close() const;
 	bool ShouldClose() const;
-	void SwapBuffers() const;
 
 	void BroadcastSize() const;
 

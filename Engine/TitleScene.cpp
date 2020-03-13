@@ -35,25 +35,37 @@ void TitleScene::Create() {
 	auto transition = entities->AddComponent<TitleTransition>(manager);
 	transition->SetActive(true);
 
+	// background
+	{
+		const unsigned entity = entities->Create();
+
+		auto transform = entities->GetComponent<Transform>(entity);
+		transform->scale = vec3f(80.0f, 45.0f, 0.0f);
+
+		auto render = entities->AddComponent<Render>(entity);
+		render->SetActive(true);
+		render->SetTexture("Files/Textures/tile.tga");
+		render->SetCellRect(0, 0, 32, 18);
+		render->tint.a = 0.1f;
+		transition->grid = render;
+	}
+
 	// title
 	{
-		const unsigned label = entities->Create();
+		const unsigned entity = entities->Create();
 
-		auto transform = entities->GetComponent<Transform>(label);
+		auto transform = entities->GetComponent<Transform>(entity);
 		transform->translation.y = -0.25f;
 		transition->titleTransform = transform;
 
-		auto text = entities->AddComponent<Text>(label);
+		auto text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
 		text->SetFont(microsoft);
 		text->text = "Allure 2D"; 
 		text->color = vec4f(1.f);
 
-		auto animation = entities->AddComponent<Animation>(label);
+		auto animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
-
-		auto script = entities->AddComponent<Script>(label);
-		script->SetActive(true);
 	}
 
 	// open button

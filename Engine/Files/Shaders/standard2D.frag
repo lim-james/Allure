@@ -16,6 +16,6 @@ void main() {
 	else
 		color = vs_out.color;	
 
-	if (length(color.a) < 0.1)
+	if (length(color.a) < 0.01)
 		discard;
 }
