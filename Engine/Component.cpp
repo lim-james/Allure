@@ -23,11 +23,13 @@ void Component::SetDynamic(const bool & state) {
 }
 
 void Component::Unpack(const AENotation& data) {
+	resourceID = data.Get<unsigned>("resource");
 	entity = data.Get<unsigned>("entity");
 	flags = data.Get<unsigned>("flags");
 }
 
 void Component::Pack(AENotation& data) {
+	data.Set("resource", resourceID);
 	data.Set("entity", entity);
 	data.Set("flags", flags);
 }

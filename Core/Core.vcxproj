@@ -45,6 +45,8 @@
     <ClInclude Include="Helpers\StringHelpers.h" />
     <ClInclude Include="Containers\QuadTree.hpp" />
     <ClInclude Include="Containers\Quad.hpp" />
+    <ClInclude Include="Encoding\Resource.h" />
+    <ClInclude Include="Encoding\ResourceManager.h" />
     <ClInclude Include="Timer\Timer.h" />
     <ClInclude Include="Helpers\VectorHelpers.h" />
     <ClInclude Include="Types\Rect.h" />
@@ -56,6 +58,7 @@
     <ClCompile Include="Helpers\FileHelpers.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="Helpers\StringHelpers.cpp" />
+    <ClCompile Include="Encoding\Resource.cpp" />
     <ClCompile Include="Timer\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>

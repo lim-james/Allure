@@ -1,3 +1,6 @@
+add resource and its manager
+component and textures should have resource id
+
 GUI?
 improve parsing
 add fileid

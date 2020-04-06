@@ -7,6 +7,7 @@ Camera::Camera()
 	: clearColor(0.f)
 
 	, size(5.f)
+	, match(0.f)
 
 	, nearPlane(0.1f)
 	, farPlane(100.0f)
@@ -32,6 +33,7 @@ void Camera::Initialize() {
 	clearColor = vec4f(0.f);
 
 	size = 5.f;
+	match = 0.f;
 
 	nearPlane = 0.1f;
 	farPlane = 100.0f;
@@ -55,9 +57,17 @@ void Camera::SetActive(const bool& state) {
 	Events::EventsManager::GetInstance()->Trigger("CAMERA_ACTIVE", new Events::AnyType<Camera*>(this));
 }
 
+const float& Camera::GetSize() const {
+	return size;
+}
+
 void Camera::SetSize(const float& value) {
 	size = value;
 	UpdateViewport();
+}
+
+const float & Camera::GetDepth() const {
+	return depth;
 }
 
 void Camera::SetDepth(const float& value) {
@@ -67,6 +77,11 @@ void Camera::SetDepth(const float& value) {
 
 mat4f Camera::GetProjectionMatrix() const {
 	return Math::Orthographic(left, right, bottom, top, nearPlane, farPlane);
+}
+
+void Camera::SetMatch(const float & value) {
+	match = value;
+	UpdateViewport();
 }
 
 void Camera::SetViewportRect(const vec4f& rect) {
@@ -98,8 +113,13 @@ void Camera::WindowResizeHandler(Events::Event* event) {
 
 void Camera::UpdateViewport() {
 	viewport = vec4f(windowSize, windowSize) * viewportRect;
-	aspectRatio = viewport.size.w / viewport.size.h;
-	const float w = aspectRatio * size;
+
+	const float invMatch = 1.f - match;
+	aspectRatio = (viewport.size.w * invMatch + viewport.size.h *  match) / (viewport.size.w * match + viewport.size.h * invMatch);
+
+	const float unit = aspectRatio * size;
+	const float w = unit * invMatch + size * match;
+	const float h = unit * match + size * invMatch;
 	left = -w, right = w;
-	bottom = -size, top = size;
+	bottom = -h, top = h;
 }

@@ -48,8 +48,8 @@ void SystemManager::Subscribe(const unsigned& frameIndex) {
 	System* s = systems[hash];
 	if (!s) {
 		s = new SystemType;
-		s->Initialize();
 		s->entities = manager;
+		s->Initialize();
 		systems[hash] = s;
 		frameDelta[s] = 0.f;
 	} 

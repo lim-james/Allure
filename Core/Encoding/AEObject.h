@@ -2,9 +2,10 @@
 #define ALLURE_ENCODED_OBJECT_H
 
 #include "AENotation.hpp"
+#include "Resource.h"
 
 // Allure Encoded Object
-struct AEObject {
+struct AEObject: Resource {
 
 	void Parse(const AENotation& data);
 	std::string ToString();

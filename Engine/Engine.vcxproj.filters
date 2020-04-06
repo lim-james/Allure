@@ -91,6 +91,9 @@
     <Filter Include="Application\Time">
       <UniqueIdentifier>{e1534a0c-a3f4-49dc-b515-0ec84cd411bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Render\Renderers">
+      <UniqueIdentifier>{ef12592a-0374-4fa0-a9ef-e3fccbbf75e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -230,6 +233,18 @@
     </ClCompile>
     <ClCompile Include="TitleTransition.cpp">
       <Filter>Assets\Scripts\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardRenderer.cpp">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="LineRenderer.cpp">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Engine\Render\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +397,18 @@
     </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Application\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardRenderer.h">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="LineRenderer.h">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Engine\Render\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

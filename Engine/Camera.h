@@ -22,8 +22,11 @@ struct Camera : Component {
 
 	void SetActive(const bool& state) override;
 
+	const float& GetSize() const;
 	void SetSize(const float& value);
+	void SetMatch(const float& value);
 
+	const float& GetDepth() const;
 	void SetDepth(const float& value);
 
 	mat4f GetProjectionMatrix() const;
@@ -36,6 +39,7 @@ struct Camera : Component {
 private:
 
 	float size;
+	float match;
 
 	float depth;
 	vec4f viewportRect;
@@ -49,9 +53,6 @@ private:
 	void WindowResizeHandler(Events::Event* event);
 
 	void UpdateViewport();
-
-	friend class RenderSystem;
-	friend class ButtonSystem;
 
 };
 

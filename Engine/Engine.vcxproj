@@ -140,6 +140,8 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="FollowCursor.cpp" />
+    <ClCompile Include="LineRenderer.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonSystem.cpp" />
@@ -161,6 +163,8 @@
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="SpriteAnimationData.cpp" />
     <ClCompile Include="SpriteAnimationSystem.cpp" />
+    <ClCompile Include="StandardRenderer.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
@@ -198,8 +202,10 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="Keyframe.h" />
+    <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptSystem.h" />
     <ClInclude Include="ScriptTemplate.h" />
@@ -211,6 +217,8 @@
     <ClInclude Include="LoadTGA.h" />
     <ClInclude Include="SpriteAnimationData.h" />
     <ClInclude Include="SpriteAnimationSystem.h" />
+    <ClInclude Include="StandardRenderer.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Particle.h" />
