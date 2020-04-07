@@ -25,20 +25,17 @@ void LineRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("DRAW_LINE", &LineRenderer::DrawLineHandler, this);
 }
 
-void LineRenderer::Render(Camera * const camera) {
-	const auto& projection = camera->GetProjectionMatrix();
-	const auto& lookAt = entities->GetComponent<Transform>(camera->entity)->GetLocalLookAt();
-
+void LineRenderer::Render(const RendererData& data) {
 	glDisable(GL_DEPTH_TEST);
 
 	const unsigned count = lines.size();
 	if (count) {
-		glLineWidth(camera->GetSize() * .25f);
+		glLineWidth(data.camera->GetSize() * .25f);
 
 		glBindVertexArray(lineVAO);
 		shader->Use();
-		shader->SetMatrix4("projection", projection);
-		shader->SetMatrix4("view", lookAt);
+		shader->SetMatrix4("projection", data.projection);
+		shader->SetMatrix4("view", data.view);
 
 		const unsigned stride = sizeof(Line);
 

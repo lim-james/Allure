@@ -87,13 +87,18 @@ void RenderSystem::Update(const float& dt) {
 			static_cast<GLsizei>(viewport.size.h)
 		);
 
+		RendererData data;
+		data.camera = cam;
+		data.projection = cam->GetProjectionMatrix();
+		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
+
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);
 		glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (auto& r : renderers) {
-			r->Render(cam);
+			r->Render(data);
 		}
 	}
 }

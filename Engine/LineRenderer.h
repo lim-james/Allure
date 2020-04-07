@@ -20,7 +20,7 @@ public:
 	~LineRenderer() override;
 
 	void Initialize(EntityManager* const manager) override;
-	void Render(Camera* const camera) override;
+	void Render(const RendererData& data) override;
 
 private:
 

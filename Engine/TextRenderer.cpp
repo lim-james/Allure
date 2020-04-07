@@ -22,15 +22,12 @@ void TextRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("TEXT_FONT", &TextRenderer::FontHandler, this);
 }
 
-void TextRenderer::Render(Camera * const camera) {
-	const auto& projection = camera->GetProjectionMatrix();
-	const auto& lookAt = entities->GetComponent<Transform>(camera->entity)->GetLocalLookAt();
-
+void TextRenderer::Render(const RendererData& data) {
 	glDisable(GL_DEPTH_TEST);
 
 	shader->Use();
-	shader->SetMatrix4("projection", projection);
-	shader->SetMatrix4("view", lookAt);
+	shader->SetMatrix4("projection", data.projection);
+	shader->SetMatrix4("view", data.view);
 
 	for (auto& textPair : textBatches) {
 		auto& font = textPair.first;

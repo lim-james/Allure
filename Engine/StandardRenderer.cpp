@@ -30,13 +30,10 @@ void StandardRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("TEXTURE_CHANGE", &StandardRenderer::TextureChangeHandler, this);
 }
 
-void StandardRenderer::Render(Camera * const camera) {
-	const auto& projection = camera->GetProjectionMatrix();
-	const auto& lookAt = entities->GetComponent<Transform>(camera->entity)->GetLocalLookAt();
-
+void StandardRenderer::Render(const RendererData& data) {
 	shader->Use();
-	shader->SetMatrix4("projection", projection);
-	shader->SetMatrix4("view", lookAt);
+	shader->SetMatrix4("projection", data.projection);
+	shader->SetMatrix4("view", data.view);
 
 	glBindVertexArray(quadVAO);
 

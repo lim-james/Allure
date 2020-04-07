@@ -4,6 +4,13 @@
 #include "EntityManager.h"	
 #include "Camera.h"
 
+struct RendererData {
+	Camera* camera;
+
+	mat4f projection;
+	mat4f view;
+};
+
 class Renderer {
 
 protected:
@@ -15,7 +22,7 @@ public:
 	virtual ~Renderer();
 
 	virtual void Initialize(EntityManager* const manager);
-	virtual void Render(Camera* const camera) = 0;
+	virtual void Render(const RendererData& data) = 0;
 
 };
 
