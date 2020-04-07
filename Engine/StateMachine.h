@@ -21,10 +21,10 @@ public:
 	~StateMachine() override;
 
 	void Initialize() override;
-	void Update(const float& dt) override;
+	void Update(float const& dt) override;
 
 	template<typename State>
-	void AttachState(const std::string& key);
+	void AttachState(std::string const& key);
 
 private:
 
@@ -34,7 +34,7 @@ private:
 
 
 template<typename State>
-void StateMachine::AttachState(const std::string& key) {
+void StateMachine::AttachState(std::string const& key) {
 	states[key] = new State;
 }
 

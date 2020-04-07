@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <fstream>
 
-unsigned Load::TGA(const std::string& filepath) {
+unsigned Load::TGA(std::string const& filepath) {
 
 	if (textureCache.find(filepath) != textureCache.end())
 		return textureCache[filepath];
@@ -17,8 +17,8 @@ unsigned Load::TGA(const std::string& filepath) {
 	}
 
 	GLubyte		header[18];									// first 6 useful header bytes
-	GLuint		bytesPerPixel;								    // number of bytes per pixel in TGA gile
-	GLuint		imageSize;									    // for setting memory
+	GLuint		bytesPerPixel;								  // number of bytes per pixel in TGA gile
+	GLuint		imageSize;									  // for setting memory
 	GLubyte* data;
 	GLuint		texture = 0;
 	unsigned	width, height;

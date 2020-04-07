@@ -23,14 +23,14 @@ protected:
 public:
 
 	AnimationBase(
-		const bool& loop = false,
-		const float& duration = 0.f,
-		const float& delay = 0.f,
+		bool const& loop = false,
+		float const& duration = 0.f,
+		float const& delay = 0.f,
 		Handler<void, void> completion = nullptr);
 
 	virtual ~AnimationBase() {}
 
-	virtual void Update(const float& dt);
+	virtual void Update(float const& dt);
 	const bool IsActive() const;
 };
 
@@ -48,14 +48,14 @@ public:
 	AnimationData() {}
 	~AnimationData() override {}
 
-	AnimationData(AnimationBase base, T* target, const T& outcome)
+	AnimationData(AnimationBase base, T* target, T const& outcome)
 		: AnimationBase(base)
 		, target(target)
 		, outcome(outcome)
 		, original(*target) {}
 
 
-	void Update(const float& dt) override {
+	void Update(float const& dt) override {
 		AnimationBase::Update(dt);
 
 		if (et >= duration) {
@@ -83,10 +83,10 @@ struct Animation : Component {
 
 	void Initialize() override;
 	Component* Clone() const override;
-	void SetActive(const bool& state) override;
+	void SetActive(bool const& state) override;
 
 	template<typename T>
-	void Animate(const AnimationBase& base, T* target, const T& outcome) {
+	void Animate(AnimationBase const& base, T* target, T const& outcome) {
 		const int t = (int)target;
 	
 		if (animations[t])

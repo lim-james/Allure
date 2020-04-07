@@ -1,6 +1,6 @@
 #include "Line.h"
 
-void Line::Set(const vec2f& start, const vec2f& end) {
+void Line::Set(vec2f const& start, vec2f const& end) {
 	offset = start;
 	length = end - start;
 }

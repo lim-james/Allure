@@ -20,21 +20,21 @@ struct Camera : Component {
 	void Initialize() override;
 	Component* Clone() const override;
 
-	void SetActive(const bool& state) override;
+	void SetActive(bool const& state) override;
 
-	const float& GetSize() const;
-	void SetSize(const float& value);
-	void SetMatch(const float& value);
+	float const& GetSize() const;
+	void SetSize(float const& value);
+	void SetMatch(float const& value);
 
-	const float& GetDepth() const;
-	void SetDepth(const float& value);
+	float const& GetDepth() const;
+	void SetDepth(float const& value);
 
 	mat4f GetProjectionMatrix() const;
 
-	void SetViewportRect(const vec4f& rect);
-	const vec4f& GetViewport() const;
+	void SetViewportRect(vec4f const& rect);
+	vec4f const& GetViewport() const;
 
-	vec2f ScreenToWorldSpace(const vec2f& mousePosition) const;
+	vec2f ScreenToWorldSpace(vec2f const& mousePosition) const;
 
 private:
 

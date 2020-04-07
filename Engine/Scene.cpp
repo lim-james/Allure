@@ -16,7 +16,7 @@ Scene::Scene() {
 	scripts = new ScriptSystem(entities);
 }
 
-Scene::Scene(const std::string & filepath) : filepath(filepath) {
+Scene::Scene(std::string const& filepath) : filepath(filepath) {
 	entities = new EntityManager;
 	systems = new SystemManager(entities);
 	scripts = new ScriptSystem(entities);
@@ -51,11 +51,11 @@ void Scene::Enter() {
 	scripts->Start();
 }
 
-void Scene::FixedUpdate(const float& dt) {
+void Scene::FixedUpdate(float const& dt) {
 	scripts->FixedUpdate();
 }
 
-void Scene::Update(const float& dt) {
+void Scene::Update(float const& dt) {
 	systems->Update(dt);
 	scripts->Update(dt);
 }
@@ -72,7 +72,7 @@ void Scene::Destroy() {
 
 void Scene::PrepareForSegue(Scene * destination) { }
 
-void Scene::Load(const std::string & filepath) {
+void Scene::Load(std::string const& filepath) {
 	std::ifstream ifs(filepath);
 
 	if (!ifs.is_open()) {

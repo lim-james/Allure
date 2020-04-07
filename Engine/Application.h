@@ -31,7 +31,7 @@ public:
 
 	Application();
 
-	void Initialize(const int& width, const int& height, const char* title, const bool& fullscreen);
+	void Initialize(int const& width, int const& height, const char* title, bool const& fullscreen);
 	void Run();
 	void Exit();
 

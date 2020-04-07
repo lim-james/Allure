@@ -22,7 +22,7 @@ public:
 	virtual ~Renderer();
 
 	virtual void Initialize(EntityManager* const manager);
-	virtual void Render(const RendererData& data) = 0;
+	virtual void Render(RendererData const& data) = 0;
 
 };
 

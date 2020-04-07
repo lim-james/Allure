@@ -27,7 +27,7 @@ public:
 	~ButtonSystem() override;
 
 	void Initialize() override;
-	void Update(const float& dt) override;
+	void Update(float const& dt) override;
 
 private:
 
@@ -39,7 +39,7 @@ private:
 	void CursorPositionHandler(Events::Event* event);
 	void MouseButtonHandler(Events::Event* event);
 
-	void PerformAction(const unsigned& index, Button* const self);
+	void PerformAction(unsigned const& index, Button* const self);
 
 };
 

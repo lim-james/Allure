@@ -11,7 +11,7 @@
 #include <MACROS.h>
 #include <GL/glew.h>
 
-bool operator==(const Instance& lhs, const Instance& rhs) {
+bool operator==(Instance const& lhs, Instance const& rhs) {
 	return lhs.component == rhs.component;
 }
 
@@ -69,13 +69,13 @@ void RenderSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &RenderSystem::ResizeHandler, this);
 }
 
-void RenderSystem::Update(const float& dt) {
+void RenderSystem::Update(float const& dt) {
 	glViewport(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
 	glScissor(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
 	glClearColor(0, 0, 0, 0);
 
 	for (auto& cam : cameras) {
-		const auto& viewport = cam->GetViewport();
+		auto const& viewport = cam->GetViewport();
 
 		const Math::vec<2, GLint> origin(
 			static_cast<GLint>(viewport.origin.x),

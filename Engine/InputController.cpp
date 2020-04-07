@@ -66,7 +66,7 @@ void InputController::DropCallback(GLFWwindow * window, int count, const char **
 void InputController::OnEvent(Events::Event* event) {
 	if (event->name == "CURSOR_POS_UPDATE") {
 		const auto update = static_cast<Events::AnyType<vec2f>*>(event);
-		const vec2f& position = update->data;
+		vec2f const& position = update->data;
 		const vec2f offset = cursorPosition - position;
 		Events::CursorPositionInput* input = new Events::CursorPositionInput(position, offset * sensitivity);
 		Events::EventsManager::GetInstance()->Trigger("CURSOR_POSITION_INPUT", input);

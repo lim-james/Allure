@@ -6,21 +6,21 @@
 namespace Helpers {
 
 	template<typename T>
-	bool Insert(std::vector<T>& v, const T& item);
+	bool Insert(std::vector<T>& v, T const& item);
 
 	template<typename T>
-	bool Insert(std::vector<T>& v, const T& item, const bool& ascending);
+	bool Insert(std::vector<T>& v, T const& item, bool const& ascending);
 
 	template<typename T>
-	bool Remove(std::vector<T>& v, const T& item);
+	bool Remove(std::vector<T>& v, T const& item);
 
 	template<typename T>
-	inline bool Contains(std::vector<T>& v, const T& item);
+	inline bool Contains(std::vector<T>& v, T const& item);
 
 }
 
 template<typename T>
-bool Helpers::Insert(std::vector<T>& v, const T& item) {
+bool Helpers::Insert(std::vector<T>& v, T const& item) {
 	const auto position = std::find(v.begin(), v.end(), item);
 	if (position == v.end()) {
 		v.push_back(item);
@@ -31,7 +31,7 @@ bool Helpers::Insert(std::vector<T>& v, const T& item) {
 }
 
 template<typename T>	
-bool Helpers::Insert(std::vector<T>& v, const T& item, const bool& ascending) {
+bool Helpers::Insert(std::vector<T>& v, T const& item, bool const& ascending) {
 	const auto position = std::find(v.begin(), v.end(), item);
 	if (position == v.end()) {
 		if (ascending) {
@@ -57,7 +57,7 @@ bool Helpers::Insert(std::vector<T>& v, const T& item, const bool& ascending) {
 }
 
 template<typename T>
-bool Helpers::Remove(std::vector<T>& v, const T& item) {
+bool Helpers::Remove(std::vector<T>& v, T const& item) {
 	const auto position = std::find(v.begin(), v.end(), item);
 	if (position != v.end()) {
 		v.erase(position);
@@ -68,7 +68,7 @@ bool Helpers::Remove(std::vector<T>& v, const T& item) {
 }
 
 template<typename T>
-inline bool Helpers::Contains(std::vector<T>& v, const T& item) {
+inline bool Helpers::Contains(std::vector<T>& v, T const& item) {
 	return std::find(v.begin(), v.end(), item) != v.end();
 }
 

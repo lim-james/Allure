@@ -18,19 +18,19 @@ class QuadTree {
 
 public:
 
-	QuadTree(const unsigned& items, const unsigned& depth);
+	QuadTree(unsigned const& items, unsigned const& depth);
 	
 	void Sort();
 	void Clear();
 
-	void Insert(const ContentType& item);
-	void Insert(const ContentType& item, const bool& ascending);
-	void Remove(const ContentType& item);
+	void Insert(ContentType const& item);
+	void Insert(ContentType const& item, bool const& ascending);
+	void Remove(ContentType const& item);
 
 	Quad<ContentType> * const GetRoot() const;
 
 	template<typename ContentType, typename ComparatorType>
-	friend std::ostream& operator<<(std::ostream& os, const QuadTree<ContentType, ComparatorType>& tree);
+	friend std::ostream& operator<<(std::ostream& os, QuadTree<ContentType, ComparatorType> const& tree);
 	
 private:
 
@@ -41,7 +41,7 @@ private:
 };
 
 template<typename ContentType, typename ComparatorType>
-QuadTree<ContentType, ComparatorType>::QuadTree(const unsigned & items, const unsigned & depth) 
+QuadTree<ContentType, ComparatorType>::QuadTree(unsigned const& items, unsigned const& depth) 
 	: MAX_ITEMS(items)
 	, MAX_DEPTH(depth) {
 	// TODO: change hardcoded size
@@ -65,17 +65,17 @@ void QuadTree<ContentType, ComparatorType>::Clear() {
 }
 
 template<typename ContentType, typename ComparatorType>
-void QuadTree<ContentType, ComparatorType>::Insert(const ContentType& item) {
+void QuadTree<ContentType, ComparatorType>::Insert(ContentType const& item) {
 	Helpers::Insert(root->list, item);
 }
 
 template<typename ContentType, typename ComparatorType>
-void QuadTree<ContentType, ComparatorType>::Insert(const ContentType& item, const bool& ascending) {
+void QuadTree<ContentType, ComparatorType>::Insert(ContentType const& item, bool const& ascending) {
 	Helpers::Insert(root->list, item, ascending);
 }
 
 template<typename ContentType, typename ComparatorType>
-void QuadTree<ContentType, ComparatorType>::Remove(const ContentType& item) {
+void QuadTree<ContentType, ComparatorType>::Remove(ContentType const& item) {
 	Helpers::Remove(root->list, item);
 }
 
@@ -133,7 +133,7 @@ void QuadTree<ContentType, ComparatorType>::Delete(Quad<ContentType>* parent) co
 }
 
 template<typename ContentType, typename ComparatorType>
-std::ostream & operator<<(std::ostream & os, const QuadTree<ContentType, ComparatorType>& tree) {
+std::ostream & operator<<(std::ostream & os, QuadTree<ContentType, ComparatorType> const& tree) {
 	os << *tree.root;
 	return os;
 }

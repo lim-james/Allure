@@ -35,7 +35,7 @@ void ScriptSystem::FixedUpdate() {
 		s->FixedUpdate();
 }
 
-void ScriptSystem::Update(const float& dt) {
+void ScriptSystem::Update(float const& dt) {
 	time.dt = dt;
 	time.et += dt;
 	for (auto& s : scripts)

@@ -34,23 +34,23 @@ namespace Debug {
 
 	public:
 
-		Logger(const char* file, const char* function, const long& line);
-		Logger(const char* tag, const WORD& color, const char* file, const char* function, const long& line);
+		Logger(const char* file, const char* function, long const& line);
+		Logger(const char* tag, WORD const& color, const char* file, const char* function, long const& line);
 
 		template<typename Data>
-		friend Logger operator<<(Logger logger, const Data& data);
+		friend Logger operator<<(Logger logger, Data const& data);
 
 		static void Dump();
 
 	private:
 
 		template<typename T>
-		void Tag(const T& title, const WORD& color);
+		void Tag(T const& title, WORD const& color);
 
 	};
 
 	template<typename Data>
-	Logger operator<<(Logger logger, const Data& data) {
+	Logger operator<<(Logger logger, Data const& data) {
 #ifndef _DEBUG
 		return logger;
 #endif
@@ -60,7 +60,7 @@ namespace Debug {
 	}
 
 	template<typename T>
-	void Logger::Tag(const T& title, const WORD& color) {
+	void Logger::Tag(T const& title, WORD const& color) {
 		SetConsoleTextAttribute(hConsole, WHITE);
 		std::cout << '[';
 		Logger::logs << '[';

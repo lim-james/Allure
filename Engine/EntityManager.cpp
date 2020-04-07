@@ -25,7 +25,7 @@ EntityManager::~EntityManager() {
 	entities.clear();
 }
 
-void EntityManager::Destroy(const unsigned & id) {
+void EntityManager::Destroy(unsigned const& id) {
 	if (Helpers::Remove(used, id)) {
 		for (auto& pair : entities[id]) {
 			if (pair.second) {

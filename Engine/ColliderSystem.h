@@ -19,13 +19,13 @@ public:
 	~ColliderSystem() override;
 
 	void Initialize() override;
-	void Update(const float& dt) override;
+	void Update(float const& dt) override;
 
 private:
 
 	void ActiveHandler(Events::Event* event);
 
-	void PerformAction(const unsigned& index, Collider * const c1, Collider * const c2);
+	void PerformAction(unsigned const& index, Collider * const c1, Collider * const c2);
 
 };
 

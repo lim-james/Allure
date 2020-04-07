@@ -17,12 +17,12 @@ struct Component : AEObject {
 	virtual Component* Clone() const = 0;
 
 	bool IsActive() const;
-	virtual void SetActive(const bool& state);
+	virtual void SetActive(bool const& state);
 
 	bool IsDynamic() const;
-	virtual void SetDynamic(const bool& state);
+	virtual void SetDynamic(bool const& state);
 
-	virtual void Unpack(const AENotation& data);
+	virtual void Unpack(AENotation const& data);
 	virtual void Pack(AENotation& data);
 
 private:

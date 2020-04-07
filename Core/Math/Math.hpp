@@ -9,58 +9,58 @@ namespace Math {
 	const float	HALF_PI = 1.5708f;
 
 	template<typename T>
-	inline T Rad(const T& deg) {
+	inline T Rad(T const& deg) {
 		return deg * PI / 180.f;
 	}
 
 	template<typename T>
-	inline T Deg(const T& rad) {
+	inline T Deg(T const& rad) {
 		return rad * 180.f / PI;
 	}
 
 	template<typename T>
-	inline T Max(const T& a, const T& b) {
+	inline T Max(T const& a, T const& b) {
 		return a > b ? a : b;
 	}
 
 	template<typename T>
-	inline T Min(const T& a, const T& b) {
+	inline T Min(T const& a, T const& b) {
 		return a < b ? a : b;
 	}
 
 	template<typename T>
-	inline T Mix(const T& a, const T& b, const float& amount) {
+	inline T Mix(T const& a, T const& b, float const& amount) {
 		return amount * a + (1.f - amount) * b;
 	}
 
 	template<typename T>
-	T Clamp(const T& a, const T& lowerBound, const T& upperBound) {
+	T Clamp(T const& a, T const& lowerBound, T const& upperBound) {
 		if (a < lowerBound) return lowerBound;
 		if (a > upperBound) return upperBound;
 		return a;
 	}
 
 	template<typename T>
-	T Round(const T& value, const int& segments) {
+	T Round(T const& value, int const& segments) {
 		const T s = static_cast<T>(segments);
 		return round(value * s) / s;
 	}
 
 	template<typename T, typename M>
-	T Round(const T& value, const int& segments, const M& range) {
+	T Round(T const& value, int const& segments, M const& range) {
 		const T v = value / range;
 		const T s = static_cast<T>(segments);
 		return range * round(v * s) / s;
 	}
 
 	template<typename T>
-	T Abs(const T& a) {
+	T Abs(T const& a) {
 		return a < 0 ? -a : a;
 	}
 
 	template<typename T>
-	std::pair<T, T> Quadratic(const T& a, const T& b, const T& c) {
-		const T& d = b * b - 4 * a * c;
+	std::pair<T, T> Quadratic(T const& a, T const& b, T const& c) {
+		T const& d = b * b - 4 * a * c;
 
 		if (d < 0)
 			return {};
@@ -72,12 +72,12 @@ namespace Math {
 	}
 
 	template<typename T>
-	bool InRange(const T& value, const T& min, const T& max) {
+	bool InRange(T const& value, T const& min, T const& max) {
 		return value >= min && value <= max;
 	}
 
 	template<typename T>
-	T Lerp(const T& from, const T& to, const float& t) {
+	T Lerp(T const& from, T const& to, float const& t) {
 		return from + (to - from) * t;
 	}
 

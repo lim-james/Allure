@@ -50,11 +50,11 @@ struct Text : Component {
 
 	void Initialize() override;
 	Component* Clone() const override;
-	void SetActive(const bool& state) override;
+	void SetActive(bool const& state) override;
 
 	// AEObject methods
 
-	void Unpack(const AENotation& data) override;
+	void Unpack(AENotation const& data) override;
 	void Pack(AENotation& data) override;
 
 	// text methods

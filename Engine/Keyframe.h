@@ -12,8 +12,8 @@ struct Keyframe {
 
 	Keyframe();
 
-	void SetTilemapSize(const int& width, const int& height);
-	void SetCellRect(const int& x, const int& y, const int& width, const int& height);
+	void SetTilemapSize(int const& width, int const& height);
+	void SetCellRect(int const& x, int const& y, int const& width, int const& height);
 
 private:
 

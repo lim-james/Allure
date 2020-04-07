@@ -1,7 +1,7 @@
 #include "StringHelpers.h"
 
 template<typename T>
-T Helpers::Parse(const std::string& content) {
+T Helpers::Parse(std::string const& content) {
 	std::istringstream iss(content);
 	T result;
 	iss >> result;
@@ -9,14 +9,14 @@ T Helpers::Parse(const std::string& content) {
 }
 
 template<typename T>
-std::string Helpers::ToString(const T & content) {
+std::string Helpers::ToString(T const& content) {
 	std::ostringstream oss;
 	oss << content;
 	return oss.str();
 }
 
 template<typename T>
-std::vector<T> Helpers::Split(const std::string& content, const char& delimiter) {
+std::vector<T> Helpers::Split(std::string const& content, char const& delimiter) {
 	std::vector<T> parts;
 
 	std::string buffer;
@@ -29,13 +29,13 @@ std::vector<T> Helpers::Split(const std::string& content, const char& delimiter)
 }
 
 template<typename Separator>
-std::pair<std::string, std::string> Helpers::Pair(const std::string& content, const Separator& separator) {
+std::pair<std::string, std::string> Helpers::Pair(std::string const& content, Separator const& separator) {
 	const auto position = content.find(separator);
 	return std::make_pair(content.substr(0, position), content.substr(position + 1));
 }
 
 template<typename Value, typename Separator>
-std::pair<std::string, Value> Helpers::Pair(const std::string& content, const Separator& separator) {
+std::pair<std::string, Value> Helpers::Pair(std::string const& content, Separator const& separator) {
 	const auto position = content.find(separator);
 	return std::make_pair(
 		content.substr(0, position),
@@ -44,7 +44,7 @@ std::pair<std::string, Value> Helpers::Pair(const std::string& content, const Se
 }
 
 template<typename Key, typename Value, typename Separator>
-std::pair<Key, Value> Helpers::Pair(const std::string& content, const Separator& separator) {
+std::pair<Key, Value> Helpers::Pair(std::string const& content, Separator const& separator) {
 	const auto position = content.find(separator);
 	return std::make_pair(
 		Parse<Key>(content.substr(0, position)),
@@ -53,33 +53,33 @@ std::pair<Key, Value> Helpers::Pair(const std::string& content, const Separator&
 }
 
 template<typename Separator>
-std::map<std::string, std::string> Helpers::GetDictionary(const std::string& content, const char& delimiter, const Separator& separator) {
+std::map<std::string, std::string> Helpers::GetDictionary(std::string const& content, char const& delimiter, Separator const& separator) {
 	std::map<std::string, std::string> result;
 	const auto list = Split(content, delimiter);
 
-	for (const auto& item : list)
+	for (auto const& item : list)
 		result.insert(Pair(item, separator));
 
 	return result;
 }
 
 template<typename Value, typename Separator>
-std::map<std::string, Value> Helpers::GetDictionary(const std::string& content, const char& delimiter, const Separator& separator) {
+std::map<std::string, Value> Helpers::GetDictionary(std::string const& content, char const& delimiter, Separator const& separator) {
 	std::map<std::string, Value> result;
 	const auto list = Split(content, delimiter);
 
-	for (const auto& item : list)
+	for (auto const& item : list)
 		result.insert(Pair<Value>(item, separator));
 
 	return result;
 }
 
 template<typename Key, typename Value, typename Separator>
-std::map<Key, Value> Helpers::GetDictionary(const std::string& content, const char& delimiter, const Separator& separator) {
+std::map<Key, Value> Helpers::GetDictionary(std::string const& content, char const& delimiter, Separator const& separator) {
 	std::map<Key, Value> result;
 	const auto list = Split(content, delimiter);
 
-	for (const auto& item : list)
+	for (auto const& item : list)
 		result.insert(Pair<Key, Value>(item, separator));
 
 	return result;

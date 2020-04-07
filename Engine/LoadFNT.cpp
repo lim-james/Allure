@@ -6,7 +6,7 @@
 
 #include <fstream>
 
-Font* Load::FNT(const std::string& fntPath, const std::string& tgaPath) {
+Font* Load::FNT(std::string const& fntPath, std::string const& tgaPath) {
 	if (fontCache[fntPath])
 		return fontCache[fntPath];
 

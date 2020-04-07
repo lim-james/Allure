@@ -35,12 +35,12 @@ Component * Text::Clone() const {
 	return new Text(*this);
 }
 
-void Text::SetActive(const bool& state) {
+void Text::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("TEXT_ACTIVE", new Events::AnyType<Text*>(this));
 }
 
-void Text::Unpack(const AENotation & data) {
+void Text::Unpack(AENotation const& data) {
 	Component::Unpack(data);
 
 	text = data.Get("text");

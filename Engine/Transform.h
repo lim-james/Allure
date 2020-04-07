@@ -22,32 +22,32 @@ struct Transform : Component {
 	// component abstract methods
 
 	void Initialize() override;
-	void SetActive(const bool& state) override;
+	void SetActive(bool const& state) override;
 	Component* Clone() const override;
 
 	// AEObject methods
 
-	void Unpack(const AENotation& data) override;
+	void Unpack(AENotation const& data) override;
 	void Pack(AENotation& data) override;
 
 	// transform methods
 
 	void UpdateAxes();
 
-	const vec3f& GetLocalUp() const;
-	const vec3f& GetLocalFront() const;
-	const vec3f& GetLocalRight() const;
+	vec3f const& GetLocalUp() const;
+	vec3f const& GetLocalFront() const;
+	vec3f const& GetLocalRight() const;
 
-	const vec3f& GetWorldTranslation() const;
+	vec3f const& GetWorldTranslation() const;
 
-	const vec3f& GetWorldUp() const;
-	const vec3f& GetWorldFront() const;
-	const vec3f& GetWorldRight() const;
+	vec3f const& GetWorldUp() const;
+	vec3f const& GetWorldFront() const;
+	vec3f const& GetWorldRight() const;
 
-	const vec3f& GetWorldRotation() const;
+	vec3f const& GetWorldRotation() const;
 
-	const mat4f& GetLocalTransform() const;
-	const mat4f& GetWorldTransform() const;
+	mat4f const& GetLocalTransform() const;
+	mat4f const& GetWorldTransform() const;
 
 	mat4f GetLocalLookAt() const;
 

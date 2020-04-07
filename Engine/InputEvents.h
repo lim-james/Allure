@@ -12,7 +12,7 @@ namespace Events {
 		const int action;
 		const int mods;
 
-		KeyInput(const int& key, const int& scancode, const int& action, const int& mods)
+		KeyInput(int const& key, int const& scancode, int const& action, int const& mods)
 			: key(key)
 			, scancode(scancode)
 			, action(action)
@@ -25,7 +25,7 @@ namespace Events {
 		const vec2f position;
 		const vec2f offset;
 
-		CursorPositionInput(const vec2f& position, const vec2f& offset)
+		CursorPositionInput(vec2f const& position, vec2f const& offset)
 			: position(position)
 			, offset(offset) {}
 	};
@@ -35,7 +35,7 @@ namespace Events {
 		const int action;
 		const int mods;
 
-		MouseButtonInput(const int& button, const int& action, const int& mods)
+		MouseButtonInput(int const& button, int const& action, int const& mods)
 			: button(button)
 			, action(action)
 			, mods(mods) {}
@@ -47,7 +47,7 @@ namespace Events {
 		const int mode;
 		const int value;
 
-		InputMode(const int& mode, const int& value)
+		InputMode(int const& mode, int const& value)
 			: mode(mode)
 			, value(value) {}
 	};
@@ -56,7 +56,7 @@ namespace Events {
 		const int count;
 		const char** paths;
 
-		DropInput(const int& count, const char** paths)
+		DropInput(int const& count, const char** paths)
 			: count(count)
 			, paths(paths) {}
 	};

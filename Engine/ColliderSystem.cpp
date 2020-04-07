@@ -14,9 +14,9 @@ void ColliderSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("COLLIDER_ACTIVE", &ColliderSystem::ActiveHandler, this);
 }
 
-void ColliderSystem::Update(const float& dt) {
+void ColliderSystem::Update(float const& dt) {
 	for (auto& c1 : components) {
-		const auto& p1 = c1->entity;
+		auto const& p1 = c1->entity;
 		auto t1 = entities->GetComponent<Transform>(p1);
 
 		const vec2f position1 = t1->GetWorldTranslation();
@@ -29,7 +29,7 @@ void ColliderSystem::Update(const float& dt) {
 			for (auto& t2 : quad->list) {
 				if (t1 == t2) continue;
 
-				const auto& p2 = t2->entity;
+				auto const& p2 = t2->entity;
 				auto c2 = entities->GetComponent<Collider>(p2);
 				if (!c2) continue;
 
@@ -48,9 +48,9 @@ void ColliderSystem::Update(const float& dt) {
 				const vec2f min2 = position2 - halfSize2;
 				const vec2f max2 = position2 + halfSize2;
 
-				if (!(min1.x > max2.x  // right
-					|| max1.x < min2.x  // left
-					|| min1.y < max2.y  // top
+				if (!(min1.x > max2.x // right
+					|| max1.x < min2.x // left
+					|| min1.y < max2.y // top
 					|| max1.y > min2.y)) { // down
 					if (history[p1][p2] && history[p2][p1]) {
 						PerformAction(COLLIDER_STAY, c1, c2);
@@ -85,7 +85,7 @@ void ColliderSystem::ActiveHandler(Events::Event* event) {
 	}
 }
 
-void ColliderSystem::PerformAction(const unsigned& index, Collider * const c1, Collider * const c2) {
+void ColliderSystem::PerformAction(unsigned const& index, Collider * const c1, Collider * const c2) {
 	c1->handlers[index](c2->entity);
 	c2->handlers[index](c1->entity);
 }

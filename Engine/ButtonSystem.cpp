@@ -21,7 +21,7 @@ void ButtonSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &ButtonSystem::ResizeHandler, this);
 }
 
-void ButtonSystem::Update(const float & dt) {
+void ButtonSystem::Update(float const& dt) {
 	for (auto& cam : cameras) {
 		// world space position
 		const vec2f wsp = cam->ScreenToWorldSpace(mousePosition);
@@ -104,6 +104,6 @@ void ButtonSystem::MouseButtonHandler(Events::Event* event) {
 	mouseActions[input->button] = input->action;
 }
 
-void ButtonSystem::PerformAction(const unsigned& index, Button * const self) {
+void ButtonSystem::PerformAction(unsigned const& index, Button * const self) {
 	self->handlers[index](self->entity);
 }

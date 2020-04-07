@@ -23,15 +23,15 @@ struct Quad {
 
 	std::vector<ContentType> list;
 
-	Quad(Quad<ContentType>* parent, const vec2f& position, const vec2f& size);
+	Quad(Quad<ContentType>* parent, vec2f const& position, vec2f const& size);
 
 	template<typename ContentType>
-	friend std::ostream& operator<<(std::ostream& os, const Quad<ContentType>& quad);
+	friend std::ostream& operator<<(std::ostream& os, Quad<ContentType> const& quad);
 
 };
 
 template<typename ContentType>
-Quad<ContentType>::Quad(Quad<ContentType>* parent, const vec2f & position, const vec2f & size) 
+Quad<ContentType>::Quad(Quad<ContentType>* parent, vec2f const& position, vec2f const& size) 
 	: parent(parent) 
 	, position(position) 
 	, size(size) {
@@ -41,7 +41,7 @@ Quad<ContentType>::Quad(Quad<ContentType>* parent, const vec2f & position, const
 }
 
 template<typename ContentType>
-std::ostream& operator<<(std::ostream& os, const Quad<ContentType>& quad) {
+std::ostream& operator<<(std::ostream& os, Quad<ContentType> const& quad) {
 	for (unsigned i = 0; i < quad.depth; ++i)
 		os << '\t';
 	os << "Size: (" << quad.size << ")\n";

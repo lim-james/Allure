@@ -10,18 +10,18 @@
 struct AENotation {
 
 	AENotation() = default;
-	AENotation(const std::string& encoded);
+	AENotation(std::string const& encoded);
 
 	void Reset();
 	std::string ToString() const;
 
-	std::string Get(const std::string& key) const;
+	std::string Get(std::string const& key) const;
 	template<typename T>
-	T Get(const std::string& key) const;
+	T Get(std::string const& key) const;
 
-	void Set(const std::string& key, const std::string& value);
+	void Set(std::string const& key, std::string const& value);
 	template<typename T>
-	void Set(const std::string& key, const T& value);
+	void Set(std::string const& key, T const& value);
 
 private:
 
@@ -31,7 +31,7 @@ private:
 };
 
 template<typename T>
-T AENotation::Get(const std::string& key) const {
+T AENotation::Get(std::string const& key) const {
 	if (values.find(key) == values.end()) {
 		Debug::Error << "Key \"" << key << "\" not found in data set!\n";
 		return static_cast<T>(0);
@@ -41,7 +41,7 @@ T AENotation::Get(const std::string& key) const {
 }
 
 template<typename T>
-void AENotation::Set(const std::string& key, const T& value) {
+void AENotation::Set(std::string const& key, T const& value) {
 	//values.insert(key, );
 	keyOrder.push_back(key);
 	values[key] = Helpers::ToString(value);

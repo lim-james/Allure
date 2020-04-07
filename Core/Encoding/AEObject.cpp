@@ -2,7 +2,7 @@
 
 #include "../Helpers/StringHelpers.h"
 
-void AEObject::Parse(const AENotation & data) {
+void AEObject::Parse(AENotation const& data) {
 	Unpack(data);
 }
 

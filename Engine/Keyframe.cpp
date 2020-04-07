@@ -7,14 +7,14 @@ Keyframe::Keyframe()
 	, tilemapUnit(1.f)
 	, cellRect(vec2f(0.f), vec2f(1.f)) {}
 
-void Keyframe::SetTilemapSize(const int& width, const int& height) {
+void Keyframe::SetTilemapSize(int const& width, int const& height) {
 	tilemapUnit.x = 1.f / static_cast<float>(width);
 	tilemapUnit.y = 1.f / static_cast<float>(height);
 
 	uvRect = cellRect * vec4f(tilemapUnit, tilemapUnit);
 }
 
-void Keyframe::SetCellRect(const int& x, const int& y, const int& width, const int& height) {
+void Keyframe::SetCellRect(int const& x, int const& y, int const& width, int const& height) {
 	cellRect = vec4f(
 		static_cast<float>(x),
 		static_cast<float>(y),

@@ -7,7 +7,7 @@ void AnimationSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("ANIMATION_ACTIVE", &AnimationSystem::ActiveHandler, this);
 }
 
-void AnimationSystem::Update(const float & dt) {
+void AnimationSystem::Update(float const& dt) {
 	for (auto& c : components) {
 		auto& anims = c->animations;
 
@@ -23,7 +23,7 @@ void AnimationSystem::Update(const float & dt) {
 		const int size = static_cast<int>(keys.size());
 
 		for (int i = size - 1; i >= 0; --i) {
-			const auto& key = keys[i];
+			auto const& key = keys[i];
 			if (!anims[key]->IsActive()) {
 				delete anims[key];
 				anims.erase(key);

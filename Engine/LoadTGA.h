@@ -8,7 +8,7 @@ namespace Load {
 
 	static std::map<std::string, unsigned> textureCache;
 
-	unsigned TGA(const std::string& filepath);
+	unsigned TGA(std::string const& filepath);
 
 }
 

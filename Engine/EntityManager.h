@@ -26,16 +26,16 @@ public:
 
 	unsigned Create();
 
-	void Destroy(const unsigned& id);
+	void Destroy(unsigned const& id);
 
 	template<typename ComponentType>
-	ComponentType* AddComponent(const unsigned& id);
+	ComponentType* AddComponent(unsigned const& id);
 
 	template<typename ComponentType>
-	bool HasComponent(const unsigned& id);
+	bool HasComponent(unsigned const& id);
 
 	template<typename ComponentType>
-	ComponentType* GetComponent(const unsigned& id);
+	ComponentType* GetComponent(unsigned const& id);
 
 	unsigned PoolCount() const;
 
@@ -46,7 +46,7 @@ private:
 };
 
 template<typename ComponentType>
-ComponentType * EntityManager::AddComponent(const unsigned & id) {
+ComponentType * EntityManager::AddComponent(unsigned const& id) {
 	if (id >= entities.size())
 		return nullptr;
 
@@ -64,7 +64,7 @@ ComponentType * EntityManager::AddComponent(const unsigned & id) {
 }
 
 template<typename ComponentType>
-bool EntityManager::HasComponent(const unsigned & id) {
+bool EntityManager::HasComponent(unsigned const& id) {
 	if (id >= entities.size())
 		return false;
 
@@ -72,7 +72,7 @@ bool EntityManager::HasComponent(const unsigned & id) {
 }
 
 template<typename ComponentType>
-ComponentType* EntityManager::GetComponent(const unsigned & id) {
+ComponentType* EntityManager::GetComponent(unsigned const& id) {
 	if (id >= entities.size())
 		return nullptr;
 

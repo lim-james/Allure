@@ -30,7 +30,7 @@ void StandardRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("TEXTURE_CHANGE", &StandardRenderer::TextureChangeHandler, this);
 }
 
-void StandardRenderer::Render(const RendererData& data) {
+void StandardRenderer::Render(RendererData const& data) {
 	shader->Use();
 	shader->SetMatrix4("projection", data.projection);
 	shader->SetMatrix4("view", data.view);
@@ -121,13 +121,13 @@ void StandardRenderer::TextureChangeHandler(Events::Event* event) {
 
 void StandardRenderer::GenerateQuad() {
 	float quadVertices[] = {
-		-0.5f,  0.5f,
+		-0.5f, 0.5f,
 		-0.5f, -0.5f,
 		 0.5f, -0.5f,
 
-		-0.5f,  0.5f,
+		-0.5f, 0.5f,
 		 0.5f, -0.5f,
-		 0.5f,  0.5f
+		 0.5f, 0.5f
 	};
 
 	unsigned VBO;

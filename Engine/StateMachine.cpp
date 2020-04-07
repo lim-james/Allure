@@ -15,7 +15,7 @@ void StateMachine::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("STATE_CONTAINER_ACTIVE", &StateMachine::ActiveHandler, this);
 }
 
-void StateMachine::Update(const float& dt) {
+void StateMachine::Update(float const& dt) {
 	for (auto& c : components) {
 		if (c->queuedState != "") {
 			const auto previous = c->currentState;

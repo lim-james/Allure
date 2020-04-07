@@ -6,17 +6,17 @@
 #include <fstream>
 #include <streambuf>
 
-struct stat Helpers::GetFileInfo(const std::string & filepath) {
+struct stat Helpers::GetFileInfo(std::string const& filepath) {
 	struct stat fileInfo;
 	stat(filepath.c_str(), &fileInfo);
 	return fileInfo;
 }
 
-std::string Helpers::GetFileName(const std::string & filepath) {
+std::string Helpers::GetFileName(std::string const& filepath) {
 	return Helpers::Split(filepath, '\\').back();
 }
 
-std::string Helpers::ReadFile(const std::string& filepath) {
+std::string Helpers::ReadFile(std::string const& filepath) {
 	std::ifstream ifs(filepath);
 
 	if (!ifs.is_open()) {
@@ -34,7 +34,7 @@ std::string Helpers::ReadFile(const std::string& filepath) {
 }
 
 
-void Helpers::WriteFile(const std::string& filepath, const std::string& content, const int& mode) {
+void Helpers::WriteFile(std::string const& filepath, std::string const& content, int const& mode) {
 	std::ofstream ofs(filepath, mode);
 	ofs << content;
 }

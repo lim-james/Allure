@@ -28,7 +28,7 @@ UITextFieldManager::UITextFieldManager(EntityManager * const entities)
 	Events::EventsManager::GetInstance()->Subscribe("TEXT_INPUT", &UITextFieldManager::TextHandler, this);
 }
 
-unsigned UITextFieldManager::Create(const vec3f & position, const vec3f size, Font * const font) {
+unsigned UITextFieldManager::Create(vec3f const& position, const vec3f size, Font * const font) {
 	const unsigned textField = entities->Create();
 
 	auto transform = entities->GetComponent<Transform>(textField);
@@ -54,7 +54,7 @@ unsigned UITextFieldManager::Create(const vec3f & position, const vec3f size, Fo
 	return textField;
 }
 
-void UITextFieldManager::Update(const float & dt) {
+void UITextFieldManager::Update(float const& dt) {
 	entities->GetComponent<Render>(cursor)->tint.a = abs(sin(et * 3.f)) * static_cast<float>(active > 0);
 	et += dt;
 }
@@ -134,7 +134,7 @@ void UITextFieldManager::UpdateCursorOffset(unsigned target) {
 	float numLines = 0;
 	vec2f size(0.f);
 
-	const auto& content = text->text;
+	auto const& content = text->text;
 
 	for (unsigned i = 0; i <= content.size(); ++i) {
 		auto& c = content[i];
@@ -188,7 +188,7 @@ void UITextFieldManager::UpdateCursorOffset(unsigned target) {
 
 	int lineNumer = 0;
 	for (int i = 0; i < cursorPosition; ++i) {
-		const char& c = text->text[i];
+		char const& c = text->text[i];
 		if (c == '\0') continue;
 
 		switch (c) {
@@ -197,7 +197,7 @@ void UITextFieldManager::UpdateCursorOffset(unsigned target) {
 			position.x = translation.x - lineOffset[++lineNumer];
 			break;
 		default:
-			const auto& character = font->characters[c];
+			auto const& character = font->characters[c];
 			const vec3f offset = character.rect.origin * scale;
 
 			position.x += character.xAdvance * text->characterSpacing * scale;

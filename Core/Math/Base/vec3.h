@@ -21,32 +21,32 @@ namespace Math {
 
 		// default constructors
 		vec(vec<3, T>&&) = default;
-		vec(const vec<3, T>&) = default;
+		vec(vec<3, T> const&) = default;
 
 		// custom constructors
 
-		vec(const T& i = static_cast<T>(0));
-		vec(const T& x, const T& y, const T& z);
+		vec(T const& i = static_cast<T>(0));
+		vec(T const& x, T const& y, T const& z);
 		// joining vectors
-		vec(const T& x, const vec<2, T>& yz);
-		vec(const vec<2, T>& xy, const T& z);
+		vec(T const& x, vec<2, T> const& yz);
+		vec(vec<2, T> const& xy, T const& z);
 		// differing types
 		template<typename t>
-		vec(const vec<3, t>& v);
+		vec(vec<3, t> const& v);
 		// differing sizes
 		template<unsigned s>
-		vec(const vec<s, T>& v);
+		vec(vec<s, T> const& v);
 
 		// member operators
 		// = operator
 		// [] operator
 
 		vec<3, T>& operator=(vec<3, T>&&) = default;
-		vec<3, T>& operator=(const T& v);
-		vec<3, T>& operator=(const vec<3, T>&  v);
+		vec<3, T>& operator=(T const& v);
+		vec<3, T>& operator=(vec<3, T> const& v);
 
-		inline T& operator[](const unsigned& i);
-		inline const T& operator[](const unsigned& i) const;
+		inline T& operator[](unsigned const& i);
+		inline T const& operator[](unsigned const& i) const;
 	};
 
 }

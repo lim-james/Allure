@@ -23,7 +23,7 @@ namespace Events {
 	EventsManager* EventsManager::instance = nullptr;
 
 	EventsManager::~EventsManager() {
-		for (const auto& queued : queuedEvents)
+		for (auto const& queued : queuedEvents)
 			if (queued.event)
 				delete queued.event;
 
@@ -57,7 +57,7 @@ namespace Events {
 				callback->Unsubscribe();
 	}
 
-	void EventsManager::Unsubscribe(const std::string& name) {
+	void EventsManager::Unsubscribe(std::string const& name) {
 		for (auto& callback : emptyCallbacks[name])
 			callback->Unsubscribe();
 
@@ -65,12 +65,12 @@ namespace Events {
 			callback->Unsubscribe();
 	}
 
-	void EventsManager::Trigger(const std::string& name) {
+	void EventsManager::Trigger(std::string const& name) {
 		for (auto& callback : emptyCallbacks[name])
 			(*callback)();
 	}
 
-	void EventsManager::Trigger(const std::string& name, Event* const event) {
+	void EventsManager::Trigger(std::string const& name, Event* const event) {
 		for (auto& callback : emptyCallbacks[name])
 			(*callback)();
 
@@ -81,16 +81,16 @@ namespace Events {
 		delete event;
 	}
 
-	void EventsManager::Queue(const std::string& name) {
+	void EventsManager::Queue(std::string const& name) {
 		queuedEvents.push_back({ name, nullptr });
 	}
 
-	void EventsManager::Queue(const std::string& name, Event* const event) {
+	void EventsManager::Queue(std::string const& name, Event* const event) {
 		queuedEvents.push_back({ name, event });
 	}
 
 	void EventsManager::TriggerQueued() {
-		for (const auto& queued : queuedEvents) {
+		for (auto const& queued : queuedEvents) {
 			if (queued.event)
 				Trigger(queued.name, queued.event);
 			else

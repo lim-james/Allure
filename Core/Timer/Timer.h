@@ -17,12 +17,12 @@ public:
 	void Start();
 	void Update();
 
-	const double& GetDeltaTime() const;
-	const double& GetElapsedTime() const;
+	double const& GetDeltaTime() const;
+	double const& GetElapsedTime() const;
 
 private:
 
-	double LargeIntToSecs(const LARGE_INTEGER& L) const;
+	double LargeIntToSecs(LARGE_INTEGER const& L) const;
 
 };
 

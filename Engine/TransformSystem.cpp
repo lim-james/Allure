@@ -13,7 +13,7 @@ void TransformSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("TRANSFORM_ACTIVE", &TransformSystem::ActiveHanlder, this);
 }
 
-void TransformSystem::Update(const float & dt) {
+void TransformSystem::Update(float const& dt) {
 	std::vector<Transform*> children;
 
 	for (auto& item : tree->GetRoot()->list) {
@@ -54,7 +54,7 @@ void TransformSystem::SetTransform(Transform * const transform) {
 
 		transform->worldTransform = transform->localTransform;
 	} else {
-		const auto& worldTransform = transform->parent->worldTransform;
+		auto const& worldTransform = transform->parent->worldTransform;
 
 		transform->worldRotation = transform->rotation + transform->parent->worldRotation;
 		transform->worldTranslation = worldTransform * transform->translation;

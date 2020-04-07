@@ -2,7 +2,7 @@
 
 #include <iterator>
 
-std::vector<std::string> Helpers::Split(const std::string& content, const char& delimiter) {
+std::vector<std::string> Helpers::Split(std::string const& content, char const& delimiter) {
 	std::vector<std::string> parts;
 	
 	std::string buffer;
@@ -14,44 +14,44 @@ std::vector<std::string> Helpers::Split(const std::string& content, const char& 
 	return parts;
 }
 
-std::string Helpers::Join(const std::vector<std::string>& list) {
+std::string Helpers::Join(std::vector<std::string> const& list) {
 	std::string result;
 
-	for (const auto& item : list)
+	for (auto const& item : list)
 		result += item;
 
 	return result;
 }
 
-std::string Helpers::Join(const std::vector<std::string>& list, const char& separator) {
+std::string Helpers::Join(std::vector<std::string> const& list, char const& separator) {
 	std::string result;
 
-	for (const auto& item : list)
+	for (auto const& item : list)
 		result += item + separator;
 
 	return result;
 }
 
-std::string Helpers::Join(const std::vector<std::string>& list, const std::string& separator) {
+std::string Helpers::Join(std::vector<std::string> const& list, std::string const& separator) {
 	std::string result;
 
-	for (const auto& item : list)
+	for (auto const& item : list)
 		result += item + separator;
 
 	return result;
 }
 
-//std::pair<std::string, std::string> Helpers::Pair(const std::string& content, const char& separator) {
+//std::pair<std::string, std::string> Helpers::Pair(std::string const& content, char const& separator) {
 //	const auto position = content.find(separator);
 //	return std::make_pair(content.substr(0, position), content.substr(position + 1));
 //}
 //
-//std::pair<std::string, std::string> Helpers::Pair(const std::string& content, const std::string& separator) {
+//std::pair<std::string, std::string> Helpers::Pair(std::string const& content, std::string const& separator) {
 //	const auto position = content.find(separator);
 //	return std::make_pair(content.substr(0, position), content.substr(position + 1));
 //}
 //
-//std::pair<std::string, std::string> Helpers::Pair(const std::string& content, const char* separator) {
+//std::pair<std::string, std::string> Helpers::Pair(std::string const& content, const char* separator) {
 //	const auto position = content.find(separator);
 //	return std::make_pair(content.substr(0, position), content.substr(position + 1));
 //}

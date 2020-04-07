@@ -3,25 +3,25 @@
 // custom constructors 
 
 template<typename T>
-Math::vec<4, T>::vec(const T& i) : x(i), y(i), z(i), w(i) {}
+Math::vec<4, T>::vec(T const& i) : x(i), y(i), z(i), w(i) {}
 template<typename T>
-Math::vec<4, T>::vec(const T& x, const T& y, const T& z, const T& w) : x(x), y(y), z(z), w(w) {}
+Math::vec<4, T>::vec(T const& x, T const& y, T const& z, T const& w) : x(x), y(y), z(z), w(w) {}
 template<typename T>
-Math::vec<4, T>::vec(const T& x, const vec<3, T>& yzw) : x(x), yzw(yzw) { }
+Math::vec<4, T>::vec(T const& x, vec<3, T> const& yzw) : x(x), yzw(yzw) { }
 template<typename T>
-Math::vec<4, T>::vec(const vec<3, T>& xyz, const T & w) : xyz(xyz), w(w) {}
+Math::vec<4, T>::vec(vec<3, T> const& xyz, T const& w) : xyz(xyz), w(w) {}
 template<typename T>
-Math::vec<4, T>::vec(const vec<2, T>& xy, const vec<2, T>& zw) : xy(xy), zw(zw) {}
+Math::vec<4, T>::vec(vec<2, T> const& xy, vec<2, T> const& zw) : xy(xy), zw(zw) {}
 template<typename T>
-Math::vec<4, T>::vec(const vec<2, T>& xy, const T& z, const T& w) : xy(xy), z(z), w(w) {}
+Math::vec<4, T>::vec(vec<2, T> const& xy, T const& z, T const& w) : xy(xy), z(z), w(w) {}
 template<typename T>
-Math::vec<4, T>::vec(const T& x, const vec<2, T>& yz, const T& y) : x(x), yz(yz), w(w) {}
+Math::vec<4, T>::vec(T const& x, vec<2, T> const& yz, T const& y) : x(x), yz(yz), w(w) {}
 template<typename T>
-Math::vec<4, T>::vec(const T& x, const T& y, const vec<2, T>& zw) : x(x), y(y), zw(zw) {}
+Math::vec<4, T>::vec(T const& x, T const& y, vec<2, T> const& zw) : x(x), y(y), zw(zw) {}
 
 template<typename T>
 template<typename t>
-Math::vec<4, T>::vec(const vec<4, t>& v) 
+Math::vec<4, T>::vec(vec<4, t> const& v) 
 	: x(static_cast<T>(v.x))
 	, y(static_cast<T>(v.y))
 	, z(static_cast<T>(v.z))
@@ -29,7 +29,7 @@ Math::vec<4, T>::vec(const vec<4, t>& v)
 
 template<typename T>
 template<unsigned s>
-Math::vec<4, T>::vec(const vec<s, T>& v) {
+Math::vec<4, T>::vec(vec<s, T> const& v) {
 	if (s == 1) {
 		x = v[0];
 		y = z = w = static_cast<T>(0);
@@ -37,7 +37,7 @@ Math::vec<4, T>::vec(const vec<s, T>& v) {
 		x = v[0];
 		y = v[1];
 		z = w = static_cast<T>(0);
-	} else  if (s == 3) {
+	} else if (s == 3) {
 		x = v[0];
 		y = v[1];
 		z = v[2];
@@ -55,13 +55,13 @@ Math::vec<4, T>::vec(const vec<s, T>& v) {
 // [] operator
 
 template<typename T>
-Math::vec<4, T>& Math::vec<4, T>::operator=(const T& v) {
+Math::vec<4, T>& Math::vec<4, T>::operator=(T const& v) {
 	x = y = z = w = v;
 	return *this;
 }
 
 template<typename T>
-Math::vec<4, T>& Math::vec<4, T>::operator=(const vec<4, T>&  v) {
+Math::vec<4, T>& Math::vec<4, T>::operator=(vec<4, T> const& v) {
 	x = v.x;
 	y = v.y;
 	z = v.z;
@@ -70,11 +70,11 @@ Math::vec<4, T>& Math::vec<4, T>::operator=(const vec<4, T>&  v) {
 }
 
 template<typename T>
-inline T& Math::vec<4, T>::operator[](const unsigned& i) {
+inline T& Math::vec<4, T>::operator[](unsigned const& i) {
 	return data[i];
 }
 
 template<typename T>
-inline const T& Math::vec<4, T>::operator[](const unsigned& i) const {
+inline T const& Math::vec<4, T>::operator[](unsigned const& i) const {
 	return data[i];
 }

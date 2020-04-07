@@ -52,25 +52,25 @@ Component * Camera::Clone() const {
 	return new Camera(*this);
 }
 
-void Camera::SetActive(const bool& state) {
+void Camera::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("CAMERA_ACTIVE", new Events::AnyType<Camera*>(this));
 }
 
-const float& Camera::GetSize() const {
+float const& Camera::GetSize() const {
 	return size;
 }
 
-void Camera::SetSize(const float& value) {
+void Camera::SetSize(float const& value) {
 	size = value;
 	UpdateViewport();
 }
 
-const float & Camera::GetDepth() const {
+float const& Camera::GetDepth() const {
 	return depth;
 }
 
-void Camera::SetDepth(const float& value) {
+void Camera::SetDepth(float const& value) {
 	depth = value;
 	Events::EventsManager::GetInstance()->Trigger("CAMERA_DEPTH", new Events::AnyType<Camera*>(this));
 }
@@ -79,21 +79,21 @@ mat4f Camera::GetProjectionMatrix() const {
 	return Math::Orthographic(left, right, bottom, top, nearPlane, farPlane);
 }
 
-void Camera::SetMatch(const float & value) {
+void Camera::SetMatch(float const& value) {
 	match = value;
 	UpdateViewport();
 }
 
-void Camera::SetViewportRect(const vec4f& rect) {
+void Camera::SetViewportRect(vec4f const& rect) {
 	viewportRect = rect;
 	UpdateViewport();
 }
 
-const vec4f& Camera::GetViewport() const {
+vec4f const& Camera::GetViewport() const {
 	return viewport;
 }
 
-vec2f Camera::ScreenToWorldSpace(const vec2f & mousePosition) const {
+vec2f Camera::ScreenToWorldSpace(vec2f const& mousePosition) const {
 	const vec2f viewportPosition = mousePosition - viewport.origin;
 
 	vec2f unitPosition = viewportPosition / viewport.size;
@@ -115,7 +115,7 @@ void Camera::UpdateViewport() {
 	viewport = vec4f(windowSize, windowSize) * viewportRect;
 
 	const float invMatch = 1.f - match;
-	aspectRatio = (viewport.size.w * invMatch + viewport.size.h *  match) / (viewport.size.w * match + viewport.size.h * invMatch);
+	aspectRatio = (viewport.size.w * invMatch + viewport.size.h * match) / (viewport.size.w * match + viewport.size.h * invMatch);
 
 	const float unit = aspectRatio * size;
 	const float w = unit * invMatch + size * match;

@@ -28,17 +28,17 @@ public:
 	void Stop();
 
 	template<typename SystemType>
-	void Subscribe(const unsigned& frameIndex);
+	void Subscribe(unsigned const& frameIndex);
 
 	template<typename SystemType>
 	SystemType* const Get();
 
-	void Update(const float& dt);
+	void Update(float const& dt);
 
 };
 
 template<typename SystemType>
-void SystemManager::Subscribe(const unsigned& frameIndex) {
+void SystemManager::Subscribe(unsigned const& frameIndex) {
 	while (frameLayout.size() <= frameIndex) {
 		frameLayout.push_back({});
 	}

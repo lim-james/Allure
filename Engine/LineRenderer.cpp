@@ -25,7 +25,7 @@ void LineRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("DRAW_LINE", &LineRenderer::DrawLineHandler, this);
 }
 
-void LineRenderer::Render(const RendererData& data) {
+void LineRenderer::Render(RendererData const& data) {
 	glDisable(GL_DEPTH_TEST);
 
 	const unsigned count = lines.size();

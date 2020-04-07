@@ -7,7 +7,7 @@ Framebuffer::Framebuffer()
 	: id(0)
 	, size(0) {}
 
-Framebuffer::Framebuffer(const unsigned& texCount, const unsigned& RBOCount) {
+Framebuffer::Framebuffer(unsigned const& texCount, unsigned const& RBOCount) {
 	glGenFramebuffers(1, &id);
 
 	for (unsigned i = 0; i < texCount; ++i) {
@@ -28,7 +28,7 @@ Framebuffer::~Framebuffer() {
 	textures.clear();
 }
 
-void Framebuffer::Initialize(const vec2u& size, const std::vector<TextureData>& texs, const std::vector<RenderBufferData>& rbos) {
+void Framebuffer::Initialize(vec2u const& size, std::vector<TextureData> const& texs, std::vector<RenderBufferData> const& rbos) {
 	this->texturesData = texs;
 	this->rbosData = rbos;
 
@@ -44,7 +44,7 @@ void Framebuffer::Unbind() const {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-const unsigned& Framebuffer::GetTexture(const unsigned& index) const {
+unsigned const& Framebuffer::GetTexture(unsigned const& index) const {
 	return textures[index];
 }
 
@@ -52,7 +52,7 @@ unsigned Framebuffer::GetTextureCount() const {
 	return textures.size();
 }
 
-const unsigned& Framebuffer::GetRBO(const unsigned& index) const {
+unsigned const& Framebuffer::GetRBO(unsigned const& index) const {
 	return RBOs[index];
 }
 
@@ -60,7 +60,7 @@ unsigned Framebuffer::GetRBOCount() const {
 	return RBOs.size();
 }
 
-void Framebuffer::Resize(const vec2u& resize) {
+void Framebuffer::Resize(vec2u const& resize) {
 	this->size = resize;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
@@ -72,7 +72,7 @@ void Framebuffer::Resize(const vec2u& resize) {
 
 	for (unsigned i = 0; i < texCount; ++i) {
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
-		const auto& t = texturesData[i];
+		auto const& t = texturesData[i];
 
 		glTexImage2D(
 			GL_TEXTURE_2D,
@@ -86,7 +86,7 @@ void Framebuffer::Resize(const vec2u& resize) {
 			nullptr
 		);
 
-		for (const auto& p : t.parameters) {
+		for (auto const& p : t.parameters) {
 			glTexParameteri(GL_TEXTURE_2D, p.name, p.param);
 		}
 
@@ -98,7 +98,7 @@ void Framebuffer::Resize(const vec2u& resize) {
 
 	for (unsigned i = 0; i < rboCount; ++i) {
 		glBindRenderbuffer(GL_RENDERBUFFER, RBOs[i]);
-		const auto& r = rbosData[i];
+		auto const& r = rbosData[i];
 
 		glRenderbufferStorage(GL_RENDERBUFFER, r.internalFormat, size.w, size.h);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, r.attachmentFormat, GL_RENDERBUFFER, RBOs[i]);
@@ -107,10 +107,10 @@ void Framebuffer::Resize(const vec2u& resize) {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-const vec2u& Framebuffer::GetSize() const {
+vec2u const& Framebuffer::GetSize() const {
 	return size;
 }
 
-const unsigned& Framebuffer::GetID() const {
+unsigned const& Framebuffer::GetID() const {
 	return id;
 }

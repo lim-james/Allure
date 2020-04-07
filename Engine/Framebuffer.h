@@ -42,24 +42,24 @@ class Framebuffer {
 public:
 
 	Framebuffer();
-	Framebuffer(const unsigned& texCount, const unsigned& RBOCount);
+	Framebuffer(unsigned const& texCount, unsigned const& RBOCount);
 	virtual ~Framebuffer();
 
-	virtual void Initialize(const vec2u& size, const std::vector<TextureData>& texs = {}, const std::vector<RenderBufferData>& rbos = {});
+	virtual void Initialize(vec2u const& size, std::vector<TextureData> const& texs = {}, std::vector<RenderBufferData> const& rbos = {});
 
 	void Bind() const;
 	void Unbind() const;
 
-	const unsigned& GetTexture(const unsigned& index = 0) const;
+	unsigned const& GetTexture(unsigned const& index = 0) const;
 	unsigned GetTextureCount() const;
 
-	const unsigned& GetRBO(const unsigned& index = 0) const;
+	unsigned const& GetRBO(unsigned const& index = 0) const;
 	unsigned GetRBOCount() const;
 
-	void Resize(const vec2u& resize);
-	const vec2u& GetSize() const;
+	void Resize(vec2u const& resize);
+	vec2u const& GetSize() const;
 
-	const unsigned& GetID() const;
+	unsigned const& GetID() const;
 
 };
 

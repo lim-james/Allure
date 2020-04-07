@@ -26,12 +26,12 @@ Component * Physics::Clone() const {
 	return new Physics(*this);
 }
 
-void Physics::SetActive(const bool & state) {
+void Physics::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("PHYSICS_ACTIVE", new Events::AnyType<Physics*>(this));
 }
 
-void Physics::SetMass(const float & _mass) {
+void Physics::SetMass(float const& _mass) {
 	mass = _mass;
 	inverseMass = 1.f / mass;
 }

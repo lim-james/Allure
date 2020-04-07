@@ -21,7 +21,7 @@ struct Button : Component {
 
 	void Initialize() override;
 	Component* Clone() const override;
-	void SetActive(const bool& state) override;
+	void SetActive(bool const& state) override;
 
 };
 

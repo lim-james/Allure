@@ -9,7 +9,7 @@
 // += T
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator+(const vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T> Math::operator+(vec<size, T> const& lhs, vec<size, T> const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs[i] + rhs[i];
@@ -17,7 +17,7 @@ inline Math::vec<size, T> Math::operator+(const vec<size, T>& lhs, const vec<siz
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator+(const vec<size, T>& lhs, const T& rhs) {
+inline Math::vec<size, T> Math::operator+(vec<size, T> const& lhs, T const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs[i] + rhs;
@@ -25,7 +25,7 @@ inline Math::vec<size, T> Math::operator+(const vec<size, T>& lhs, const T& rhs)
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator+(const T& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T> Math::operator+(T const& lhs, vec<size, T> const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs + rhs[i];
@@ -33,14 +33,14 @@ inline Math::vec<size, T> Math::operator+(const T& lhs, const vec<size, T>& rhs)
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T>& Math::operator+=(vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T>& Math::operator+=(vec<size, T>& lhs, vec<size, T> const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		lhs[i] += rhs[i];
 	return lhs;
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T>& Math::operator+=(vec<size, T>& lhs, const T& rhs) {
+inline Math::vec<size, T>& Math::operator+=(vec<size, T>& lhs, T const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		lhs[i] += rhs;
 	return lhs;
@@ -53,7 +53,7 @@ inline Math::vec<size, T>& Math::operator+=(vec<size, T>& lhs, const T& rhs) {
 // -= T
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator-(const vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T> Math::operator-(vec<size, T> const& lhs, vec<size, T> const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs[i] - rhs[i];
@@ -61,7 +61,7 @@ inline Math::vec<size, T> Math::operator-(const vec<size, T>& lhs, const vec<siz
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator-(const vec<size, T>& lhs, const T& rhs) {
+inline Math::vec<size, T> Math::operator-(vec<size, T> const& lhs, T const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs[i] - rhs;
@@ -69,7 +69,7 @@ inline Math::vec<size, T> Math::operator-(const vec<size, T>& lhs, const T& rhs)
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator-(const T& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T> Math::operator-(T const& lhs, vec<size, T> const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs - rhs[i];
@@ -77,14 +77,14 @@ inline Math::vec<size, T> Math::operator-(const T& lhs, const vec<size, T>& rhs)
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T>& Math::operator-=(vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T>& Math::operator-=(vec<size, T>& lhs, vec<size, T> const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		lhs[i] -= rhs[i];
 	return lhs;
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T>& Math::operator-=(vec<size, T>& lhs, const T& rhs) {
+inline Math::vec<size, T>& Math::operator-=(vec<size, T>& lhs, T const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		lhs[i] -= rhs;
 	return lhs;
@@ -97,7 +97,7 @@ inline Math::vec<size, T>& Math::operator-=(vec<size, T>& lhs, const T& rhs) {
 // *= T
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator*(const vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T> Math::operator*(vec<size, T> const& lhs, vec<size, T> const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs[i] * rhs[i];
@@ -105,7 +105,7 @@ inline Math::vec<size, T> Math::operator*(const vec<size, T>& lhs, const vec<siz
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator*(const vec<size, T>& lhs, const T& rhs) {
+inline Math::vec<size, T> Math::operator*(vec<size, T> const& lhs, T const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs[i] * rhs;
@@ -113,7 +113,7 @@ inline Math::vec<size, T> Math::operator*(const vec<size, T>& lhs, const T& rhs)
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator*(const T& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T> Math::operator*(T const& lhs, vec<size, T> const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs * rhs[i];
@@ -121,14 +121,14 @@ inline Math::vec<size, T> Math::operator*(const T& lhs, const vec<size, T>& rhs)
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T>& Math::operator*=(vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T>& Math::operator*=(vec<size, T>& lhs, vec<size, T> const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		lhs[i] *= rhs[i];
 	return lhs;
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T>& Math::operator*=(vec<size, T>& lhs, const T& rhs) {
+inline Math::vec<size, T>& Math::operator*=(vec<size, T>& lhs, T const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		lhs[i] *= rhs;
 	return lhs;
@@ -142,7 +142,7 @@ inline Math::vec<size, T>& Math::operator*=(vec<size, T>& lhs, const T& rhs) {
 // /= T
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator/(const vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T> Math::operator/(vec<size, T> const& lhs, vec<size, T> const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs[i] / rhs[i];
@@ -150,7 +150,7 @@ inline Math::vec<size, T> Math::operator/(const vec<size, T>& lhs, const vec<siz
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator/(const vec<size, T>& lhs, const T& rhs) {
+inline Math::vec<size, T> Math::operator/(vec<size, T> const& lhs, T const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs[i] / rhs;
@@ -158,7 +158,7 @@ inline Math::vec<size, T> Math::operator/(const vec<size, T>& lhs, const T& rhs)
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::operator/(const T& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T> Math::operator/(T const& lhs, vec<size, T> const& rhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = lhs / rhs[i];
@@ -166,14 +166,14 @@ inline Math::vec<size, T> Math::operator/(const T& lhs, const vec<size, T>& rhs)
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T>& Math::operator/=(vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline Math::vec<size, T>& Math::operator/=(vec<size, T>& lhs, vec<size, T> const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		lhs[i] /= rhs[i];
 	return lhs;
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T>& Math::operator/=(vec<size, T>& lhs, const T& rhs) {
+inline Math::vec<size, T>& Math::operator/=(vec<size, T>& lhs, T const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		lhs[i] /= rhs;
 	return lhs;
@@ -183,7 +183,7 @@ inline Math::vec<size, T>& Math::operator/=(vec<size, T>& lhs, const T& rhs) {
 // negate
 
 template<unsigned size, typename T>
-Math::vec<size, T> Math::operator-(const vec<size, T>& lhs) {
+Math::vec<size, T> Math::operator-(vec<size, T> const& lhs) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = -lhs[i];
@@ -195,7 +195,7 @@ Math::vec<size, T> Math::operator-(const vec<size, T>& lhs) {
 // not equals
 
 template<unsigned size, typename T>
-inline bool Math::operator==(const vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline bool Math::operator==(vec<size, T> const& lhs, vec<size, T> const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		if (lhs[i] != rhs[i]) return false;
 
@@ -203,7 +203,7 @@ inline bool Math::operator==(const vec<size, T>& lhs, const vec<size, T>& rhs) {
 }
 
 template<unsigned size, typename T>
-inline bool Math::operator!=(const vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline bool Math::operator!=(vec<size, T> const& lhs, vec<size, T> const& rhs) {
 	for (unsigned i = 0; i < size; ++i)
 		if (lhs[i] != rhs[i]) return true;
 
@@ -214,7 +214,7 @@ inline bool Math::operator!=(const vec<size, T>& lhs, const vec<size, T>& rhs) {
 // << & >>
 
 template<unsigned size, typename T>
-std::ostream& Math::operator<<(std::ostream& os, const vec<size, T>& v) {
+std::ostream& Math::operator<<(std::ostream& os, vec<size, T> const& v) {
 	os << v[0];
 	for (unsigned i = 1; i < size; ++i)
 		os << ',' << v[i];
@@ -248,7 +248,7 @@ std::istream& Math::operator>>(std::istream& is, vec<size, T>& v) {
 // project
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::Abs(const vec<size, T>& v) {
+inline Math::vec<size, T> Math::Abs(vec<size, T> const& v) {
 	vec<size, T> result;
 	for (unsigned i = 0; i < size; ++i)
 		result[i] = abs(v[i]);
@@ -256,7 +256,7 @@ inline Math::vec<size, T> Math::Abs(const vec<size, T>& v) {
 }
 
 template<unsigned size, typename T>
-inline T Math::Length(const Math::vec<size, T>& v) {
+inline T Math::Length(Math::vec<size, T> const& v) {
 	T sum = static_cast<T>(0);
 	for (unsigned i = 0; i < size; ++i)
 		sum += v[i] * v[i];
@@ -264,7 +264,7 @@ inline T Math::Length(const Math::vec<size, T>& v) {
 }
 
 template<unsigned size, typename T>
-inline T Math::LengthSquared(const Math::vec<size, T>& v) {
+inline T Math::LengthSquared(Math::vec<size, T> const& v) {
 	T sum = static_cast<T>(0);
 	for (unsigned i = 0; i < size; ++i)
 		sum += v[i] * v[i];
@@ -278,12 +278,12 @@ inline void Math::Normalize(vec<size, T>& lhs) {
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::Normalized(const vec<size, T>& lhs) {
+inline Math::vec<size, T> Math::Normalized(vec<size, T> const& lhs) {
 	return lhs / Length(lhs);
 }
 
 template<unsigned size, typename T>
-inline T Math::Dot(const vec<size, T>& lhs, const vec<size, T>& rhs) {
+inline T Math::Dot(vec<size, T> const& lhs, vec<size, T> const& rhs) {
 	T sum = static_cast<T>(0);
 	for (unsigned i = 0; i < size; ++i)
 		sum += lhs[i] * rhs[i];
@@ -291,7 +291,7 @@ inline T Math::Dot(const vec<size, T>& lhs, const vec<size, T>& rhs) {
 }
 
 template<typename T>
-Math::vec<3, T> Math::Cross(const vec<3, T>& lhs, const vec<3, T>& rhs) {
+Math::vec<3, T> Math::Cross(vec<3, T> const& lhs, vec<3, T> const& rhs) {
 	return vec<3, T>(
 		lhs.y * rhs.z - lhs.z * rhs.y,
 		lhs.z * rhs.x - lhs.x * rhs.z,
@@ -300,6 +300,6 @@ Math::vec<3, T> Math::Cross(const vec<3, T>& lhs, const vec<3, T>& rhs) {
 }
 
 template<unsigned size, typename T>
-inline Math::vec<size, T> Math::Project(const vec<size, T>& v, const vec<size, T>& onto) {
+inline Math::vec<size, T> Math::Project(vec<size, T> const& v, vec<size, T> const& onto) {
 	return Dot(v, onto) / LengthSquared(onto) * onto;
 }

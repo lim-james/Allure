@@ -18,29 +18,29 @@ namespace Math {
 
 		// default constructors
 		vec(vec<2, T>&&) = default;
-		vec(const vec<2, T>&) = default;
+		vec(vec<2, T> const&) = default;
 
 		// custom constructors
 
-		vec(const T& i = static_cast<T>(0));
-		vec(const T& x, const T& y);
+		vec(T const& i = static_cast<T>(0));
+		vec(T const& x, T const& y);
 		// differing types
 		template<typename t>
-		vec(const vec<2, t>& v);
+		vec(vec<2, t> const& v);
 		// differing sizes
 		template<unsigned s>
-		vec(const vec<s, T>& v);
+		vec(vec<s, T> const& v);
 		
 		// member operators
 		// = operator
 		// [] operator
 
 		vec<2, T>& operator=(vec<2, T>&&) = default;
-		vec<2, T>& operator=(const T& v);
-		vec<2, T>& operator=(const vec<2, T>&  v);
+		vec<2, T>& operator=(T const& v);
+		vec<2, T>& operator=(vec<2, T> const& v);
 
-		inline T& operator[](const unsigned& i);
-		inline const T& operator[](const unsigned& i) const;
+		inline T& operator[](unsigned const& i);
+		inline T const& operator[](unsigned const& i) const;
 	};
 
 }

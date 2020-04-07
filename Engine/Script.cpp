@@ -34,7 +34,7 @@ void Script::OnDestroy() {
 
 }
 
-void Script::SetActive(const bool & state) {
+void Script::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("SCRIPT_ACTIVE", new Events::AnyType<Script*>(this));
 }

@@ -15,7 +15,7 @@ namespace Events {
 	struct AnyType : public Event {
 		Data data;
 
-		AnyType(const Data& data) : data(data) {}
+		AnyType(Data const& data) : data(data) {}
 	};
 
 	typedef AnyType<std::string> String;

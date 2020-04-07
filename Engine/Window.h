@@ -20,13 +20,13 @@ class Window {
 public:
 
 	Window();
-	Window(const int& width, const int& height, const char* title, const bool& fullscreen);
+	Window(int const& width, int const& height, const char* title, bool const& fullscreen);
 	~Window();
 
 	GLFWwindow* Get() const;
 
 	void MakeCurrent() const;
-	void UpdateFrame(const float& dt);
+	void UpdateFrame(float const& dt);
 
 	void SetTitle(const char* title) const;
 

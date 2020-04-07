@@ -14,20 +14,20 @@ namespace Math {
 
 	public:
 
-		Matrix(const int& w, const int& h);
+		Matrix(int const& w, int const& h);
 		~Matrix();
 
-		void Set(const T& value, const int& x, const int& y);
-		T Get(const int& x, const int& y) const;
+		void Set(T const& value, int const& x, int const& y);
+		T Get(int const& x, int const& y) const;
 
 	private:
 
-		int GetIndex(const int& x, const int& y);
+		int GetIndex(int const& x, int const& y);
 
 	};
 
 	template<typename T>
-	Matrix<T>::Matrix(const int & w, const int & h) : w(w), h(h) {
+	Matrix<T>::Matrix(int const& w, int const& h) : w(w), h(h) {
 		data = new T[w * h];
 	}
 
@@ -37,17 +37,17 @@ namespace Math {
 	}
 
 	template<typename T>
-	void Matrix<T>::Set(const T & value, const int & x, const int & y) {
+	void Matrix<T>::Set(T const& value, int const& x, int const& y) {
 		data[GetIndex(x, y)] = data;
 	}
 
 	template<typename T>
-	T Matrix<T>::Get(const int & x, const int & y) const {
+	T Matrix<T>::Get(int const& x, int const& y) const {
 		return data[GetIndex(x, y)];
 	}
 
 	template<typename T>
-	int Matrix<T>::GetIndex(const int & x, const int & y) {
+	int Matrix<T>::GetIndex(int const& x, int const& y) {
 		if (x < 0 || x >= w || y < 0 || y >= h) {
 			return -1;
 		}
@@ -56,7 +56,7 @@ namespace Math {
 	}
 
 	template<typename T>
-	Vector<T> operator*(const Vector<T>& lhs, const Matrix<T>& rhs) {
+	Vector<T> operator*(Vector<T> const& lhs, Matrix<T> const& rhs) {
 
 	}
 

@@ -22,9 +22,9 @@ public:
 
 	UITextFieldManager(EntityManager * const entities);
 
-	unsigned Create(const vec3f& position, const vec3f size, Font * const font);
+	unsigned Create(vec3f const& position, const vec3f size, Font * const font);
 
-	void Update(const float& dt);
+	void Update(float const& dt);
 
 private:
 

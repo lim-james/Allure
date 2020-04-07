@@ -16,28 +16,28 @@ class Shader {
 public:
 
 	Shader();
-	Shader(const std::string& computePath);
-	Shader(const std::string& vertexPath, const std::string& fragmentPath);
-	Shader(const std::string& vertexPath, const std::string& geometryPath, const std::string& fragmentPath);
+	Shader(std::string const& computePath);
+	Shader(std::string const& vertexPath, std::string const& fragmentPath);
+	Shader(std::string const& vertexPath, std::string const& geometryPath, std::string const& fragmentPath);
 	~Shader();
 
-	const unsigned& GetID() const;
+	unsigned const& GetID() const;
 
 	void Use() const;
 	void Delete() const;
 
-	void SetInt(const std::string& name, const int& value);
-	void SetFloat(const std::string& name, const float& value);
-	void SetVector2(const std::string& name, const vec2f& value);
-	void SetVector3(const std::string& name, const vec3f& value);
-	void SetVector4(const std::string& name, const vec4f& value);
-	void SetMatrix4(const std::string& name, const mat4f& value);
+	void SetInt(std::string const& name, int const& value);
+	void SetFloat(std::string const& name, float const& value);
+	void SetVector2(std::string const& name, vec2f const& value);
+	void SetVector3(std::string const& name, vec3f const& value);
+	void SetVector4(std::string const& name, vec4f const& value);
+	void SetMatrix4(std::string const& name, mat4f const& value);
 
 private:
 
-	unsigned CreateShader(const std::string& path, const int& type);
+	unsigned CreateShader(std::string const& path, int const& type);
 
-	int GetUniformLocation(const std::string& name);
+	int GetUniformLocation(std::string const& name);
 
 };
 

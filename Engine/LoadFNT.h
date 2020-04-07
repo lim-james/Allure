@@ -10,7 +10,7 @@ namespace Load {
 
 	static std::map<std::string, Font*> fontCache;
 
-	Font* FNT(const std::string& fntPath, const std::string& tgaPath);
+	Font* FNT(std::string const& fntPath, std::string const& tgaPath);
 
 	void ClearFontCache();
 

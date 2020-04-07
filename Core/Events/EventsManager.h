@@ -82,36 +82,36 @@ namespace Events {
 
 		// subscribe empty callbacks
 		template<typename Context>
-		void Subscribe(const std::string& name, void(Context::*callback)(), Context* const context);
+		void Subscribe(std::string const& name, void(Context::*callback)(), Context* const context);
 		template<typename Context>
-		void Subscribe(const std::string& name, void(Context::*callback)() const, Context* const context);
+		void Subscribe(std::string const& name, void(Context::*callback)() const, Context* const context);
 
 		// subscribe event callbacks
 		template<typename Context>
-		void Subscribe(const std::string& name, void(Context::*callback)(Event*), Context* const context);
+		void Subscribe(std::string const& name, void(Context::*callback)(Event*), Context* const context);
 		template<typename Context>
-		void Subscribe(const std::string& name, void(Context::*callback)(Event*) const, Context* const context);
+		void Subscribe(std::string const& name, void(Context::*callback)(Event*) const, Context* const context);
 
 		template<typename Context>
 		void SubscribeContext(Context* const context);
 
 		void UnsubscribeAll();
-		void Unsubscribe(const std::string& name);
+		void Unsubscribe(std::string const& name);
 		template<typename Context>
 		void UnsubscribeContext(Context* const context);
 		template<typename Context>
-		void Unsubscribe(const std::string& name, Context* const context);
+		void Unsubscribe(std::string const& name, Context* const context);
 
-		void Trigger(const std::string& name);
-		void Trigger(const std::string& name, Event* const event);
+		void Trigger(std::string const& name);
+		void Trigger(std::string const& name, Event* const event);
 
 		template<typename Context>
-		void TriggerContext(const std::string& name, Context* const context);
+		void TriggerContext(std::string const& name, Context* const context);
 		template<typename Context>
-		void TriggerContext(const std::string& name, Context* const context, Event* const event);
+		void TriggerContext(std::string const& name, Context* const context, Event* const event);
 
-		void Queue(const std::string& name);
-		void Queue(const std::string& name, Event* const event);
+		void Queue(std::string const& name);
+		void Queue(std::string const& name, Event* const event);
 
 		void TriggerQueued();
 
@@ -141,7 +141,7 @@ namespace Events {
 	}
 
 	template<typename Context>
-	void EventsManager::Subscribe(const std::string& name, void(Context::*callback)(), Context* const context) {
+	void EventsManager::Subscribe(std::string const& name, void(Context::*callback)(), Context* const context) {
 		auto& c = emptyContextCallbacks[(void*)context][name];
 
 		if (c) {
@@ -156,7 +156,7 @@ namespace Events {
 	}
 
 	template<typename Context>
-	void EventsManager::Subscribe(const std::string& name, void(Context::*callback)() const, Context* const context) {
+	void EventsManager::Subscribe(std::string const& name, void(Context::*callback)() const, Context* const context) {
 		auto& c = emptyContextCallbacks[(void*)context][name];
 
 		if (c) {
@@ -171,7 +171,7 @@ namespace Events {
 	}
 
 	template<typename Context>
-	void EventsManager::Subscribe(const std::string& name, void(Context::*callback)(Event*), Context* const context) {
+	void EventsManager::Subscribe(std::string const& name, void(Context::*callback)(Event*), Context* const context) {
 		auto& c = eventContextCallbacks[(void*)context][name];
 
 		if (c) {
@@ -186,7 +186,7 @@ namespace Events {
 	}
 
 	template<typename Context>
-	void EventsManager::Subscribe(const std::string& name, void(Context::*callback)(Event*) const, Context* const context) {
+	void EventsManager::Subscribe(std::string const& name, void(Context::*callback)(Event*) const, Context* const context) {
 		auto& c = eventContextCallbacks[(void*)context][name];
 
 		if (c) {
@@ -223,14 +223,14 @@ namespace Events {
 	}
 
 	template<typename Context>
-	void EventsManager::Unsubscribe(const std::string& name, Context* const context) {
+	void EventsManager::Unsubscribe(std::string const& name, Context* const context) {
 		void* ptr = (void*)context;
 		emptyContextCallbacks[ptr][name]->Unsubscribe();
 		eventContextCallbacks[ptr][name]->Unsubscribe();
 	}
 
 	template<typename Context>
-	void EventsManager::TriggerContext(const std::string& name, Context* const context) {
+	void EventsManager::TriggerContext(std::string const& name, Context* const context) {
 		void* ptr = (void*)context;
 		if (emptyContextCallbacks.find(ptr) != emptyContextCallbacks.end()) {
 			auto callback = emptyContextCallbacks[ptr][name];
@@ -239,7 +239,7 @@ namespace Events {
 	}
 
 	template<typename Context>
-	void EventsManager::TriggerContext(const std::string& name, Context* const context, Event* const event) {
+	void EventsManager::TriggerContext(std::string const& name, Context* const context, Event* const event) {
 		void* ptr = (void*)context;
 
 		if (emptyContextCallbacks.find(ptr) != emptyContextCallbacks.end()) {

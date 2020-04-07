@@ -12,7 +12,7 @@ void SpriteAnimationSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("SPRITE_ANIMATION_ACTIVE", &SpriteAnimationSystem::ActiveHandler, this);
 }
 
-void SpriteAnimationSystem::Update(const float& dt) {
+void SpriteAnimationSystem::Update(float const& dt) {
 	for (auto& c : components) {
 		if (c->queued != "") {
 			ResetAnimation(c->animations[c->currentAnimation]);
@@ -43,7 +43,7 @@ void SpriteAnimationSystem::ResetAnimation(SpriteAnimationData& animation) {
 	animation.currentFrame = 0;
 }
 
-void SpriteAnimationSystem::ProcessAnimation(SpriteAnimation* const component, SpriteAnimationData& animation) {
+void SpriteAnimationSystem::ProcessAnimation(SpriteAnimation* component, SpriteAnimationData& animation) {
 	if (animation.frames.size() <= animation.currentFrame) return;
 
 	auto& currentFrame = animation.frames[animation.currentFrame];
@@ -62,7 +62,7 @@ void SpriteAnimationSystem::ProcessAnimation(SpriteAnimation* const component, S
 	}
 }
 
-void SpriteAnimationSystem::SetProperties(SpriteAnimation* const component, SpriteAnimationData& animation) {
+void SpriteAnimationSystem::SetProperties(SpriteAnimation* component, SpriteAnimationData const& animation) {
 	auto render = entities->GetComponent<Render>(component->entity);
 	render->uvRect = animation.frames[animation.currentFrame].uvRect;
 }

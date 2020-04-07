@@ -9,11 +9,11 @@
 
 namespace Load {
 	template<typename T>
-	std::vector<std::vector<T>> CSV(const std::string& filepath);
+	std::vector<std::vector<T>> CSV(std::string const& filepath);
 }
 
 template<typename T>
-std::vector<std::vector<T>> Load::CSV(const std::string& filepath) {
+std::vector<std::vector<T>> Load::CSV(std::string const& filepath) {
 	std::vector<std::vector<T>> result;
 
 	std::ifstream ifs(filepath);

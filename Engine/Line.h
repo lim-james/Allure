@@ -8,7 +8,7 @@ struct Line {
 	vec2f length;
 	vec4f tint;
 
-	void Set(const vec2f& start, const vec2f& end);
+	void Set(vec2f const& start, vec2f const& end);
 };
 
 #endif

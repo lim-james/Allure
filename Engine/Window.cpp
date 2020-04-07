@@ -8,7 +8,7 @@ Window::Window()
 	, size(0)
 	, window(nullptr) {}
 
-Window::Window(const int& width, const int& height, const char* title, const bool& fullscreen) : resizeDelay(0.2f) {
+Window::Window(int const& width, int const& height, const char* title, bool const& fullscreen) : resizeDelay(0.2f) {
 	size = vec2i(width, height);
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
@@ -46,7 +46,7 @@ void Window::MakeCurrent() const {
 	glfwMakeContextCurrent(window);
 }
 
-void Window::UpdateFrame(const float & dt) {
+void Window::UpdateFrame(float const& dt) {
 	glfwSwapBuffers(window);
 
 	if (resizing) {

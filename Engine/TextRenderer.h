@@ -17,7 +17,7 @@ public:
 	~TextRenderer() override;
 
 	void Initialize(EntityManager* const manager) override;
-	void Render(const RendererData& data) override;
+	void Render(RendererData const& data) override;
 
 private:
 

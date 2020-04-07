@@ -15,7 +15,7 @@ class AnimationSystem : public System {
 public:
 
 	void Initialize() override;
-	void Update(const float& dt) override;
+	void Update(float const& dt) override;
 
 private:
 

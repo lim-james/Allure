@@ -1,6 +1,6 @@
 #include "AENotation.hpp"
 
-AENotation::AENotation(const std::string & encoded) {
+AENotation::AENotation(std::string const& encoded) {
 	for (auto& pair : Helpers::GetDictionary(encoded, '\n', ':'))
 		Set(pair.first, pair.second);
 }
@@ -19,7 +19,7 @@ std::string AENotation::ToString() const {
 	return result;
 }
 
-std::string AENotation::Get(const std::string& key) const {
+std::string AENotation::Get(std::string const& key) const {
 	if (values.find(key) == values.end()) {
 		Debug::Error << "Key \"" << key << "\" not found in data set!";
 		return "";
@@ -28,7 +28,7 @@ std::string AENotation::Get(const std::string& key) const {
 	return values.at(key);
 }
 
-void AENotation::Set(const std::string& key, const std::string& value) {
+void AENotation::Set(std::string const& key, std::string const& value) {
 	keyOrder.push_back(key);
 	values[key] = value;
 }

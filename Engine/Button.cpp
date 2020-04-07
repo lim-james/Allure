@@ -20,7 +20,7 @@ Component * Button::Clone() const {
 	return new Button(*this);
 }
 
-void Button::SetActive(const bool & state) {
+void Button::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("BUTTON_ACTIVE", new Events::AnyType<Button*>(this));
 }

@@ -8,7 +8,7 @@ namespace Debug {
 	HANDLE Logger::hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::ostringstream Logger::logs = std::ostringstream();
 
-	Logger::Logger(const char* file, const char* function, const long& line) {
+	Logger::Logger(const char* file, const char* function, long const& line) {
 #ifndef _DEBUG
 		return;
 #endif
@@ -20,7 +20,7 @@ namespace Debug {
 		logs << ' ';
 	}
 
-	Logger::Logger(const char* tag, const WORD& color, const char* file, const char* function, const long& line) {
+	Logger::Logger(const char* tag, WORD const& color, const char* file, const char* function, long const& line) {
 #ifndef _DEBUG
 		return;
 #endif

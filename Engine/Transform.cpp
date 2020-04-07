@@ -26,7 +26,7 @@ void Transform::Initialize() {
 	UpdateAxes();
 }
 
-void Transform::SetActive(const bool & state) {
+void Transform::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("TRANSFORM_ACTIVE", new Events::AnyType<Transform*>(this));
 }
@@ -35,7 +35,7 @@ Component * Transform::Clone() const {
 	return new Transform(*this);
 }
 
-void Transform::Unpack(const AENotation& data) {
+void Transform::Unpack(AENotation const& data) {
 	Component::Unpack(data);
 	translation = data.Get<vec3f>("translation");
 	rotation = data.Get<vec3f>("rotation");
@@ -84,43 +84,43 @@ void Transform::UpdateAxes() {
 	}
 }
 
-const vec3f & Transform::GetLocalUp() const {
+vec3f const& Transform::GetLocalUp() const {
 	return localAxes.y;
 }
 
-const vec3f & Transform::GetLocalFront() const {
+vec3f const& Transform::GetLocalFront() const {
 	return localAxes.z;
 }
 
-const vec3f & Transform::GetLocalRight() const {
+vec3f const& Transform::GetLocalRight() const {
 	return localAxes.x;
 }
 
-const vec3f& Transform::GetWorldTranslation() const {
+vec3f const& Transform::GetWorldTranslation() const {
 	return worldTranslation;
 }
 
-const vec3f & Transform::GetWorldUp() const {
+vec3f const& Transform::GetWorldUp() const {
 	return worldAxes.y;
 }
 
-const vec3f & Transform::GetWorldFront() const {
+vec3f const& Transform::GetWorldFront() const {
 	return worldAxes.z;
 }
 
-const vec3f & Transform::GetWorldRight() const {
+vec3f const& Transform::GetWorldRight() const {
 	return worldAxes.x;
 }
 
-const vec3f & Transform::GetWorldRotation() const {
+vec3f const& Transform::GetWorldRotation() const {
 	return worldRotation;
 }
 
-const mat4f& Transform::GetLocalTransform() const {
+mat4f const& Transform::GetLocalTransform() const {
 	return localTransform;
 }
 
-const mat4f& Transform::GetWorldTransform() const {
+mat4f const& Transform::GetWorldTransform() const {
 	return worldTransform;
 }
 

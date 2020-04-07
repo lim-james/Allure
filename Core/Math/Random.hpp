@@ -10,7 +10,7 @@ namespace Math {
 	}
 	
 	template<typename T>
-	T RandMinMax(const T& min, const T& max) {
+	T RandMinMax(T const& min, T const& max) {
 		float v = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 		T range = max - min;
 		return static_cast<T>(v * range + min);

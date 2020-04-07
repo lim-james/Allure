@@ -21,7 +21,7 @@ Component * Collider::Clone() const {
 	return new Collider(*this);
 }
 
-void Collider::SetActive(const bool& state) {
+void Collider::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("COLLIDER_ACTIVE", new Events::AnyType<Collider*>(this));
 }

@@ -8,9 +8,9 @@
 namespace States {
 
 	struct State {
-		virtual void Enter(const unsigned& target, EntityManager * const entities) = 0;
-		virtual void Update(const unsigned& target, const float& dt, EntityManager * const entities) = 0;
-		virtual void Exit(const unsigned& target, EntityManager * const entities) = 0;
+		virtual void Enter(unsigned const& target, EntityManager * const entities) = 0;
+		virtual void Update(unsigned const& target, float const& dt, EntityManager * const entities) = 0;
+		virtual void Exit(unsigned const& target, EntityManager * const entities) = 0;
 	};
 
 }

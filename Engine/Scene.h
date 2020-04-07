@@ -23,7 +23,7 @@ public:
 
 	// Initialization of local variables
 	Scene();
-	Scene(const std::string& filepath);
+	Scene(std::string const& filepath);
 	// Destruction
 	virtual ~Scene();
 
@@ -35,9 +35,9 @@ public:
 	virtual void Enter();
 
 	// updates every fixed timestep
-	virtual void FixedUpdate(const float& dt);
+	virtual void FixedUpdate(float const& dt);
 	// updates every frame
-	virtual void Update(const float& dt);
+	virtual void Update(float const& dt);
 
 	// unsubscribe events
 	virtual void Exit();
@@ -47,7 +47,7 @@ public:
 
 protected:
 
-	void Load(const std::string& filepath);
+	void Load(std::string const& filepath);
 
 };
 

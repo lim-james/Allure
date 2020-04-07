@@ -14,7 +14,7 @@ struct Instance {
 	mat4f model;
 };
 
-bool operator==(const Instance& lhs, const Instance& rhs);
+bool operator==(Instance const& lhs, Instance const& rhs);
 
 typedef std::map<unsigned, std::vector<Instance>> Batches;
 
@@ -32,7 +32,7 @@ public:
 	~StandardRenderer() override;
 
 	void Initialize(EntityManager* const manager) override;
-	void Render(const RendererData& data) override;
+	void Render(RendererData const& data) override;
 
 private:
 

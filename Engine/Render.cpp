@@ -24,36 +24,36 @@ Component * Render::Clone() const {
 	return new Render(*this);
 }
 
-void Render::SetActive(const bool& state) {
+void Render::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("RENDER_ACTIVE", new Events::AnyType<Render*>(this));
 }
 
-const unsigned& Render::GetTexture() const {
+unsigned const& Render::GetTexture() const {
 	return texture;
 }
 
-void Render::SetTexture(const unsigned& _texture) {
+void Render::SetTexture(unsigned const& _texture) {
 	auto event = new Events::TextureChange(texture, this);
 	texture = _texture;
 	Events::EventsManager::GetInstance()->Trigger("TEXTURE_CHANGE", event);
 }
 
-void Render::SetTexture(const std::string & _texture) {
+void Render::SetTexture(std::string const& _texture) {
 	auto event = new Events::TextureChange(texture, this);
 	texture = Load::TGA(_texture);
 	Events::EventsManager::GetInstance()->Trigger("TEXTURE_CHANGE", event);
 
 }
 
-void Render::SetTilemapSize(const int& width, const int& height) {
+void Render::SetTilemapSize(int const& width, int const& height) {
 	tilemapUnit.x = 1.f / static_cast<float>(width);
 	tilemapUnit.y = 1.f / static_cast<float>(height);
 
 	uvRect = cellRect * vec4f(tilemapUnit, tilemapUnit);
 }
 
-void Render::SetCellRect(const int& x, const int& y, const int& width, const int& height) {
+void Render::SetCellRect(int const& x, int const& y, int const& width, int const& height) {
 	cellRect = vec4f(
 		static_cast<float>(x),
 		static_cast<float>(y),

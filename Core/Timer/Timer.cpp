@@ -25,14 +25,14 @@ void Timer::Update() {
 	dt = LargeIntToSecs(delta);
 }
 
-const double& Timer::GetDeltaTime() const {
+double const& Timer::GetDeltaTime() const {
 	return dt;
 }
 
-const double& Timer::GetElapsedTime() const {
+double const& Timer::GetElapsedTime() const {
 	return et;
 }
 
-double Timer::LargeIntToSecs(const LARGE_INTEGER& L) const {
+double Timer::LargeIntToSecs(LARGE_INTEGER const& L) const {
 	return static_cast<double>(L.QuadPart) / static_cast<double>(frequency.QuadPart);
 }

@@ -13,7 +13,7 @@ namespace Events {
 		const unsigned previous;
 		Render * const component;
 
-		TextureChange(const unsigned& previous, Render * const component)
+		TextureChange(unsigned const& previous, Render * const component)
 			: previous(previous)
 			, component(component) {}
 	};
@@ -29,14 +29,14 @@ struct Render : Component {
 
 	void Initialize() override;
 	Component* Clone() const override;
-	void SetActive(const bool& state) override;
+	void SetActive(bool const& state) override;
 
-	const unsigned& GetTexture() const;
-	void SetTexture(const unsigned& _texture);
-	void SetTexture(const std::string& _texture);
+	unsigned const& GetTexture() const;
+	void SetTexture(unsigned const& _texture);
+	void SetTexture(std::string const& _texture);
 
-	void SetTilemapSize(const int& width, const int& height);
-	void SetCellRect(const int& x, const int& y, const int& width, const int& height);
+	void SetTilemapSize(int const& width, int const& height);
+	void SetCellRect(int const& x, int const& y, int const& width, int const& height);
 
 private:
 

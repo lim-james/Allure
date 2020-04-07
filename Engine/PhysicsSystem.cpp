@@ -16,7 +16,7 @@ void PhysicsSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("PHYSICS_ACTIVE", &PhysicsSystem::ActiveHandler, this);
 }
 
-void PhysicsSystem::Update(const float& dt) {
+void PhysicsSystem::Update(float const& dt) {
 	for (auto& c : components) {
 		auto t = entities->GetComponent<Transform>(c->entity);
 

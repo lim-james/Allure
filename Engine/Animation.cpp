@@ -2,14 +2,14 @@
 
 #include <Events/EventsManager.h>
 
-AnimationBase::AnimationBase(const bool& loop, const float& duration, const float& delay, Handler<void,void> completion)
+AnimationBase::AnimationBase(bool const& loop, float const& duration, float const& delay, Handler<void,void> completion)
 	: loop(loop)
 	, duration(duration)
 	, delay(delay)
 	, et(0.f)
 	, completion(completion) {}
 
-void AnimationBase::Update(const float& dt) {
+void AnimationBase::Update(float const& dt) {
 	if (delay > 0.f)
 		delay -= dt;
 	else
@@ -34,7 +34,7 @@ Component * Animation::Clone() const {
 	return new Animation(*this);
 }
 
-void Animation::SetActive(const bool& state) {
+void Animation::SetActive(bool const& state) {
 	Component::SetActive(state);
 	Events::EventsManager::GetInstance()->Trigger("ANIMATION_ACTIVE", new Events::AnyType<Animation*>(this));
 }

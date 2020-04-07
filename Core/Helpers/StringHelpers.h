@@ -9,32 +9,32 @@
 namespace Helpers {
 
 	template<typename T>
-	T Parse(const std::string& content);
+	T Parse(std::string const& content);
 	template<typename T>
-	std::string ToString(const T& content);
+	std::string ToString(T const& content);
 
-	std::vector<std::string> Split(const std::string& content, const char& delimiter);
+	std::vector<std::string> Split(std::string const& content, char const& delimiter);
 
 	template<typename T>
-	std::vector<T> Split(const std::string& content, const char& delimiter);
+	std::vector<T> Split(std::string const& content, char const& delimiter);
 
-	std::string Join(const std::vector<std::string>& list);
-	std::string Join(const std::vector<std::string>& list, const char& separator);
-	std::string Join(const std::vector<std::string>& list, const std::string& separator);
+	std::string Join(std::vector<std::string> const& list);
+	std::string Join(std::vector<std::string> const& list, char const& separator);
+	std::string Join(std::vector<std::string> const& list, std::string const& separator);
 
 	template<typename Separator>
-	std::pair<std::string, std::string> Pair(const std::string& content, const Separator& separator);
+	std::pair<std::string, std::string> Pair(std::string const& content, Separator const& separator);
 	template<typename Value, typename Separator>
-	std::pair<std::string, Value> Pair(const std::string& content, const Separator& separator);
+	std::pair<std::string, Value> Pair(std::string const& content, Separator const& separator);
 	template<typename Key, typename Value, typename Separator>
-	std::pair<Key, Value> Pair(const std::string& content, const Separator& separator);
+	std::pair<Key, Value> Pair(std::string const& content, Separator const& separator);
 	
 	template<typename Separator>
-	std::map<std::string, std::string> GetDictionary(const std::string& content, const char& delimiter, const Separator& separator);
+	std::map<std::string, std::string> GetDictionary(std::string const& content, char const& delimiter, Separator const& separator);
 	template<typename Value, typename Separator>
-	std::map<std::string, Value> GetDictionary(const std::string& content, const char& delimiter, const Separator& separator);
+	std::map<std::string, Value> GetDictionary(std::string const& content, char const& delimiter, Separator const& separator);
 	template<typename Key, typename Value, typename Separator>
-	std::map<Key, Value> GetDictionary(const std::string& content, const char& delimiter, const Separator& separator);
+	std::map<Key, Value> GetDictionary(std::string const& content, char const& delimiter, Separator const& separator);
 
 	std::string Trim(std::string content);
 

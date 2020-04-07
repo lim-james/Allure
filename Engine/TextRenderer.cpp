@@ -22,7 +22,7 @@ void TextRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("TEXT_FONT", &TextRenderer::FontHandler, this);
 }
 
-void TextRenderer::Render(const RendererData& data) {
+void TextRenderer::Render(RendererData const& data) {
 	glDisable(GL_DEPTH_TEST);
 
 	shader->Use();
@@ -49,7 +49,7 @@ void TextRenderer::Render(const RendererData& data) {
 			std::vector<float> lineOffset;
 			vec2f size(0.f);
 
-			const auto& content = text->text;
+			auto const& content = text->text;
 
 			for (unsigned i = 0; i <= content.size(); ++i) {
 				auto& c = content[i];
@@ -104,7 +104,7 @@ void TextRenderer::Render(const RendererData& data) {
 					position.x = translation.x - lineOffset[++lineNumer];
 					break;
 				default:
-					const auto& character = font->characters[c];
+					auto const& character = font->characters[c];
 					const vec3f offset = character.rect.origin * scale;
 
 					mat4f model;

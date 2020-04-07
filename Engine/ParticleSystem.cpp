@@ -13,12 +13,12 @@ void ParticleSystem::Initialize() {
 	Events::EventsManager::GetInstance()->Subscribe("EMITTER_ACTIVE", &ParticleSystem::EmitterActiveHandler, this);
 }
 
-void ParticleSystem::Update(const float& dt) {
+void ParticleSystem::Update(float const& dt) {
 	for (auto& pair : particleGroups) {
 		auto& emitter = pair.first;
 		auto& group = pair.second;
 
-		const auto& position = entities->GetComponent<Transform>(emitter->entity)->GetWorldTranslation();
+		auto const& position = entities->GetComponent<Transform>(emitter->entity)->GetWorldTranslation();
 
 		if (group.size() > 1000) {
 			const unsigned threadCount = 8;

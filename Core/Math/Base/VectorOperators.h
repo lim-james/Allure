@@ -14,15 +14,15 @@ namespace Math {
 	// += vector
 	// += T
 	template<unsigned size, typename T>
-	inline vec<size, T> operator+(const vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline vec<size, T> operator+(vec<size, T> const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> operator+(const vec<size, T>& lhs, const T& rhs);
+	inline vec<size, T> operator+(vec<size, T> const& lhs, T const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> operator+(const T& lhs, const vec<size, T>& rhs);
+	inline vec<size, T> operator+(T const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T>& operator+=(vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline vec<size, T>& operator+=(vec<size, T>& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T>& operator+=(vec<size, T>& lhs, const T& rhs);
+	inline vec<size, T>& operator+=(vec<size, T>& lhs, T const& rhs);
 
 	// vector - vector
 	// vector - T
@@ -31,15 +31,15 @@ namespace Math {
 	// -= T
 
 	template<unsigned size, typename T>
-	inline vec<size, T> operator-(const vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline vec<size, T> operator-(vec<size, T> const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> operator-(const vec<size, T>& lhs, const T& rhs);
+	inline vec<size, T> operator-(vec<size, T> const& lhs, T const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> operator-(const T& lhs, const vec<size, T>& rhs);
+	inline vec<size, T> operator-(T const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T>& operator-=(vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline vec<size, T>& operator-=(vec<size, T>& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T>& operator-=(vec<size, T>& lhs, const T& rhs);
+	inline vec<size, T>& operator-=(vec<size, T>& lhs, T const& rhs);
 
 	// vector * vector
 	// vector * T
@@ -48,15 +48,15 @@ namespace Math {
 	// *= T
 
 	template<unsigned size, typename T>
-	inline vec<size, T> operator*(const vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline vec<size, T> operator*(vec<size, T> const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> operator*(const vec<size, T>& lhs, const T& rhs);
+	inline vec<size, T> operator*(vec<size, T> const& lhs, T const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> operator*(const T& lhs, const vec<size, T>& rhs);
+	inline vec<size, T> operator*(T const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T>& operator*=(vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline vec<size, T>& operator*=(vec<size, T>& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T>& operator*=(vec<size, T>& lhs, const T& rhs);
+	inline vec<size, T>& operator*=(vec<size, T>& lhs, T const& rhs);
 
 	// division
 	// vector / vector
@@ -66,36 +66,36 @@ namespace Math {
 	// /= T
 
 	template<unsigned size, typename T>
-	inline vec<size, T> operator/(const vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline vec<size, T> operator/(vec<size, T> const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> operator/(const vec<size, T>& lhs, const T& rhs);
+	inline vec<size, T> operator/(vec<size, T> const& lhs, T const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> operator/(const T& lhs, const vec<size, T>& rhs);
+	inline vec<size, T> operator/(T const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T>& operator/=(vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline vec<size, T>& operator/=(vec<size, T>& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline vec<size, T>& operator/=(vec<size, T>& lhs, const T& rhs);
+	inline vec<size, T>& operator/=(vec<size, T>& lhs, T const& rhs);
 
 	// unary operator
 	// negate
 
 	template<unsigned size, typename T>
-	inline vec<size, T> operator-(const vec<size, T>& lhs);
+	inline vec<size, T> operator-(vec<size, T> const& lhs);
 
 	// comparison operator
 	// equals
 	// not equals
 
 	template<unsigned size, typename T>
-	inline bool operator==(const vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline bool operator==(vec<size, T> const& lhs, vec<size, T> const& rhs);
 	template<unsigned size, typename T>
-	inline bool operator!=(const vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline bool operator!=(vec<size, T> const& lhs, vec<size, T> const& rhs);
 
 	// io operator
 	// << & >>
 
 	template<unsigned size, typename T>
-	std::ostream& operator<<(std::ostream& os, const vec<size, T>& v);
+	std::ostream& operator<<(std::ostream& os, vec<size, T> const& v);
 	template<unsigned size, typename T>
 	std::istream& operator>>(std::istream& is, vec<size, T>& v);
 
@@ -109,26 +109,26 @@ namespace Math {
 	// project
 
 	template<unsigned size, typename T>
-	inline vec<size, T> Abs(const vec<size, T>& v);
+	inline vec<size, T> Abs(vec<size, T> const& v);
 	// length
 	template<unsigned size, typename T>
-	inline T Length(const vec<size, T>& v);
+	inline T Length(vec<size, T> const& v);
 	template<unsigned size, typename T>
-	inline T LengthSquared(const vec<size, T>& v);
+	inline T LengthSquared(vec<size, T> const& v);
 	// normalize
 	template<unsigned size, typename T>
 	inline void Normalize(vec<size, T>& lhs);
 	template<unsigned size, typename T>
-	inline vec<size, T> Normalized(const vec<size, T>& lhs);
+	inline vec<size, T> Normalized(vec<size, T> const& lhs);
 	// dot
 	template<unsigned size, typename T>
-	inline T Dot(const vec<size, T>& lhs, const vec<size, T>& rhs);
+	inline T Dot(vec<size, T> const& lhs, vec<size, T> const& rhs);
 	// cross
 	template<typename T>
-	inline vec<3, T> Cross(const vec<3, T>& lhs, const vec<3, T>& rhs);
+	inline vec<3, T> Cross(vec<3, T> const& lhs, vec<3, T> const& rhs);
 	// project
 	template<unsigned size, typename T>
-	inline vec<size, T> Project(const vec<size, T>& v, const vec<size, T>& onto);
+	inline vec<size, T> Project(vec<size, T> const& v, vec<size, T> const& onto);
 
 }
 

@@ -17,7 +17,7 @@ public:
 	~SpriteAnimationSystem() override;
 
 	void Initialize() override;
-	void Update(const float& dt) override;
+	void Update(float const& dt) override;
 
 private:
 
@@ -28,8 +28,8 @@ private:
 	// helper methods
 
 	void ResetAnimation(SpriteAnimationData& animation);
-	void ProcessAnimation(SpriteAnimation* const component, SpriteAnimationData& animation);
-	void SetProperties(SpriteAnimation* const component, SpriteAnimationData& animation);
+	void ProcessAnimation(SpriteAnimation* component, SpriteAnimationData& animation);
+	void SetProperties(SpriteAnimation* component, SpriteAnimationData const& animation);
 
 };
 

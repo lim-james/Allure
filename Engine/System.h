@@ -14,7 +14,7 @@ public:
 	virtual ~System();
 
 	virtual void Initialize() = 0;
-	virtual void Update(const float& dt) = 0;
+	virtual void Update(float const& dt) = 0;
 
 	friend class SystemManager;
 

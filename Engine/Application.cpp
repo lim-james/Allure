@@ -13,7 +13,7 @@
 Application::Application()
 	: context(nullptr) {}
 
-void Application::Initialize(const int& width, const int& height, const char* title, const bool& fullscreen) {
+void Application::Initialize(int const& width, int const& height, const char* title, bool const& fullscreen) {
 	// initialize GLFW
 	if (!glfwInit()) {
 		Debug::Error << "GLFW INITIALISATION FAILED.\n";

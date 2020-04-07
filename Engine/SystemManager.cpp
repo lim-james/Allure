@@ -20,7 +20,7 @@ void SystemManager::Stop() {
 		Events::EventsManager::GetInstance()->UnsubscribeContext(systemPair.second);
 }
 
-void SystemManager::Update(const float & dt) {
+void SystemManager::Update(float const& dt) {
 	for (auto& frame : frameDelta) {
 		frame.second += dt;
 	}

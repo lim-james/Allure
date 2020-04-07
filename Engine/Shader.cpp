@@ -11,7 +11,7 @@ Shader::Shader()
 	: id(0)
 	, locations({}) {}
 
-Shader::Shader(const std::string & computePath) {
+Shader::Shader(std::string const& computePath) {
 	const unsigned computeShader = CreateShader(computePath, GL_COMPUTE_SHADER);
 
 	id = glCreateProgram();
@@ -28,7 +28,7 @@ Shader::Shader(const std::string & computePath) {
 	}
 }
 
-Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
+Shader::Shader(std::string const& vertexPath, std::string const& fragmentPath) {
 	const unsigned vertexShader = CreateShader(vertexPath, GL_VERTEX_SHADER);
 	const unsigned fragmentShader = CreateShader(fragmentPath, GL_FRAGMENT_SHADER);
 
@@ -47,7 +47,7 @@ Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
 	}
 }
 
-Shader::Shader(const std::string & vertexPath, const std::string & geometryPath, const std::string & fragmentPath) {
+Shader::Shader(std::string const& vertexPath, std::string const& geometryPath, std::string const& fragmentPath) {
 	const unsigned vertexShader = CreateShader(vertexPath, GL_VERTEX_SHADER);
 	const unsigned geometryShader = CreateShader(geometryPath, GL_GEOMETRY_SHADER);
 	const unsigned fragmentShader = CreateShader(fragmentPath, GL_FRAGMENT_SHADER);
@@ -73,7 +73,7 @@ Shader::~Shader() {
 	locations.clear();
 }
 
-const unsigned& Shader::GetID() const {
+unsigned const& Shader::GetID() const {
 	return id;
 }
 
@@ -85,31 +85,31 @@ void Shader::Delete() const {
 	glDeleteProgram(id);
 }
 
-void Shader::SetInt(const std::string& name, const int& value) {
+void Shader::SetInt(std::string const& name, int const& value) {
 	glUniform1i(GetUniformLocation(name), value);
 }
 
-void Shader::SetFloat(const std::string& name, const float& value) {
+void Shader::SetFloat(std::string const& name, float const& value) {
 	glUniform1f(GetUniformLocation(name), value);
 }
 
-void Shader::SetVector2(const std::string& name, const vec2f& value) {
+void Shader::SetVector2(std::string const& name, vec2f const& value) {
 	glUniform2fv(GetUniformLocation(name), 1, &value.x);
 }
 
-void Shader::SetVector3(const std::string& name, const vec3f& value) {
+void Shader::SetVector3(std::string const& name, vec3f const& value) {
 	glUniform3fv(GetUniformLocation(name), 1, &value.x);
 }
 
-void Shader::SetVector4(const std::string& name, const vec4f& value) {
+void Shader::SetVector4(std::string const& name, vec4f const& value) {
 	glUniform4fv(GetUniformLocation(name), 1, &value.x);
 }
 
-void Shader::SetMatrix4(const std::string& name, const mat4f& value) {
+void Shader::SetMatrix4(std::string const& name, mat4f const& value) {
 	glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &value.a[0]);
 }
 
-unsigned Shader::CreateShader(const std::string& path, const int& type) {
+unsigned Shader::CreateShader(std::string const& path, int const& type) {
 	const unsigned shader = glCreateShader(type);
 
 	std::ifstream ifs(path);
@@ -144,7 +144,7 @@ unsigned Shader::CreateShader(const std::string& path, const int& type) {
 	return shader;
 }
 
-int Shader::GetUniformLocation(const std::string& name) {
+int Shader::GetUniformLocation(std::string const& name) {
 	if (locations.find(name) == locations.end()) {
 		const int result = glGetUniformLocation(id, name.c_str());
 
