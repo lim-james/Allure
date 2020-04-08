@@ -1,7 +1,7 @@
 #include "ButtonAnimation.h"
 
 void ButtonAnimation::Awake() {
-	render = GetComponent<Render>();
+	render = GetComponent<SpriteRender>();
 	animation = GetComponent<Animation>();
 	button = GetComponent<Button>();
 

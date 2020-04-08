@@ -32,13 +32,6 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 
 	auto em = Events::EventsManager::GetInstance();
 
-	em->Subscribe("CLOSE", &Window::Close, context);
-	em->Subscribe("KEY_INPUT", &Application::OnEvent, this);
-	em->Subscribe("TEXT_INPUT", &Application::OnEvent, this);
-	em->Subscribe("CURSOR_POSITION_INPUT", &Application::OnEvent, this);
-	em->Subscribe("MOUSE_BUTTON_INPUT", &Application::OnEvent, this);
-	em->Subscribe("SCROLL_INPUT", &Application::OnEvent, this);
-
 #if _DEBUG
 	em->Subscribe("TIMER_START", &Application::OnTimerEvent, this);
 	em->Subscribe("TIMER_STOP", &Application::OnTimerEvent, this);
@@ -80,23 +73,6 @@ void Application::Exit() {
 	Load::ClearFontCache();
 
 	Events::EventsManager::Destroy();
-}
-
-void Application::OnEvent(Events::Event* event) {
-	if (event->name == "KEY_INPUT") {
-		Events::KeyInput* input = static_cast<Events::KeyInput*>(event);
-		// quit program if escaped
-		if (input->key == GLFW_KEY_ESCAPE && input->action == GLFW_RELEASE) {
-			Events::EventsManager::GetInstance()->Trigger("CLOSE");
-			return;
-		}
-	} else if (event->name == "CURSOR_POSITION_INPUT") {
-		Events::CursorPositionInput* input = static_cast<Events::CursorPositionInput*>(event);
-	} else if (event->name == "MOUSE_BUTTON_INPUT") {
-		Events::MouseButtonInput* input = static_cast<Events::MouseButtonInput*>(event);
-	} else if (event->name == "SCROLL_INPUT") {
-		Events::ScrollInput* input = static_cast<Events::ScrollInput*>(event);
-	}
 }
 
 #if _DEBUG

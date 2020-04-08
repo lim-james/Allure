@@ -94,6 +94,9 @@
     <Filter Include="Engine\Render\Renderers">
       <UniqueIdentifier>{ef12592a-0374-4fa0-a9ef-e3fccbbf75e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Render\Components">
+      <UniqueIdentifier>{e9af40a5-43d5-4c56-a67d-315df88acea7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -119,9 +122,6 @@
     </ClCompile>
     <ClCompile Include="SystemManager.cpp">
       <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>Engine\Render</Filter>
@@ -237,14 +237,17 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine\Render\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="StandardRenderer.cpp">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClCompile>
     <ClCompile Include="LineRenderer.cpp">
       <Filter>Engine\Render\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Engine\Render\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRender.cpp">
+      <Filter>Engine\Render\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,9 +274,6 @@
     </ClInclude>
     <ClInclude Include="System.h">
       <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="RenderSystem.h">
       <Filter>Engine\Render</Filter>
@@ -401,14 +401,20 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine\Render\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="StandardRenderer.h">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClInclude>
     <ClInclude Include="LineRenderer.h">
       <Filter>Engine\Render\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
       <Filter>Engine\Render\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRender.h">
+      <Filter>Engine\Render\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Layers.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

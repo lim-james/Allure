@@ -6,7 +6,7 @@
 #include "ParticleEmitter.h"
 #include "Animation.h"
 #include "Text.h"
-#include "Render.h"
+#include "SpriteRender.h"
 #include "Button.h"
 
 struct TitleTransition : Script {
@@ -14,7 +14,7 @@ struct TitleTransition : Script {
 	ParticleEmitter* emitter;
 	Transform* titleTransform;
 	Transform* buttonTransform;
-	Render* grid;
+	SpriteRender* grid;
 
 private:
 
@@ -25,7 +25,7 @@ private:
 
 	Button* button;
 	Animation* buttonAnimation;
-	Render* buttonRender;
+	SpriteRender* buttonRender;
 
 	// attributes
 

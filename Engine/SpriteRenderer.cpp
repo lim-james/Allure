@@ -1,4 +1,4 @@
-#include "StandardRenderer.h"
+#include "SpriteRenderer.h"
 
 #include "Transform.h"
 
@@ -6,14 +6,14 @@
 #include <Events/EventsManager.h>
 #include <GL/glew.h>
 
-unsigned StandardRenderer::instanceBuffer = 0;
-unsigned StandardRenderer::quadVAO = 0;
+unsigned SpriteRenderer::instanceBuffer = 0;
+unsigned SpriteRenderer::quadVAO = 0;
 
-StandardRenderer::~StandardRenderer() {
+SpriteRenderer::~SpriteRenderer() {
 	delete shader;
 }
 
-void StandardRenderer::Initialize(EntityManager * const manager) {
+void SpriteRenderer::Initialize(EntityManager * const manager) {
 	Renderer::Initialize(manager);
 
 	if (instanceBuffer == 0)
@@ -26,11 +26,11 @@ void StandardRenderer::Initialize(EntityManager * const manager) {
 	shader->Use();
 	shader->SetInt("tex", 0);
 
-	Events::EventsManager::GetInstance()->Subscribe("RENDER_ACTIVE", &StandardRenderer::ActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("TEXTURE_CHANGE", &StandardRenderer::TextureChangeHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("SPRITE_RENDER_ACTIVE", &SpriteRenderer::ActiveHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("TEXTURE_CHANGE", &SpriteRenderer::TextureChangeHandler, this);
 }
 
-void StandardRenderer::Render(RendererData const& data) {
+void SpriteRenderer::Render(RendererData const& data) {
 	shader->Use();
 	shader->SetMatrix4("projection", data.projection);
 	shader->SetMatrix4("view", data.view);
@@ -64,7 +64,7 @@ void StandardRenderer::Render(RendererData const& data) {
 
 		unsigned i, offset;
 		i = INSTANCE_LAYOUT_LOCATION;
-		offset = sizeof(::Render*);
+		offset = sizeof(SpriteRender*);
 
 		// rect	
 		glEnableVertexAttribArray(i);
@@ -91,8 +91,8 @@ void StandardRenderer::Render(RendererData const& data) {
 	}
 }
 
-void StandardRenderer::ActiveHandler(Events::Event * event) {
-	auto& c = static_cast<Events::AnyType<::Render*>*>(event)->data;
+void SpriteRenderer::ActiveHandler(Events::Event * event) {
+	auto& c = static_cast<Events::AnyType<::SpriteRender*>*>(event)->data;
 	auto& list = batches[c->GetTexture()];
 
 	if (c->IsActive()) {
@@ -106,7 +106,7 @@ void StandardRenderer::ActiveHandler(Events::Event * event) {
 	}
 }
 
-void StandardRenderer::TextureChangeHandler(Events::Event* event) {
+void SpriteRenderer::TextureChangeHandler(Events::Event* event) {
 	auto changeEvent = static_cast<Events::TextureChange*>(event);
 	auto& c = changeEvent->component;
 	
@@ -119,7 +119,7 @@ void StandardRenderer::TextureChangeHandler(Events::Event* event) {
 	}
 }
 
-void StandardRenderer::GenerateQuad() {
+void SpriteRenderer::GenerateQuad() {
 	float quadVertices[] = {
 		-0.5f, 0.5f,
 		-0.5f, -0.5f,

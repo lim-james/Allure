@@ -16,6 +16,9 @@ public:
 	virtual void Initialize() = 0;
 	virtual void Update(float const& dt) = 0;
 
+	virtual void Start();
+	virtual void Stop();
+
 	friend class SystemManager;
 
 };

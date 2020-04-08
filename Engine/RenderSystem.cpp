@@ -33,7 +33,7 @@ void RenderSystem::Initialize() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	renderers.push_back(new StandardRenderer);
+	renderers.push_back(new SpriteRenderer);
 	renderers.push_back(new LineRenderer);
 	renderers.push_back(new TextRenderer);
 
@@ -101,6 +101,22 @@ void RenderSystem::Update(float const& dt) {
 			r->Render(data);
 		}
 	}
+}
+
+void RenderSystem::Start() {
+	System::Start();
+
+	auto manager = Events::EventsManager::GetInstance();
+	for (auto& r : renderers)
+		manager->SubscribeContext(r);
+}
+
+void RenderSystem::Stop() {
+	System::Stop();
+
+	auto manager = Events::EventsManager::GetInstance();
+	for (auto& r : renderers)
+		manager->UnsubscribeContext(r);
 }
 
 void RenderSystem::CameraActiveHandler(Events::Event* event) {

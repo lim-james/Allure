@@ -1,14 +1,14 @@
-#ifndef STANDARD_RENDERER_H
-#define STANDARD_RENDERER_H
+#ifndef SPRITE_RENDERER_H
+#define SPRITE_RENDERER_H
 
 #include "Renderer.h"
 #include "Shader.h"
-#include "Render.h"
+#include "SpriteRender.h"
 
 #include <Events/Event.h>
 
 struct Instance {
-	Render* component;
+	SpriteRender* component;
 	vec4f uvRect;
 	vec4f tint;
 	mat4f model;
@@ -18,7 +18,7 @@ bool operator==(Instance const& lhs, Instance const& rhs);
 
 typedef std::map<unsigned, std::vector<Instance>> Batches;
 
-class StandardRenderer: public Renderer {
+class SpriteRenderer: public Renderer {
 
 	static const unsigned INSTANCE_LAYOUT_LOCATION = 2;
 	static unsigned instanceBuffer;
@@ -29,7 +29,7 @@ class StandardRenderer: public Renderer {
 
 public:
 
-	~StandardRenderer() override;
+	~SpriteRenderer() override;
 
 	void Initialize(EntityManager* const manager) override;
 	void Render(RendererData const& data) override;

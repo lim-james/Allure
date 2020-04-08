@@ -1,7 +1,7 @@
 #include "TitleScene.h"
 
 // components
-#include "Render.h"
+#include "SpriteRender.h"
 #include "ButtonAnimation.h"
 #include "FollowCursor.h"
 #include "TitleTransition.h"
@@ -42,7 +42,7 @@ void TitleScene::Create() {
 		auto transform = entities->GetComponent<Transform>(entity);
 		transform->scale = vec3f(80.0f, 45.0f, 0.0f);
 
-		auto render = entities->AddComponent<Render>(entity);
+		auto render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetTexture("Files/Textures/tile.tga");
 		render->SetCellRect(0, 0, 32, 18);
@@ -77,7 +77,7 @@ void TitleScene::Create() {
 		transform->scale = vec3f(7.f, 1.5f, 0.f);
 		transition->buttonTransform = transform;
 
-		auto render = entities->AddComponent<Render>(entity);
+		auto render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->tint = vec4f(1.f, 1.f, 1.f, 0.5f);
 
@@ -113,7 +113,7 @@ void TitleScene::Create() {
 		emitter->lifetime = 5.f;
 		emitter->lifetimeRange = 0.5f;
 
-		emitter->positionRange = vec3f(1.f, 1.f, 0.f);
+		emitter->positionRange = vec3f(0.f);
 
 		emitter->angleRange = 180.f;
 

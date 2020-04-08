@@ -6,6 +6,7 @@
 #include <Events/Event.h>
 #include <Math/Vectors.h>
 #include <Math/Mat4.hpp>
+#include <Bit/BitField.h>
 
 struct Camera : Component {
 
@@ -13,6 +14,8 @@ struct Camera : Component {
 
 	float nearPlane;
 	float farPlane;
+
+	BitField cullingMask;
 
 	Camera();
 	~Camera();

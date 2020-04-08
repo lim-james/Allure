@@ -1,16 +1,20 @@
 #include "Camera.h"
 
+#include "Layers.h"
+
 #include <Events/EventsManager.h>
 #include <Math/Mat4Transform.hpp>
 
 Camera::Camera()
 	: clearColor(0.f)
 
-	, size(5.f)
-	, match(0.f)
-
 	, nearPlane(0.1f)
 	, farPlane(100.0f)
+
+	, cullingMask(DEFAULT)
+
+	, size(5.f)
+	, match(0.f)
 
 	, depth(0.0f)
 	, viewportRect(0.0f, 0.0f, 1.0f, 1.0f)
@@ -34,6 +38,8 @@ void Camera::Initialize() {
 
 	size = 5.f;
 	match = 0.f;
+
+	cullingMask.Set(DEFAULT);
 
 	nearPlane = 0.1f;
 	farPlane = 100.0f;

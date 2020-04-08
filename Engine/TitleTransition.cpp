@@ -52,7 +52,7 @@ void TitleTransition::Start() {
 
 	button = entities->GetComponent<Button>(buttonTransform->entity);
 	buttonAnimation = entities->GetComponent<Animation>(buttonTransform->entity);
-	buttonRender = entities->GetComponent<Render>(buttonTransform->entity);
+	buttonRender = entities->GetComponent<SpriteRender>(buttonTransform->entity);
 
 	transitionDelay = 0.0f;
 }

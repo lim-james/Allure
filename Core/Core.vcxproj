@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bit\BitField.h" />
     <ClInclude Include="Containers\Comparator.h" />
     <ClInclude Include="Encoding\AENotation.hpp" />
     <ClInclude Include="Encoding\AEObject.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="Types\Rect.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bit\BitField.cpp" />
     <ClCompile Include="Encoding\AENotation.cpp" />
     <ClCompile Include="Encoding\AEObject.cpp" />
     <ClCompile Include="Events\EventsManager.cpp" />

@@ -1,31 +1,31 @@
-#ifndef RENDER_H
-#define RENDER_H
+#ifndef SPRITE_RENDER_H
+#define SPRITE_RENDER_H
 
 #include "Component.h"
 
 #include <Math/Vectors.h>
 #include <Events/Event.h>
 
-struct Render;
+struct SpriteRender;
 
 namespace Events {
 	struct TextureChange : Event {
 		const unsigned previous;
-		Render * const component;
+		SpriteRender * const component;
 
-		TextureChange(unsigned const& previous, Render * const component)
+		TextureChange(unsigned const& previous, SpriteRender * const component)
 			: previous(previous)
 			, component(component) {}
 	};
 }
 
-struct Render : Component {
+struct SpriteRender : Component {
 
 	// size of UV in tilemap
 	vec4f uvRect;
 	vec4f tint;
 
-	Render();
+	SpriteRender();
 
 	void Initialize() override;
 	Component* Clone() const override;

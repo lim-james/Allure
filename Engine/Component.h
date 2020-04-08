@@ -1,6 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <Bit/BitField.h>
 #include <Encoding/AEObject.h>
 
 #define ACTIVE_BIT	0b1
@@ -27,7 +28,7 @@ struct Component : AEObject {
 
 private:
 
-	unsigned flags;
+	BitField flags;
 
 };
 

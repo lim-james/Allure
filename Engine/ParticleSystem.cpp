@@ -1,7 +1,7 @@
 #include "ParticleSystem.h"
 
 #include "Transform.h"
-#include "Render.h"
+#include "SpriteRender.h"
 
 #include <Events/EventsManager.h>
 #include <Math/Random.hpp>
@@ -33,7 +33,7 @@ void ParticleSystem::Update(float const& dt) {
 						const auto entity = group[i];
 						auto particle = entities->GetComponent<Particle>(entity);
 						auto transform = entities->GetComponent<Transform>(entity);
-						auto render = entities->GetComponent<Render>(entity);
+						auto render = entities->GetComponent<SpriteRender>(entity);
 
 						transform->translation += particle->velocity * dt;
 						particle->velocity += emitter->gravity * dt;
@@ -66,7 +66,7 @@ void ParticleSystem::Update(float const& dt) {
 				const auto entity = group[i];
 				auto particle = entities->GetComponent<Particle>(entity);
 				auto transform = entities->GetComponent<Transform>(entity);
-				auto render = entities->GetComponent<Render>(entity);
+				auto render = entities->GetComponent<SpriteRender>(entity);
 
 				transform->translation += particle->velocity * dt;
 				particle->velocity += emitter->gravity * dt;
@@ -111,7 +111,7 @@ void ParticleSystem::Update(float const& dt) {
 				const auto entity = group[i];
 				auto particle = entities->GetComponent<Particle>(entity);
 				auto transform = entities->GetComponent<Transform>(entity);
-				auto render = entities->GetComponent<Render>(entity);
+				auto render = entities->GetComponent<SpriteRender>(entity);
 
 				transform->translation += particle->velocity * dt;
 				particle->velocity += emitter->gravity * dt;
@@ -168,7 +168,7 @@ void ParticleSystem::Update(float const& dt) {
 
 				auto particle = entities->GetComponent<Particle>(entity);
 				auto transform = entities->GetComponent<Transform>(entity);
-				auto render = entities->GetComponent<Render>(entity);
+				auto render = entities->GetComponent<SpriteRender>(entity);
 
 				particle->age = 0.f;
 				particle->lifetime = emitter->lifetime + Math::RandMinMax(-emitter->lifetimeRange, emitter->lifetimeRange);
@@ -242,7 +242,7 @@ void ParticleSystem::EmitterActiveHandler(Events::Event* event) {
 
 unsigned ParticleSystem::CreateParticle() const {
 	const unsigned id = entities->Create();
-	entities->AddComponent<Render>(id); //->SetActive(true);
-	entities->AddComponent<Particle>(id); //->SetActive(true);
+	entities->AddComponent<SpriteRender>(id);
+	entities->AddComponent<Particle>(id); 
 	return id;
 }

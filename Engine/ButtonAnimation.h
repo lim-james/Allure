@@ -4,7 +4,7 @@
 #include "Script.h"
 
 // components
-#include "Render.h"
+#include "SpriteRender.h"
 #include "Animation.h"
 #include "Button.h"
 
@@ -12,7 +12,7 @@ struct ButtonAnimation : Script {
 
 private:
 
-	Render* render;
+	SpriteRender* render;
 	Animation* animation;
 	Button* button;
 

@@ -15,7 +15,12 @@
 
 class EntityManager {
 
-	std::vector<std::map<unsigned, Component*>> entities;
+	struct Entity {
+		unsigned layer;
+		std::map<unsigned, Component*> components;
+	};
+
+	std::vector<Entity> entities;
 
 	std::vector<unsigned> used;
 	std::vector<unsigned> unused;
@@ -28,12 +33,13 @@ public:
 
 	void Destroy(unsigned const& id);
 
+	void SetLayer(unsigned const& id, unsigned const& layer);
+	unsigned const& GetLayer(unsigned const& id);
+
 	template<typename ComponentType>
 	ComponentType* AddComponent(unsigned const& id);
-
 	template<typename ComponentType>
 	bool HasComponent(unsigned const& id);
-
 	template<typename ComponentType>
 	ComponentType* GetComponent(unsigned const& id);
 
@@ -51,14 +57,15 @@ ComponentType * EntityManager::AddComponent(unsigned const& id) {
 		return nullptr;
 
 	const unsigned hash = hashof(ComponentType);
+	auto& components = entities[id].components;
 
 	if (HasComponent<ComponentType>(id))
-		return static_cast<ComponentType*>(entities[id][hash]);
+		return static_cast<ComponentType*>(components[hash]);
 
 	ComponentType* c = new ComponentType;
 	c->entity = id;
 	c->Initialize();
-	entities[id][hash] = c;
+	components[hash] = c;
 
 	return c;
 }
@@ -68,7 +75,7 @@ bool EntityManager::HasComponent(unsigned const& id) {
 	if (id >= entities.size())
 		return false;
 
-	return entities[id][hashof(ComponentType)] != nullptr;
+	return entities[id].components[hashof(ComponentType)] != nullptr;
 }
 
 template<typename ComponentType>
@@ -76,7 +83,8 @@ ComponentType* EntityManager::GetComponent(unsigned const& id) {
 	if (id >= entities.size())
 		return nullptr;
 
-	Component* const c = entities[id][hashof(ComponentType)];
+	auto& components = entities[id].components;
+	Component* const c = components[hashof(ComponentType)];
 	return c ? static_cast<ComponentType*>(c) : nullptr;
 }
 

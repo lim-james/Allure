@@ -2,15 +2,11 @@
 #define RENDER_SYSTEM_H
 
 #include "System.h"
-#include "Render.h"
 #include "Camera.h"
-#include "Text.h"
-#include "Shader.h"
-#include "Line.h"
 #include "Framebuffer.h"
 
 // renderers
-#include "StandardRenderer.h"
+#include "SpriteRenderer.h"
 #include "LineRenderer.h"
 #include "TextRenderer.h"
 
@@ -35,6 +31,9 @@ public:
 
 	void Initialize() override;
 	void Update(float const& dt) override;
+
+	void Start() override;
+	void Stop() override;
 
 private:
 

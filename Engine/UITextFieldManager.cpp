@@ -2,7 +2,7 @@
 
 // components
 #include "Transform.h"
-#include "Render.h"
+#include "SpriteRender.h"
 #include "Text.h"
 #include "Button.h"
 // evnets
@@ -20,7 +20,7 @@ UITextFieldManager::UITextFieldManager(EntityManager * const entities)
 	auto transform = entities->GetComponent<Transform>(cursor);
 	transform->scale = vec3f(0.1f, 0.7f, 1.0f);
 
-	auto render = entities->AddComponent<Render>(cursor);
+	auto render = entities->AddComponent<SpriteRender>(cursor);
 	render->SetActive(true);
 	render->tint = vec4f(1.0f);
 
@@ -35,7 +35,7 @@ unsigned UITextFieldManager::Create(vec3f const& position, const vec3f size, Fon
 	transform->translation = position;
 	transform->scale = size;
 
-	auto render = entities->AddComponent<Render>(textField);
+	auto render = entities->AddComponent<SpriteRender>(textField);
 	render->SetActive(true);
 	render->tint = vec4f(0.2f, 0.2f, 0.2f, 0.0f);
 
@@ -55,7 +55,7 @@ unsigned UITextFieldManager::Create(vec3f const& position, const vec3f size, Fon
 }
 
 void UITextFieldManager::Update(float const& dt) {
-	entities->GetComponent<Render>(cursor)->tint.a = abs(sin(et * 3.f)) * static_cast<float>(active > 0);
+	entities->GetComponent<SpriteRender>(cursor)->tint.a = abs(sin(et * 3.f)) * static_cast<float>(active > 0);
 	et += dt;
 }
 

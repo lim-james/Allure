@@ -12,12 +12,12 @@ SystemManager::~SystemManager() {
 void SystemManager::Start() {
 	frame = frameLayout.begin();
 	for (auto& systemPair : systems)
-		Events::EventsManager::GetInstance()->SubscribeContext(systemPair.second);
+		systemPair.second->Start();
 }
 
 void SystemManager::Stop() {
 	for (auto& systemPair : systems)
-		Events::EventsManager::GetInstance()->UnsubscribeContext(systemPair.second);
+		systemPair.second->Stop();
 }
 
 void SystemManager::Update(float const& dt) {

@@ -1,6 +1,6 @@
 #include "SpriteAnimationSystem.h"
 
-#include "Render.h"
+#include "SpriteRender.h"
 
 #include <Events/EventsManager.h>
 
@@ -63,6 +63,6 @@ void SpriteAnimationSystem::ProcessAnimation(SpriteAnimation* component, SpriteA
 }
 
 void SpriteAnimationSystem::SetProperties(SpriteAnimation* component, SpriteAnimationData const& animation) {
-	auto render = entities->GetComponent<Render>(component->entity);
+	auto render = entities->GetComponent<SpriteRender>(component->entity);
 	render->uvRect = animation.frames[animation.currentFrame].uvRect;
 }

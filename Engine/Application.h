@@ -37,8 +37,6 @@ public:
 
 private:
 
-	void OnEvent(Events::Event* event);
-
 #if _DEBUG
 	void OnTimerEvent(Events::Event* event);
 #endif

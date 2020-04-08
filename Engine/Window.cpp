@@ -28,6 +28,7 @@ Window::Window(int const& width, int const& height, const char* title, bool cons
 
 	glfwSetWindowSizeCallback(window, Window::Resize);
 
+	Events::EventsManager::GetInstance()->Subscribe("CLOSE_WINDOW", &Window::Close, this);
 	Events::EventsManager::GetInstance()->Subscribe("_WINDOW_RESIZE", &Window::ResizeHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("BROADCAST_SIZE", &Window::BroadcastSize, this);
 	Events::EventsManager::GetInstance()->Subscribe("GET_WINDOW_SIZE", &Window::GetSizeHandler, this);

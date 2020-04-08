@@ -7,19 +7,19 @@ Component::Component()
 Component::~Component() {}
 
 bool Component::IsActive() const {
-	return flags & ACTIVE_BIT;
+	return flags.Is(ACTIVE_BIT);
 }
 
 void Component::SetActive(bool const& state) {
-	flags = (flags & !ACTIVE_BIT) | (ACTIVE_BIT * state);
+	flags.Set(ACTIVE_BIT, state);
 }
 
 bool Component::IsDynamic() const {
-	return flags & DYNAMIC_BIT;
+	return flags.Is(DYNAMIC_BIT);
 }
 
 void Component::SetDynamic(bool const& state) {
-	flags = (flags & !DYNAMIC_BIT) | (DYNAMIC_BIT * state);
+	flags.Set(DYNAMIC_BIT, state);
 }
 
 void Component::Unpack(AENotation const& data) {
