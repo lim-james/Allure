@@ -13,7 +13,7 @@
 
 class ButtonSystem : public System {
 
-	std::map<Button*, bool> states;
+	std::map<Button*, std::map<int, bool>> states;
 	std::vector<Button*> buttons;
 	std::vector<Camera*> cameras;
 

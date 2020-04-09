@@ -6,12 +6,13 @@
 #include <Math/Mat4Transform.hpp>
 
 Camera::Camera()
-	: clearColor(0.f)
+	: shouldClear(true)
+	, clearColor(0.f)
 
 	, nearPlane(0.1f)
 	, farPlane(100.0f)
 
-	, cullingMask(DEFAULT)
+	, cullingMask(DEFAULT | UI)
 
 	, size(5.f)
 	, match(0.f)
@@ -34,12 +35,13 @@ Camera::Camera()
 Camera::~Camera() {}
 
 void Camera::Initialize() {
+	shouldClear = true;
 	clearColor = vec4f(0.f);
 
 	size = 5.f;
 	match = 0.f;
 
-	cullingMask.Set(DEFAULT);
+	cullingMask.Set(DEFAULT | UI);
 
 	nearPlane = 0.1f;
 	farPlane = 100.0f;

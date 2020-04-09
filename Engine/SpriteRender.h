@@ -6,19 +6,6 @@
 #include <Math/Vectors.h>
 #include <Events/Event.h>
 
-struct SpriteRender;
-
-namespace Events {
-	struct TextureChange : Event {
-		const unsigned previous;
-		SpriteRender * const component;
-
-		TextureChange(unsigned const& previous, SpriteRender * const component)
-			: previous(previous)
-			, component(component) {}
-	};
-}
-
 struct SpriteRender : Component {
 
 	// size of UV in tilemap
@@ -31,20 +18,30 @@ struct SpriteRender : Component {
 	Component* Clone() const override;
 	void SetActive(bool const& state) override;
 
-	unsigned const& GetTexture() const;
-	void SetTexture(unsigned const& _texture);
-	void SetTexture(std::string const& _texture);
+	unsigned const& GetSprite() const;
+	void SetSprite(unsigned const& _sprite);
 
 	void SetTilemapSize(int const& width, int const& height);
 	void SetCellRect(int const& x, int const& y, int const& width, int const& height);
 
 private:
 
-	unsigned texture;
+	unsigned sprite;
 
 	vec2f tilemapUnit;
 	vec4f cellRect;
 
 };
+
+namespace Events {
+	struct SpriteChange : Event {
+		const unsigned previous;
+		SpriteRender * const component;
+
+		SpriteChange(unsigned const& previous, SpriteRender * const component)
+			: previous(previous)
+			, component(component) {}
+	};
+}
 
 #endif

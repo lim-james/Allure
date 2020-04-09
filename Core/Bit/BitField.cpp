@@ -18,6 +18,11 @@ void BitField::Set(unsigned const & flags) {
 	field = flags;
 }
 
+BitField & BitField::operator=(unsigned const & field) {
+	this->field = field;
+	return *this;
+}
+
 std::ostream & operator<<(std::ostream & os, BitField const & value) {
 	os << value.field;
 	return os;
@@ -49,7 +54,22 @@ bool operator==(BitField const & field, unsigned const & flag) {
 	return field.field & flag;
 }
 
-bool operator==(BitField const & lhs, BitField const & rhs)
-{
+bool operator==(unsigned const & flag, BitField const & field) {
+	return field.field & flag;
+}
+
+bool operator==(BitField const & lhs, BitField const & rhs) {
 	return lhs.field == rhs.field;
+}
+
+bool operator!=(BitField const & field, unsigned const & flag) {
+	return ~field.field & flag;
+}
+
+bool operator!=(unsigned const & flag, BitField const & field) {
+	return ~field.field & flag;
+}
+
+bool operator!=(BitField const & lhs, BitField const & rhs) {
+	return lhs.field != rhs.field;
 }

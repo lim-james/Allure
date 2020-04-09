@@ -16,6 +16,8 @@ public:
 	void Set(unsigned const& flag, bool const& state);
 	void Set(unsigned const& flags);
 
+	BitField& operator=(unsigned const& field);
+
 	friend std::ostream& operator<<(std::ostream& os, BitField const& value);
 
 	friend BitField operator+(BitField const& field, unsigned const& flag);
@@ -26,7 +28,12 @@ public:
 	friend BitField& operator-=(BitField& field, unsigned const& flag);
 
 	friend bool operator==(BitField const& field, unsigned const& flag);
+	friend bool operator==(unsigned const& flag, BitField const& field);
 	friend bool operator==(BitField const& lhs, BitField const& rhs);
+
+	friend bool operator!=(BitField const& field, unsigned const& flag);
+	friend bool operator!=(unsigned const& flag, BitField const& field);
+	friend bool operator!=(BitField const& lhs, BitField const& rhs);
 
 };
 #endif

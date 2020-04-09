@@ -29,7 +29,11 @@ void ButtonSystem::Update(float const& dt) {
 		for (auto& button : buttons) {
 			if (!button->isEnabled) continue;
 
-			auto& prev = states[button];
+			if (entities->GetLayer(button->entity) != cam->cullingMask) {
+				continue;
+			}
+
+			auto& prev = states[button][cam->entity];
 
 			auto transform = entities->GetComponent<Transform>(button->entity);
 			const vec2f position = transform->GetWorldTranslation();
@@ -60,8 +64,6 @@ void ButtonSystem::Update(float const& dt) {
 				}
 			}
 		}
-
-		break;
 	}
 
 	for (auto& action : mouseActions) {

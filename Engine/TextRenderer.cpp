@@ -41,6 +41,10 @@ void TextRenderer::Render(RendererData const& data) {
 		glBindVertexArray(font->VAO);
 
 		for (auto& text : textPair.second) {
+			if (entities->GetLayer(text->entity) != data.camera->cullingMask) {
+				continue;
+			}
+
 			shader->SetVector4("color", text->color);
 			auto transform = entities->GetComponent<Transform>(text->entity);
 

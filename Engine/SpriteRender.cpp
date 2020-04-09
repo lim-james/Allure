@@ -5,7 +5,7 @@
 #include <Events/EventsManager.h>
 
 SpriteRender::SpriteRender()
-	: texture(0)
+	: sprite(0)
 	, uvRect(vec2f(0.f), vec2f(1.f))
 	, tint(1.f)
 	, tilemapUnit(1.f)
@@ -13,7 +13,7 @@ SpriteRender::SpriteRender()
 }
 
 void SpriteRender::Initialize() {
-	SetTexture(0);
+	SetSprite(0);
 	uvRect = vec4f(vec2f(0.f), vec2f(1.f));
 	tint = vec4f(1.f);
 	tilemapUnit = vec2f(1.f);
@@ -29,21 +29,14 @@ void SpriteRender::SetActive(bool const& state) {
 	Events::EventsManager::GetInstance()->Trigger("SPRITE_RENDER_ACTIVE", new Events::AnyType<SpriteRender*>(this));
 }
 
-unsigned const& SpriteRender::GetTexture() const {
-	return texture;
+unsigned const& SpriteRender::GetSprite() const {
+	return sprite;
 }
 
-void SpriteRender::SetTexture(unsigned const& _texture) {
-	auto event = new Events::TextureChange(texture, this);
-	texture = _texture;
-	Events::EventsManager::GetInstance()->Trigger("TEXTURE_CHANGE", event);
-}
-
-void SpriteRender::SetTexture(std::string const& _texture) {
-	auto event = new Events::TextureChange(texture, this);
-	texture = Load::TGA(_texture);
-	Events::EventsManager::GetInstance()->Trigger("TEXTURE_CHANGE", event);
-
+void SpriteRender::SetSprite(unsigned const& _sprite) {
+	auto event = new Events::SpriteChange(sprite, this);
+	sprite = _sprite;
+	Events::EventsManager::GetInstance()->Trigger("SPRITE_CHANGE", event);
 }
 
 void SpriteRender::SetTilemapSize(int const& width, int const& height) {

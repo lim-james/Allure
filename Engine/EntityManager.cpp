@@ -56,7 +56,7 @@ void EntityManager::Expand() {
 	e.layer = DEFAULT;
 
 	const unsigned id = entities.size();
-	entities.push_back({});
+	entities.push_back(e);
 	unused.push_back(id);
 	AddComponent<Transform>(id);
 }

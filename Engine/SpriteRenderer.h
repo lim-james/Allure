@@ -8,15 +8,12 @@
 #include <Events/Event.h>
 
 struct Instance {
-	SpriteRender* component;
 	vec4f uvRect;
 	vec4f tint;
 	mat4f model;
 };
 
-bool operator==(Instance const& lhs, Instance const& rhs);
-
-typedef std::map<unsigned, std::vector<Instance>> Batches;
+typedef std::map<unsigned, std::vector<SpriteRender*>> Batches;
 
 class SpriteRenderer: public Renderer {
 
@@ -37,7 +34,7 @@ public:
 private:
 
 	void ActiveHandler(Events::Event* event);
-	void TextureChangeHandler(Events::Event* event);
+	void SpriteChangeHandler(Events::Event* event);
 		
 	void GenerateQuad();
 

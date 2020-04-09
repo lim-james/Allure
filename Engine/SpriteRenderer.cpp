@@ -27,7 +27,7 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 	shader->SetInt("tex", 0);
 
 	Events::EventsManager::GetInstance()->Subscribe("SPRITE_RENDER_ACTIVE", &SpriteRenderer::ActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("TEXTURE_CHANGE", &SpriteRenderer::TextureChangeHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("TEXTURE_CHANGE", &SpriteRenderer::SpriteChangeHandler, this);
 }
 
 void SpriteRenderer::Render(RendererData const& data) {
@@ -42,29 +42,34 @@ void SpriteRenderer::Render(RendererData const& data) {
 
 		if (batch.empty()) continue;
 
-		unsigned count = batch.size();
+		std::vector<Instance> instances;
+		instances.reserve(batch.size());
 
-		for (unsigned i = 0; i < count; ++i) {
-			auto& instance = batch[i];
-			auto& c = instance.component;
+		for (auto& c : batch) {
+			if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
+				continue;
+			}
 
 			auto transform = entities->GetComponent<Transform>(c->entity);
 
+			Instance instance;
 			instance.uvRect = c->uvRect;
 			instance.tint = c->tint;
 			instance.model = transform->GetWorldTransform();
+			instances.push_back(instance);
 		}
 
-		count = batch.size();
+		if (instances.empty()) continue;
+
+		const unsigned count = instances.size();
 		const unsigned unit = 4 * sizeof(float);
 		const unsigned stride = sizeof(Instance);
 
 		glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
-		glBufferData(GL_ARRAY_BUFFER, count * stride, &batch[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, count * stride, &instances[0], GL_STATIC_DRAW);
 
-		unsigned i, offset;
-		i = INSTANCE_LAYOUT_LOCATION;
-		offset = sizeof(SpriteRender*);
+		unsigned i = INSTANCE_LAYOUT_LOCATION;
+		unsigned offset = 0;
 
 		// rect	
 		glEnableVertexAttribArray(i);
@@ -93,29 +98,21 @@ void SpriteRenderer::Render(RendererData const& data) {
 
 void SpriteRenderer::ActiveHandler(Events::Event * event) {
 	auto& c = static_cast<Events::AnyType<::SpriteRender*>*>(event)->data;
-	auto& list = batches[c->GetTexture()];
+	auto& list = batches[c->GetSprite()];
 
 	if (c->IsActive()) {
-		Helpers::Insert(list, { 
-			c,
-			c->uvRect,
-			c->tint
-		});
+		Helpers::Insert(list, c);
 	} else {
-		Helpers::Remove(list, { c });
+		Helpers::Remove(list, c);
 	}
 }
 
-void SpriteRenderer::TextureChangeHandler(Events::Event* event) {
-	auto changeEvent = static_cast<Events::TextureChange*>(event);
+void SpriteRenderer::SpriteChangeHandler(Events::Event* event) {
+	auto changeEvent = static_cast<Events::SpriteChange*>(event);
 	auto& c = changeEvent->component;
 	
-	if (Helpers::Remove(batches[changeEvent->previous], { c })) {
-		batches[c->GetTexture()].push_back({
-			c,
-			c->uvRect,
-			c->tint
-		});
+	if (Helpers::Remove(batches[changeEvent->previous], c)) {
+		batches[c->GetSprite()].push_back(c);
 	}
 }
 

@@ -10,6 +10,7 @@
 
 struct Camera : Component {
 
+	bool shouldClear;
 	vec4f clearColor;
 
 	float nearPlane;

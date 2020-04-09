@@ -222,7 +222,7 @@ void ParticleSystem::Update(float const& dt) {
 				);
 
 				render->tint = particle->startColor;
-				render->SetTexture(emitter->texture);
+				render->SetSprite(emitter->texture);
 
 				render->SetActive(true);
 				particle->SetActive(true);

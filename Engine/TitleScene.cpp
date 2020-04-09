@@ -10,7 +10,9 @@
 #include "ParticleSystem.h"
 #include "AnimationSystem.h"
 // Utils
+#include "Layers.h"
 #include "LoadFNT.h"
+#include "LoadTGA.h"
 
 void TitleScene::Awake() {
 	Scene::Awake();
@@ -23,12 +25,29 @@ void TitleScene::Awake() {
 void TitleScene::Create() {
 	Scene::Create();
 
-	Camera* camera = entities->GetComponent<Camera>(mainCamera);
-	camera->SetSize(10.f);
-
 	// fonts
 	auto microsoft = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
 	auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
+
+	Camera* camera = entities->GetComponent<Camera>(mainCamera);
+	camera->SetSize(10.f);
+	camera->cullingMask -= UI;
+
+	// UI Camera
+	{
+		const unsigned entity = entities->Create();
+
+		auto transform = entities->GetComponent<Transform>(entity);
+		transform->translation.z = 10.f;
+
+		auto camera = entities->AddComponent<Camera>(entity);
+		camera->SetActive(true);
+		camera->SetSize(10.f);
+		camera->SetDepth(1);
+		camera->shouldClear = false;
+		camera->clearColor = vec4f(0.f);
+		camera->cullingMask = UI;
+	}
 
 	// manager 
 	const unsigned manager = entities->Create();
@@ -44,7 +63,7 @@ void TitleScene::Create() {
 
 		auto render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
-		render->SetTexture("Files/Textures/tile.tga");
+		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
 		render->SetCellRect(0, 0, 32, 18);
 		render->tint.a = 0.1f;
 		transition->grid = render;
@@ -53,6 +72,7 @@ void TitleScene::Create() {
 	// title
 	{
 		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
 
 		auto transform = entities->GetComponent<Transform>(entity);
 		transform->translation.y = -0.25f;
@@ -71,6 +91,7 @@ void TitleScene::Create() {
 	// open button
 	{
 		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
 
 		auto transform = entities->GetComponent<Transform>(entity);
 		transform->translation.y = -7.25f;

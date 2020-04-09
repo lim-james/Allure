@@ -11,10 +11,6 @@
 #include <MACROS.h>
 #include <GL/glew.h>
 
-bool operator==(Instance const& lhs, Instance const& rhs) {
-	return lhs.component == rhs.component;
-}
-
 RenderSystem::~RenderSystem() {
 	for (auto& r : renderers)
 		delete r;
@@ -94,8 +90,12 @@ void RenderSystem::Update(float const& dt) {
 
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);
-		glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT);
+
+		if (cam->shouldClear) {
+			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
+			glClear(GL_COLOR_BUFFER_BIT);
+		}
 
 		for (auto& r : renderers) {
 			r->Render(data);
