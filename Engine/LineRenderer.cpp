@@ -16,14 +16,42 @@ LineRenderer::~LineRenderer() {
 void LineRenderer::Initialize(EntityManager * const manager) {
 	Renderer::Initialize(manager);
 
-	if (instanceBuffer == 0)
-		glGenBuffers(1, &instanceBuffer);
-
 	if (lineVAO == 0)
 		GenerateLine();
 
+	if (instanceBuffer == 0) {
+		glGenBuffers(1, &instanceBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
+
+		const unsigned unit = 4 * sizeof(float);
+		const unsigned stride = sizeof(Instance);
+
+		unsigned i = INSTANCE_LAYOUT_LOCATION;
+		unsigned offset = 0;
+
+		// offset	
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(i++, 3, GL_FLOAT, GL_FALSE, stride, (void*)offset);
+		offset += sizeof(vec3f);
+		// length	
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(i++, 3, GL_FLOAT, GL_FALSE, stride, (void*)offset);
+		offset += sizeof(vec3f);
+		// tint	
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)offset);
+		offset += sizeof(vec4f);
+		// model
+		for (int u = 0; u < 4; ++u) {
+			glEnableVertexAttribArray(i);
+			glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)(u * unit + offset));
+		}
+
+		for (; i >= INSTANCE_LAYOUT_LOCATION; --i)
+			glVertexAttribDivisor(i, 1);
+	}
+
 	defaultMaterial = new Material::LineDefault;
-	InitializeShader(defaultMaterial->GetShader());
 
 	//Events::EventsManager::GetInstance()->Subscribe("DRAW_LINE", &LineRenderer::DrawLineHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("LINE_RENDER_ACTIVE", &LineRenderer::ActiveHandler, this);
@@ -87,10 +115,6 @@ void LineRenderer::ActiveHandler(Events::Event* event) {
 	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	auto shader = material->GetShader();
 
-	if (batches.find(shader) == batches.end()) {
-		InitializeShader(shader);
-	}
-
 	auto& list = batches[shader][material];
 
 	if (c->IsActive()) {
@@ -107,10 +131,6 @@ void LineRenderer::MaterialHandler(Events::Event * event) {
 	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	auto shader = material->GetShader();
 
-	if (batches.find(shader) == batches.end()) {
-		InitializeShader(shader);
-	}
-
 	auto& previous = batches[shader][changeEvent->previous];
 	auto& current = batches[shader][material];
 
@@ -125,10 +145,6 @@ void LineRenderer::ShaderHandler(Events::Event * event) {
 	
 	auto previous = changeEvent->previous;
 	auto current = material->GetShader();
-
-	if (batches.find(current) == batches.end()) {
-		InitializeShader(current);
-	}
 
 	batches[current][material] = batches[previous][material];
 	batches[previous].erase(material);
@@ -148,38 +164,5 @@ void LineRenderer::GenerateLine() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(lineVertices), &lineVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
-}
-
-void LineRenderer::InitializeShader(Shader * const shader) {
-	shader->Use();
-
-	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
-
-	const unsigned unit = 4 * sizeof(float);
-	const unsigned stride = sizeof(Instance);
-
-	unsigned i = INSTANCE_LAYOUT_LOCATION;
-	unsigned offset = 0;
-
-	// offset	
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(i++, 3, GL_FLOAT, GL_FALSE, stride, (void*)offset);
-	offset += sizeof(vec3f);
-	// length	
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(i++, 3, GL_FLOAT, GL_FALSE, stride, (void*)offset);
-	offset += sizeof(vec3f);
-	// tint	
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)offset);
-	offset += sizeof(vec4f);
-	// model
-	for (int u = 0; u < 4; ++u) {
-		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)(u * unit + offset));
-	}
-
-	for (; i >= INSTANCE_LAYOUT_LOCATION; --i)
-		glVertexAttribDivisor(i, 1);
 }
 

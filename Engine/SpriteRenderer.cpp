@@ -16,14 +16,38 @@ SpriteRenderer::~SpriteRenderer() {
 void SpriteRenderer::Initialize(EntityManager * const manager) {
 	Renderer::Initialize(manager);
 
-	if (instanceBuffer == 0)
-		glGenBuffers(1, &instanceBuffer);
-
 	if (quadVAO == 0)
 		GenerateQuad();
 
+	if (instanceBuffer == 0) {
+		glGenBuffers(1, &instanceBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
+
+		const unsigned unit = 4 * sizeof(float);
+		const unsigned stride = sizeof(Instance);
+
+		unsigned i = INSTANCE_LAYOUT_LOCATION;
+		unsigned offset = 0;
+
+		// rect	
+		glEnableVertexAttribArray(i);
+		glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)offset);
+		offset += sizeof(vec4f);
+		// tint	
+		glEnableVertexAttribArray(i);
+		glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)offset);
+		offset += sizeof(vec4f);
+		// model
+		for (int u = 0; u < 4; ++u) {
+			glEnableVertexAttribArray(i);
+			glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)(u * unit + offset));
+		}
+
+		for (; i >= INSTANCE_LAYOUT_LOCATION; --i)
+			glVertexAttribDivisor(i, 1);
+	}
+
 	defaultMaterial = new Material::SpriteDefault;
-	InitializeShader(defaultMaterial->GetShader());
 
 	Events::EventsManager::GetInstance()->Subscribe("SPRITE_RENDER_ACTIVE", &SpriteRenderer::ActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("SPRITE_CHANGE", &SpriteRenderer::SpriteChangeHandler, this);
@@ -32,6 +56,9 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 }
 
 void SpriteRenderer::Render(RendererData const& data) {
+	glBindVertexArray(quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
+
 	for (auto& shaderPair : batches) {
 	
 		Shader* const shader = shaderPair.first;
@@ -39,9 +66,6 @@ void SpriteRenderer::Render(RendererData const& data) {
 		shader->Use();
 		shader->SetMatrix4("projection", data.projection);
 		shader->SetMatrix4("view", data.view);
-
-		glBindVertexArray(quadVAO);
-		glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
 
 		for (auto& materialPair : shaderPair.second) {
 			
@@ -89,10 +113,6 @@ void SpriteRenderer::ActiveHandler(Events::Event * event) {
 
 	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	auto shader = material->GetShader();
-	if (batches.find(shader) == batches.end()) {
-		InitializeShader(shader);
-	}
-
 	auto& list = batches[shader][material][c->GetSprite()];
 
 	if (c->IsActive()) {
@@ -124,11 +144,8 @@ void SpriteRenderer::MaterialHandler(Events::Event * event) {
 	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	auto shader = material->GetShader();
 
-	if (batches.find(shader) == batches.end()) {
-		InitializeShader(shader);
-	}
-
-	auto& previous = batches[shader][changeEvent->previous];
+	auto previousMaterial = changeEvent->previous ? changeEvent->previous : defaultMaterial;
+	auto& previous = batches[previousMaterial->GetShader()][previousMaterial];
 	auto& current = batches[shader][material];
 
 	if (Helpers::Remove(previous[sprite], c)) {
@@ -142,10 +159,6 @@ void SpriteRenderer::ShaderHandler(Events::Event * event) {
 	
 	auto previous = changeEvent->previous;
 	auto current = material->GetShader();
-
-	if (batches.find(current) == batches.end()) {
-		InitializeShader(current);
-	}
 
 	batches[current][material] = batches[previous][material];
 	batches[previous].erase(material);
@@ -172,32 +185,4 @@ void SpriteRenderer::GenerateQuad() {
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
 }
 
-void SpriteRenderer::InitializeShader(Shader * const shader) {
-	shader->Use();
-
-	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
-
-	const unsigned unit = 4 * sizeof(float);
-	const unsigned stride = sizeof(Instance);
-
-	unsigned i = INSTANCE_LAYOUT_LOCATION;
-	unsigned offset = 0;
-
-	// rect	
-	glEnableVertexAttribArray(i);
-	glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)offset);
-	offset += sizeof(vec4f);
-	// tint	
-	glEnableVertexAttribArray(i);
-	glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)offset);
-	offset += sizeof(vec4f);
-	// model
-	for (int u = 0; u < 4; ++u) {
-		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)(u * unit + offset));
-	}
-
-	for (; i >= INSTANCE_LAYOUT_LOCATION; --i)
-		glVertexAttribDivisor(i, 1);
-}
 

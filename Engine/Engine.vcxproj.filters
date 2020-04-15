@@ -100,6 +100,9 @@
     <Filter Include="Engine\Render\Materials">
       <UniqueIdentifier>{747ebfe5-6c49-4a9c-8281-5c8d923d3f65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Materials">
+      <UniqueIdentifier>{946e004f-350a-4b2f-b589-5dd0ea744569}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -260,6 +263,9 @@
     </ClCompile>
     <ClCompile Include="LineDefaultMaterial.cpp">
       <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="InvertMaterial.cpp">
+      <Filter>Assets\Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -436,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="LineDefaultMaterial.h">
       <Filter>Engine\Render\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="InvertMaterial.h">
+      <Filter>Assets\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

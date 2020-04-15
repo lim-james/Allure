@@ -140,6 +140,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="FollowCursor.cpp" />
+    <ClCompile Include="InvertMaterial.cpp" />
     <ClCompile Include="LineDefaultMaterial.cpp" />
     <ClCompile Include="LineRender.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="FollowCursor.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Framebuffer.h" />
+    <ClInclude Include="InvertMaterial.h" />
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="Layers.h" />
     <ClInclude Include="LineDefaultMaterial.h" />

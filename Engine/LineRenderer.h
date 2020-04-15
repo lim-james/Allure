@@ -19,8 +19,8 @@ class LineRenderer: public Renderer {
 	typedef std::map<Shader*, std::map<Material::Base*, std::vector<LineRender*>>> Batches;
 
 	static const unsigned INSTANCE_LAYOUT_LOCATION = 1;
-	static unsigned instanceBuffer;
 	static unsigned lineVAO;
+	static unsigned instanceBuffer;
 
 	Material::LineDefault* defaultMaterial;
 	Batches batches;
@@ -39,8 +39,6 @@ private:
 	void ShaderHandler(Events::Event* event);
 		
 	void GenerateLine();
-
-	void InitializeShader(Shader* const shader);
 
 };
 

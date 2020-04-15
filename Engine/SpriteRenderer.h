@@ -19,8 +19,8 @@ class SpriteRenderer : public Renderer {
 	typedef std::map<Shader*, std::map<Material::Base*, SpriteBatches>> Batches;
 
 	static const unsigned INSTANCE_LAYOUT_LOCATION = 2;
-	static unsigned instanceBuffer;
 	static unsigned quadVAO;
+	static unsigned instanceBuffer;
 
 	Material::SpriteDefault* defaultMaterial;
 	Batches batches;
@@ -40,8 +40,6 @@ private:
 	void ShaderHandler(Events::Event* event);
 
 	void GenerateQuad();
-
-	void InitializeShader(Shader* const shader);
 
 };
 

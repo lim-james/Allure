@@ -14,6 +14,8 @@
 #include "Layers.h"
 #include "LoadFNT.h"
 #include "LoadTGA.h"
+// materials
+#include "InvertMaterial.h"
 
 void TitleScene::Awake() {
 	Scene::Awake();
@@ -126,17 +128,19 @@ void TitleScene::Create() {
 		line->offset = vec3f(-1.5f, 0.f, 0.f);
 	}
 
-	// open button
+	// raw image frame
 	{
 		const unsigned entity = entities->Create();
 
 		auto transform = entities->GetComponent<Transform>(entity);
-		transform->translation.x = 12.f;
+		transform->translation = vec3f(12.f, 0.f, 1.f);
 		transform->scale = vec3f(16.f, 9.f, 0.f);
 
 		auto render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetSprite(camera->GetFramebuffer()->GetTexture());
+		auto invert = new Material::Invert;
+		render->SetMaterial(invert);
 	}
 
 	// open button
