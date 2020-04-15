@@ -23,11 +23,11 @@ namespace Events {
 
 	struct CursorPositionInput : Event {
 		const vec2f position;
-		const vec2f offset;
+		const vec2f delta;
 
-		CursorPositionInput(vec2f const& position, vec2f const& offset)
+		CursorPositionInput(vec2f const& position, vec2f const& delta)
 			: position(position)
-			, offset(offset) {}
+			, delta(delta) {}
 	};
 
 	struct MouseButtonInput : Event {

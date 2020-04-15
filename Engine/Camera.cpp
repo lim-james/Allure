@@ -9,6 +9,10 @@ Camera::Camera()
 	: shouldClear(true)
 	, clearColor(0.f)
 
+	, projection(PERSPECTIVE)
+
+	, FOV(60.0f)
+
 	, nearPlane(0.1f)
 	, farPlane(100.0f)
 
@@ -39,13 +43,17 @@ void Camera::Initialize() {
 	shouldClear = true;
 	clearColor = vec4f(0.f);
 
-	size = 5.f;
-	match = 0.f;
+	projection = PERSPECTIVE;
 
-	cullingMask.Set(DEFAULT | UI);
+	FOV = 60.0f;
 
 	nearPlane = 0.1f;
 	farPlane = 100.0f;
+
+	cullingMask.Set(DEFAULT | UI);
+
+	size = 5.f;
+	match = 0.f;
 
 	depth = 0.0f;
 	viewportRect = vec4f(vec2f(0.f), vec2f(1.f));
@@ -86,7 +94,14 @@ void Camera::SetDepth(float const& value) {
 }
 
 mat4f Camera::GetProjectionMatrix() const {
-	return Math::Orthographic(left, right, bottom, top, nearPlane, farPlane);
+	mat4f result;
+	if (projection == PERSPECTIVE) {
+		result = Math::Perspective(FOV, aspectRatio, nearPlane, farPlane);
+	} else {
+		result = Math::Orthographic(left, right, bottom, top, nearPlane, farPlane);
+	}
+
+	return result;
 }
 
 void Camera::SetMatch(float const& value) {

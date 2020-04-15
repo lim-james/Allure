@@ -9,10 +9,17 @@
 #include <Math/Mat4.hpp>
 #include <Bit/BitField.h>
 
+#define PERSPECTIVE		0	
+#define ORTHOGRAPHIC	1	
+
 struct Camera : Component {
 
 	bool shouldClear;
 	vec4f clearColor;
+
+	short projection;
+
+	float FOV;
 
 	float nearPlane;
 	float farPlane;

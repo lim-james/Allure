@@ -6,6 +6,7 @@
 #include "ButtonAnimation.h"
 #include "FollowCursor.h"
 #include "TitleTransition.h"
+#include "FPSCamera.h"
 // Systems
 #include "ButtonSystem.h"
 #include "ParticleSystem.h"
@@ -16,6 +17,8 @@
 #include "LoadTGA.h"
 // materials
 #include "InvertMaterial.h"
+
+#include <Events/EventsManager.h>
 
 void TitleScene::Awake() {
 	Scene::Awake();
@@ -33,8 +36,13 @@ void TitleScene::Create() {
 	auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
-	camera->SetSize(10.f);
-	camera->cullingMask -= UI;
+	{
+		camera->SetSize(10.f);
+		camera->cullingMask -= UI;
+
+		auto fps = entities->AddComponent<FPSCamera>(mainCamera);
+		fps->SetActive(true);
+	}
 
 	{
 		TextureData tData;
@@ -72,6 +80,7 @@ void TitleScene::Create() {
 		camera->SetDepth(1);
 		camera->shouldClear = false;
 		camera->clearColor = vec4f(0.f);
+		camera->projection = ORTHOGRAPHIC;
 		camera->cullingMask = UI;
 	}
 
@@ -205,8 +214,8 @@ void TitleScene::Create() {
 		emitter->endColor = vec4f(1.f, 0.5f, 0.0f, 1.f);
 		emitter->endColorRange = vec4f(0.f, 0.5f, 0.0f, 0.f);
 
-		auto follow = entities->AddComponent<FollowCursor>(entity);
-		follow->SetActive(true);
-		follow->camera = entities->GetComponent<Camera>(mainCamera);
+		//auto follow = entities->AddComponent<FollowCursor>(entity);
+		//follow->SetActive(true);
+		//follow->camera = entities->GetComponent<Camera>(mainCamera);
 	}
 }

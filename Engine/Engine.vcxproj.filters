@@ -103,6 +103,9 @@
     <Filter Include="Assets\Materials">
       <UniqueIdentifier>{946e004f-350a-4b2f-b589-5dd0ea744569}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Common\FPSCamera">
+      <UniqueIdentifier>{4f40516b-2ef3-4ef1-b51b-1dc1a27617f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -266,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="InvertMaterial.cpp">
       <Filter>Assets\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCamera.cpp">
+      <Filter>Assets\Scripts\Common\FPSCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +451,9 @@
     </ClInclude>
     <ClInclude Include="InvertMaterial.h">
       <Filter>Assets\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCamera.h">
+      <Filter>Assets\Scripts\Common\FPSCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
