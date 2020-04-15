@@ -147,6 +147,7 @@
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="SampleScene.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonSystem.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="SampleScene.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="ScriptSystem.h" />
     <ClInclude Include="ScriptTemplate.h" />

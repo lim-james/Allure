@@ -1,6 +1,6 @@
 #include "TitleTransition.h"
 
-#include "Scene.h"
+#include "SampleScene.h"
 
 #include <Events/EventsManager.h>
 
@@ -10,33 +10,39 @@ void TitleTransition::FadeOut() {
 
 	AnimationBase base = AnimationBase(false, 0.5f);
 
-	titleAnimation->Animate(
+	animation->Animate(
 		base,
 		&titleText->color.a,
 		0.f
 	);
 
-	titleAnimation->Animate(
+	animation->Animate(
 		base,
 		&titleTransform->translation.y,
 		0.25f
 	);
 
-	buttonAnimation->Animate(
+	animation->Animate(
 		base,
 		&buttonRender->tint.a,
 		0.f
 	);
 
-	buttonAnimation->Animate(
+	animation->Animate(
 		base,
 		&buttonTransform->translation.y,
 		-7.25f
 	);
 
-	titleAnimation->Animate(
+	animation->Animate(
 		base,
 		&grid->tint.a,
+		0.f
+	);
+
+	animation->Animate(
+		base,
+		&underline->tint.a,
 		0.f
 	);
 }
@@ -47,11 +53,11 @@ void TitleTransition::Transition(unsigned target) {
 }
 
 void TitleTransition::Start() {
-	titleAnimation = entities->GetComponent<Animation>(titleTransform->entity);
+	animation = entities->GetComponent<Animation>(entity);
+
 	titleText = entities->GetComponent<Text>(titleTransform->entity);
 
 	button = entities->GetComponent<Button>(buttonTransform->entity);
-	buttonAnimation = entities->GetComponent<Animation>(buttonTransform->entity);
 	buttonRender = entities->GetComponent<SpriteRender>(buttonTransform->entity);
 
 	transitionDelay = 0.0f;
@@ -59,7 +65,7 @@ void TitleTransition::Start() {
 
 void TitleTransition::Update() {
 	if (transitionDelay < 0.0f) {
-		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene(new Scene("Files/Scenes/Demo.scene")));
+		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene(new SampleScene));
 		transitionDelay = 0.0f;
 	} else if (transitionDelay > 0.0f) {
 		transitionDelay -= time->dt;

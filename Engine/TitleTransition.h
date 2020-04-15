@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include "Text.h"
 #include "SpriteRender.h"
+#include "LineRender.h"
 #include "Button.h"
 
 struct TitleTransition : Script {
@@ -15,16 +16,17 @@ struct TitleTransition : Script {
 	Transform* titleTransform;
 	Transform* buttonTransform;
 	SpriteRender* grid;
+	LineRender* underline;
 
 private:
 
 	// references
 
-	Animation* titleAnimation;
+	Animation* animation;
+
 	Text* titleText;
 
 	Button* button;
-	Animation* buttonAnimation;
 	SpriteRender* buttonRender;
 
 	// attributes

@@ -6,7 +6,6 @@
 #include "ButtonAnimation.h"
 #include "FollowCursor.h"
 #include "TitleTransition.h"
-#include "FPSCamera.h"
 // Systems
 #include "ButtonSystem.h"
 #include "ParticleSystem.h"
@@ -36,13 +35,9 @@ void TitleScene::Create() {
 	auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
-	{
-		camera->SetSize(10.f);
-		camera->cullingMask -= UI;
-
-		auto fps = entities->AddComponent<FPSCamera>(mainCamera);
-		fps->SetActive(true);
-	}
+	camera->SetSize(10.f);
+	camera->cullingMask -= UI;
+	camera->projection = ORTHOGRAPHIC;
 
 	{
 		TextureData tData;
@@ -89,6 +84,11 @@ void TitleScene::Create() {
 	auto transition = entities->AddComponent<TitleTransition>(manager);
 	transition->SetActive(true);
 
+	{
+		auto animation = entities->AddComponent<Animation>(manager);
+		animation->SetActive(true);
+	}
+
 	// background
 	{
 		const unsigned entity = entities->Create();
@@ -118,12 +118,9 @@ void TitleScene::Create() {
 		text->SetFont(microsoft);
 		text->text = "Allure 2D"; 
 		text->color = vec4f(1.f);
-
-		auto animation = entities->AddComponent<Animation>(entity);
-		animation->SetActive(true);
 	}
 
-	// title
+	// title underline
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, UI);
@@ -135,21 +132,22 @@ void TitleScene::Create() {
 		line->SetActive(true);
 		line->length = vec3f(3.f, 0.f, 0.f);
 		line->offset = vec3f(-1.5f, 0.f, 0.f);
+		transition->underline = line;
 	}
 
 	// raw image frame
 	{
-		const unsigned entity = entities->Create();
+		//const unsigned entity = entities->Create();
 
-		auto transform = entities->GetComponent<Transform>(entity);
-		transform->translation = vec3f(12.f, 0.f, 1.f);
-		transform->scale = vec3f(16.f, 9.f, 0.f);
+		//auto transform = entities->GetComponent<Transform>(entity);
+		//transform->translation = vec3f(12.f, 0.f, 1.f);
+		//transform->scale = vec3f(16.f, 9.f, 0.f);
 
-		auto render = entities->AddComponent<SpriteRender>(entity);
-		render->SetActive(true);
-		render->SetSprite(camera->GetFramebuffer()->GetTexture());
-		auto invert = new Material::Invert;
-		render->SetMaterial(invert);
+		//auto render = entities->AddComponent<SpriteRender>(entity);
+		//render->SetActive(true);
+		//render->SetSprite(camera->GetFramebuffer()->GetTexture());
+		//auto invert = new Material::Invert;
+		//render->SetMaterial(invert);
 	}
 
 	// open button
