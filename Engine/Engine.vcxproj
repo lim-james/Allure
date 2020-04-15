@@ -140,7 +140,10 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="FollowCursor.cpp" />
+    <ClCompile Include="LineDefaultMaterial.cpp" />
+    <ClCompile Include="LineRender.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -153,7 +156,6 @@
     <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Keyframe.cpp" />
-    <ClCompile Include="Line.cpp" />
     <ClCompile Include="LoadFNT.cpp" />
     <ClCompile Include="LoadTGA.cpp" />
     <ClCompile Include="main.cpp" />
@@ -163,6 +165,7 @@
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="SpriteAnimationData.cpp" />
     <ClCompile Include="SpriteAnimationSystem.cpp" />
+    <ClCompile Include="SpriteDefaultMaterial.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -203,7 +206,10 @@
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="Layers.h" />
+    <ClInclude Include="LineDefaultMaterial.h" />
+    <ClInclude Include="LineRender.h" />
     <ClInclude Include="LineRenderer.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Renderer.h" />
@@ -213,11 +219,11 @@
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="InputEvents.h" />
-    <ClInclude Include="Line.h" />
     <ClInclude Include="LoadFNT.h" />
     <ClInclude Include="LoadTGA.h" />
     <ClInclude Include="SpriteAnimationData.h" />
     <ClInclude Include="SpriteAnimationSystem.h" />
+    <ClInclude Include="SpriteDefaultMaterial.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Time.h" />

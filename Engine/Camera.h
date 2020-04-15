@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "Component.h"
+#include "Framebuffer.h"
 
 #include <Events/Event.h>
 #include <Math/Vectors.h>
@@ -38,6 +39,9 @@ struct Camera : Component {
 	void SetViewportRect(vec4f const& rect);
 	vec4f const& GetViewport() const;
 
+	void SetFramebuffer(Framebuffer* const fb);
+	Framebuffer* const GetFramebuffer() const;
+
 	vec2f ScreenToWorldSpace(vec2f const& mousePosition) const;
 
 private:
@@ -53,6 +57,7 @@ private:
 	vec4f viewport;
 
 	vec2f windowSize;
+	Framebuffer* framebuffer;
 
 	void WindowResizeHandler(Events::Event* event);
 

@@ -2,7 +2,7 @@
 
 Component::Component() 
 	: entity(0)
-	, flags(ACTIVE_BIT | DYNAMIC_BIT) {}
+	, flags(DYNAMIC_BIT) {}
 
 Component::~Component() {}
 

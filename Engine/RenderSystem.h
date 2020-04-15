@@ -18,6 +18,8 @@
 class RenderSystem : public System {
 
 	std::vector<Camera*> cameras;
+	std::vector<Camera*> fbCameras;
+
 	std::vector<Renderer*> renderers;
 
 	Shader* curveShader;
@@ -39,6 +41,7 @@ private:
 
 	void CameraActiveHandler(Events::Event* event);
 	void CameraDepthHandler(Events::Event* event);
+	void CameraFramebufferHandler(Events::Event* event);
 
 	void ResizeHandler(Events::Event* event);
 

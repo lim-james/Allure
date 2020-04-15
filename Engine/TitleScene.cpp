@@ -2,6 +2,7 @@
 
 // components
 #include "SpriteRender.h"
+#include "LineRender.h"
 #include "ButtonAnimation.h"
 #include "FollowCursor.h"
 #include "TitleTransition.h"
@@ -32,6 +33,29 @@ void TitleScene::Create() {
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
 	camera->cullingMask -= UI;
+
+	{
+		TextureData tData;
+		tData.level = 0;
+		tData.internalFormat = GL_RGB16F;
+		tData.border = 0;
+		tData.format = GL_RGBA;
+		tData.type = GL_UNSIGNED_BYTE;
+		tData.attachment = GL_COLOR_ATTACHMENT0;
+		tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
+		tData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
+		tData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE });
+		tData.parameters.push_back({ GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE });
+
+		RenderBufferData rbData;
+		rbData.internalFormat = GL_DEPTH24_STENCIL8;
+		rbData.attachmentFormat = GL_DEPTH_STENCIL_ATTACHMENT;
+
+		auto fb = new Framebuffer(1, 1);
+		fb->Initialize(vec2u(1600, 900), { tData }, { rbData });
+
+		camera->SetFramebuffer(fb);
+	}
 
 	// UI Camera
 	{
@@ -88,6 +112,33 @@ void TitleScene::Create() {
 		animation->SetActive(true);
 	}
 
+	// title
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		auto transform = entities->GetComponent<Transform>(entity);
+		transform->translation.y = -1.5f;
+
+		auto line = entities->AddComponent<LineRender>(entity);
+		line->SetActive(true);
+		line->length = vec3f(3.f, 0.f, 0.f);
+		line->offset = vec3f(-1.5f, 0.f, 0.f);
+	}
+
+	// open button
+	{
+		const unsigned entity = entities->Create();
+
+		auto transform = entities->GetComponent<Transform>(entity);
+		transform->translation.x = 12.f;
+		transform->scale = vec3f(16.f, 9.f, 0.f);
+
+		auto render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetSprite(camera->GetFramebuffer()->GetTexture());
+	}
+
 	// open button
 	{
 		const unsigned entity = entities->Create();
@@ -115,7 +166,6 @@ void TitleScene::Create() {
 		auto button = entities->AddComponent<Button>(entity);
 		button->SetActive(true);
 		button->handlers[MOUSE_CLICK].Bind(&TitleTransition::Transition, transition);
-		//button->handlers[MOUSE_OVER].Bind(&AEObject::ToString, transform);
 		button->handlers[MOUSE_OVER].Bind([transform]() {
 			transform->Parse(transform->ToString());
 		});

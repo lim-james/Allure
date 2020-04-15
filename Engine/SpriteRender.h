@@ -3,6 +3,8 @@
 
 #include "Component.h"
 
+#include "Material.h"
+
 #include <Math/Vectors.h>
 #include <Events/Event.h>
 
@@ -24,12 +26,17 @@ struct SpriteRender : Component {
 	void SetTilemapSize(int const& width, int const& height);
 	void SetCellRect(int const& x, int const& y, int const& width, int const& height);
 
+	Material::Base* const GetMaterial() const;
+	void SetMaterial(Material::Base* _material);
+
 private:
 
 	unsigned sprite;
 
 	vec2f tilemapUnit;
 	vec4f cellRect;
+
+	Material::Base* material;
 
 };
 

@@ -1,7 +1,5 @@
 #include "SpriteRender.h"
 
-#include "LoadTGA.h"
-
 #include <Events/EventsManager.h>
 
 SpriteRender::SpriteRender()
@@ -9,7 +7,8 @@ SpriteRender::SpriteRender()
 	, uvRect(vec2f(0.f), vec2f(1.f))
 	, tint(1.f)
 	, tilemapUnit(1.f)
-	, cellRect(vec2f(0.f), vec2f(1.f)) {
+	, cellRect(vec2f(0.f), vec2f(1.f))
+	, material(nullptr) {
 }
 
 void SpriteRender::Initialize() {
@@ -18,6 +17,7 @@ void SpriteRender::Initialize() {
 	tint = vec4f(1.f);
 	tilemapUnit = vec2f(1.f);
 	cellRect = vec4f(vec2f(0.f), vec2f(1.f));
+	material = nullptr;
 }
 
 Component * SpriteRender::Clone() const {
@@ -55,4 +55,14 @@ void SpriteRender::SetCellRect(int const& x, int const& y, int const& width, int
 	);
 
 	uvRect = cellRect * vec4f(tilemapUnit, tilemapUnit);
+}
+
+Material::Base * const SpriteRender::GetMaterial() const {
+	return material;
+}
+
+void SpriteRender::SetMaterial(Material::Base * _material) {
+	auto event = new Events::MaterialChange(material, this);
+	material = _material;
+	Events::EventsManager::GetInstance()->Trigger("SPRITE_MATERIAL", event);
 }

@@ -2,18 +2,28 @@
 #define LINE_RENDERER_H
 
 #include "Renderer.h"
-#include "Shader.h"
-#include "Line.h"
+#include "LineRender.h"
+#include "LineDefaultMaterial.h"
 
 #include <Events/Event.h>
 
 class LineRenderer: public Renderer {
 
+	struct Instance {
+		vec3f offset;
+		vec3f length;
+		vec4f tint;
+		mat4f model;
+	};
+
+	typedef std::map<Shader*, std::map<Material::Base*, std::vector<LineRender*>>> Batches;
+
+	static const unsigned INSTANCE_LAYOUT_LOCATION = 1;
 	static unsigned instanceBuffer;
 	static unsigned lineVAO;
 
-	Shader* shader;
-	std::vector<Line> lines;
+	Material::LineDefault* defaultMaterial;
+	Batches batches;
 
 public:
 
@@ -24,9 +34,13 @@ public:
 
 private:
 
-	void DrawLineHandler(Events::Event* event);
+	void ActiveHandler(Events::Event* event);
+	void MaterialHandler(Events::Event* event);
+	void ShaderHandler(Events::Event* event);
 		
 	void GenerateLine();
+
+	void InitializeShader(Shader* const shader);
 
 };
 

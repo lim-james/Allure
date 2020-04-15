@@ -26,6 +26,8 @@ Shader::Shader(std::string const& computePath) {
 		glGetProgramInfoLog(id, 512, 0, infoLog);
 		Debug::Error << "Shader program link failed.\n" << infoLog << '\n';
 	}
+
+	GetUniformNames();
 }
 
 Shader::Shader(std::string const& vertexPath, std::string const& fragmentPath) {
@@ -45,6 +47,8 @@ Shader::Shader(std::string const& vertexPath, std::string const& fragmentPath) {
 		glGetProgramInfoLog(id, 512, 0, infoLog);
 		Debug::Error << "Shader program link failed.\n" << infoLog << '\n';
 	}
+
+	GetUniformNames();
 }
 
 Shader::Shader(std::string const& vertexPath, std::string const& geometryPath, std::string const& fragmentPath) {
@@ -66,6 +70,8 @@ Shader::Shader(std::string const& vertexPath, std::string const& geometryPath, s
 		glGetProgramInfoLog(id, 512, 0, infoLog);
 		Debug::Error << "Shader program link failed.\n" << infoLog << '\n';
 	}
+
+	GetUniformNames();
 }
 
 Shader::~Shader() {
@@ -83,6 +89,10 @@ void Shader::Use() const {
 
 void Shader::Delete() const {
 	glDeleteProgram(id);
+}
+
+std::vector<std::string> const & Shader::GetUniforms() const {
+	return uniforms;
 }
 
 void Shader::SetInt(std::string const& name, int const& value) {
@@ -142,6 +152,23 @@ unsigned Shader::CreateShader(std::string const& path, int const& type) {
 	}
 
 	return shader;
+}
+
+void Shader::GetUniformNames() {
+	int count;
+	glGetProgramiv(id, GL_ACTIVE_UNIFORMS, &count);
+
+	for (int i = 0; i < count; ++i) {
+		GLsizei length;
+		GLint size;
+		GLenum type;
+		GLchar* name = new GLchar[256];
+
+		glGetActiveUniform(id, static_cast<GLuint>(i), 256, &length, &size, &type, name);
+
+		uniforms.push_back(std::string(name));
+		delete[] name;
+	}
 }
 
 int Shader::GetUniformLocation(std::string const& name) {

@@ -62,6 +62,7 @@ void RenderSystem::Initialize() {
 
 	Events::EventsManager::GetInstance()->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &RenderSystem::ResizeHandler, this);
 }
 
@@ -69,6 +70,43 @@ void RenderSystem::Update(float const& dt) {
 	glViewport(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
 	glScissor(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
 	glClearColor(0, 0, 0, 0);
+
+	for (auto& cam : fbCameras) {
+		auto fb = cam->GetFramebuffer();
+		fb->Bind();
+
+		auto const& viewport = cam->GetViewport();
+
+		const Math::vec<2, GLint> origin(
+			static_cast<GLint>(viewport.origin.x),
+			static_cast<GLint>(viewport.origin.y)
+		);
+
+		const Math::vec<2, GLint> size(
+			static_cast<GLsizei>(viewport.size.w),
+			static_cast<GLsizei>(viewport.size.h)
+		);
+
+		RendererData data;
+		data.camera = cam;
+		data.projection = cam->GetProjectionMatrix();
+		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
+
+		glViewport(origin.x, origin.y, size.x, size.y);
+		glScissor(origin.x, origin.y, size.x, size.y);
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		glClearColor(0, 0, 0, 0);
+
+		if (cam->shouldClear) {
+			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
+		}
+
+		for (auto& r : renderers) {
+			r->Render(data);
+		}
+
+		fb->Unbind();
+	}
 
 	for (auto& cam : cameras) {
 		auto const& viewport = cam->GetViewport();
@@ -141,7 +179,7 @@ void RenderSystem::CameraDepthHandler(Events::Event* event) {
 	auto& c = static_cast<Events::AnyType<Camera*>*>(event)->data;
 
 	if (c->IsActive()) {
-		cameras.erase(vfind(cameras, c));
+		Helpers::Remove(cameras, c);
 		for (unsigned i = 0; i < cameras.size(); ++i) {
 			if (cameras[i]->GetDepth() >= c->GetDepth()) {
 				cameras.insert(cameras.begin() + i, c);
@@ -149,6 +187,16 @@ void RenderSystem::CameraDepthHandler(Events::Event* event) {
 			}
 		}
 		cameras.push_back(c);
+	}
+}
+
+void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
+	auto& c = static_cast<Events::AnyType<Camera*>*>(event)->data;
+
+	if (c->GetFramebuffer()) {
+		Helpers::Insert(fbCameras, c);
+	} else {
+		Helpers::Remove(fbCameras, c);
 	}
 }
 

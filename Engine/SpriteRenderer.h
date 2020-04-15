@@ -2,26 +2,27 @@
 #define SPRITE_RENDERER_H
 
 #include "Renderer.h"
-#include "Shader.h"
+#include "SpriteDefaultMaterial.h"
 #include "SpriteRender.h"
 
 #include <Events/Event.h>
 
-struct Instance {
-	vec4f uvRect;
-	vec4f tint;
-	mat4f model;
-};
+class SpriteRenderer : public Renderer {
 
-typedef std::map<unsigned, std::vector<SpriteRender*>> Batches;
+	struct Instance {
+		vec4f uvRect;
+		vec4f tint;
+		mat4f model;
+	};
 
-class SpriteRenderer: public Renderer {
+	typedef std::map<unsigned, std::vector<SpriteRender*>> SpriteBatches;
+	typedef std::map<Shader*, std::map<Material::Base*, SpriteBatches>> Batches;
 
 	static const unsigned INSTANCE_LAYOUT_LOCATION = 2;
 	static unsigned instanceBuffer;
 	static unsigned quadVAO;
 
-	Shader* shader;
+	Material::SpriteDefault* defaultMaterial;
 	Batches batches;
 
 public:
@@ -35,8 +36,12 @@ private:
 
 	void ActiveHandler(Events::Event* event);
 	void SpriteChangeHandler(Events::Event* event);
-		
+	void MaterialHandler(Events::Event* event);
+	void ShaderHandler(Events::Event* event);
+
 	void GenerateQuad();
+
+	void InitializeShader(Shader* const shader);
 
 };
 

@@ -97,6 +97,9 @@
     <Filter Include="Engine\Render\Components">
       <UniqueIdentifier>{e9af40a5-43d5-4c56-a67d-315df88acea7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Render\Materials">
+      <UniqueIdentifier>{747ebfe5-6c49-4a9c-8281-5c8d923d3f65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -130,9 +133,6 @@
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Engine\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Line.cpp">
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Framebuffer.cpp">
@@ -249,6 +249,18 @@
     <ClCompile Include="SpriteRender.cpp">
       <Filter>Engine\Render\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="LineRender.cpp">
+      <Filter>Engine\Render\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteDefaultMaterial.cpp">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="LineDefaultMaterial.cpp">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -282,9 +294,6 @@
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Line.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="Framebuffer.h">
@@ -415,6 +424,18 @@
     </ClInclude>
     <ClInclude Include="Layers.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteDefaultMaterial.h">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="LineRender.h">
+      <Filter>Engine\Render\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LineDefaultMaterial.h">
+      <Filter>Engine\Render\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

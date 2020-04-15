@@ -27,7 +27,8 @@ Camera::Camera()
 	, top(1.f)
 	, viewport(vec2f(0.f), vec2f(1.f))
 
-	, windowSize(1.f) {
+	, windowSize(1.f)
+	, framebuffer(nullptr) {
 
 	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &Camera::WindowResizeHandler, this);
 }
@@ -52,6 +53,7 @@ void Camera::Initialize() {
 	vec2i size;
 	Events::EventsManager::GetInstance()->Trigger("GET_WINDOW_SIZE", new Events::AnyType<vec2i*>(&size));
 	windowSize = size;
+	framebuffer = nullptr;
 
 	UpdateViewport();
 }
@@ -101,6 +103,15 @@ vec4f const& Camera::GetViewport() const {
 	return viewport;
 }
 
+void Camera::SetFramebuffer(Framebuffer * const fb) {
+	framebuffer = fb;
+	Events::EventsManager::GetInstance()->Trigger("CAMERA_FRAMEBUFFER", new Events::AnyType<Camera*>(this));
+}
+
+Framebuffer * const Camera::GetFramebuffer() const {
+	return framebuffer;
+}
+
 vec2f Camera::ScreenToWorldSpace(vec2f const& mousePosition) const {
 	const vec2f viewportPosition = mousePosition - viewport.origin;
 
@@ -130,4 +141,6 @@ void Camera::UpdateViewport() {
 	const float h = unit * match + size * invMatch;
 	left = -w, right = w;
 	bottom = -h, top = h;
+
+	if (framebuffer) framebuffer->Resize(viewport.size);
 }

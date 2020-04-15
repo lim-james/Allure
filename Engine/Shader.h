@@ -5,12 +5,14 @@
 #include <Math/Mat4.hpp>
 
 #include <map>
+#include <vector>
 #include <string>
 
 class Shader {
 
 	unsigned id;
 
+	std::vector<std::string> uniforms;
 	std::map<std::string, int> locations;
 
 public:
@@ -26,6 +28,8 @@ public:
 	void Use() const;
 	void Delete() const;
 
+	std::vector<std::string> const& GetUniforms() const;
+
 	void SetInt(std::string const& name, int const& value);
 	void SetFloat(std::string const& name, float const& value);
 	void SetVector2(std::string const& name, vec2f const& value);
@@ -36,7 +40,8 @@ public:
 private:
 
 	unsigned CreateShader(std::string const& path, int const& type);
-
+	
+	void GetUniformNames();
 	int GetUniformLocation(std::string const& name);
 
 };
