@@ -145,7 +145,11 @@
     <ClCompile Include="LineDefaultMaterial.cpp" />
     <ClCompile Include="LineRender.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
+    <ClCompile Include="LoadOBJ.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshRender.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SampleScene.cpp" />
     <ClCompile Include="Script.cpp" />
@@ -190,6 +194,7 @@
     <ClCompile Include="TransformComparator.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
     <ClCompile Include="UITextFieldManager.cpp" />
+    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -214,7 +219,11 @@
     <ClInclude Include="LineDefaultMaterial.h" />
     <ClInclude Include="LineRender.h" />
     <ClInclude Include="LineRenderer.h" />
+    <ClInclude Include="LoadOBJ.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshRender.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Renderer.h" />
@@ -253,6 +262,7 @@
     <ClInclude Include="TransformComparator.h" />
     <ClInclude Include="TransformSystem.h" />
     <ClInclude Include="UITextFieldManager.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

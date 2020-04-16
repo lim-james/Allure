@@ -109,6 +109,9 @@
     <Filter Include="Assets\Scenes\Sample">
       <UniqueIdentifier>{fdcd3e26-cdf1-4245-b964-61a7be0d27a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Render\Model">
+      <UniqueIdentifier>{8fd62a2c-80cd-46ae-825d-86833a34cabe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -278,6 +281,21 @@
     </ClCompile>
     <ClCompile Include="SampleScene.cpp">
       <Filter>Assets\Scenes\Sample</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadOBJ.cpp">
+      <Filter>Engine\Render\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Engine\Render\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Engine\Render\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Engine\Render\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRender.cpp">
+      <Filter>Engine\Render\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +481,21 @@
     </ClInclude>
     <ClInclude Include="SampleScene.h">
       <Filter>Assets\Scenes\Sample</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadOBJ.h">
+      <Filter>Engine\Render\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Engine\Render\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Engine\Render\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Engine\Render\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRender.h">
+      <Filter>Engine\Render\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
