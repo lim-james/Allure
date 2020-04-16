@@ -31,6 +31,11 @@ void Transform::SetActive(bool const& state) {
 	Events::EventsManager::GetInstance()->Trigger("TRANSFORM_ACTIVE", new Events::AnyType<Transform*>(this));
 }
 
+void Transform::SetDynamic(bool const & state) {
+	Component::SetDynamic(state);
+	Events::EventsManager::GetInstance()->Trigger("TRANSFORM_DYNAMIC", new Events::AnyType<Transform*>(this));
+}
+
 Component * Transform::Clone() const {
 	return new Transform(*this);
 }

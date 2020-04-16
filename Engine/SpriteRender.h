@@ -19,6 +19,7 @@ struct SpriteRender : Component {
 	void Initialize() override;
 	Component* Clone() const override;
 	void SetActive(bool const& state) override;
+	void SetDynamic(bool const& state) override;
 
 	unsigned const& GetSprite() const;
 	void SetSprite(unsigned const& _sprite);

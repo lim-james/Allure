@@ -5,24 +5,24 @@
 #include <Logger/Logger.h>
 
 TransformSystem::~TransformSystem() {
-	delete tree;
+	delete dynamicTree;
+	delete staticTree;
 }
 
 void TransformSystem::Initialize() {
-	tree = new QuadTree<Transform*, TransformComparator>(5, 5);
+	dynamicTree = new QuadTree<Transform*, TransformComparator>(5, 5);
+	staticTree = new QuadTree<Transform*, TransformComparator>(5, 5);
 	Events::EventsManager::GetInstance()->Subscribe("TRANSFORM_ACTIVE", &TransformSystem::ActiveHanlder, this);
+	Events::EventsManager::GetInstance()->Subscribe("TRANSFORM_DYNAMIC", &TransformSystem::DynamicHanlder, this);
 }
 
 void TransformSystem::Update(float const& dt) {
-	std::vector<Transform*> children;
-
-	for (auto& item : tree->GetRoot()->list) {
-		if (item->parent == nullptr) {
-			SetTransform(item);
-		}
-		item->quads.clear();
-		item->quads.push_back(tree->GetRoot());
+	if (updateStatic) {
+		UpdateTree(staticTree);
+		updateStatic = false;
 	}
+
+	UpdateTree(dynamicTree);
 
 	//tree->Clear();
 	//tree->Sort();
@@ -33,10 +33,35 @@ void TransformSystem::Update(float const& dt) {
 
 void TransformSystem::ActiveHanlder(Events::Event * event) {
 	auto component = static_cast<Events::AnyType<Transform*>*>(event)->data;
+	auto tree = component->IsDynamic() ? dynamicTree : staticTree;
+
 	if (component->IsActive()) {
 		tree->Insert(component);
 	} else {
 		tree->Remove(component);
+	}
+}
+
+void TransformSystem::DynamicHanlder(Events::Event * event) {
+	auto component = static_cast<Events::AnyType<Transform*>*>(event)->data;
+	if (!component->IsActive()) return;
+
+	auto prev = component->IsDynamic() ? staticTree : dynamicTree;
+	auto curr = component->IsDynamic() ? dynamicTree : staticTree;
+
+	if (prev->Remove(component)) {
+		updateStatic = true;
+		curr->Insert(component);
+	}
+}
+
+void TransformSystem::UpdateTree(QuadTree<Transform*, TransformComparator> const * tree) {
+	for (auto& item : tree->GetRoot()->list) {
+		if (item->parent == nullptr) 
+			SetTransform(item);
+
+		item->quads.clear();
+		item->quads.push_back(tree->GetRoot());
 	}
 }
 

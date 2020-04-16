@@ -23,9 +23,9 @@ public:
 	void Sort();
 	void Clear();
 
-	void Insert(ContentType const& item);
-	void Insert(ContentType const& item, bool const& ascending);
-	void Remove(ContentType const& item);
+	bool Insert(ContentType const& item);
+	bool Insert(ContentType const& item, bool const& ascending);
+	bool Remove(ContentType const& item);
 
 	Quad<ContentType> * const GetRoot() const;
 
@@ -65,18 +65,18 @@ void QuadTree<ContentType, ComparatorType>::Clear() {
 }
 
 template<typename ContentType, typename ComparatorType>
-void QuadTree<ContentType, ComparatorType>::Insert(ContentType const& item) {
-	Helpers::Insert(root->list, item);
+bool QuadTree<ContentType, ComparatorType>::Insert(ContentType const& item) {
+	return Helpers::Insert(root->list, item);
 }
 
 template<typename ContentType, typename ComparatorType>
-void QuadTree<ContentType, ComparatorType>::Insert(ContentType const& item, bool const& ascending) {
-	Helpers::Insert(root->list, item, ascending);
+bool QuadTree<ContentType, ComparatorType>::Insert(ContentType const& item, bool const& ascending) {
+	return Helpers::Insert(root->list, item, ascending);
 }
 
 template<typename ContentType, typename ComparatorType>
-void QuadTree<ContentType, ComparatorType>::Remove(ContentType const& item) {
-	Helpers::Remove(root->list, item);
+bool QuadTree<ContentType, ComparatorType>::Remove(ContentType const& item) {
+	return Helpers::Remove(root->list, item);
 }
 
 template<typename ContentType, typename ComparatorType>

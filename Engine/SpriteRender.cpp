@@ -29,6 +29,11 @@ void SpriteRender::SetActive(bool const& state) {
 	Events::EventsManager::GetInstance()->Trigger("SPRITE_RENDER_ACTIVE", new Events::AnyType<SpriteRender*>(this));
 }
 
+void SpriteRender::SetDynamic(bool const & state) {
+	Component::SetDynamic(state);
+	Events::EventsManager::GetInstance()->Trigger("SPRITE_RENDER_DYNAMIC", new Events::AnyType<SpriteRender*>(this));
+}
+
 unsigned const& SpriteRender::GetSprite() const {
 	return sprite;
 }

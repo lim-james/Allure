@@ -9,7 +9,9 @@
 
 class TransformSystem : public System {
 
-	QuadTree<Transform*, TransformComparator> * tree;
+	bool updateStatic;
+	QuadTree<Transform*, TransformComparator> * dynamicTree;
+	QuadTree<Transform*, TransformComparator> * staticTree;
 
 public:
 
@@ -18,10 +20,12 @@ public:
 	void Initialize() override;
 	void Update(float const& dt) override;
 
-	void ActiveHanlder(Events::Event* event);
-
 private:
 
+	void ActiveHanlder(Events::Event* event);
+	void DynamicHanlder(Events::Event* event);
+
+	void UpdateTree(QuadTree<Transform*, TransformComparator> const* tree);
 	void SetTransform(Transform * const transform);
 
 };

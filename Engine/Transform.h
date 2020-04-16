@@ -23,6 +23,7 @@ struct Transform : Component {
 
 	void Initialize() override;
 	void SetActive(bool const& state) override;
+	void SetDynamic(bool const& state) override;
 	Component* Clone() const override;
 
 	// AEObject methods

@@ -15,14 +15,30 @@ class SpriteRenderer : public Renderer {
 		mat4f model;
 	};
 
-	typedef std::map<unsigned, std::vector<SpriteRender*>> SpriteBatches;
+	struct Batch {
+		struct StaticData {
+			unsigned VAO, count;
+
+			StaticData();
+		};
+
+		std::map<Camera*, StaticData> staticData;
+		std::vector<SpriteRender*> staticList;
+		std::vector<SpriteRender*> dynamicList;
+	};
+
+	typedef std::map<unsigned, Batch> SpriteBatches;
 	typedef std::map<Shader*, std::map<Material::Base*, SpriteBatches>> Batches;
 
 	static const unsigned INSTANCE_LAYOUT_LOCATION = 2;
-	static unsigned quadVAO;
-	static unsigned instanceBuffer;
+	static unsigned dynamicVAO;
+
+	// instance buffers
+	unsigned dynamicBuffer;
 
 	Material::SpriteDefault* defaultMaterial;
+
+	bool updateStatic;
 	Batches batches;
 
 public:
@@ -34,12 +50,18 @@ public:
 
 private:
 
+	void InitializeInstanceBuffer(unsigned& instanceBuffer);
+
+	void RenderStatic(RendererData const& data, Batch& batch);
+	void RenderDynamic(RendererData const& data, Batch const& batch);
+
 	void ActiveHandler(Events::Event* event);
+	void DynamicHandler(Events::Event* event);
 	void SpriteChangeHandler(Events::Event* event);
 	void MaterialHandler(Events::Event* event);
 	void ShaderHandler(Events::Event* event);
 
-	void GenerateQuad();
+	void GenerateQuad(unsigned& VAO);
 
 };
 
