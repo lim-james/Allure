@@ -25,6 +25,11 @@ void LineRender::SetActive(bool const& state) {
 	Events::EventsManager::GetInstance()->Trigger("LINE_RENDER_ACTIVE", new Events::AnyType<LineRender*>(this));
 }
 
+void LineRender::SetDynamic(bool const & state) {
+	Component::SetDynamic(state);
+	Events::EventsManager::GetInstance()->Trigger("LINE_RENDER_DYNAMIC", new Events::AnyType<LineRender*>(this));
+}
+
 Material::Base * const LineRender::GetMaterial() const {
 	return material;
 }

@@ -18,7 +18,6 @@ class SpriteRenderer : public Renderer {
 	struct Batch {
 		struct StaticData {
 			unsigned VAO, count;
-
 			StaticData();
 		};
 
@@ -32,9 +31,7 @@ class SpriteRenderer : public Renderer {
 
 	static const unsigned INSTANCE_LAYOUT_LOCATION = 2;
 	static unsigned dynamicVAO;
-
-	// instance buffers
-	unsigned dynamicBuffer;
+	static unsigned dynamicBuffer;
 
 	Material::SpriteDefault* defaultMaterial;
 

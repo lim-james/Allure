@@ -219,8 +219,8 @@ void TitleScene::Create() {
 	}
 	
 	// stress test
-	for (float x = -40.f; x < 40.f; x += 0.5f) {
-		for (float y = -20.f; y < 20.f; y += 0.5f) {
+	for (float x = -10.f; x <= 10.f; x += 0.5f) {
+		for (float y = -10.f; y <= 10.f; y += 0.5f) {
 			const unsigned entity = entities->Create();
 
 			auto transform = entities->GetComponent<Transform>(entity);

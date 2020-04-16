@@ -16,13 +16,26 @@ class LineRenderer: public Renderer {
 		mat4f model;
 	};
 
-	typedef std::map<Shader*, std::map<Material::Base*, std::vector<LineRender*>>> Batches;
+	struct Batch {
+		struct StaticData {
+			unsigned VAO, count;
+			StaticData();
+		};
+
+		std::map<Camera*, StaticData> staticData;
+		std::vector<LineRender*> staticList;
+		std::vector<LineRender*> dynamicList;
+	};
+
+	typedef std::map<Shader*, std::map<Material::Base*, Batch>> Batches;
 
 	static const unsigned INSTANCE_LAYOUT_LOCATION = 1;
-	static unsigned lineVAO;
-	static unsigned instanceBuffer;
+	static unsigned dynamicVAO;
+	static unsigned dynamicBuffer;
 
 	Material::LineDefault* defaultMaterial;
+
+	bool updateStatic;
 	Batches batches;
 
 public:
@@ -34,11 +47,17 @@ public:
 
 private:
 
+	void InitializeInstanceBuffer(unsigned& instanceBuffer);
+
+	void RenderStatic(RendererData const& data, Batch& batch);
+	void RenderDynamic(RendererData const& data, Batch const& batch);
+
 	void ActiveHandler(Events::Event* event);
+	void DynamicHandler(Events::Event* event);
 	void MaterialHandler(Events::Event* event);
 	void ShaderHandler(Events::Event* event);
 		
-	void GenerateLine();
+	void GenerateLine(unsigned& VAO);
 
 };
 

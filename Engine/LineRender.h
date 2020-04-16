@@ -20,6 +20,7 @@ struct LineRender : Component {
 	void Initialize() override;
 	Component* Clone() const override;
 	void SetActive(bool const& state) override;
+	void SetDynamic(bool const& state) override;
 
 	Material::Base* const GetMaterial() const;
 	void SetMaterial(Material::Base* _material);

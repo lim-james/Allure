@@ -7,6 +7,7 @@
 #include <GL/glew.h>
 
 unsigned SpriteRenderer::dynamicVAO = 0;
+unsigned SpriteRenderer::dynamicBuffer = 0;
 
 SpriteRenderer::Batch::StaticData::StaticData() : VAO(0), count(0) { }
 
@@ -33,7 +34,6 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 
 void SpriteRenderer::Render(RendererData const& data) {
 	for (auto& shaderPair : batches) {
-	
 		Shader* const shader = shaderPair.first;
 
 		shader->Use();
@@ -168,8 +168,8 @@ void SpriteRenderer::ActiveHandler(Events::Event * event) {
 
 	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	auto shader = material->GetShader();
-	auto& batch = batches[shader][material][c->GetSprite()];
 
+	auto& batch = batches[shader][material][c->GetSprite()];
 	auto& list = c->IsDynamic() ? batch.dynamicList : batch.staticList;
 	if (!c->IsDynamic()) updateStatic = true;
 
@@ -210,14 +210,16 @@ void SpriteRenderer::SpriteChangeHandler(Events::Event* event) {
 	auto shader = material->GetShader();
 	
 	auto& batch = batches[shader][material];
+	auto& previous = batch[changeEvent->previous];
+	auto& current = batch[c->GetSprite()];
 
 	if (c->IsDynamic()) {
-		if (Helpers::Remove(batch[changeEvent->previous].dynamicList, c)) {
-			batch[c->GetSprite()].dynamicList.push_back(c);
+		if (Helpers::Remove(previous.dynamicList, c)) {
+			current.dynamicList.push_back(c);
 		}
 	} else {
-		if (Helpers::Remove(batch[changeEvent->previous].staticList, c)) {
-			batch[c->GetSprite()].staticList.push_back(c);
+		if (Helpers::Remove(previous.staticList, c)) {
+			current.staticList.push_back(c);
 			updateStatic = true;
 		}
 	}
