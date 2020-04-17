@@ -1,8 +1,11 @@
 #include "Scene.h"
 
+// systems
 #include "TransformSystem.h"
 #include "RenderSystem.h"
-
+// components
+#include "Text.h"
+// Utils
 #include "LoadFNT.h"
 
 #include <Math/Vectors.h>
@@ -99,8 +102,8 @@ void Scene::Load(std::string const& filepath) {
 			if (notation.Get("type") == "Transform") {
 				object = static_cast<AEObject*>(entities->AddComponent<Transform>(entity));
 			} else if (notation.Get("type") == "Text") {
-				auto text = entities->AddComponent<Text>(entity);
-				auto courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
+				Text* const text = entities->AddComponent<Text>(entity);
+				Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 				text->SetFont(courierNew);
 				object = static_cast<AEObject*>(text);
 			} 

@@ -47,7 +47,7 @@ public:
 
 private:
 
-	void InitializeInstanceBuffer(unsigned& instanceBuffer);
+	void InitializeInstanceBuffer(unsigned const& VAO, unsigned& instanceBuffer);
 
 	void RenderStatic(RendererData const& data, Batch& batch);
 	void RenderDynamic(RendererData const& data, Batch const& batch);

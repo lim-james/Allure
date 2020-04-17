@@ -21,7 +21,7 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 	if (dynamicVAO == 0)
 		GenerateQuad(dynamicVAO);
 
-	InitializeInstanceBuffer(dynamicBuffer);
+	InitializeInstanceBuffer(dynamicVAO, dynamicBuffer);
 
 	defaultMaterial = new Material::SpriteDefault;
 
@@ -59,8 +59,10 @@ void SpriteRenderer::Render(RendererData const& data) {
 	updateStatic = false;
 }
 
-void SpriteRenderer::InitializeInstanceBuffer(unsigned& instanceBuffer) {
+void SpriteRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& instanceBuffer) {
 	if (instanceBuffer) return;
+
+	glBindVertexArray(VAO);
 
 	glGenBuffers(1, &instanceBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
@@ -120,7 +122,7 @@ void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 			GenerateQuad(staticData.VAO);
 
 		unsigned VBO = 0;
-		InitializeInstanceBuffer(VBO);
+		InitializeInstanceBuffer(staticData.VAO, VBO);
 		staticData.count = instances.size();
 
 		glBindVertexArray(staticData.VAO);

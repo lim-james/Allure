@@ -297,6 +297,12 @@
     <ClCompile Include="MeshRender.cpp">
       <Filter>Engine\Render\Components</Filter>
     </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDefaultMaterial.cpp">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -496,6 +502,12 @@
     </ClInclude>
     <ClInclude Include="MeshRender.h">
       <Filter>Engine\Render\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Engine\Render\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDefaultMaterial.h">
+      <Filter>Engine\Render\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -148,7 +148,9 @@
     <ClCompile Include="LoadOBJ.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshDefaultMaterial.cpp" />
     <ClCompile Include="MeshRender.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SampleScene.cpp" />
@@ -222,7 +224,9 @@
     <ClInclude Include="LoadOBJ.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshDefaultMaterial.h" />
     <ClInclude Include="MeshRender.h" />
+    <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsSystem.h" />

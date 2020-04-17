@@ -1,8 +1,14 @@
 #include "RenderSystem.h"
 
+// ECS
 #include "EntityManager.h"
 #include "Transform.h"
-
+// renderers
+#include "MeshRenderer.h"
+#include "SpriteRenderer.h"
+#include "LineRenderer.h"
+#include "TextRenderer.h"
+// Events
 #include "InputEvents.h"
 
 #include <Events/EventsManager.h>
@@ -29,6 +35,7 @@ void RenderSystem::Initialize() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	renderers.push_back(new MeshRenderer);
 	renderers.push_back(new SpriteRenderer);
 	renderers.push_back(new LineRenderer);
 	renderers.push_back(new TextRenderer);

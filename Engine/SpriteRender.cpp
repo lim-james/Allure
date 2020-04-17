@@ -17,7 +17,7 @@ void SpriteRender::Initialize() {
 	tint = vec4f(1.f);
 	tilemapUnit = vec2f(1.f);
 	cellRect = vec4f(vec2f(0.f), vec2f(1.f));
-	material = nullptr;
+	SetMaterial(nullptr);
 }
 
 Component * SpriteRender::Clone() const {
@@ -39,7 +39,7 @@ unsigned const& SpriteRender::GetSprite() const {
 }
 
 void SpriteRender::SetSprite(unsigned const& _sprite) {
-	auto event = new Events::SpriteChange(sprite, this);
+	Events::SpriteChange* event = new Events::SpriteChange(sprite, this);
 	sprite = _sprite;
 	Events::EventsManager::GetInstance()->Trigger("SPRITE_CHANGE", event);
 }
@@ -67,7 +67,7 @@ Material::Base * const SpriteRender::GetMaterial() const {
 }
 
 void SpriteRender::SetMaterial(Material::Base * _material) {
-	auto event = new Events::MaterialChange(material, this);
+	Events::MaterialChange* event = new Events::MaterialChange(material, this);
 	material = _material;
 	Events::EventsManager::GetInstance()->Trigger("SPRITE_MATERIAL", event);
 }

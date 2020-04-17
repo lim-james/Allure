@@ -4,11 +4,8 @@
 #include "System.h"
 #include "Camera.h"
 #include "Framebuffer.h"
-
-// renderers
-#include "SpriteRenderer.h"
-#include "LineRenderer.h"
-#include "TextRenderer.h"
+#include "Renderer.h"
+#include "Shader.h"
 
 #include <Events/Event.h>
 
