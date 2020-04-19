@@ -108,7 +108,6 @@ void MeshRenderer::RenderStatic(RendererData const & data, Mesh* const mesh, Bat
 		glBindVertexArray(staticData.VAO);
 		glDrawElementsInstanced(GL_TRIANGLES, mesh->indicesSize, GL_UNSIGNED_INT, (void*)(0), staticData.count);
 	}
-
 }
 
 void MeshRenderer::RenderDynamic(RendererData const& data, Mesh* const mesh, Batch const& batch) {

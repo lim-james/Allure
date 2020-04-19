@@ -18,7 +18,7 @@
 #include <GL/glew.h>
 
 RenderSystem::~RenderSystem() {
-	for (auto& r : renderers)
+	for (Renderer* const r : renderers)
 		delete r;
 
 	delete curveShader;
@@ -40,7 +40,7 @@ void RenderSystem::Initialize() {
 	renderers.push_back(new LineRenderer);
 	renderers.push_back(new TextRenderer);
 
-	for (auto& r : renderers) {
+	for (Renderer* const r : renderers) {
 		r->Initialize(entities);
 	}
 
@@ -67,6 +67,7 @@ void RenderSystem::Initialize() {
 	mainFBO = new Framebuffer(1, 1);
 	mainFBO->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
+	Events::EventsManager::GetInstance()->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
@@ -78,11 +79,11 @@ void RenderSystem::Update(float const& dt) {
 	glScissor(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
 	glClearColor(0, 0, 0, 0);
 
-	for (auto& cam : fbCameras) {
-		auto fb = cam->GetFramebuffer();
+	for (Camera* const cam : fbCameras) {
+		Framebuffer* const fb = cam->GetFramebuffer();
 		fb->Bind();
 
-		auto const& viewport = cam->GetViewport();
+		vec4f const& viewport = cam->GetViewport();
 
 		const Math::vec<2, GLint> origin(
 			static_cast<GLint>(viewport.origin.x),
@@ -98,6 +99,7 @@ void RenderSystem::Update(float const& dt) {
 		data.camera = cam;
 		data.projection = cam->GetProjectionMatrix();
 		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
+		data.lights = &lights;
 
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);
@@ -108,15 +110,15 @@ void RenderSystem::Update(float const& dt) {
 			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
 		}
 
-		for (auto& r : renderers) {
+		for (Renderer* const r : renderers) {
 			r->Render(data);
 		}
 
 		fb->Unbind();
 	}
 
-	for (auto& cam : cameras) {
-		auto const& viewport = cam->GetViewport();
+	for (Camera* const cam : cameras) {
+		vec4f const& viewport = cam->GetViewport();
 
 		const Math::vec<2, GLint> origin(
 			static_cast<GLint>(viewport.origin.x),
@@ -132,6 +134,7 @@ void RenderSystem::Update(float const& dt) {
 		data.camera = cam;
 		data.projection = cam->GetProjectionMatrix();
 		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
+		data.lights = &lights;
 
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);
@@ -142,7 +145,7 @@ void RenderSystem::Update(float const& dt) {
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 
-		for (auto& r : renderers) {
+		for (Renderer* const r : renderers) {
 			r->Render(data);
 		}
 	}
@@ -152,7 +155,7 @@ void RenderSystem::Start() {
 	System::Start();
 
 	auto manager = Events::EventsManager::GetInstance();
-	for (auto& r : renderers)
+	for (Renderer* const r : renderers)
 		manager->SubscribeContext(r);
 }
 
@@ -160,12 +163,22 @@ void RenderSystem::Stop() {
 	System::Stop();
 
 	auto manager = Events::EventsManager::GetInstance();
-	for (auto& r : renderers)
+	for (Renderer* const r : renderers)
 		manager->UnsubscribeContext(r);
 }
 
+void RenderSystem::LightActiveHandler(Events::Event * event) {
+	Light* const c = static_cast<Events::AnyType<Light*>*>(event)->data;
+
+	if (c->IsActive()) {
+		Helpers::Insert(lights, c);
+	} else {
+		Helpers::Remove(lights, c);
+	}
+}
+
 void RenderSystem::CameraActiveHandler(Events::Event* event) {
-	auto& c = static_cast<Events::AnyType<Camera*>*>(event)->data;
+	Camera* const c = static_cast<Events::AnyType<Camera*>*>(event)->data;
 
 	if (c->IsActive()) {
 		for (unsigned i = 0; i < cameras.size(); ++i) {
@@ -183,7 +196,7 @@ void RenderSystem::CameraActiveHandler(Events::Event* event) {
 }
 
 void RenderSystem::CameraDepthHandler(Events::Event* event) {
-	auto& c = static_cast<Events::AnyType<Camera*>*>(event)->data;
+	Camera* const c = static_cast<Events::AnyType<Camera*>*>(event)->data;
 
 	if (c->IsActive()) {
 		Helpers::Remove(cameras, c);
@@ -198,7 +211,7 @@ void RenderSystem::CameraDepthHandler(Events::Event* event) {
 }
 
 void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
-	auto& c = static_cast<Events::AnyType<Camera*>*>(event)->data;
+	Camera* const c = static_cast<Events::AnyType<Camera*>*>(event)->data;
 
 	if (c->GetFramebuffer()) {
 		Helpers::Insert(fbCameras, c);

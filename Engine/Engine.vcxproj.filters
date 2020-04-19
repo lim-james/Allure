@@ -112,6 +112,9 @@
     <Filter Include="Assets\Scripts\Common\Editor Camera">
       <UniqueIdentifier>{4f40516b-2ef3-4ef1-b51b-1dc1a27617f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Render\Light">
+      <UniqueIdentifier>{a114e2eb-b104-46a8-ab16-9fbec3156cf9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -305,6 +308,9 @@
     </ClCompile>
     <ClCompile Include="EditorCamera.cpp">
       <Filter>Assets\Scripts\Common\Editor Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Engine\Render\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -514,6 +520,9 @@
     </ClInclude>
     <ClInclude Include="EditorCamera.h">
       <Filter>Assets\Scripts\Common\Editor Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Engine\Render\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

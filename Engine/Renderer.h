@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include "EntityManager.h"	
+#include "Light.h"
 #include "Camera.h"
 
 struct RendererData {
@@ -9,6 +10,8 @@ struct RendererData {
 
 	mat4f projection;
 	mat4f view;
+
+	std::vector<Light*>* lights;
 };
 
 class Renderer {

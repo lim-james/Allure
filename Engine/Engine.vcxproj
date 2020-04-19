@@ -142,6 +142,7 @@
     <ClCompile Include="FollowCursor.cpp" />
     <ClCompile Include="EditorCamera.cpp" />
     <ClCompile Include="InvertMaterial.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="LineDefaultMaterial.cpp" />
     <ClCompile Include="LineRender.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="InvertMaterial.h" />
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="Layers.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="LineDefaultMaterial.h" />
     <ClInclude Include="LineRender.h" />
     <ClInclude Include="LineRenderer.h" />

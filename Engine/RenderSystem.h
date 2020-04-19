@@ -2,6 +2,7 @@
 #define RENDER_SYSTEM_H
 
 #include "System.h"
+#include "Light.h"
 #include "Camera.h"
 #include "Framebuffer.h"
 #include "Renderer.h"
@@ -13,6 +14,8 @@
 #include <map>
 
 class RenderSystem : public System {
+
+	std::vector<Light*> lights;
 
 	std::vector<Camera*> cameras;
 	std::vector<Camera*> fbCameras;
@@ -35,6 +38,8 @@ public:
 	void Stop() override;
 
 private:
+
+	void LightActiveHandler(Events::Event* event);
 
 	void CameraActiveHandler(Events::Event* event);
 	void CameraDepthHandler(Events::Event* event);

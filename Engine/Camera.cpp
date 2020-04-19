@@ -37,8 +37,6 @@ Camera::Camera()
 	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &Camera::WindowResizeHandler, this);
 }
 
-Camera::~Camera() {}
-
 void Camera::Initialize() {
 	shouldClear = true;
 	clearColor = vec4f(0.f);
