@@ -33,29 +33,8 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 }
 
 void SpriteRenderer::Render(RendererData const& data) {
-	for (auto& shaderPair : batches) {
-		Shader* const shader = shaderPair.first;
-
-		shader->Use();
-		shader->SetMatrix4("projection", data.projection);
-		shader->SetMatrix4("view", data.view);
-
-		for (auto& materialPair : shaderPair.second) {
-			
-			materialPair.first->SetAttributes();
-
-			for (auto& batchPair : materialPair.second) {
-				auto const& tex = batchPair.first;
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, tex);
-				shader->SetInt("useTex", tex);
-
-				RenderStatic(data, batchPair.second);
-				RenderDynamic(data, batchPair.second);
-			}
-		}
-	}
-
+	RenderBatches(data, opaqueBatches);
+	RenderBatches(data, transparentBatches);
 	updateStatic = false;
 }
 
@@ -82,7 +61,7 @@ void SpriteRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& ins
 	glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)offset);
 	offset += sizeof(vec4f);
 	// model
-	for (int u = 0; u < 4; ++u) {
+	for (unsigned u = 0; u < 4; ++u) {
 		glEnableVertexAttribArray(i);
 		glVertexAttribPointer(i++, 4, GL_FLOAT, GL_FALSE, stride, (void*)(u * unit + offset));
 	}
@@ -91,6 +70,31 @@ void SpriteRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& ins
 		glVertexAttribDivisor(i, 1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void SpriteRenderer::RenderBatches(RendererData const& data, Batches& batches) {
+	for (auto& shaderPair : batches) {
+		Shader* const shader = shaderPair.first;
+
+		shader->Use();
+		shader->SetMatrix4("projection", data.projection);
+		shader->SetMatrix4("view", data.view);
+
+		for (auto& materialPair : shaderPair.second) {
+			
+			materialPair.first->SetAttributes();
+
+			for (auto& batchPair : materialPair.second) {
+				auto const& tex = batchPair.first;
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, tex);
+				shader->SetInt("useTex", tex);
+
+				RenderStatic(data, batchPair.second);
+				RenderDynamic(data, batchPair.second);
+			}
+		}
+	}
 }
 
 void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
@@ -102,12 +106,12 @@ void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 		std::vector<Instance> instances;
 		instances.reserve(batch.staticList.size());
 
-		for (auto& c : batch.staticList) {
+		for (SpriteRender* const c : batch.staticList) {
 			if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
 				continue;
 			}
 
-			auto transform = entities->GetComponent<Transform>(c->entity);
+			Transform* const transform = entities->GetComponent<Transform>(c->entity);
 
 			Instance instance;
 			instance.uvRect = c->uvRect;
@@ -142,12 +146,12 @@ void SpriteRenderer::RenderDynamic(RendererData const& data, Batch const& batch)
 	std::vector<Instance> instances;
 	instances.reserve(batch.dynamicList.size());
 
-	for (auto& c : batch.dynamicList) {
+	for (SpriteRender* const c : batch.dynamicList) {
 		if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
 			continue;
 		}
 
-		auto transform = entities->GetComponent<Transform>(c->entity);
+		Transform* const transform = entities->GetComponent<Transform>(c->entity);
 
 		Instance instance;
 		instance.uvRect = c->uvRect;
@@ -166,14 +170,17 @@ void SpriteRenderer::RenderDynamic(RendererData const& data, Batch const& batch)
 }
 
 void SpriteRenderer::ActiveHandler(Events::Event * event) {
-	auto& c = static_cast<Events::AnyType<SpriteRender*>*>(event)->data;
+	SpriteRender* const c = static_cast<Events::AnyType<SpriteRender*>*>(event)->data;
 
-	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
-	auto shader = material->GetShader();
-
-	auto& batch = batches[shader][material][c->GetSprite()];
-	auto& list = c->IsDynamic() ? batch.dynamicList : batch.staticList;
 	if (!c->IsDynamic()) updateStatic = true;
+
+	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
+	Shader* const shader = material->GetShader();
+
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
+	Batch& batch = batches[shader][material][c->GetSprite()];
+
+	auto& list = c->IsDynamic() ? batch.dynamicList : batch.staticList;
 
 	if (c->IsActive()) {
 		Helpers::Insert(list, c);
@@ -183,15 +190,16 @@ void SpriteRenderer::ActiveHandler(Events::Event * event) {
 }
 
 void SpriteRenderer::DynamicHandler(Events::Event * event) {
-	auto& c = static_cast<Events::AnyType<SpriteRender*>*>(event)->data;
+	SpriteRender* const c = static_cast<Events::AnyType<SpriteRender*>*>(event)->data;
 
 	if (!c->IsActive()) return;
 
-	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
-	auto shader = material->GetShader();
-	auto const& sprite = c->GetSprite();
+	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
+	Shader* const shader = material->GetShader();
+	unsigned const& sprite = c->GetSprite();
 
-	auto& batch = batches[shader][material][sprite];
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
+	Batch& batch = batches[shader][material][sprite];
 
 	auto& previousList = c->IsDynamic() ? batch.staticList : batch.dynamicList;
 	auto& currentList = c->IsDynamic() ? batch.dynamicList : batch.staticList;
@@ -203,17 +211,19 @@ void SpriteRenderer::DynamicHandler(Events::Event * event) {
 }
 
 void SpriteRenderer::SpriteChangeHandler(Events::Event* event) {
-	auto changeEvent = static_cast<Events::SpriteChange*>(event);
-	auto& c = changeEvent->component;
+	const auto changeEvent = static_cast<Events::SpriteChange*>(event);
+	SpriteRender* const c = changeEvent->component;
 
 	if (!c->IsActive()) return;
 
-	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
-	auto shader = material->GetShader();
+	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
+	Shader* const shader = material->GetShader();
 	
-	auto& batch = batches[shader][material];
-	auto& previous = batch[changeEvent->previous];
-	auto& current = batch[c->GetSprite()];
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
+	SpriteBatches& batch = batches[shader][material];
+
+	Batch& previous = batch[changeEvent->previous];
+	Batch& current = batch[c->GetSprite()];
 
 	if (c->IsDynamic()) {
 		if (Helpers::Remove(previous.dynamicList, c)) {
@@ -228,45 +238,50 @@ void SpriteRenderer::SpriteChangeHandler(Events::Event* event) {
 }
 
 void SpriteRenderer::MaterialHandler(Events::Event * event) {
-	auto changeEvent = static_cast<Events::MaterialChange*>(event);
+	const auto changeEvent = static_cast<Events::MaterialChange*>(event);
 	auto c = static_cast<SpriteRender*>(changeEvent->component);
 
 	if (!c->IsActive()) return;
 
-	auto const& sprite = c->GetSprite();
-	auto material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
-	auto shader = material->GetShader();
+	unsigned const& sprite = c->GetSprite();
+	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
+	Shader* const shader = material->GetShader();
 
-	auto previousMaterial = changeEvent->previous ? changeEvent->previous : defaultMaterial;
-	auto& previous = batches[previousMaterial->GetShader()][previousMaterial];
-	auto& current = batches[shader][material];
+	Material::Base* const previousMaterial = changeEvent->previous ? changeEvent->previous : defaultMaterial;
+
+	Batches& previousBatches = previousMaterial->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
+	Batches& currentBatches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
+
+	Batch& previous = previousBatches[previousMaterial->GetShader()][previousMaterial][sprite];
+	Batch& current = currentBatches[shader][material][sprite];
 
 	if (c->IsDynamic()) {
-		if (Helpers::Remove(previous[sprite].dynamicList, c)) {
-			current[sprite].dynamicList.push_back(c);
+		if (Helpers::Remove(previous.dynamicList, c)) {
+			current.dynamicList.push_back(c);
 		}
 	} else {
-		if (Helpers::Remove(previous[sprite].staticList, c)) {
-			current[sprite].staticList.push_back(c);
+		if (Helpers::Remove(previous.staticList, c)) {
+			current.staticList.push_back(c);
 			updateStatic = true;
 		}
 	}
 }
 
 void SpriteRenderer::ShaderHandler(Events::Event * event) {
-	auto changeEvent = static_cast<Events::ShaderChange*>(event);
-	auto& material = changeEvent->material;
+	const auto changeEvent = static_cast<Events::ShaderChange*>(event);
+	Material::Base* const material = changeEvent->material;
 	
-	auto previous = changeEvent->previous;
-	auto current = material->GetShader();
+	Shader* const previous = changeEvent->previous;
+	Shader* const current = material->GetShader();
 
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	batches[current][material] = batches[previous][material];
 	batches[previous].erase(material);
 	updateStatic = true;
 }
 
 void SpriteRenderer::GenerateQuad(unsigned& VAO) {
-	float quadVertices[] = {
+	const float quadVertices[] = {
 		-0.5f, 0.5f,
 		-0.5f, -0.5f,
 		 0.5f, -0.5f,

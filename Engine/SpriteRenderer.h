@@ -36,7 +36,8 @@ class SpriteRenderer : public Renderer {
 	Material::SpriteDefault* defaultMaterial;
 
 	bool updateStatic;
-	Batches batches;
+	Batches opaqueBatches;
+	Batches transparentBatches;
 
 public:
 
@@ -49,6 +50,7 @@ private:
 
 	void InitializeInstanceBuffer(unsigned const& VAO, unsigned& instanceBuffer);
 
+	void RenderBatches(RendererData const& data, Batches& batches);
 	void RenderStatic(RendererData const& data, Batch& batch);
 	void RenderDynamic(RendererData const& data, Batch const& batch);
 

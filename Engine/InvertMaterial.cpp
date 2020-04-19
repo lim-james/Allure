@@ -6,5 +6,4 @@ Material::Invert::Invert() {
 	shader->SetInt("tex", 0);
 }
 
-void Material::Invert::SetAttributes() {
-}
+void Material::Invert::SetAttributes() {}

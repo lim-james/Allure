@@ -217,21 +217,4 @@ void TitleScene::Create() {
 		follow->SetActive(true);
 		follow->camera = entities->GetComponent<Camera>(mainCamera);
 	}
-	
-	// stress test
-	for (float x = -10.f; x <= 10.f; x += 0.5f) {
-		for (float y = -10.f; y <= 10.f; y += 0.5f) {
-			const unsigned entity = entities->Create();
-
-			auto transform = entities->GetComponent<Transform>(entity);
-			transform->translation = vec3f(x * 0.5f, y * 0.5f, 0.0f);
-			transform->scale = vec3f(0.1f);
-			transform->SetDynamic(false);
-
-			auto render = entities->AddComponent<SpriteRender>(entity);
-			render->SetActive(true);
-			render->tint = vec4f(0.5f);
-			render->SetDynamic(false);
-		}
-	}
 }

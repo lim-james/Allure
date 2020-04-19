@@ -25,24 +25,8 @@ void MeshRenderer::Initialize(EntityManager * const manager) {
 }
 
 void MeshRenderer::Render(RendererData const& data) {
-	for (auto& shaderPair : batches) {
-		Shader* const shader = shaderPair.first;
-
-		shader->Use();
-		shader->SetMatrix4("projection", data.projection);
-		shader->SetMatrix4("view", data.view);
-
-		for (auto& materialPair : shaderPair.second) {
-			
-			materialPair.first->SetAttributes();
-
-			for (auto& batchPair : materialPair.second) {
-				RenderStatic(data, batchPair.first, batchPair.second);
-				RenderDynamic(data, batchPair.first, batchPair.second);
-			}
-		}
-	}
-
+	RenderBatches(data, opaqueBatches);
+	RenderBatches(data, transparentBatches);
 	updateStatic = false;
 }
 
@@ -67,6 +51,26 @@ void MeshRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& insta
 		glVertexAttribDivisor(i, 1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void MeshRenderer::RenderBatches(RendererData const& data, Batches& batches) {
+	for (auto& shaderPair : batches) {
+		Shader* const shader = shaderPair.first;
+
+		shader->Use();
+		shader->SetMatrix4("projection", data.projection);
+		shader->SetMatrix4("view", data.view);
+
+		for (auto& materialPair : shaderPair.second) {
+			
+			materialPair.first->SetAttributes();
+
+			for (auto& batchPair : materialPair.second) {
+				RenderStatic(data, batchPair.first, batchPair.second);
+				RenderDynamic(data, batchPair.first, batchPair.second);
+			}
+		}
+	}
 }
 
 void MeshRenderer::RenderStatic(RendererData const & data, Mesh* const mesh, Batch& batch) {
@@ -139,6 +143,8 @@ void MeshRenderer::ActiveHandler(Events::Event * event) {
 
 	Material::Base * const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	Shader * const shader = material->GetShader();
+
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	MeshBatches& meshBatches = batches[shader][material];
 
 	for (Mesh* const mesh : model->meshes) {
@@ -168,6 +174,8 @@ void MeshRenderer::DynamicHandler(Events::Event * event) {
 
 	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	Shader* const shader = material->GetShader();
+	
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	MeshBatches& meshBatches = batches[shader][material];
 	
 	for (Mesh* const mesh : model->meshes) {
@@ -184,13 +192,15 @@ void MeshRenderer::DynamicHandler(Events::Event * event) {
 }
 
 void MeshRenderer::ModelChangeHandler(Events::Event* event) {
-	Events::ModelChange* const changeEvent = static_cast<Events::ModelChange*>(event);
+	const auto changeEvent = static_cast<Events::ModelChange*>(event);
 	MeshRender* const c = changeEvent->component;
 
 	if (!c->IsActive()) return;
 
 	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	Shader* const shader = material->GetShader();
+
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	MeshBatches& meshBatches = batches[shader][material];
 
 	Model* const current = c->GetModel();
@@ -231,7 +241,7 @@ void MeshRenderer::ModelChangeHandler(Events::Event* event) {
 }
 
 void MeshRenderer::MaterialHandler(Events::Event * event) {
-	Events::MaterialChange* const changeEvent = static_cast<Events::MaterialChange*>(event);
+	const auto changeEvent = static_cast<Events::MaterialChange*>(event);
 	MeshRender* const c = static_cast<MeshRender*>(changeEvent->component);
 
 	if (!c->IsActive()) return;
@@ -243,8 +253,12 @@ void MeshRenderer::MaterialHandler(Events::Event * event) {
 	Shader* const shader = material->GetShader();
 
 	Material::Base* previousMaterial = changeEvent->previous ? changeEvent->previous : defaultMaterial;
-	auto& previous = batches[previousMaterial->GetShader()][previousMaterial];
-	auto& current = batches[shader][material];
+
+	Batches& previousBatches = previousMaterial->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
+	Batches& currentBatches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
+
+	auto& previous = previousBatches[previousMaterial->GetShader()][previousMaterial];
+	auto& current = currentBatches[shader][material];
 
 	for (Mesh* const mesh : model->meshes) {
 		if (c->IsDynamic()) {
@@ -261,12 +275,13 @@ void MeshRenderer::MaterialHandler(Events::Event * event) {
 }
 
 void MeshRenderer::ShaderHandler(Events::Event * event) {
-	Events::ShaderChange* const changeEvent = static_cast<Events::ShaderChange*>(event);
+	const auto changeEvent = static_cast<Events::ShaderChange*>(event);
 	Material::Base* const material = changeEvent->material;
 	
 	Shader* const previous = changeEvent->previous;
 	Shader* const current = material->GetShader();
 
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	batches[current][material] = batches[previous][material];
 	batches[previous].erase(material);
 	updateStatic = true;

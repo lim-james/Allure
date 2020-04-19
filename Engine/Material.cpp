@@ -2,6 +2,12 @@
 
 #include <Events/EventsManager.h>
 
+Material::Base::Base() : flags(0), shader(nullptr) {}
+
+BitField const & Material::Base::GetFlags() const {
+	return flags;
+}
+
 Shader * const Material::Base::GetShader() const {
 	return shader;
 }

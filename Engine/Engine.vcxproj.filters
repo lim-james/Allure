@@ -103,14 +103,14 @@
     <Filter Include="Assets\Materials">
       <UniqueIdentifier>{946e004f-350a-4b2f-b589-5dd0ea744569}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scripts\Common\FPSCamera">
-      <UniqueIdentifier>{4f40516b-2ef3-4ef1-b51b-1dc1a27617f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Scenes\Sample">
       <UniqueIdentifier>{fdcd3e26-cdf1-4245-b964-61a7be0d27a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Render\Model">
       <UniqueIdentifier>{8fd62a2c-80cd-46ae-825d-86833a34cabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Common\Editor Camera">
+      <UniqueIdentifier>{4f40516b-2ef3-4ef1-b51b-1dc1a27617f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -276,9 +276,6 @@
     <ClCompile Include="InvertMaterial.cpp">
       <Filter>Assets\Materials</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCamera.cpp">
-      <Filter>Assets\Scripts\Common\FPSCamera</Filter>
-    </ClCompile>
     <ClCompile Include="SampleScene.cpp">
       <Filter>Assets\Scenes\Sample</Filter>
     </ClCompile>
@@ -302,6 +299,12 @@
     </ClCompile>
     <ClCompile Include="MeshDefaultMaterial.cpp">
       <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="UnlitDefaultMaterial.cpp">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorCamera.cpp">
+      <Filter>Assets\Scripts\Common\Editor Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -482,9 +485,6 @@
     <ClInclude Include="InvertMaterial.h">
       <Filter>Assets\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="FPSCamera.h">
-      <Filter>Assets\Scripts\Common\FPSCamera</Filter>
-    </ClInclude>
     <ClInclude Include="SampleScene.h">
       <Filter>Assets\Scenes\Sample</Filter>
     </ClInclude>
@@ -508,6 +508,12 @@
     </ClInclude>
     <ClInclude Include="MeshDefaultMaterial.h">
       <Filter>Engine\Render\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="UnlitDefaultMaterial.h">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorCamera.h">
+      <Filter>Assets\Scripts\Common\Editor Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

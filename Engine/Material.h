@@ -4,11 +4,20 @@
 #include "Shader.h"
 
 #include "Component.h"
+#include <Bit/BitField.h>
 #include <Events/Event.h>
+
+#define SURFACE_TRANSPARENT 0b1
 
 namespace Material {
 
 	struct Base {
+
+		BitField flags;
+
+		Base();
+
+		BitField const& GetFlags() const;
 
 		Shader* const GetShader() const;
 		void SetShader(Shader* const _shader);
