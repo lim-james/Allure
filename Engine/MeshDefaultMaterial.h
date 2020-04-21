@@ -24,6 +24,11 @@ namespace Material {
 		unsigned aoMap;
 		float ao;
 
+		vec2f tiling;
+		vec2f offset;
+
+		float alphaClipping;
+
 		MeshDefault();
 		void SetAttributes() override;
 	};

@@ -21,8 +21,10 @@ uniform int lightCount;
 
 uniform mat4 projection;
 uniform mat4 view;
-//uniform mat4 model;
 uniform mat4 lightSpaceMatrices[16];
+
+uniform vec2 tiling;
+uniform vec2 offset;
 
 void main() {
 	vec4 position = vec4(inPosition, 1.f);
@@ -31,7 +33,7 @@ void main() {
 
 	vs_out.fragmentPosition = vec3(iModel * position);
 	vs_out.normal = mat3(iModel) * inNormal;
-	vs_out.texCoord = inTexCoord;
+	vs_out.texCoord = inTexCoord * tiling + offset;
 
 	for (int i = 0; i < lightCount; ++i) {
 		vs_out.fragPosLightSpace.positions[i] = lightSpaceMatrices[i] * vec4(vs_out.fragmentPosition, 1.f);

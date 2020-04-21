@@ -8,7 +8,8 @@ Material::MeshDefault::MeshDefault()
 	, useMetallicMap(false), metallicMap(0), metallic(0)
 	, useRoughnessMap(false), roughnessMap(0), roughness(0)
 	, useAOMap(false), aoMap(0), ao(1)
-{
+	, tiling(1.f), offset(0.f)
+	, alphaClipping(0.5f) {
 	shader = new Shader("Files/Shaders/standard3D.vert", "Files/Shaders/standard3D.frag");
 	shader->Use();
 	shader->SetInt("material.albedoMap", 0);
@@ -56,4 +57,9 @@ void Material::MeshDefault::SetAttributes() {
 	} else {
 		shader->SetFloat("material.ao", ao);
 	}
+
+	shader->SetVector2("tiling", tiling);
+	shader->SetVector2("offset", offset);
+	
+	shader->SetFloat("alphaClipping", alphaClipping);
 }

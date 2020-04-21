@@ -56,6 +56,7 @@ in VS_OUT {
 
 uniform vec3 viewPosition;
 uniform Material material;
+uniform float alphaClipping;
 
 uniform Light lights[16];
 uniform int lightCount;
@@ -140,6 +141,8 @@ void main() {
 		albedo = material.albedo.rgb;
 		alpha = material.albedo.a;
 	}
+
+	if (alpha <= alphaClipping) discard;
 
 	if (material.useNormalMap) {
 		N = getNormalFromMap();
