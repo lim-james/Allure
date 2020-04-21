@@ -4,7 +4,7 @@
 
 Material::MeshDefault::MeshDefault()
 	: useAlbedoMap(false), albedoMap(0), albedo(1.0f)
-	, useNormalMap(false), normalMap(0), normal(0.f)
+	, useNormalMap(false), normalMap(0)
 	, useMetallicMap(false), metallicMap(0), metallic(0)
 	, useRoughnessMap(false), roughnessMap(0), roughness(0)
 	, useAOMap(false), aoMap(0), ao(1)
@@ -31,8 +31,6 @@ void Material::MeshDefault::SetAttributes() {
 	if (useNormalMap) {
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, normalMap);
-	} else {
-		shader->SetVector4("material.normal", normal);
 	}
 
 	shader->SetInt("material.useMetallicMap", useMetallicMap);

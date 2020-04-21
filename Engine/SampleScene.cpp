@@ -36,18 +36,24 @@ void SampleScene::Create() {
 	rustediron->roughnessMap = Load::TGA("Files/Textures/rustediron2_roughness.tga");
 	rustediron->ao = 0.5f;
 
-	Material::MeshDefault* streakedmetal = new Material::MeshDefault;
-	streakedmetal->useAlbedoMap = true;
-	streakedmetal->albedoMap = Load::TGA("Files/Textures/streakedmetal-albedo.tga");
-	streakedmetal->useMetallicMap = true;
-	streakedmetal->metallicMap = Load::TGA("Files/Textures/streakedmetal-metalness.tga");
-	streakedmetal->useRoughnessMap = true;
-	streakedmetal->roughnessMap = Load::TGA("Files/Textures/streakedmetal-roughness.tga");
-	streakedmetal->ao = 0.5f;
+	//Material::MeshDefault* streakedmetal = new Material::MeshDefault;
+	//streakedmetal->useAlbedoMap = true;
+	//streakedmetal->albedoMap = Load::TGA("Files/Textures/streakedmetal-albedo.tga");
+	//streakedmetal->useMetallicMap = true;
+	//streakedmetal->metallicMap = Load::TGA("Files/Textures/streakedmetal-metalness.tga");
+	//streakedmetal->useRoughnessMap = true;
+	//streakedmetal->roughnessMap = Load::TGA("Files/Textures/streakedmetal-roughness.tga");
+	//streakedmetal->ao = 0.5f;
+
+	Material::MeshDefault* red = new Material::MeshDefault;
+	red->albedo = vec4f(1.0f, 0.0f, 0.0f, 1.0f);
+	red->metallic = 1.0f;
+	red->roughness = 1.0f;
+	red->ao = 0.5f;
 
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
-	camera->clearColor = 0.5f;
+	//camera->clearColor = 0.5f;
 	camera->cullingMask -= UI;
 
 	{
@@ -80,7 +86,6 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.x = 3.0f;
 		transform->scale = 5.0f;
 		transform->SetDynamic(false);
 
@@ -98,12 +103,27 @@ void SampleScene::Create() {
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->scale = 5.0f;
-		transform->translation.x = 10.0f;
+		transform->translation.x = 7.0f;
 		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
-		render->SetActive(true);
+		//render->SetActive(true);
 		render->SetMaterial(rustediron);
+		render->SetModel(Load::OBJ("Files/Models/sphere.obj"));
+		render->SetDynamic(false);
+	}
+
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->scale = 5.0f;
+		transform->translation.x = -7.0f;
+		transform->SetDynamic(false);
+
+		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
+		//render->SetActive(true);
+		render->SetMaterial(red);
 		render->SetModel(Load::OBJ("Files/Models/sphere.obj"));
 		render->SetDynamic(false);
 	}

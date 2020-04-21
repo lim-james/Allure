@@ -10,7 +10,6 @@ struct Material {
 
 	bool useNormalMap;
 	sampler2D normalMap;
-	vec3 normal;
 
 	bool useMetallicMap;
 	sampler2D metallicMap;
@@ -64,13 +63,7 @@ uniform int lightCount;
 const float PI = 3.14159265359;
 
 vec3 getNormalFromMap() {
-	vec3 normal; 
-	
-	if (material.useNormalMap) {
-		normal = texture(material.normalMap, vs_out.texCoord).xyz;
-	} else {
-		normal = material.normal;
-	}
+	vec3 normal = texture(material.normalMap, vs_out.texCoord).xyz;
 
     vec3 tangentNormal = normal * 2.0 - 1.0;
 
@@ -134,6 +127,7 @@ vec4 getBrightColor(vec4 fragColor) {
 void main() {
 	float alpha;
     vec3 albedo;     
+	vec3 N;
     float metallic;  
     float roughness; 
     float ao;
@@ -145,6 +139,12 @@ void main() {
 	} else {
 		albedo = material.albedo.rgb;
 		alpha = material.albedo.a;
+	}
+
+	if (material.useNormalMap) {
+		N = getNormalFromMap();
+	} else {
+		N = normalize(vs_out.normal);
 	}
 
 	if (material.useMetallicMap) {
@@ -165,7 +165,6 @@ void main() {
 		ao = material.ao;	
 	}
 
-    vec3 N = getNormalFromMap();
     vec3 V = normalize(viewPosition - vs_out.fragmentPosition);
 
     // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0 

@@ -11,7 +11,6 @@ namespace Material {
 
 		bool useNormalMap;
 		unsigned normalMap;
-		vec3f normal;
 
 		bool useMetallicMap;
 		unsigned metallicMap;
