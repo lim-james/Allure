@@ -12,7 +12,7 @@ unsigned Load::TGA(std::string const& filepath) {
 
 	std::ifstream fileStream(filepath, std::ios::binary);
 	if (!fileStream.is_open()) {
-		Debug::Log << "Impossible to open " << filepath << ". Are you in the right directory ?\n";
+		Debug::Error << "Impossible to open " << filepath << ". Are you in the right directory ?\n";
 		return 0;
 	}
 
@@ -32,7 +32,7 @@ unsigned Load::TGA(std::string const& filepath) {
 		(header[16] != 24 && header[16] != 32))		// is TGA 24 or 32 Bit
 	{
 		fileStream.close();							// close file on failure
-		std::cout << "File header error.\n";
+		Debug::Error << "\"" << filepath << "\" has invalid encoding.\n";
 		return 0;
 	}
 

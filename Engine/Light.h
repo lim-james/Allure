@@ -14,6 +14,9 @@ struct Light : Component {
 
 	short type;
 
+	float range;
+	float innerCutOff, outerCutOff;
+
 	vec4f color;
 	float intensity;
 	float indirectMultiplier;

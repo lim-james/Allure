@@ -30,9 +30,9 @@ void main() {
 	gl_Position = projection * view * iModel * position;
 
 	vs_out.fragmentPosition = vec3(iModel * position);
-	vs_out.normal = mat3(transpose(iModel)) * inNormal;
-
+	vs_out.normal = mat3(iModel) * inNormal;
 	vs_out.texCoord = inTexCoord;
+
 	for (int i = 0; i < lightCount; ++i) {
 		vs_out.fragPosLightSpace.positions[i] = lightSpaceMatrices[i] * vec4(vs_out.fragmentPosition, 1.f);
 	}

@@ -45,3 +45,12 @@ void MeshRender::SetMaterial(Material::Base * const _material) {
 	material = _material;
 	Events::EventsManager::GetInstance()->Trigger("MESH_MATERIAL", event);
 }
+
+bool MeshRender::IsCastingShadow() const {
+	return castShadow;
+}
+
+void MeshRender::SetCastShader(bool const & state) {
+	castShadow = state;
+	Events::EventsManager::GetInstance()->Trigger("CAST_SHADOW", new Events::AnyType<MeshRender*>(this));
+}

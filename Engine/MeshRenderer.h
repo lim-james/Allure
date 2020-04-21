@@ -49,9 +49,12 @@ private:
 
 	void ActiveHandler(Events::Event* event);
 	void DynamicHandler(Events::Event* event);
+
 	void ModelChangeHandler(Events::Event* event);
 	void MaterialHandler(Events::Event* event);
 	void ShaderHandler(Events::Event* event);
+
+	void CastShadowHandler(Events::Event* event);
 
 };
 

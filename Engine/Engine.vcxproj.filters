@@ -115,6 +115,9 @@
     <Filter Include="Engine\Render\Light">
       <UniqueIdentifier>{a114e2eb-b104-46a8-ab16-9fbec3156cf9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Common\Orbit">
+      <UniqueIdentifier>{508fdaa3-b472-434e-96f9-0968944f6e69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -311,6 +314,9 @@
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Engine\Render\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Orbit.cpp">
+      <Filter>Assets\Scripts\Common\Orbit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +529,9 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Engine\Render\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Orbit.h">
+      <Filter>Assets\Scripts\Common\Orbit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

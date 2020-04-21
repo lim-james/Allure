@@ -22,6 +22,7 @@ void MeshRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("MODEL_CHANGE", &MeshRenderer::ModelChangeHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MESH_MATERIAL", &MeshRenderer::MaterialHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &MeshRenderer::ShaderHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("CAST_SHADOW", &MeshRenderer::CastShadowHandler, this);
 }
 
 void MeshRenderer::Render(RendererData const& data) {
@@ -54,12 +55,38 @@ void MeshRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& insta
 }
 
 void MeshRenderer::RenderBatches(RendererData const& data, Batches& batches) {
+	const unsigned lightCount = data.lights->size();
+
+	Transform* const cameraTransform = entities->GetComponent<Transform>(data.camera->entity);
+	const vec3f viewPosition = cameraTransform->GetWorldTranslation();
+
 	for (auto& shaderPair : batches) {
 		Shader* const shader = shaderPair.first;
 
 		shader->Use();
 		shader->SetMatrix4("projection", data.projection);
 		shader->SetMatrix4("view", data.view);
+
+		shader->SetVector3("viewPosition", viewPosition);
+		shader->SetInt("lightCount", lightCount);
+
+		for (unsigned i = 0; i < lightCount; ++i) {
+			Light* const light = data.lights->at(i);
+			const std::string tag = "lights[" + std::to_string(i) + "].";
+
+			shader->SetInt(tag + "type", light->type);
+			shader->SetFloat(tag + "range", light->range);
+			shader->SetFloat(tag + "innerCutOff", light->innerCutOff);
+			shader->SetFloat(tag + "outerCutOff", light->outerCutOff);
+			shader->SetVector4(tag + "color", light->color);
+			shader->SetFloat(tag + "intensity", light->intensity);
+			shader->SetFloat(tag + "indirectMultiplier", light->indirectMultiplier);
+			shader->SetFloat(tag + "strength", light->strength);
+
+			Transform* const transform = entities->GetComponent<Transform>(light->entity);
+			shader->SetVector3(tag + "position", transform->GetWorldTranslation());
+			shader->SetVector3(tag + "direction", transform->GetLocalFront());
+		}
 
 		for (auto& materialPair : shaderPair.second) {
 			
@@ -284,5 +311,10 @@ void MeshRenderer::ShaderHandler(Events::Event * event) {
 	batches[current][material] = batches[previous][material];
 	batches[previous].erase(material);
 	updateStatic = true;
+}
+
+void MeshRenderer::CastShadowHandler(Events::Event * event) {
+	MeshRender* const c = static_cast<Events::AnyType<MeshRender*>*>(event)->data;
+	
 }
 

@@ -20,10 +20,15 @@ struct MeshRender : Component {
 	Material::Base* const GetMaterial() const;
 	void SetMaterial(Material::Base* const _material);
 
+	bool IsCastingShadow() const;
+	void SetCastShader(bool const& state);
+
 private:
 
 	Model* model;
 	Material::Base* material;
+
+	bool castShadow;
 
 };
 
