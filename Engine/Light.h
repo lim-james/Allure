@@ -19,7 +19,6 @@ struct Light : Component {
 
 	vec4f color;
 	float intensity;
-	float indirectMultiplier;
 
 	bool castShadow;
 	float strength;

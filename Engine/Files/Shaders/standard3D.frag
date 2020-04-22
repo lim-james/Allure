@@ -33,7 +33,6 @@ struct Light {
 
 	vec4 color;
 	float intensity;
-	float indirectMultiplier;
 
 	float strength;
 
@@ -127,11 +126,8 @@ vec4 getBrightColor(vec4 fragColor) {
 
 void main() {
 	float alpha;
-    vec3 albedo;     
-	vec3 N;
-    float metallic;  
-    float roughness; 
-    float ao;
+	vec3 albedo, N;
+	float metallic, roughness, ao;
 
 	if (material.useAlbedoMap) {
 		vec4 color = texture(material.albedoMap, vs_out.texCoord);
@@ -177,15 +173,36 @@ void main() {
 
     // reflectance equation
     vec3 Lo = vec3(0.0);
-    for(int i = 0; i < lightCount; ++i) {
+    for (int i = 0; i < lightCount; ++i) {
 		vec3 lightPosition = lights[i].position;
 
         // calculate per-light radiance
-		vec3 D = lightPosition - vs_out.fragmentPosition;
+		vec3 D;
+        float dist;
+		float intensity = lights[i].intensity;
+
+		if (lights[i].type == 0) {
+			// spot light
+			D = lightPosition - vs_out.fragmentPosition;
+			dist = length(D);
+			float theta = dot(normalize(D), normalize(-lights[i].direction));
+			float epsilon = lights[i].innerCutOff - lights[i].outerCutOff;
+			float brightness = max(lights[i].range - dist, 0.0f) / lights[i].range;
+			intensity *= brightness * clamp((theta - lights[i].outerCutOff) / epsilon, 0.0, 1.0);    
+		} else if (lights[i].type == 1) {
+			// directional light
+			D = lights[i].direction;
+			dist = 1;
+		} else {
+			// point light
+			D = lightPosition - vs_out.fragmentPosition;
+			dist = length(D);
+		}
+
         vec3 L = normalize(D);
         vec3 H = normalize(V + L);
-        float dist = length(D);
-        float attenuation = lights[i].intensity / (dist * dist);
+
+        float attenuation = intensity / (dist * dist);
         vec3 radiance = vec3(lights[i].color) * attenuation;
 
         // Cook-Torrance BRDF
@@ -194,7 +211,7 @@ void main() {
         vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
            
         vec3 nominator = NDF * G * F; 
-        float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001; // 0.001 to prevent divide by zero.
+        float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001; // 0.001 to prevent divide by zero.
         vec3 specular = nominator / denominator;
         
         // kS is equal to Fresnel

@@ -27,7 +27,7 @@ namespace Math {
 
 	template<typename T>
 	mat4<T> Perspective(T const& fovy, T const& aspect, T const& nearPlane, T const& farPlane) {
-		T f = 1.f / tan(Rad(fovy / 2.f));
+		T f = 1.f / tan(Math::toRad * fovy / 2.f);
 		return mat4<T>(
 			f / aspect, 0, 0, 0,
 			0,	f, 0, 0,
@@ -64,8 +64,9 @@ namespace Math {
 
 		const T mag = sqrt(axis.x * axis.x + axis.y * axis.y + axis.z * axis.z);
 
+		const T a = angle * Math::toRad;
 		const T x = axis.x / mag, y = axis.y / mag, z = axis.z / mag;
-		const T c = cos(Rad(angle)), s = sin(Rad(angle));
+		const T c = cos(a), s = sin(a);
 
 		mat[0] = x * x * (1 - c) + c;
 		mat[1] = y * x * (1 - c) + z * s;

@@ -6,9 +6,10 @@
 
 Light::Light() 
 	: type(LIGHT_DIRECTIONAL)
+	, innerCutOff(12.5f)
+	, outerCutOff(17.5f)
 	, color(1.f) 
 	, intensity(1.f) 
-	, indirectMultiplier(1.f) 
 	, castShadow(true)
 	, strength(1.f)
 	, cullingMask(DEFAULT) {
@@ -16,9 +17,10 @@ Light::Light()
 
 void Light::Initialize() {
 	type = LIGHT_DIRECTIONAL;
+	innerCutOff = 12.5f;
+	outerCutOff = 17.5f;
 	color = 1.f;
 	intensity = 1.f;
-	indirectMultiplier = 1.f;
 	castShadow = true;
 	strength = 1.f;
 	cullingMask = DEFAULT;

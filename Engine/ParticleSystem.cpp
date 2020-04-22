@@ -179,7 +179,7 @@ void ParticleSystem::Update(float const& dt) {
 					Math::RandMinMax(-emitter->positionRange.z, emitter->positionRange.z)
 				);
 
-				const vec3f vAngle = Math::Rad(transform->rotation + emitter->angle + vec3f(
+				const vec3f vAngle = Math::toRad * (transform->rotation + emitter->angle + vec3f(
 					Math::RandMinMax(-emitter->angleRange.x, emitter->angleRange.x),
 					Math::RandMinMax(-emitter->angleRange.y, emitter->angleRange.y),
 					Math::RandMinMax(-emitter->angleRange.z, emitter->angleRange.z)

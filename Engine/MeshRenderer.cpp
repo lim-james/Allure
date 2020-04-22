@@ -76,11 +76,10 @@ void MeshRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 
 			shader->SetInt(tag + "type", light->type);
 			shader->SetFloat(tag + "range", light->range);
-			shader->SetFloat(tag + "innerCutOff", light->innerCutOff);
-			shader->SetFloat(tag + "outerCutOff", light->outerCutOff);
+			shader->SetFloat(tag + "innerCutOff", cos(light->innerCutOff * Math::toRad));
+			shader->SetFloat(tag + "outerCutOff", cos(light->outerCutOff * Math::toRad));
 			shader->SetVector4(tag + "color", light->color);
 			shader->SetFloat(tag + "intensity", light->intensity);
-			shader->SetFloat(tag + "indirectMultiplier", light->indirectMultiplier);
 			shader->SetFloat(tag + "strength", light->strength);
 
 			Transform* const transform = entities->GetComponent<Transform>(light->entity);

@@ -8,15 +8,8 @@ namespace Math {
 	const float	PI = 3.14159f;
 	const float	HALF_PI = 1.5708f;
 
-	template<typename T>
-	inline T Rad(T const& deg) {
-		return deg * PI / 180.f;
-	}
-
-	template<typename T>
-	inline T Deg(T const& rad) {
-		return rad * 180.f / PI;
-	}
+	const float toRad = PI / 180.0f;
+	const float toDeg = 180.0f / PI;
 
 	template<typename T>
 	inline T Max(T const& a, T const& b) {

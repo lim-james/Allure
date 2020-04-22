@@ -1,5 +1,7 @@
 #include "Orbit.h"
 
+#include <Math/Math.hpp>
+
 void Orbit::Awake() {
 	t = 0;
 }
