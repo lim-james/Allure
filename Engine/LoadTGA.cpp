@@ -1,12 +1,10 @@
 #include "LoadTGA.h"
 
 #include <Logger/Logger.h>
-
 #include <GL/glew.h>
 #include <fstream>
 
 unsigned Load::TGA(std::string const& filepath) {
-
 	if (textureCache.find(filepath) != textureCache.end())
 		return textureCache[filepath];
 
@@ -44,6 +42,8 @@ unsigned Load::TGA(std::string const& filepath) {
 	fileStream.read((char*)data, imageSize);
 	fileStream.close();
 
+	Debug::Warn << "C: " << bytesPerPixel << '\n';
+
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	if (bytesPerPixel == 3)
@@ -57,7 +57,7 @@ unsigned Load::TGA(std::string const& filepath) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-	delete[]data;
+	delete[] data;
 
 	textureCache[filepath] = texture;
 	return texture;

@@ -318,6 +318,9 @@
     <ClCompile Include="Orbit.cpp">
       <Filter>Assets\Scripts\Common\Orbit</Filter>
     </ClCompile>
+    <ClCompile Include="LoadTexture.cpp">
+      <Filter>Engine\Render\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -532,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="Orbit.h">
       <Filter>Assets\Scripts\Common\Orbit</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadTexture.h">
+      <Filter>Engine\Render\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

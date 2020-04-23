@@ -111,6 +111,9 @@
     <ClInclude Include="Bit\BitField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stb\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logger\Logger.cpp">

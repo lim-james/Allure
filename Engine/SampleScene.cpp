@@ -12,6 +12,7 @@
 #include "UnlitDefaultMaterial.h"
 // Utils
 #include "LoadTGA.h"
+#include "LoadTexture.h"
 #include "LoadOBJ.h"
 #include "Layers.h"
 
@@ -27,23 +28,30 @@ void SampleScene::Create() {
 
 	Material::MeshDefault* rustediron = new Material::MeshDefault;
 	rustediron->useAlbedoMap = true;
-	rustediron->albedoMap = Load::TGA("Files/Textures/rustediron2_basecolor.tga");
+	rustediron->albedoMap = Load::Texture("Files/Textures/rustediron2_basecolor.png");
 	rustediron->useNormalMap = true;
-	rustediron->normalMap = Load::TGA("Files/Textures/rustediron2_normal.tga");
+	rustediron->normalMap = Load::Texture("Files/Textures/rustediron2_normal.png");
 	rustediron->useMetallicMap = true;
-	rustediron->metallicMap = Load::TGA("Files/Textures/rustediron2_metallic.tga");
+	rustediron->metallicMap = Load::Texture("Files/Textures/rustediron2_metallic.png");
 	rustediron->useRoughnessMap = true;
-	rustediron->roughnessMap = Load::TGA("Files/Textures/rustediron2_roughness.tga");
-	rustediron->ao = 0.5f;
+	rustediron->roughnessMap = Load::Texture("Files/Textures/rustediron2_roughness.png");
+	rustediron->ao = 0.01f;
 
 	Material::MeshDefault* streakedmetal = new Material::MeshDefault;
 	streakedmetal->useAlbedoMap = true;
-	streakedmetal->albedoMap = Load::TGA("Files/Textures/streakedmetal-albedo.tga");
+	streakedmetal->albedoMap = Load::Texture("Files/Textures/streakedmetal-albedo.png");
 	streakedmetal->useMetallicMap = true;
-	streakedmetal->metallicMap = Load::TGA("Files/Textures/streakedmetal-metalness.tga");
+	streakedmetal->metallicMap = Load::Texture("Files/Textures/streakedmetal-metalness.png");
 	streakedmetal->useRoughnessMap = true;
-	streakedmetal->roughnessMap = Load::TGA("Files/Textures/streakedmetal-roughness.tga");
-	streakedmetal->ao = 0.5f;
+	streakedmetal->roughnessMap = Load::Texture("Files/Textures/streakedmetal-roughness.png");
+	streakedmetal->ao = 0.01f;
+
+	Material::MeshDefault* white = new Material::MeshDefault;
+	white->albedo = vec4f(1.f);
+	white->ao = 0.1f;
+
+	Model* const cube = Load::OBJ("Files/Models/cube.obj");
+	Model* const sphere = Load::OBJ("Files/Models/sphere.obj");
 
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
@@ -53,26 +61,43 @@ void SampleScene::Create() {
 	{
 		EditorCamera* const editorCamera = entities->AddComponent<EditorCamera>(mainCamera);
 		editorCamera->SetActive(true);
-
-		Light* const light = entities->AddComponent<Light>(mainCamera);
-		light->SetActive(true);
-		light->intensity = 100.0f;
-		light->outerCutOff = 20.f;
-		light->range = 10.0f;
-		light->type = LIGHT_SPOT;
 	}
 
-	const unsigned directionalLight = entities->Create();
+	// directional light
 	{
-		Transform* const transform = entities->GetComponent<Transform>(directionalLight);
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->rotation.x = -90.0f;
 		transform->UpdateAxes();
 		
-		Light* const light = entities->AddComponent<Light>(directionalLight);
+		Light* const light = entities->AddComponent<Light>(entity);
 		light->SetActive(true);
 		light->color = vec4f(253.f / 255.f, 251.f / 255.f, 211.f / 255.f, 1.0f);
-		light->intensity = 1.0;
 		light->type = LIGHT_DIRECTIONAL;
+	}
+
+	// spot light
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->translation.x = 3.0f;
+		transform->scale = 0.2f;
+		transform->rotation.x = 90.f;
+		transform->UpdateAxes();
+
+		Light* const light = entities->AddComponent<Light>(entity);
+		light->SetActive(true);
+		light->intensity = 100.0f;
+		light->outerCutOff = 30.f;
+		light->range = 10.0f;
+		light->type = LIGHT_SPOT;		
+		
+		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
+		render->SetActive(true);
+		render->SetMaterial(opaque);
+		render->SetModel(cube);
 	}
 
 	const unsigned pointLight = entities->Create();
@@ -83,13 +108,13 @@ void SampleScene::Create() {
 		Light* const light = entities->AddComponent<Light>(pointLight);
 		light->SetActive(true);
 		light->color = vec4f(253.f / 255.f, 251.f / 255.f, 211.f / 255.f, 1.0f);
-		light->intensity = 1.0;
+		light->intensity = 10.0;
 		light->type = LIGHT_POINT;
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(pointLight);
 		render->SetActive(true);
 		render->SetMaterial(opaque);
-		render->SetModel(Load::OBJ("Files/Models/sphere.obj"));
+		render->SetModel(sphere);
 	}
 
 	Orbit* const orbit = entities->AddComponent<Orbit>(pointLight);
@@ -107,7 +132,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(rustediron);
-		render->SetModel(Load::OBJ("Files/Models/sphere.obj"));
+		render->SetModel(sphere);
 		render->SetDynamic(false);
 	}
 
@@ -116,13 +141,73 @@ void SampleScene::Create() {
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->scale = vec3f(10.0f, 1.0f, 10.0f);
-		transform->translation.y = -3.f;
+		transform->translation.y = -5.f;
 		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(streakedmetal);
-		render->SetModel(Load::OBJ("Files/Models/cube.obj"));
+		render->SetModel(cube);
 		render->SetDynamic(false);
 	}
+
+	//{
+	//	const unsigned entity = entities->Create();
+
+	//	Transform* const transform = entities->GetComponent<Transform>(entity);
+	//	transform->scale = vec3f(10.0f, 1.0f, 10.0f);
+	//	transform->translation.y = 5.f;
+	//	transform->SetDynamic(false);
+
+	//	MeshRender* const render = entities->AddComponent<MeshRender>(entity);
+	//	render->SetActive(true);
+	//	render->SetMaterial(white);
+	//	render->SetModel(cube);
+	//	render->SetDynamic(false);
+	//}
+
+	//{
+	//	const unsigned entity = entities->Create();
+
+	//	Transform* const transform = entities->GetComponent<Transform>(entity);
+	//	transform->scale = vec3f(1.0f, 10.0f, 10.0f);
+	//	transform->translation.x = -5.0f;
+	//	transform->SetDynamic(false);
+
+	//	MeshRender* const render = entities->AddComponent<MeshRender>(entity);
+	//	render->SetActive(true);
+	//	render->SetMaterial(white);
+	//	render->SetModel(cube);
+	//	render->SetDynamic(false);
+	//}
+
+	//{
+	//	const unsigned entity = entities->Create();
+
+	//	Transform* const transform = entities->GetComponent<Transform>(entity);
+	//	transform->scale = vec3f(1.0f, 10.0f, 10.0f);
+	//	transform->translation.x = 5.0f;
+	//	transform->SetDynamic(false);
+
+	//	MeshRender* const render = entities->AddComponent<MeshRender>(entity);
+	//	render->SetActive(true);
+	//	render->SetMaterial(white);
+	//	render->SetModel(cube);
+	//	render->SetDynamic(false);
+	//}
+
+	//{
+	//	const unsigned entity = entities->Create();
+
+	//	Transform* const transform = entities->GetComponent<Transform>(entity);
+	//	transform->scale = vec3f(10.0f, 10.0f, 1.0f);
+	//	transform->translation.z = -5.0f;
+	//	transform->SetDynamic(false);
+
+	//	MeshRender* const render = entities->AddComponent<MeshRender>(entity);
+	//	render->SetActive(true);
+	//	render->SetMaterial(white);
+	//	render->SetModel(cube);
+	//	render->SetDynamic(false);
+	//}
 }

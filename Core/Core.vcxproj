@@ -48,6 +48,7 @@
     <ClInclude Include="Containers\Quad.hpp" />
     <ClInclude Include="Encoding\Resource.h" />
     <ClInclude Include="Encoding\ResourceManager.h" />
+    <ClInclude Include="stb\stb_image.h" />
     <ClInclude Include="Timer\Timer.h" />
     <ClInclude Include="Helpers\VectorHelpers.h" />
     <ClInclude Include="Types\Rect.h" />

@@ -147,6 +147,7 @@
     <ClCompile Include="LineRender.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="LoadOBJ.cpp" />
+    <ClCompile Include="LoadTexture.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshDefaultMaterial.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="LineRender.h" />
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LoadOBJ.h" />
+    <ClInclude Include="LoadTexture.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshDefaultMaterial.h" />

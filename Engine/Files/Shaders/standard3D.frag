@@ -180,6 +180,7 @@ void main() {
 		vec3 D;
         float dist;
 		float intensity = lights[i].intensity;
+		float brightness = 1.0f;
 
 		if (lights[i].type == 0) {
 			// spot light
@@ -187,8 +188,8 @@ void main() {
 			dist = length(D);
 			float theta = dot(normalize(D), normalize(-lights[i].direction));
 			float epsilon = lights[i].innerCutOff - lights[i].outerCutOff;
-			float brightness = max(lights[i].range - dist, 0.0f) / lights[i].range;
-			intensity *= brightness * clamp((theta - lights[i].outerCutOff) / epsilon, 0.0, 1.0);    
+			brightness = max(lights[i].range - dist, 0.0f) / lights[i].range;
+			brightness *= clamp((theta - lights[i].outerCutOff) / epsilon, 0.0, 1.0);
 		} else if (lights[i].type == 1) {
 			// directional light
 			D = lights[i].direction;
@@ -229,12 +230,12 @@ void main() {
         float NdotL = max(dot(N, L), 0.0);        
 
         // add to outgoing radiance Lo
-        Lo += (kD * albedo / PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+        Lo += (kD * albedo / PI + specular) * brightness * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
     }   
 	
     // ambient lighting (note that the next IBL tutorial will replace 
     // this ambient lighting with environment lighting).
-    vec3 ambient = 0.03 * albedo * ao;
+    vec3 ambient = albedo * ao;
     
     vec3 color = ambient + Lo;
     // HDR tonemapping
