@@ -101,11 +101,7 @@ void RenderSystem::Update(float const& dt) {
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-		glClearColor(0, 0, 0, 0);
-
-		if (cam->shouldClear) {
-			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
-		}
+		glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
 
 		for (Renderer* const r : renderers) {
 			r->Render(data);
@@ -209,6 +205,8 @@ void RenderSystem::CameraDepthHandler(Events::Event* event) {
 
 void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
 	Camera* const c = static_cast<Events::AnyType<Camera*>*>(event)->data;
+
+	if (!c->IsActive()) return;
 
 	if (c->GetFramebuffer()) {
 		Helpers::Insert(fbCameras, c);

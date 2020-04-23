@@ -56,7 +56,7 @@ void TitleScene::Create() {
 		rbData.internalFormat = GL_DEPTH24_STENCIL8;
 		rbData.attachmentFormat = GL_DEPTH_STENCIL_ATTACHMENT;
 
-		auto fb = new Framebuffer(1, 1);
+		Framebuffer* const fb = new Framebuffer(1, 1);
 		fb->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
 		camera->SetFramebuffer(fb);

@@ -118,6 +118,12 @@
     <Filter Include="Assets\Scripts\Common\Orbit">
       <UniqueIdentifier>{508fdaa3-b472-434e-96f9-0968944f6e69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scenes\Portal">
+      <UniqueIdentifier>{cf4c577f-4eb8-46c3-9bc9-155f713a1011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Portal">
+      <UniqueIdentifier>{f9970dbd-73dd-4592-9cf9-873fd6a33dee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -323,6 +329,15 @@
     </ClCompile>
     <ClCompile Include="IBLMaterial.cpp">
       <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalScene.cpp">
+      <Filter>Assets\Scenes\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalMaterial.cpp">
+      <Filter>Assets\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalCamera.cpp">
+      <Filter>Assets\Scripts\Portal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -544,6 +559,15 @@
     </ClInclude>
     <ClInclude Include="IBLMaterial.h">
       <Filter>Engine\Render\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalScene.h">
+      <Filter>Assets\Scenes\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalMaterial.h">
+      <Filter>Assets\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalCamera.h">
+      <Filter>Assets\Scripts\Portal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
