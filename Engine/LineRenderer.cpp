@@ -43,7 +43,7 @@ void LineRenderer::Render(RendererData const& data) {
 		shader->SetMatrix4("view", data.view);
 
 		for (auto& materialPair : shaderPair.second) {
-			materialPair.first->SetAttributes();
+			materialPair.first->Use();
 			RenderStatic(data, materialPair.second);
 			RenderDynamic(data, materialPair.second);
 		}

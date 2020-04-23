@@ -1,5 +1,5 @@
 #include "LoadFnt.h"
-#include "LoadTGA.h"
+#include "LoadTexture.h"
 
 #include <Helpers/StringHelpers.h>
 #include <GL/glew.h>

@@ -5,6 +5,7 @@
 
 namespace Material {
 	struct MeshDefault: Base {
+
 		bool useAlbedoMap;
 		unsigned albedoMap;
 		vec4f albedo;
@@ -28,9 +29,14 @@ namespace Material {
 		vec2f offset;
 
 		float alphaClipping;
+		unsigned environment;
 
 		MeshDefault();
+
+	private:
+
 		void SetAttributes() override;
+
 	};
 }
 

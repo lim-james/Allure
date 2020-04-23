@@ -139,6 +139,8 @@
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
+    <ClCompile Include="IBLMaterial.cpp" />
+    <ClCompile Include="SkyboxMaterial.cpp" />
     <ClCompile Include="FollowCursor.cpp" />
     <ClCompile Include="EditorCamera.cpp" />
     <ClCompile Include="InvertMaterial.cpp" />
@@ -169,7 +171,6 @@
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="LoadFNT.cpp" />
-    <ClCompile Include="LoadTGA.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
@@ -214,6 +215,8 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderSystem.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="IBLMaterial.h" />
+    <ClInclude Include="SkyboxMaterial.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FollowCursor.h" />
     <ClInclude Include="Font.h" />
@@ -246,7 +249,6 @@
     <ClInclude Include="InputController.h" />
     <ClInclude Include="InputEvents.h" />
     <ClInclude Include="LoadFNT.h" />
-    <ClInclude Include="LoadTGA.h" />
     <ClInclude Include="SpriteAnimationData.h" />
     <ClInclude Include="SpriteAnimationSystem.h" />
     <ClInclude Include="SpriteDefaultMaterial.h" />

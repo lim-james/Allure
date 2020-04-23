@@ -1,9 +1,7 @@
 #version 330 core
 
-layout(location = 0) out vec4 color;
+layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec4 brightColor;
-
-//out vec4 color;
 
 struct Material {
 	bool useMap;
@@ -30,12 +28,12 @@ vec4 getBrightColor(vec4 fragColor) {
 
 void main() {
 	if (material.useMap) {
-		color = texture(material.map, vs_out.texCoord) * material.tint;
+		fragColor = texture(material.map, vs_out.texCoord) * material.tint;
 	} else {
-		color = material.tint;
+		fragColor = material.tint;
 	}
 
-	if (color.a < alphaClipping) discard;
+	if (fragColor.a < alphaClipping) discard;
 
-	brightColor = getBrightColor(color);
+	brightColor = getBrightColor(fragColor);
 }

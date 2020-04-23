@@ -235,7 +235,7 @@ void main() {
 	
     // ambient lighting (note that the next IBL tutorial will replace 
     // this ambient lighting with environment lighting).
-    vec3 ambient = albedo * ao;
+    vec3 ambient = 0.03 * albedo * ao;
     
     vec3 color = ambient + Lo;
     // HDR tonemapping

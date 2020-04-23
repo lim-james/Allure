@@ -6,6 +6,7 @@
 namespace Material {
 	struct LineDefault: Base {
 		LineDefault();
+	private:
 		void SetAttributes() override;
 	};
 }

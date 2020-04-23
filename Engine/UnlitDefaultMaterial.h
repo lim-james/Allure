@@ -8,6 +8,7 @@
 namespace Material {
 
 	struct UnlitDefault : Base {
+
 		float alphaClipping;
 
 		unsigned texture;
@@ -17,7 +18,11 @@ namespace Material {
 		vec2f offset;
 
 		UnlitDefault();
+
+	private:
+
 		void SetAttributes() override;
+
 	};
 
 }

@@ -6,6 +6,7 @@
 namespace Material {
 	struct SpriteDefault: Base {
 		SpriteDefault();
+	private:
 		void SetAttributes() override;
 	};
 }

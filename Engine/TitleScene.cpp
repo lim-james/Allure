@@ -13,7 +13,7 @@
 // Utils
 #include "Layers.h"
 #include "LoadFNT.h"
-#include "LoadTGA.h"
+#include "LoadTexture.h"
 // materials
 #include "InvertMaterial.h"
 

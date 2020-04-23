@@ -82,7 +82,7 @@ void SpriteRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 
 		for (auto& materialPair : shaderPair.second) {
 			
-			materialPair.first->SetAttributes();
+			materialPair.first->Use();
 
 			for (auto& batchPair : materialPair.second) {
 				auto const& tex = batchPair.first;

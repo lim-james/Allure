@@ -210,9 +210,6 @@
     <ClCompile Include="LoadFNT.cpp">
       <Filter>Engine\Render\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="LoadTGA.cpp">
-      <Filter>Engine\Render\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>Engine\Render\Text</Filter>
     </ClCompile>
@@ -321,6 +318,12 @@
     <ClCompile Include="LoadTexture.cpp">
       <Filter>Engine\Render\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="SkyboxMaterial.cpp">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="IBLMaterial.cpp">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -411,9 +414,6 @@
       <Filter>Assets\Scenes\Title</Filter>
     </ClInclude>
     <ClInclude Include="LoadFNT.h">
-      <Filter>Engine\Render\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadTGA.h">
       <Filter>Engine\Render\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
@@ -538,6 +538,12 @@
     </ClInclude>
     <ClInclude Include="LoadTexture.h">
       <Filter>Engine\Render\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxMaterial.h">
+      <Filter>Engine\Render\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="IBLMaterial.h">
+      <Filter>Engine\Render\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -89,7 +89,7 @@ void MeshRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 
 		for (auto& materialPair : shaderPair.second) {
 			
-			materialPair.first->SetAttributes();
+			materialPair.first->Use();
 
 			for (auto& batchPair : materialPair.second) {
 				RenderStatic(data, batchPair.first, batchPair.second);

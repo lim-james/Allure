@@ -8,6 +8,8 @@
 #include <Events/Event.h>
 
 #define SURFACE_TRANSPARENT 0b1
+#define CULL_FACE			0b10
+#define FRONT_FACE			0b100
 
 namespace Material {
 
@@ -22,11 +24,12 @@ namespace Material {
 		Shader* const GetShader() const;
 		void SetShader(Shader* const _shader);
 
-		virtual void SetAttributes() = 0;
+		void Use();
 
 	protected:
 
 		Shader* shader;
+		virtual void SetAttributes() = 0;
 
 	};
 
