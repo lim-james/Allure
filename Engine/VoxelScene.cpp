@@ -1,4 +1,4 @@
-#include "LlamaScene.h"
+#include "VoxelScene.h"
 
 // component
 #include "Camera.h"
@@ -15,7 +15,7 @@
 #include "LoadOBJ.h"
 #include "Layers.h"
 
-void LlamaScene::Create() {
+void VoxelScene::Create() {
 	Scene::Create();
 
 	Material::MeshDefault* white = new Material::MeshDefault;

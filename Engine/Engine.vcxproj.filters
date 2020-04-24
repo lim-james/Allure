@@ -82,15 +82,6 @@
     <Filter Include="Application\Scene">
       <UniqueIdentifier>{8140c76b-a830-47b4-b984-b37e5e8896ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Render\Renderers">
-      <UniqueIdentifier>{ef12592a-0374-4fa0-a9ef-e3fccbbf75e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Render\Components">
-      <UniqueIdentifier>{e9af40a5-43d5-4c56-a67d-315df88acea7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Render\Materials">
-      <UniqueIdentifier>{747ebfe5-6c49-4a9c-8281-5c8d923d3f65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Materials">
       <UniqueIdentifier>{946e004f-350a-4b2f-b589-5dd0ea744569}</UniqueIdentifier>
     </Filter>
@@ -115,8 +106,20 @@
     <Filter Include="Assets\Scripts\Portal">
       <UniqueIdentifier>{f9970dbd-73dd-4592-9cf9-873fd6a33dee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scenes\Llama">
+    <Filter Include="Assets\Scenes\Voxel">
       <UniqueIdentifier>{aae28679-985a-4b3b-9a6b-1c582edac6eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\Line">
+      <UniqueIdentifier>{2ebb9b4a-5997-481c-828f-9bf119ee765a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\Mesh">
+      <UniqueIdentifier>{217950f9-8942-4331-9551-d0bc3c86156d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\Mesh\Materials">
+      <UniqueIdentifier>{b55dade2-4bcc-4b76-a38f-7400f94fd908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\Sprite">
+      <UniqueIdentifier>{d7d84ec1-bab9-4541-9943-d91d959af6d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -234,33 +237,6 @@
     <ClCompile Include="TitleTransition.cpp">
       <Filter>Assets\Scripts\Title</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="LineRenderer.cpp">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRenderer.cpp">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRender.cpp">
-      <Filter>Engine\Render\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="LineRender.cpp">
-      <Filter>Engine\Render\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteDefaultMaterial.cpp">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="LineDefaultMaterial.cpp">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="InvertMaterial.cpp">
       <Filter>Assets\Materials</Filter>
     </ClCompile>
@@ -279,18 +255,6 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Engine\Render\Model</Filter>
     </ClCompile>
-    <ClCompile Include="MeshRender.cpp">
-      <Filter>Engine\Render\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshDefaultMaterial.cpp">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="UnlitDefaultMaterial.cpp">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="EditorCamera.cpp">
       <Filter>Assets\Scripts\Common\Editor Camera</Filter>
     </ClCompile>
@@ -303,12 +267,6 @@
     <ClCompile Include="LoadTexture.cpp">
       <Filter>Engine\Render\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="SkyboxMaterial.cpp">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="IBLMaterial.cpp">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="PortalScene.cpp">
       <Filter>Assets\Scenes\Portal</Filter>
     </ClCompile>
@@ -318,8 +276,53 @@
     <ClCompile Include="PortalCamera.cpp">
       <Filter>Assets\Scripts\Portal</Filter>
     </ClCompile>
-    <ClCompile Include="LlamaScene.cpp">
-      <Filter>Assets\Scenes\Llama</Filter>
+    <ClCompile Include="VoxelScene.cpp">
+      <Filter>Assets\Scenes\Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="LineRender.cpp">
+      <Filter>Engine\Render\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="LineRenderer.cpp">
+      <Filter>Engine\Render\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="LineDefaultMaterial.cpp">
+      <Filter>Engine\Render\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRender.cpp">
+      <Filter>Engine\Render\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Engine\Render\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="UnlitDefaultMaterial.cpp">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDefaultMaterial.cpp">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="IBLMaterial.cpp">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyboxMaterial.cpp">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRender.cpp">
+      <Filter>Engine\Render\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteDefaultMaterial.cpp">
+      <Filter>Engine\Render\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Engine\Render\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Engine\Render\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,35 +449,8 @@
     <ClInclude Include="TitleTransition.h">
       <Filter>Assets\Scripts\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="LineRenderer.h">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRenderer.h">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRender.h">
-      <Filter>Engine\Render\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Layers.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteDefaultMaterial.h">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="LineRender.h">
-      <Filter>Engine\Render\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="LineDefaultMaterial.h">
-      <Filter>Engine\Render\Materials</Filter>
     </ClInclude>
     <ClInclude Include="InvertMaterial.h">
       <Filter>Assets\Materials</Filter>
@@ -494,18 +470,6 @@
     <ClInclude Include="Mesh.h">
       <Filter>Engine\Render\Model</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRender.h">
-      <Filter>Engine\Render\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>Engine\Render\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshDefaultMaterial.h">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="UnlitDefaultMaterial.h">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="EditorCamera.h">
       <Filter>Assets\Scripts\Common\Editor Camera</Filter>
     </ClInclude>
@@ -518,12 +482,6 @@
     <ClInclude Include="LoadTexture.h">
       <Filter>Engine\Render\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="SkyboxMaterial.h">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="IBLMaterial.h">
-      <Filter>Engine\Render\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="PortalScene.h">
       <Filter>Assets\Scenes\Portal</Filter>
     </ClInclude>
@@ -533,11 +491,56 @@
     <ClInclude Include="PortalCamera.h">
       <Filter>Assets\Scripts\Portal</Filter>
     </ClInclude>
-    <ClInclude Include="LlamaScene.h">
-      <Filter>Assets\Scenes\Llama</Filter>
-    </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelScene.h">
+      <Filter>Assets\Scenes\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="LineRender.h">
+      <Filter>Engine\Render\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="LineDefaultMaterial.h">
+      <Filter>Engine\Render\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRender.h">
+      <Filter>Engine\Render\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Engine\Render\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="UnlitDefaultMaterial.h">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDefaultMaterial.h">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="IBLMaterial.h">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxMaterial.h">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRender.h">
+      <Filter>Engine\Render\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteDefaultMaterial.h">
+      <Filter>Engine\Render\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Engine\Render\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="LineRenderer.h">
+      <Filter>Engine\Render\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Engine\Render\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Engine\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

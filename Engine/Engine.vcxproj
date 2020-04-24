@@ -140,7 +140,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="IBLMaterial.cpp" />
-    <ClCompile Include="LlamaScene.cpp" />
+    <ClCompile Include="VoxelScene.cpp" />
     <ClCompile Include="PortalCamera.cpp" />
     <ClCompile Include="PortalMaterial.cpp" />
     <ClCompile Include="PortalScene.cpp" />
@@ -213,7 +213,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="IBLMaterial.h" />
-    <ClInclude Include="LlamaScene.h" />
+    <ClInclude Include="VoxelScene.h" />
     <ClInclude Include="PortalCamera.h" />
     <ClInclude Include="PortalMaterial.h" />
     <ClInclude Include="PortalScene.h" />

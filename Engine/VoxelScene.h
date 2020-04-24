@@ -3,7 +3,7 @@
 
 #include "Scene.h"
 
-class LlamaScene : public Scene {
+class VoxelScene : public Scene {
 	
 public:
 

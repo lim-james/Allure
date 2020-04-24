@@ -3,7 +3,7 @@
 #include "TitleScene.h"
 #include "SampleScene.h"
 #include "PortalScene.h"
-#include "LlamaScene.h"
+#include "VoxelScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -46,7 +46,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new LlamaScene);
+	sceneManager->Present(new VoxelScene);
 
 	context->BroadcastSize();
 	em->TriggerQueued();
