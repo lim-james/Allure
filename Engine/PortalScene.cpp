@@ -8,7 +8,7 @@
 #include "MeshRender.h"
 #include "PortalCamera.h"
 // materials
-#include "UnlitDefaultMaterial.h"
+#include "MeshUnlitMaterial.h"
 #include "MeshDefaultMaterial.h"
 #include "PortalMaterial.h"
 // Utils
@@ -24,7 +24,7 @@ void PortalScene::Awake() {
 void PortalScene::Create() {
 	Scene::Create();
 
-	Material::UnlitDefault* opaque = new Material::UnlitDefault;
+	Material::MeshUnlit* opaque = new Material::MeshUnlit;
 	opaque->alphaClipping = 0.01f;
 
 	Material::MeshDefault* rustediron = new Material::MeshDefault;

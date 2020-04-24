@@ -9,7 +9,7 @@
 #include "Orbit.h"
 // materials
 #include "MeshDefaultMaterial.h"
-#include "UnlitDefaultMaterial.h"
+#include "MeshUnlitMaterial.h"
 #include "IBLMaterial.h"
 #include "SkyboxMaterial.h"
 // Utils
@@ -24,7 +24,7 @@ void SampleScene::Awake() {
 void SampleScene::Create() {
 	Scene::Create();
 
-	Material::UnlitDefault* opaque = new Material::UnlitDefault;
+	Material::MeshUnlit* opaque = new Material::MeshUnlit;
 	opaque->alphaClipping = 0.01f;
 
 	Material::MeshDefault* rustediron = new Material::MeshDefault;

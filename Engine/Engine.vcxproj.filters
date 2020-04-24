@@ -297,9 +297,6 @@
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>Engine\Render\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="UnlitDefaultMaterial.cpp">
-      <Filter>Engine\Render\Mesh\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="MeshDefaultMaterial.cpp">
       <Filter>Engine\Render\Mesh\Materials</Filter>
     </ClCompile>
@@ -334,6 +331,12 @@
       <Filter>Engine\Render\Voxel</Filter>
     </ClCompile>
     <ClCompile Include="VoxelDefaultMaterial.cpp">
+      <Filter>Engine\Render\Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUnlitMaterial.cpp">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelUnlitMaterial.cpp">
       <Filter>Engine\Render\Voxel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -521,9 +524,6 @@
     <ClInclude Include="MeshRenderer.h">
       <Filter>Engine\Render\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="UnlitDefaultMaterial.h">
-      <Filter>Engine\Render\Mesh\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="MeshDefaultMaterial.h">
       <Filter>Engine\Render\Mesh\Materials</Filter>
     </ClInclude>
@@ -561,6 +561,12 @@
       <Filter>Engine\Render\Voxel</Filter>
     </ClInclude>
     <ClInclude Include="VoxelDefaultMaterial.h">
+      <Filter>Engine\Render\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUnlitMaterial.h">
+      <Filter>Engine\Render\Mesh\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelUnlitMaterial.h">
       <Filter>Engine\Render\Voxel</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #include "VoxelDefaultMaterial.h"
 
 Material::VoxelDefault::VoxelDefault() {
-	shader = new Shader("Files/Shaders/voxel.vert", "Files/Shaders/voxel.frag");
+	shader = new Shader("Files/Shaders/standardVX.vert", "Files/Shaders/standardVX.frag");
 }
 
 void Material::VoxelDefault::SetAttributes() {}

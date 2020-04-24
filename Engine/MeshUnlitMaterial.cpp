@@ -1,8 +1,8 @@
-#include "UnlitDefaultMaterial.h"
+#include "MeshUnlitMaterial.h"
 
 #include <GL/glew.h>
 
-Material::UnlitDefault::UnlitDefault() {
+Material::MeshUnlit::MeshUnlit() {
 	shader = new Shader("Files/Shaders/unlit3D.vert", "Files/Shaders/unlit3D.frag");
 	shader->Use();
 	shader->SetInt("material.map", 0);
@@ -16,7 +16,7 @@ Material::UnlitDefault::UnlitDefault() {
 	offset = vec2f(0.0f);
 }
 
-void Material::UnlitDefault::SetAttributes() {
+void Material::MeshUnlit::SetAttributes() {
 	shader->SetFloat("alphaClipping", alphaClipping);
 	
 	glActiveTexture(GL_TEXTURE0);

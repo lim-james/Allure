@@ -15,7 +15,7 @@ void VoxelScene::Create() {
 
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
-	camera->clearColor = 0.5f;
+	camera->clearColor = 0.9f;
 	camera->cullingMask -= UI;
 
 	{

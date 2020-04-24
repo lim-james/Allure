@@ -1,5 +1,5 @@
-#ifndef UNLIT_DEFAULT_MATERIAL_H
-#define UNLIT_DEFAULT_MATERIAL_H
+#ifndef MESH_UNLIT_MATERIAL_H
+#define MESH_UNLIT_MATERIAL_H
 
 #include "Material.h"
 
@@ -7,7 +7,7 @@
 
 namespace Material {
 
-	struct UnlitDefault : Base {
+	struct MeshUnlit : Base {
 
 		float alphaClipping;
 
@@ -17,7 +17,7 @@ namespace Material {
 		vec2f tiling;
 		vec2f offset;
 
-		UnlitDefault();
+		MeshUnlit();
 
 	private:
 
