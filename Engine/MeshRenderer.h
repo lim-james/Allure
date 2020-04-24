@@ -38,6 +38,7 @@ public:
 
 	void Initialize(EntityManager* const manager) override;
 	void Render(RendererData const& data) override;
+	void PostRender() override;
 
 private:
 

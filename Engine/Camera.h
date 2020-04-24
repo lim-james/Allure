@@ -14,6 +14,8 @@
 
 struct Camera : Component {
 
+	bool isHidden;
+
 	bool shouldClear;
 	vec4f clearColor;
 

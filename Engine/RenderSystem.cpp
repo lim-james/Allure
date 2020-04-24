@@ -76,6 +76,10 @@ void RenderSystem::Update(float const& dt) {
 	glScissor(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
 	glClearColor(0, 0, 0, 0);
 
+	for (Renderer* const r : renderers) {
+		r->PreRender();
+	}
+
 	for (Camera* const cam : fbCameras) {
 		Framebuffer* const fb = cam->GetFramebuffer();
 		fb->Bind();
@@ -111,6 +115,8 @@ void RenderSystem::Update(float const& dt) {
 	}
 
 	for (Camera* const cam : cameras) {
+		if (cam->isHidden) continue;
+
 		vec4f const& viewport = cam->GetViewport();
 
 		const Math::vec<2, GLint> origin(
@@ -141,6 +147,10 @@ void RenderSystem::Update(float const& dt) {
 		for (Renderer* const r : renderers) {
 			r->Render(data);
 		}
+	}
+
+	for (Renderer* const r : renderers) {
+		r->PostRender();
 	}
 }
 

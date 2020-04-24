@@ -28,6 +28,9 @@ void MeshRenderer::Initialize(EntityManager * const manager) {
 void MeshRenderer::Render(RendererData const& data) {
 	RenderBatches(data, opaqueBatches);
 	RenderBatches(data, transparentBatches);
+}
+
+void MeshRenderer::PostRender() {
 	updateStatic = false;
 }
 
@@ -100,9 +103,7 @@ void MeshRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 }
 
 void MeshRenderer::RenderStatic(RendererData const & data, Mesh* const mesh, Batch& batch) {
-	Batch::StaticData& staticData = batch.staticData[data.camera];
-
-	if (updateStatic) {
+	if (updateStatic || batch.staticData.find(data.camera) == batch.staticData.end()) {
 		if (batch.staticList.empty()) return;
 
 		std::vector<mat4f> instances;
@@ -119,6 +120,8 @@ void MeshRenderer::RenderStatic(RendererData const & data, Mesh* const mesh, Bat
 
 		if (instances.empty()) return;
 
+		Batch::StaticData& staticData = batch.staticData[data.camera];
+
 		if (staticData.VAO == 0)
 			staticData.VAO = mesh->GenerateVAO();
 
@@ -131,6 +134,7 @@ void MeshRenderer::RenderStatic(RendererData const & data, Mesh* const mesh, Bat
 		glBufferData(GL_ARRAY_BUFFER, staticData.count * sizeof(mat4f), &instances[0], GL_STATIC_DRAW);
 		glDrawElementsInstanced(GL_TRIANGLES, mesh->indicesSize, GL_UNSIGNED_INT, (void*)(0), staticData.count);
 	} else {
+		Batch::StaticData& staticData = batch.staticData[data.camera];
 		glBindVertexArray(staticData.VAO);
 		glDrawElementsInstanced(GL_TRIANGLES, mesh->indicesSize, GL_UNSIGNED_INT, (void*)(0), staticData.count);
 	}

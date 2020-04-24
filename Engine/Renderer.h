@@ -25,7 +25,10 @@ public:
 	virtual ~Renderer();
 
 	virtual void Initialize(EntityManager* const manager);
+
+	virtual void PreRender();
 	virtual void Render(RendererData const& data) = 0;
+	virtual void PostRender();
 
 };
 

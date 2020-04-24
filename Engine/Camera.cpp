@@ -6,7 +6,9 @@
 #include <Math/Mat4Transform.hpp>
 
 Camera::Camera()
-	: shouldClear(true)
+	: isHidden(false)
+	
+	, shouldClear(true)
 	, clearColor(0.f)
 
 	, projection(PERSPECTIVE)
@@ -38,6 +40,8 @@ Camera::Camera()
 }
 
 void Camera::Initialize() {
+	isHidden = false;
+
 	shouldClear = true;
 	clearColor = vec4f(0.f);
 

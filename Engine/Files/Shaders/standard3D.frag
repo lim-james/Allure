@@ -192,7 +192,7 @@ void main() {
 			brightness *= clamp((theta - lights[i].outerCutOff) / epsilon, 0.0, 1.0);
 		} else if (lights[i].type == 1) {
 			// directional light
-			D = lights[i].direction;
+			D = -lights[i].direction;
 			dist = 1;
 		} else {
 			// point light

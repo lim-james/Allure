@@ -72,7 +72,9 @@ void PortalScene::Create() {
 	green->ao = 30.f;
 
 	Material::Portal* redView = new Material::Portal;
+	redView->flags += SURFACE_TRANSPARENT;
 	Material::Portal* blueView = new Material::Portal;
+	blueView->flags += SURFACE_TRANSPARENT;
 
 	Model* const sphere = Load::OBJ("Files/Models/sphere.obj");
 	Model* const cube = Load::OBJ("Files/Models/cube.obj");
@@ -148,13 +150,13 @@ void PortalScene::Create() {
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation = vec3f(10.f, -3.f, 0.f);
 		transform->scale = vec3f(12.f, 1.f, 20.f);
-		//transform->SetDynamic(false);
+		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(red);
 		render->SetModel(cube);
-		//render->SetDynamic(false);
+		render->SetDynamic(false);
 	}
 
 	{
@@ -163,7 +165,7 @@ void PortalScene::Create() {
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation = vec3f(10.f, 0.f, 0.f);
 		transform->scale = vec3f(8.f, 5.f, 1.f);
-		//transform->SetDynamic(false);
+		transform->SetDynamic(false);
 
 		portal->portal1 = transform;
 
@@ -171,7 +173,7 @@ void PortalScene::Create() {
 		render->SetActive(true);
 		render->SetMaterial(redView);
 		render->SetModel(cube);
-		//render->SetDynamic(false);
+		render->SetDynamic(false);
 	}
 
 	{
@@ -180,13 +182,13 @@ void PortalScene::Create() {
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation = vec3f(-10.f, -3.f, 0.f);
 		transform->scale = vec3f(12.f, 1.f, 20.f);
-		//transform->SetDynamic(false);
+		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(blue);
 		render->SetModel(cube);
-		//render->SetDynamic(false);
+		render->SetDynamic(false);
 	}
 
 	{
@@ -195,7 +197,7 @@ void PortalScene::Create() {
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation = vec3f(-10.f, 0.f, 0.f);
 		transform->scale = vec3f(8.f, 5.f, 1.f);
-		//transform->SetDynamic(false);
+		transform->SetDynamic(false);
 
 		portal->portal2 = transform;
 
@@ -203,7 +205,7 @@ void PortalScene::Create() {
 		render->SetActive(true);
 		render->SetMaterial(blueView);
 		render->SetModel(cube);
-		//render->SetDynamic(false);
+		render->SetDynamic(false);
 	}
 
 	{
@@ -211,11 +213,13 @@ void PortalScene::Create() {
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation = vec3f(-11.f, -1.f, -5.f);
+		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(rustediron);
 		render->SetModel(cube);
+		render->SetDynamic(false);
 	}
 
 	{
@@ -223,11 +227,13 @@ void PortalScene::Create() {
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation = vec3f(-9.f, -1.f, -5.f);
+		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(hardwood);
 		render->SetModel(cube);
+		render->SetDynamic(false);
 	}
 
 	// spot light
@@ -239,6 +245,7 @@ void PortalScene::Create() {
 		transform->scale = 0.2f;
 		transform->rotation.x = 90.f;
 		transform->UpdateAxes();
+		transform->SetDynamic(false);
 
 		Light* const light = entities->AddComponent<Light>(entity);
 		light->SetActive(true);
@@ -251,6 +258,7 @@ void PortalScene::Create() {
 		render->SetActive(true);
 		render->SetMaterial(opaque);
 		render->SetModel(sphere);
+		render->SetDynamic(false);
 	}
 }
 
