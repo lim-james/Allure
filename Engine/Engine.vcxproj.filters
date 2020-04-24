@@ -28,9 +28,6 @@
     <Filter Include="Engine\State">
       <UniqueIdentifier>{b78c551c-19ab-47ca-a997-9780ac7ef5b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Physics">
-      <UniqueIdentifier>{b13ef238-7a69-4d43-bb02-ce2ca8195df1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Button">
       <UniqueIdentifier>{8d4b3432-99e1-412e-b04b-da003fb2cb78}</UniqueIdentifier>
     </Filter>
@@ -180,17 +177,11 @@
     <ClCompile Include="StateMachine.cpp">
       <Filter>Engine\State</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>Engine\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Engine\Button</Filter>
     </ClCompile>
     <ClCompile Include="ButtonSystem.cpp">
       <Filter>Engine\Button</Filter>
-    </ClCompile>
-    <ClCompile Include="ColliderSystem.cpp">
-      <Filter>Engine\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Engine\Particles</Filter>
@@ -233,12 +224,6 @@
     </ClCompile>
     <ClCompile Include="Keyframe.cpp">
       <Filter>Engine\Sprite Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>Engine\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Engine\Physics</Filter>
     </ClCompile>
     <ClCompile Include="UITextFieldManager.cpp">
       <Filter>Application\UIManagers</Filter>
@@ -401,17 +386,11 @@
     <ClInclude Include="StateContainer.h">
       <Filter>Engine\State</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Engine\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Engine\Button</Filter>
     </ClInclude>
     <ClInclude Include="ButtonSystem.h">
       <Filter>Engine\Button</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderSystem.h">
-      <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Engine\Particles</Filter>
@@ -454,12 +433,6 @@
     </ClInclude>
     <ClInclude Include="Keyframe.h">
       <Filter>Engine\Sprite Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Engine\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSystem.h">
-      <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="UITextFieldManager.h">
       <Filter>Application\UIManagers</Filter>
@@ -583,10 +556,5 @@
     <Text Include="TODO.txt">
       <Filter>Resource Files</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Files\Data\graph.csv">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

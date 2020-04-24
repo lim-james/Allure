@@ -167,8 +167,6 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonSystem.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collider.cpp" />
-    <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
@@ -176,8 +174,6 @@
     <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="LoadFNT.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="ScriptSystem.cpp" />
     <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="SpriteAnimationData.cpp" />
@@ -216,8 +212,6 @@
     <ClInclude Include="ButtonAnimation.h" />
     <ClInclude Include="ButtonSystem.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collider.h" />
-    <ClInclude Include="ColliderSystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="IBLMaterial.h" />
     <ClInclude Include="LlamaScene.h" />
@@ -246,8 +240,6 @@
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Orbit.h" />
-    <ClInclude Include="Physics.h" />
-    <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SampleScene.h" />
     <ClInclude Include="Script.h" />
@@ -289,9 +281,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Files\Data\graph.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
