@@ -76,17 +76,11 @@
     <Filter Include="Application\Input">
       <UniqueIdentifier>{668cf806-6830-4f9b-82cd-e18f59c60868}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\UIManagers">
-      <UniqueIdentifier>{5211ae78-7534-4247-89ac-2c245d175e92}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Scripting">
       <UniqueIdentifier>{5550feda-31c9-4a1c-9329-0ece8079b3f8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Scene">
       <UniqueIdentifier>{8140c76b-a830-47b4-b984-b37e5e8896ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Time">
-      <UniqueIdentifier>{e1534a0c-a3f4-49dc-b515-0ec84cd411bf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Render\Renderers">
       <UniqueIdentifier>{ef12592a-0374-4fa0-a9ef-e3fccbbf75e8}</UniqueIdentifier>
@@ -224,9 +218,6 @@
     </ClCompile>
     <ClCompile Include="Keyframe.cpp">
       <Filter>Engine\Sprite Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="UITextFieldManager.cpp">
-      <Filter>Application\UIManagers</Filter>
     </ClCompile>
     <ClCompile Include="ScriptSystem.cpp">
       <Filter>Application\Scripting</Filter>
@@ -434,9 +425,6 @@
     <ClInclude Include="Keyframe.h">
       <Filter>Engine\Sprite Animation</Filter>
     </ClInclude>
-    <ClInclude Include="UITextFieldManager.h">
-      <Filter>Application\UIManagers</Filter>
-    </ClInclude>
     <ClInclude Include="InputEvents.h">
       <Filter>Application\Input</Filter>
     </ClInclude>
@@ -457,9 +445,6 @@
     </ClInclude>
     <ClInclude Include="TitleTransition.h">
       <Filter>Assets\Scripts\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>Application\Time</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Engine\Render\Renderers</Filter>
@@ -550,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="LlamaScene.h">
       <Filter>Assets\Scenes\Llama</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
