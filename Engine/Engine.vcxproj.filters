@@ -88,9 +88,6 @@
     <Filter Include="Assets\Scenes\Sample">
       <UniqueIdentifier>{fdcd3e26-cdf1-4245-b964-61a7be0d27a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Render\Model">
-      <UniqueIdentifier>{8fd62a2c-80cd-46ae-825d-86833a34cabe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Scripts\Common\Editor Camera">
       <UniqueIdentifier>{4f40516b-2ef3-4ef1-b51b-1dc1a27617f5}</UniqueIdentifier>
     </Filter>
@@ -120,6 +117,12 @@
     </Filter>
     <Filter Include="Engine\Render\Sprite">
       <UniqueIdentifier>{d7d84ec1-bab9-4541-9943-d91d959af6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\Voxel">
+      <UniqueIdentifier>{9280a72f-fcdd-4bfd-b587-97b9905b300e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\Mesh\Model">
+      <UniqueIdentifier>{8fd62a2c-80cd-46ae-825d-86833a34cabe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -247,13 +250,13 @@
       <Filter>Engine\Render\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Engine\Render\Model</Filter>
+      <Filter>Engine\Render\Mesh\Model</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Engine\Render\Model</Filter>
+      <Filter>Engine\Render\Mesh\Model</Filter>
     </ClCompile>
     <ClCompile Include="Vertex.cpp">
-      <Filter>Engine\Render\Model</Filter>
+      <Filter>Engine\Render\Mesh\Model</Filter>
     </ClCompile>
     <ClCompile Include="EditorCamera.cpp">
       <Filter>Assets\Scripts\Common\Editor Camera</Filter>
@@ -323,6 +326,15 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelRender.cpp">
+      <Filter>Engine\Render\Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelRenderer.cpp">
+      <Filter>Engine\Render\Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelDefaultMaterial.cpp">
+      <Filter>Engine\Render\Voxel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -462,13 +474,13 @@
       <Filter>Engine\Render\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
-      <Filter>Engine\Render\Model</Filter>
+      <Filter>Engine\Render\Mesh\Model</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Engine\Render\Model</Filter>
+      <Filter>Engine\Render\Mesh\Model</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Engine\Render\Model</Filter>
+      <Filter>Engine\Render\Mesh\Model</Filter>
     </ClInclude>
     <ClInclude Include="EditorCamera.h">
       <Filter>Assets\Scripts\Common\Editor Camera</Filter>
@@ -541,6 +553,15 @@
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelRender.h">
+      <Filter>Engine\Render\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelRenderer.h">
+      <Filter>Engine\Render\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelDefaultMaterial.h">
+      <Filter>Engine\Render\Voxel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

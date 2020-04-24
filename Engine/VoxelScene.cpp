@@ -4,29 +4,18 @@
 #include "Camera.h"
 #include "Light.h"
 #include "EditorCamera.h"
-#include "SpriteRender.h"
-#include "MeshRender.h"
-#include "Orbit.h"
-// materials
-#include "MeshDefaultMaterial.h"
-#include "UnlitDefaultMaterial.h"
+#include "VoxelRenderer.h"
 // Utils
-#include "LoadTexture.h"
-#include "LoadOBJ.h"
 #include "Layers.h"
+
+#include <Math/Random.hpp>
 
 void VoxelScene::Create() {
 	Scene::Create();
 
-	Material::MeshDefault* white = new Material::MeshDefault;
-	white->albedo = vec4f(1.f);
-	white->ao = 0.1f;
-
-	Model* const cube = Load::OBJ("Files/Models/cube.obj");
-
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
-	camera->clearColor = 0.9f;
+	camera->clearColor = 0.5f;
 	camera->cullingMask -= UI;
 
 	{
@@ -48,18 +37,20 @@ void VoxelScene::Create() {
 		light->type = LIGHT_DIRECTIONAL;
 	}
 
-	{
-		const unsigned entity = entities->Create();
+	const float size = 10.f;
 
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = vec3f(10.0f, 1.0f, 10.0f);
-		transform->translation.y = -5.f;
-		transform->SetDynamic(false);
+	for (float x = -size; x <= size; ++x) { 
+		for (float z = -size; z <= size; ++z) {
+			const unsigned entity = entities->Create();
 
-		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
-		render->SetActive(true);
-		render->SetMaterial(white);
-		render->SetModel(cube);
-		render->SetDynamic(false);
+			Transform* const transform = entities->GetComponent<Transform>(entity);
+			transform->translation = vec3f(x, -1.f, z);
+			transform->SetDynamic(false);
+
+			VoxelRender* const render = entities->AddComponent<VoxelRender>(entity);
+			render->SetActive(true);
+			render->tint = vec4f(Math::RandValue(), Math::RandValue(), Math::RandValue(), 1.f);
+			render->SetDynamic(false);
+		}
 	}
 }

@@ -5,6 +5,7 @@
 #include "Transform.h"
 // renderers
 #include "MeshRenderer.h"
+#include "VoxelRenderer.h"
 #include "SpriteRenderer.h"
 #include "LineRenderer.h"
 #include "TextRenderer.h"
@@ -33,6 +34,7 @@ void RenderSystem::Initialize() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	renderers.push_back(new MeshRenderer);
+	renderers.push_back(new VoxelRenderer);
 	renderers.push_back(new SpriteRenderer);
 	renderers.push_back(new LineRenderer);
 	renderers.push_back(new TextRenderer);
