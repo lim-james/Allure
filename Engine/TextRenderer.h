@@ -17,7 +17,10 @@ public:
 	~TextRenderer() override;
 
 	void Initialize(EntityManager* const manager) override;
-	void Render(RendererData const& data) override;
+
+	void RenderDepth(RendererData const& data) override;
+	void RenderOpaque(RendererData const& data) override;
+	void RenderTransparent(RendererData const& data) override;
 
 private:
 

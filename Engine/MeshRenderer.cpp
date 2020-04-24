@@ -25,8 +25,16 @@ void MeshRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("CAST_SHADOW", &MeshRenderer::CastShadowHandler, this);
 }
 
-void MeshRenderer::Render(RendererData const& data) {
+void MeshRenderer::RenderDepth(RendererData const& data) {
 	RenderBatches(data, opaqueBatches);
+	RenderBatches(data, transparentBatches);
+}
+
+void MeshRenderer::RenderOpaque(RendererData const& data) {
+	RenderBatches(data, opaqueBatches);
+}
+
+void MeshRenderer::RenderTransparent(RendererData const& data) {
 	RenderBatches(data, transparentBatches);
 }
 

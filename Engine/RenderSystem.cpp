@@ -109,9 +109,7 @@ void RenderSystem::Update(float const& dt) {
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
 
-		for (Renderer* const r : renderers) {
-			r->Render(data);
-		}
+		Render(data);
 
 		fb->Unbind();
 	}
@@ -146,9 +144,7 @@ void RenderSystem::Update(float const& dt) {
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 
-		for (Renderer* const r : renderers) {
-			r->Render(data);
-		}
+		Render(data);
 	}
 
 	for (Renderer* const r : renderers) {
@@ -230,4 +226,12 @@ void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
 void RenderSystem::ResizeHandler(Events::Event* event) {
 	windowSize = static_cast<Events::AnyType<vec2i>*>(event)->data;
 	mainFBO->Resize(windowSize);
+}
+
+void RenderSystem::Render(RendererData const & data) {
+	for (Renderer* const r : renderers) 
+		r->RenderOpaque(data);
+
+	for (Renderer* const r : renderers)
+		r->RenderTransparent(data);
 }

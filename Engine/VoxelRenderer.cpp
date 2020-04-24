@@ -38,9 +38,20 @@ void VoxelRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &VoxelRenderer::ShaderHandler, this);
 }
 
-void VoxelRenderer::Render(RendererData const& data) {
+void VoxelRenderer::RenderDepth(RendererData const& data) {
 	RenderBatches(data, opaqueBatches);
 	RenderBatches(data, transparentBatches);
+}
+
+void VoxelRenderer::RenderOpaque(RendererData const & data) {
+	RenderBatches(data, opaqueBatches);
+}
+
+void VoxelRenderer::RenderTransparent(RendererData const & data) {
+	RenderBatches(data, transparentBatches);
+}
+
+void VoxelRenderer::PostRender() {
 	updateStatic = false;
 }
 
@@ -82,9 +93,7 @@ void VoxelRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 }
 
 void VoxelRenderer::RenderStatic(RendererData const & data, Batch& batch) {
-	Batch::StaticData& staticData = batch.staticData[data.camera];
-
-	if (updateStatic) {
+	if (updateStatic || batch.staticData.find(data.camera) == batch.staticData.end()) {
 		if (batch.staticList.empty()) return;
 
 		std::vector<Instance> instances;
@@ -105,6 +114,8 @@ void VoxelRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 
 		if (instances.empty()) return;
 
+		Batch::StaticData& staticData = batch.staticData[data.camera];
+
 		if (staticData.VAO == 0)
 			staticData.VAO = cube->GenerateVAO();
 
@@ -117,6 +128,7 @@ void VoxelRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 		glBufferData(GL_ARRAY_BUFFER, staticData.count * sizeof(Instance), &instances[0], GL_STATIC_DRAW);
 		glDrawElementsInstanced(GL_TRIANGLES, cube->indicesSize, GL_UNSIGNED_INT, (void*)(0), staticData.count);
 	} else {
+		Batch::StaticData& staticData = batch.staticData[data.camera];
 		glBindVertexArray(staticData.VAO);
 		glDrawElementsInstanced(GL_TRIANGLES, cube->indicesSize, GL_UNSIGNED_INT, (void*)(0), staticData.count);
 	}

@@ -31,7 +31,9 @@ void LineRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &LineRenderer::ShaderHandler, this);
 }
 
-void LineRenderer::Render(RendererData const& data) {
+void LineRenderer::RenderDepth(RendererData const & data) {}
+
+void LineRenderer::RenderOpaque(RendererData const & data) {
 	glDisable(GL_DEPTH_TEST);
 	glLineWidth(data.camera->GetSize() * .25f);
 
@@ -51,6 +53,8 @@ void LineRenderer::Render(RendererData const& data) {
 
 	glEnable(GL_DEPTH_TEST);
 }
+
+void LineRenderer::RenderTransparent(RendererData const & data) {}
 
 void LineRenderer::InitializeInstanceBuffer(unsigned & instanceBuffer) {
 	if (instanceBuffer) return;

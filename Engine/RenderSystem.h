@@ -47,6 +47,8 @@ private:
 
 	void ResizeHandler(Events::Event* event);
 
+	void Render(RendererData const& data);
+	
 };
 
 #endif

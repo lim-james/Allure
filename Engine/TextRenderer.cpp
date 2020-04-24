@@ -22,7 +22,11 @@ void TextRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("TEXT_FONT", &TextRenderer::FontHandler, this);
 }
 
-void TextRenderer::Render(RendererData const& data) {
+void TextRenderer::RenderDepth(RendererData const & data) {}
+
+void TextRenderer::RenderOpaque(RendererData const & data) {}
+
+void TextRenderer::RenderTransparent(RendererData const& data) {
 	glDisable(GL_DEPTH_TEST);
 
 	shader->Use();

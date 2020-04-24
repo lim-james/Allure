@@ -27,7 +27,9 @@ public:
 	virtual void Initialize(EntityManager* const manager);
 
 	virtual void PreRender();
-	virtual void Render(RendererData const& data) = 0;
+	virtual void RenderDepth(RendererData const& data) = 0;
+	virtual void RenderOpaque(RendererData const& data) = 0;
+	virtual void RenderTransparent(RendererData const& data) = 0;
 	virtual void PostRender();
 
 };

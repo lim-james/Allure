@@ -32,9 +32,20 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &SpriteRenderer::ShaderHandler, this);
 }
 
-void SpriteRenderer::Render(RendererData const& data) {
+void SpriteRenderer::RenderDepth(RendererData const& data) {
 	RenderBatches(data, opaqueBatches);
 	RenderBatches(data, transparentBatches);
+}
+
+void SpriteRenderer::RenderOpaque(RendererData const & data) {
+	RenderBatches(data, opaqueBatches);
+}
+
+void SpriteRenderer::RenderTransparent(RendererData const & data) {
+	RenderBatches(data, transparentBatches);
+}
+
+void SpriteRenderer::PostRender() {
 	updateStatic = false;
 }
 
@@ -98,9 +109,7 @@ void SpriteRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 }
 
 void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
-	Batch::StaticData& staticData = batch.staticData[data.camera];
-
-	if (updateStatic) {
+	if (updateStatic || batch.staticData.find(data.camera) == batch.staticData.end()) {
 		if (batch.staticList.empty()) return;
 
 		std::vector<Instance> instances;
@@ -122,6 +131,8 @@ void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 
 		if (instances.empty()) return;
 
+		Batch::StaticData& staticData = batch.staticData[data.camera];
+
 		if (staticData.VAO == 0)
 			GenerateQuad(staticData.VAO);
 
@@ -134,6 +145,7 @@ void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 		glBufferData(GL_ARRAY_BUFFER, staticData.count * sizeof(Instance), &instances[0], GL_STATIC_DRAW);
 		glDrawArraysInstanced(GL_TRIANGLES, 0, 6, staticData.count);
 	} else {
+		Batch::StaticData& staticData = batch.staticData[data.camera];
 		glBindVertexArray(staticData.VAO);
 		glDrawArraysInstanced(GL_TRIANGLES, 0, 6, staticData.count);
 	}
