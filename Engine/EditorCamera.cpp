@@ -1,6 +1,13 @@
 #include "EditorCamera.h"
 
+// components
+#include "VoxelRender.h"
+#include "BoxCollider.h"
+// events
 #include "InputEvents.h"
+#include "RayCast.h"
+// utils
+#include "Layers.h"
 
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
@@ -9,6 +16,8 @@ void EditorCamera::Awake() {
 	speed = 10.f;
 	controlling = false;
 	direction = vec3f(0.f);
+
+	camera = GetComponent<Camera>();
 
 	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &EditorCamera::KeyHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MOUSE_BUTTON_INPUT", &EditorCamera::MouseButtonHandler, this);
@@ -74,14 +83,68 @@ void EditorCamera::MouseButtonHandler(Events::Event * event) {
 			controlling = false;
 			direction = vec3f(0.0f);
 		}
+	} else if (input->button == GLFW_MOUSE_BUTTON_LEFT) {
+		if (input->action == GLFW_PRESS) {
+			CollisionData result;
+
+			auto rayCast = new Events::RayCast(
+				transform->GetWorldTranslation(),
+				ScreenToRay(cursorPosition),
+				BitField(DEFAULT),
+				&result
+			);
+			Events::EventsManager::GetInstance()->Trigger("RAY_CAST", rayCast);
+
+			if (result.target) {
+				Transform* const targetTransform = entities->GetComponent<Transform>(result.target->entity);
+				const vec3f targetPosition = targetTransform->GetWorldTranslation();
+
+				unsigned box = entities->Create();
+
+				Transform* const boxTransform = entities->AddComponent<Transform>(box);
+				boxTransform->translation = targetPosition + result.normal;
+				boxTransform->SetDynamic(false);
+
+				VoxelRender* const render = entities->AddComponent<VoxelRender>(box);
+				render->SetActive(true);
+				render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+				render->SetDynamic(false);
+
+				BoxCollider* const collider = entities->AddComponent<BoxCollider>(box);
+				collider->SetActive(true);
+			}
+		}
 	}
 }
 
 void EditorCamera::CursorPositionHandler(Events::Event * event) {
-	if (!controlling) return;
 
 	const auto input = static_cast<Events::CursorPositionInput*>(event);
+	cursorPosition = input->position;
+
+	if (!controlling) return;
 	transform->rotation.y -= input->delta.x;
 	transform->rotation.x -= input->delta.y;
 	transform->UpdateAxes();
+}
+
+vec3f EditorCamera::ScreenToRay(vec2f const & screenPosition) {
+	mat4f invProjection = camera->GetProjectionMatrix();
+	Math::Inverse(invProjection);
+
+	mat4f invView = transform->GetLocalLookAt();
+	Math::Inverse(invView);
+
+	// normal device coordinates
+	vec4f rayClip = vec4f((2.0f * screenPosition) / camera->GetViewport().size, -1.f, 1.f);
+	rayClip.x = rayClip.x - 1.f;
+	rayClip.y = 1.f - rayClip.y;
+
+	vec4f rayEye = invProjection * rayClip;
+	rayEye = vec4f(rayEye.xy, -1.f, 0.f);
+
+	vec3f rayWorld = invView * rayEye;
+	Math::Normalize(rayWorld);
+
+	return rayWorld;
 }

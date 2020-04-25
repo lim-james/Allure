@@ -20,7 +20,6 @@ public:
 private:
 
 	// Event handlers
-
 	void ActiveHandler(Events::Event* event);
 
 };

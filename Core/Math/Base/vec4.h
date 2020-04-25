@@ -13,13 +13,13 @@ namespace Math {
 			struct { T x, y, z, w; };
 			struct { T x; vec<2, T> yz; };
 			struct { vec<2, T> xy, zw; };
-			struct { vec<3, T> xyz; };
+			struct { vec<3, T> xyz; T w; };
 			struct { T x; vec<3, T> yzw; };
 
 			struct { T r, g, b, a; };
 			struct { T r; vec<2, T> gb; };
 			struct { vec<2, T> rg, ba; };
-			struct { vec<3, T> rgb; };
+			struct { vec<3, T> rgb; T a; };
 			struct { T r; vec<3, T> gba; };
 
 			struct { vec<2, T> origin, size; };

@@ -33,7 +33,7 @@ void AnimationSystem::Update(float const& dt) {
 }
 
 void AnimationSystem::ActiveHandler(Events::Event * event) {
-	Animation* c = static_cast<Events::AnyType<Animation*>*>(event)->data;
+	Animation* const c = static_cast<Events::AnyType<Animation*>*>(event)->data;
 
 	if (c->IsActive()) {
 		Helpers::Insert(components, c);

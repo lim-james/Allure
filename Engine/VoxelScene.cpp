@@ -10,6 +10,7 @@
 #include "Panel.h"
 // Systems
 #include "LayoutSystem.h"
+#include "ColliderSystem.h"
 // Utils
 #include "Layers.h"
 
@@ -19,6 +20,7 @@ void VoxelScene::Awake() {
 	Scene::Awake();
 
 	systems->Subscribe<LayoutSystem>(1);
+	systems->Subscribe<ColliderSystem>(2);
 }
 
 void VoxelScene::Create() {
@@ -57,9 +59,26 @@ void VoxelScene::Create() {
 		panel->SetActive(true);
 		panel->camera = camera;
 	}
+
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->scale = 0.2f;
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->tint = vec4f(0.f, 1.f, 0.f, 1.f);
+
+		Panel* const panel = entities->AddComponent<Panel>(entity);
+		panel->SetActive(true);
+		panel->camera = camera;
+	}
 }
 
 void VoxelScene::CreateEditor() {
+	EditorCamera* editorControls;
 	// editor camera
 	{
 		const unsigned entity = entities->Create();
@@ -74,7 +93,7 @@ void VoxelScene::CreateEditor() {
 		camera->clearColor = 0.9f;
 		camera->cullingMask -= UI;
 
-		EditorCamera* const editorControls = entities->AddComponent<EditorCamera>(entity);
+		editorControls= entities->AddComponent<EditorCamera>(entity);
 		editorControls->SetActive(true);
 	}
 
@@ -92,7 +111,7 @@ void VoxelScene::CreateEditor() {
 		light->type = LIGHT_DIRECTIONAL;
 	}
 
-	const float size = 5.f;
+	const float size = 10.f;
 
 	for (float x = -size; x <= size; ++x) { 
 		for (float z = -size; z <= size; ++z) {
@@ -106,6 +125,9 @@ void VoxelScene::CreateEditor() {
 			render->SetActive(true);
 			render->tint = vec4f(Math::RandValue(), Math::RandValue(), Math::RandValue(), 1.f);
 			render->SetDynamic(false);
+
+			BoxCollider* const collider = entities->AddComponent<BoxCollider>(entity);
+			collider->SetActive(true);
 		}
 	}
 }

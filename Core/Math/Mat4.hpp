@@ -321,7 +321,7 @@ namespace Math {
 		if (det == 0)
 			return;
 
-		det = 1.0 / det;
+		det = static_cast<T>(1) / det;
 
 		for (int i = 0; i < 16; ++i)
 			mat[i] = inv[i] * det;
