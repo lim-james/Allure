@@ -129,15 +129,13 @@ Framebuffer * const Camera::GetFramebuffer() const {
 	return framebuffer;
 }
 
-vec2f Camera::ScreenToWorldSpace(vec2f const& mousePosition) const {
+vec2f Camera::ScreenToWorldPosition(vec2f const& mousePosition) const {
 	const vec2f viewportPosition = mousePosition - viewport.origin;
 
 	vec2f unitPosition = viewportPosition / viewport.size;
 	unitPosition = unitPosition * 2.f - vec2f(1.f);
 
-	vec2f result = unitPosition * size;
-	result.x *= aspectRatio;
-	//result.y = -result.y;
+	vec2f result = unitPosition * vec2f(right, top);
 
 	return result;
 }
@@ -158,6 +156,7 @@ void Camera::UpdateViewport() {
 	const float h = unit * match + size * invMatch;
 	left = -w, right = w;
 	bottom = -h, top = h;
+	frameSize = vec2f(w, h);
 
 	if (framebuffer) framebuffer->Resize(viewport.size);
 }

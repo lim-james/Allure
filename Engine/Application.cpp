@@ -95,7 +95,7 @@ void Application::Step() {
 	const float et = static_cast<float>(timer.GetElapsedTime());
 	const float dt = static_cast<float>(timer.GetDeltaTime());
 
-	context->SetTitle(std::to_string((int)(1.0f / dt)).c_str());
+	//context->SetTitle(std::to_string((int)(1.0f / dt)).c_str());
 
 	auto current = sceneManager->GetSource();
 

@@ -50,7 +50,7 @@ struct Camera : Component {
 	void SetFramebuffer(Framebuffer* const fb);
 	Framebuffer* const GetFramebuffer() const;
 
-	vec2f ScreenToWorldSpace(vec2f const& mousePosition) const;
+	vec2f ScreenToWorldPosition(vec2f const& mousePosition) const;
 
 private:
 
@@ -62,6 +62,7 @@ private:
 
 	float aspectRatio;
 	float left, right, bottom, top;
+	vec2f frameSize;
 	vec4f viewport;
 
 	vec2f windowSize;

@@ -11,7 +11,7 @@ void FollowCursor::Awake() {
 void FollowCursor::CursorPositionHandler(Events::Event * event) {
 	auto input = static_cast<Events::CursorPositionInput*>(event);
 
-	auto position = camera->ScreenToWorldSpace(input->position);
+	auto position = camera->ScreenToWorldPosition(input->position);
 	position.y = -position.y;
 	transform->translation = position;
 }

@@ -140,6 +140,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="IBLMaterial.cpp" />
+    <ClCompile Include="Panel.cpp" />
     <ClCompile Include="VoxelDefaultMaterial.cpp" />
     <ClCompile Include="VoxelRender.cpp" />
     <ClCompile Include="VoxelRenderer.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="IBLMaterial.h" />
+    <ClInclude Include="Panel.h" />
     <ClInclude Include="VoxelDefaultMaterial.h" />
     <ClInclude Include="VoxelRender.h" />
     <ClInclude Include="VoxelRenderer.h" />

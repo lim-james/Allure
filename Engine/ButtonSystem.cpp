@@ -24,7 +24,7 @@ void ButtonSystem::Initialize() {
 void ButtonSystem::Update(float const& dt) {
 	for (auto& cam : cameras) {
 		// world space position
-		const vec2f wsp = cam->ScreenToWorldSpace(mousePosition);
+		const vec2f wsp = cam->ScreenToWorldPosition(mousePosition);
 
 		for (auto& button : buttons) {
 			if (!button->isEnabled) continue;

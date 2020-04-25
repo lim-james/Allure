@@ -9,6 +9,10 @@ public:
 
 	void Create() override;
 
+private:
+
+	unsigned CreateEditor();
+
 };
 
 #endif
