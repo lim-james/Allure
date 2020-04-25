@@ -127,6 +127,9 @@
     <Filter Include="Assets\Scripts\UI">
       <UniqueIdentifier>{4fd0d2d4-ba74-4844-99ae-896e2b73b3fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Layout">
+      <UniqueIdentifier>{8169150f-ea73-4c55-a372-d747c1551f3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -344,6 +347,15 @@
     </ClCompile>
     <ClCompile Include="Panel.cpp">
       <Filter>Assets\Scripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Layout.cpp">
+      <Filter>Engine\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutSystem.cpp">
+      <Filter>Engine\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="Constraint.cpp">
+      <Filter>Engine\Layout</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -577,6 +589,15 @@
     </ClInclude>
     <ClInclude Include="Panel.h">
       <Filter>Assets\Scripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Layout.h">
+      <Filter>Engine\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="LayoutSystem.h">
+      <Filter>Engine\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="Constraint.h">
+      <Filter>Engine\Layout</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

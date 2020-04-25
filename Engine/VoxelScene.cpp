@@ -8,46 +8,46 @@
 #include "SpriteRenderer.h"
 // UI components
 #include "Panel.h"
+// Systems
+#include "LayoutSystem.h"
 // Utils
 #include "Layers.h"
 
 #include <Math/Random.hpp>
+
+void VoxelScene::Awake() {
+	Scene::Awake();
+
+	systems->Subscribe<LayoutSystem>(1);
+}
 
 void VoxelScene::Create() {
 	Scene::Create();
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(12.f);
-	camera->clearColor = 1.f;
+	camera->shouldClear = false;
 	camera->SetMatch(1.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->cullingMask = UI;
 
 	// editor view
-	const unsigned editorView = CreateEditor();
-	{
-		const unsigned entity = entities->Create();
-		entities->SetLayer(entity, UI);
-
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = vec3f(16.f, 9.f, 0.f);
-
-		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		render->SetActive(true);
-		render->SetSprite(editorView);
-
-		Panel* const panel = entities->AddComponent<Panel>(entity);
-		panel->SetActive(true);
-		panel->camera = camera;
-	}
+	CreateEditor();
 
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, UI);
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.x = -10.f;
-		transform->scale = vec3f(4.f, 9.f, 0.f);
+		//transform->translation.x = -10.f;
+		//transform->scale = vec3f(4.f, 9.f, 0.f);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);		
+		layout->AddConstraint(Constraint(LEFT, nullptr, LEFT, 1, 0, camera));
+		layout->AddConstraint(Constraint(TOP, nullptr, TOP, 1, 0, camera));
+		layout->AddConstraint(Constraint(BOTTOM, nullptr, BOTTOM, 1, 0, camera));
+		layout->AddConstraint(Constraint(WIDTH, nullptr, NA, 1, 2, camera));
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
@@ -59,8 +59,7 @@ void VoxelScene::Create() {
 	}
 }
 
-unsigned VoxelScene::CreateEditor() {
-	unsigned editorView = 0;
+void VoxelScene::CreateEditor() {
 	// editor camera
 	{
 		const unsigned entity = entities->Create();
@@ -71,30 +70,9 @@ unsigned VoxelScene::CreateEditor() {
 		Camera* const camera = entities->AddComponent<Camera>(entity);
 		camera->SetActive(true);
 		camera->SetSize(10.f);
-		camera->clearColor = 0.3f;
+		camera->SetDepth(-1.f);
+		camera->clearColor = 0.9f;
 		camera->cullingMask -= UI;
-		camera->isHidden = true;
-
-		TextureData tData;
-		tData.level = 0;
-		tData.internalFormat = GL_RGB16F;
-		tData.border = 0;
-		tData.format = GL_RGBA;
-		tData.type = GL_UNSIGNED_BYTE;
-		tData.attachment = GL_COLOR_ATTACHMENT0;
-		tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
-		tData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
-		tData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE });
-		tData.parameters.push_back({ GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE });
-
-		RenderBufferData rbData;
-		rbData.internalFormat = GL_DEPTH24_STENCIL8;
-		rbData.attachmentFormat = GL_DEPTH_STENCIL_ATTACHMENT;
-
-		Framebuffer* const fb = new Framebuffer(1, 1);
-		fb->Initialize(vec2u(1600, 900), { tData }, { rbData });
-		camera->SetFramebuffer(fb);
-		editorView = fb->GetTexture();
 
 		EditorCamera* const editorControls = entities->AddComponent<EditorCamera>(entity);
 		editorControls->SetActive(true);
@@ -114,7 +92,7 @@ unsigned VoxelScene::CreateEditor() {
 		light->type = LIGHT_DIRECTIONAL;
 	}
 
-	const float size = 10.f;
+	const float size = 5.f;
 
 	for (float x = -size; x <= size; ++x) { 
 		for (float z = -size; z <= size; ++z) {
@@ -130,6 +108,4 @@ unsigned VoxelScene::CreateEditor() {
 			render->SetDynamic(false);
 		}
 	}
-
-	return editorView;
 }

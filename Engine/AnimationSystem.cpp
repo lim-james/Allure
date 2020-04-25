@@ -8,7 +8,7 @@ void AnimationSystem::Initialize() {
 }
 
 void AnimationSystem::Update(float const& dt) {
-	for (auto& c : components) {
+	for (Animation* const c : components) {
 		auto& anims = c->animations;
 
 		if (anims.empty()) continue;
@@ -23,7 +23,7 @@ void AnimationSystem::Update(float const& dt) {
 		const int size = static_cast<int>(keys.size());
 
 		for (int i = size - 1; i >= 0; --i) {
-			auto const& key = keys[i];
+			int const& key = keys[i];
 			if (!anims[key]->IsActive()) {
 				delete anims[key];
 				anims.erase(key);
@@ -33,7 +33,7 @@ void AnimationSystem::Update(float const& dt) {
 }
 
 void AnimationSystem::ActiveHandler(Events::Event * event) {
-	const auto c = static_cast<Events::AnyType<Animation*>*>(event)->data;
+	Animation* c = static_cast<Events::AnyType<Animation*>*>(event)->data;
 
 	if (c->IsActive()) {
 		Helpers::Insert(components, c);

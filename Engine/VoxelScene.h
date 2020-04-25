@@ -7,11 +7,12 @@ class VoxelScene : public Scene {
 	
 public:
 
+	void Awake() override;
 	void Create() override;
 
 private:
 
-	unsigned CreateEditor();
+	void CreateEditor();
 
 };
 

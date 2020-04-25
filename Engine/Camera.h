@@ -44,6 +44,8 @@ struct Camera : Component {
 
 	mat4f GetProjectionMatrix() const;
 
+	vec2f const& GetFrameSize() const;
+
 	void SetViewportRect(vec4f const& rect);
 	vec4f const& GetViewport() const;
 

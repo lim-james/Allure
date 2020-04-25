@@ -106,6 +106,10 @@ mat4f Camera::GetProjectionMatrix() const {
 	return result;
 }
 
+vec2f const & Camera::GetFrameSize() const {
+	return frameSize;
+}
+
 void Camera::SetMatch(float const& value) {
 	match = value;
 	UpdateViewport();
