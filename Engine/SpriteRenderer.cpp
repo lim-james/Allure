@@ -49,6 +49,27 @@ void SpriteRenderer::PostRender() {
 	updateStatic = false;
 }
 
+void SpriteRenderer::GenerateQuad(unsigned& VAO) {
+	const float quadVertices[] = {
+		-0.5f, 0.5f,
+		-0.5f, -0.5f,
+		 0.5f, -0.5f,
+
+		-0.5f, 0.5f,
+		 0.5f, -0.5f,
+		 0.5f, 0.5f
+	};
+
+	unsigned VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
+}
+
 void SpriteRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& instanceBuffer) {
 	if (instanceBuffer) return;
 
@@ -290,25 +311,4 @@ void SpriteRenderer::ShaderHandler(Events::Event * event) {
 	batches[current][material] = batches[previous][material];
 	batches[previous].erase(material);
 	updateStatic = true;
-}
-
-void SpriteRenderer::GenerateQuad(unsigned& VAO) {
-	const float quadVertices[] = {
-		-0.5f, 0.5f,
-		-0.5f, -0.5f,
-		 0.5f, -0.5f,
-
-		-0.5f, 0.5f,
-		 0.5f, -0.5f,
-		 0.5f, 0.5f
-	};
-
-	unsigned VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
 }

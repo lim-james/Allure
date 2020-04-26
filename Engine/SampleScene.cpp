@@ -7,6 +7,10 @@
 #include "SpriteRender.h"
 #include "MeshRender.h"
 #include "Orbit.h"
+// post vfx
+#include "Bloom.h"
+#include "CurveDisplay.h"
+#include "Pixelated.h"
 // materials
 #include "MeshDefaultMaterial.h"
 #include "MeshUnlitMaterial.h"
@@ -90,7 +94,7 @@ void SampleScene::Create() {
 
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
-	camera->clearColor = 0.9f;
+	camera->clearColor = vec4f(1.f, 0.f, 0.f, 1.f);
 	camera->cullingMask -= UI;
 
 	{
@@ -103,7 +107,7 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->rotation.x = -90.0f;
+		transform->rotation = vec3f(50.f, -30.f, 0.f);
 		transform->UpdateAxes();
 		
 		Light* const light = entities->AddComponent<Light>(entity);
@@ -127,13 +131,23 @@ void SampleScene::Create() {
 		render->SetDynamic(false);
 	}
 
+	// post processing voluem
+	{
+		const unsigned volume = entities->Create();
+		Pixelated* const pixelated = entities->AddComponent<Pixelated>(volume);
+		pixelated->SetActive(true);
+		////pixelated->size = 1000.f;
+		//entities->AddComponent<Bloom>(volume)->SetActive(true);
+		entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
+	}
+
 	// spot light
 	{
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation.x = 3.0f;
-		transform->scale = 0.2f;
+		transform->scale = 0.5f;
 		transform->rotation.x = 90.f;
 		transform->UpdateAxes();
 
@@ -153,7 +167,7 @@ void SampleScene::Create() {
 	const unsigned pointLight = entities->Create();
 	{
 		Transform* const transform = entities->GetComponent<Transform>(pointLight);
-		transform->scale = 0.2f;
+		transform->scale = 0.5f;
 
 		Light* const light = entities->AddComponent<Light>(pointLight);
 		light->SetActive(true);

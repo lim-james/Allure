@@ -1,5 +1,6 @@
 #include "Framebuffer.h"
 
+#include <Logger/Logger.h>
 #include <Math/Math.hpp>
 #include <GL/glew.h>
 
@@ -16,7 +17,7 @@ Framebuffer::Framebuffer(unsigned const& texCount, unsigned const& RBOCount) {
 		textures.push_back(texture);
 	}
 
-	for (unsigned i = 0; i < texCount; ++i) {
+	for (unsigned i = 0; i < RBOCount; ++i) {
 		unsigned rbo;
 		glGenRenderbuffers(1, &rbo);
 		RBOs.push_back(rbo);
@@ -98,11 +99,14 @@ void Framebuffer::Resize(vec2u const& resize) {
 
 	for (unsigned i = 0; i < rboCount; ++i) {
 		glBindRenderbuffer(GL_RENDERBUFFER, RBOs[i]);
-		auto const& r = rbosData[i];
-
+		RenderBufferData const& r = rbosData[i];
 		glRenderbufferStorage(GL_RENDERBUFFER, r.internalFormat, size.w, size.h);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, r.attachmentFormat, GL_RENDERBUFFER, RBOs[i]);
 	}
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		Debug::Error << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!\n";
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

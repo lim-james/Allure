@@ -11,7 +11,7 @@ struct LightSpacePoints {
 };
 
 out VS_OUT {
-	vec3 fragmentPosition;
+	vec3 worldPosition;
 	vec3 normal;
 	vec2 texCoord;
 	LightSpacePoints fragPosLightSpace;
@@ -31,11 +31,11 @@ void main() {
 
 	gl_Position = projection * view * iModel * position;
 
-	vs_out.fragmentPosition = vec3(iModel * position);
+	vs_out.worldPosition = vec3(iModel * position);
 	vs_out.normal = mat3(iModel) * inNormal;
 	vs_out.texCoord = inTexCoord * tiling + offset;
 
 	for (int i = 0; i < lightCount; ++i) {
-		vs_out.fragPosLightSpace.positions[i] = lightSpaceMatrices[i] * vec4(vs_out.fragmentPosition, 1.f);
+		vs_out.fragPosLightSpace.positions[i] = lightSpaceMatrices[i] * vec4(vs_out.worldPosition, 1.f);
 	}
 }

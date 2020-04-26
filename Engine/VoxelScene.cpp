@@ -7,7 +7,8 @@
 #include "VoxelRenderer.h"
 #include "SpriteRenderer.h"
 // post processing
-#include "CurveProcess.h"
+#include "CurveDisplay.h"
+#include "Bloom.h"
 // UI components
 #include "Panel.h"
 // Systems
@@ -39,7 +40,7 @@ void VoxelScene::Create() {
 	// post processing voluem
 	{
 		const unsigned volume = entities->Create();
-		entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
+		entities->AddComponent<Bloom>(volume)->SetActive(true);
 	}
 
 	// editor view
@@ -99,7 +100,7 @@ void VoxelScene::CreateEditor() {
 		camera->SetActive(true);
 		camera->SetSize(10.f);
 		camera->SetDepth(-1.f);
-		camera->clearColor = 0.9f;
+		camera->clearColor = 0.f;
 		camera->cullingMask -= UI;
 
 		editorControls= entities->AddComponent<EditorCamera>(entity);

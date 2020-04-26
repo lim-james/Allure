@@ -7,7 +7,6 @@ layout(location = 2) in vec2 inTexCoord;
 layout(location = 3) in mat4 iModel;
 
 out VS_OUT {
-	vec3 fragmentPosition;
 	vec3 normal;
 	vec2 texCoord;
 } vs_out;
@@ -23,7 +22,6 @@ void main() {
 
 	gl_Position = projection * view * iModel * position;
 
-	vs_out.fragmentPosition = vec3(iModel * position);
 	vs_out.normal = mat3(transpose(iModel)) * inNormal;
 	vs_out.texCoord = inTexCoord * tiling + offset;
 }

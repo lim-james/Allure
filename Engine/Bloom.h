@@ -1,5 +1,5 @@
-#ifndef INVERT_PROCESS_H
-#define INVERT_PROCESS_H
+#ifndef BLOOM_H
+#define BLOOM_H
 
 #include "PostProcess.h"
 
@@ -8,9 +8,10 @@
 
 #include <Events/Event.h>
 
-struct CurveDisplay : PostProcess {
+struct Bloom : PostProcess {
 
-	CurveDisplay();
+	Bloom();
+	~Bloom();
 
 	void Initialize() override;
 	Component* Clone() const override;
@@ -21,8 +22,13 @@ struct CurveDisplay : PostProcess {
 
 private:
 
-	Shader* shader;
+	Shader* blurShader;
+	Shader* additiveShader;
+
 	Framebuffer* fbo;
+	Framebuffer *blurPass, *finalBloomPass;
+
+	unsigned bloomTexture;
 
 	void ResizeHandler(Events::Event* event);
 

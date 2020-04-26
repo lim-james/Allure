@@ -31,7 +31,7 @@ struct Light {
 	float innerCutOff;
 	float outerCutOff;
 
-	vec4 color;
+	vec3 color;
 	float intensity;
 
 	float strength;
@@ -47,7 +47,7 @@ struct LightSpacePoints {
 };
 
 in VS_OUT {
-	vec3 fragmentPosition;
+	vec3 worldPosition;
 	vec3 normal;
 	vec2 texCoord;
 	LightSpacePoints fragPosLightSpace;
@@ -67,8 +67,8 @@ vec3 getNormalFromMap() {
 
     vec3 tangentNormal = normal * 2.0 - 1.0;
 
-    vec3 Q1  = dFdx(vs_out.fragmentPosition);
-    vec3 Q2  = dFdy(vs_out.fragmentPosition);
+    vec3 Q1  = dFdx(vs_out.worldPosition);
+    vec3 Q2  = dFdy(vs_out.worldPosition);
     vec2 st1 = dFdx(vs_out.texCoord);
     vec2 st2 = dFdy(vs_out.texCoord);
 
@@ -164,7 +164,7 @@ void main() {
 		ao = material.ao;	
 	}
 
-    vec3 V = normalize(viewPosition - vs_out.fragmentPosition);
+    vec3 V = normalize(viewPosition - vs_out.worldPosition);
 
     // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0 
     // of 0.04 and if it's a metal, use the albedo color as F0 (metallic workflow)    
@@ -184,7 +184,7 @@ void main() {
 
 		if (lights[i].type == 0) {
 			// spot light
-			D = lightPosition - vs_out.fragmentPosition;
+			D = lightPosition - vs_out.worldPosition;
 			dist = length(D);
 			float theta = dot(normalize(D), normalize(-lights[i].direction));
 			float epsilon = lights[i].innerCutOff - lights[i].outerCutOff;
@@ -196,7 +196,7 @@ void main() {
 			dist = 1;
 		} else {
 			// point light
-			D = lightPosition - vs_out.fragmentPosition;
+			D = lightPosition - vs_out.worldPosition;
 			dist = length(D);
 		}
 
@@ -231,6 +231,7 @@ void main() {
 
         // add to outgoing radiance Lo
         Lo += (kD * albedo / PI + specular) * brightness * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+//        Lo += vec3(radiance * NdotL); 
     }   
 	
     // ambient lighting (note that the next IBL tutorial will replace 

@@ -9,6 +9,8 @@ struct CollisionData {
 	float distance;
 	vec3f position;
 	vec3f normal;
+
+	CollisionData();
 };
 
 #endif

@@ -1,4 +1,4 @@
-#include "CurveProcess.h"
+#include "CurveDisplay.h"
 
 #include "SpriteRenderer.h"
 #include <Events/EventsManager.h>	
@@ -10,9 +10,9 @@ CurveDisplay::CurveDisplay() {
 
 	TextureData tData;
 	tData.level = 0;
-	tData.internalFormat = GL_RGB16F;
+	tData.internalFormat = GL_RGB;
 	tData.border = 0;
-	tData.format = GL_RGBA;
+	tData.format = GL_RGB;
 	tData.type = GL_UNSIGNED_BYTE;
 	tData.attachment = GL_COLOR_ATTACHMENT0;
 	tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
@@ -30,6 +30,10 @@ CurveDisplay::CurveDisplay() {
 	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &CurveDisplay::ResizeHandler, this);
 }
 
+CurveDisplay::~CurveDisplay() {
+	delete shader;
+}
+
 void CurveDisplay::Initialize() {}
 
 Component * CurveDisplay::Clone() const {
@@ -44,17 +48,14 @@ void CurveDisplay::PostRender() {
 	fbo->Unbind();
 }
 
-void CurveDisplay::ResizeHandler(Events::Event * event) {
-	fbo->Resize(static_cast<Events::AnyType<vec2i>*>(event)->data);
-}
-
 void CurveDisplay::Render() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	shader->Use();
+	glBindVertexArray(VAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, fbo->GetTexture());
-
-	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void CurveDisplay::ResizeHandler(Events::Event * event) {
+	fbo->Resize(static_cast<Events::AnyType<vec2i>*>(event)->data);
 }

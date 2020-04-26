@@ -2,6 +2,7 @@
 
 #include <Helpers/VectorHelpers.h>
 #include <Events/EventsManager.h>
+#include <GL/glew.h>
 
 PostProcessStack::PostProcessStack() {
 	Events::EventsManager::GetInstance()->Subscribe("POST_PROCESS_ACTIVE", &PostProcessStack::ActiveHanlder, this);
@@ -13,6 +14,7 @@ PostProcessStack::~PostProcessStack() {
 }
 
 void PostProcessStack::Render() {
+
 	if (layers.empty()) {
 		rawRender();
 	} else {
@@ -20,8 +22,12 @@ void PostProcessStack::Render() {
 		start->PreRender();
 		rawRender();
 		start->PostRender();
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glDisable(GL_DEPTH_TEST);
 		Process(1);
 	}
+	glEnable(GL_DEPTH_TEST);
 }
 
 void PostProcessStack::ActiveHanlder(Events::Event * event) {
@@ -34,6 +40,9 @@ void PostProcessStack::ActiveHanlder(Events::Event * event) {
 }
 
 void PostProcessStack::Process(unsigned const& index) {
+	glClearColor(0, 0, 0, 0);
+	glClear(GL_COLOR_BUFFER_BIT);
+
 	if (layers.size() > index) {
 		PostProcess* const parent = layers[index];
 		parent->PreRender();

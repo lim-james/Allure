@@ -50,6 +50,8 @@ public:
 	void RenderTransparent(RendererData const& data) override;
 	void PostRender() override;
 
+	static void GenerateQuad(unsigned& VAO);
+
 private:
 
 	void InitializeInstanceBuffer(unsigned const& VAO, unsigned& instanceBuffer);
@@ -63,8 +65,6 @@ private:
 	void SpriteChangeHandler(Events::Event* event);
 	void MaterialHandler(Events::Event* event);
 	void ShaderHandler(Events::Event* event);
-
-	void GenerateQuad(unsigned& VAO);
 
 };
 

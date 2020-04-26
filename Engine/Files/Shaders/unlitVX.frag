@@ -10,7 +10,7 @@ in VS_OUT {
 
 vec4 getBrightColor(vec4 fragColor) {
 	float brightness = dot(fragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-    if(brightness > 1.0)
+    if(brightness > 0.9)
         return vec4(fragColor.rgb, 1.0);
     else
         return vec4(0.0, 0.0, 0.0, 1.0);

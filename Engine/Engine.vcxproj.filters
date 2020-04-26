@@ -136,6 +136,9 @@
     <Filter Include="Engine\Render\Post Processing">
       <UniqueIdentifier>{d5368b85-e30b-4906-a410-353ef553121e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\VFX">
+      <UniqueIdentifier>{b8b8c0a4-0687-45af-8d50-4042401f09c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -375,7 +378,16 @@
     <ClCompile Include="PostProcessStack.cpp">
       <Filter>Engine\Render\Post Processing</Filter>
     </ClCompile>
-    <ClCompile Include="CurveProcess.cpp">
+    <ClCompile Include="Bloom.cpp">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="CurveDisplay.cpp">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionData.cpp">
+      <Filter>Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Pixelated.cpp">
       <Filter>Engine\Render\Post Processing</Filter>
     </ClCompile>
   </ItemGroup>
@@ -641,7 +653,13 @@
     <ClInclude Include="PostProcessStack.h">
       <Filter>Engine\Render\Post Processing</Filter>
     </ClInclude>
-    <ClInclude Include="CurveProcess.h">
+    <ClInclude Include="Bloom.h">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="CurveDisplay.h">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="Pixelated.h">
       <Filter>Engine\Render\Post Processing</Filter>
     </ClInclude>
   </ItemGroup>

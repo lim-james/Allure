@@ -45,7 +45,7 @@ Shader::Shader(std::string const& vertexPath, std::string const& fragmentPath) {
 	if (!success) {
 		char infoLog[512];
 		glGetProgramInfoLog(id, 512, 0, infoLog);
-		Debug::Error << "Shader program link failed.\n" << infoLog << '\n';
+		Debug::Error << "Shader program link failed. VS: \"" << vertexPath << "\", FS: \"" << fragmentPath << "\"\n" << infoLog << '\n';
 	}
 
 	GetUniformNames();

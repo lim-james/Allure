@@ -9,8 +9,6 @@
 #include "SpriteRenderer.h"
 #include "LineRenderer.h"
 #include "TextRenderer.h"
-// post processing
-#include "CurveProcess.h"	
 // Events
 #include "InputEvents.h"
 
@@ -40,12 +38,11 @@ void RenderSystem::Initialize() {
 	renderers.push_back(new LineRenderer);
 	renderers.push_back(new TextRenderer);
 
+	for (Renderer* const r : renderers)
+		r->Initialize(entities);
+
 	postProccessing = new PostProcessStack;
 	postProccessing->rawRender.Bind(&RenderSystem::Render, this);
-
-	for (Renderer* const r : renderers) {
-		r->Initialize(entities);
-	}
 
 	Events::EventsManager::GetInstance()->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
@@ -65,6 +62,7 @@ void RenderSystem::Start() {
 	auto manager = Events::EventsManager::GetInstance();
 	for (Renderer* const r : renderers)
 		manager->SubscribeContext(r);
+	manager->SubscribeContext(postProccessing);
 }
 
 void RenderSystem::Stop() {
@@ -73,6 +71,7 @@ void RenderSystem::Stop() {
 	auto manager = Events::EventsManager::GetInstance();
 	for (Renderer* const r : renderers)
 		manager->UnsubscribeContext(r);
+	manager->UnsubscribeContext(postProccessing);
 }
 
 void RenderSystem::LightActiveHandler(Events::Event * event) {
@@ -160,8 +159,8 @@ void RenderSystem::FBRender() {
 
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 		Render(data);
 
@@ -201,11 +200,12 @@ void RenderSystem::Render() {
 
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);
-		glClear(GL_DEPTH_BUFFER_BIT);
 
 		if (cam->shouldClear) {
 			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		} else {
+			glClear(GL_DEPTH_BUFFER_BIT);
 		}
 
 		Render(data);
