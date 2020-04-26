@@ -1,10 +1,11 @@
 #include "PostProcess.h"
 
+#include <Events/EventsManager.h>
 #include <GL/glew.h>	
 
 unsigned PostProcess::VAO = 0;
 
-PostProcess::PostProcess() : parent(nullptr) {
+PostProcess::PostProcess() {
 	if (!VAO) {
 		float quadVertices[] = {
 		-1.0f,  1.0f,  0.0f, 1.0f,
@@ -29,13 +30,9 @@ PostProcess::PostProcess() : parent(nullptr) {
 	}
 }
 
-void PostProcess::Process() {
-	if (parent) {
-		parent->PreRender();
-		Render();
-		parent->PostRender();
-		parent->Process();
-	} else {
-		Render();
-	}
+void PostProcess::SetActive(bool const & state) {
+	Component::SetActive(state);
+	Events::EventsManager::GetInstance()->Trigger("POST_PROCESS_ACTIVE", new Events::AnyType<PostProcess*>(this));
 }
+
+

@@ -42,7 +42,6 @@ void RenderSystem::Initialize() {
 
 	postProccessing = new PostProcessStack;
 	postProccessing->rawRender.Bind(&RenderSystem::Render, this);
-	postProccessing->Push(new CurveProcess);
 
 	for (Renderer* const r : renderers) {
 		r->Initialize(entities);

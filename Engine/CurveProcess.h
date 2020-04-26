@@ -8,21 +8,23 @@
 
 #include <Events/Event.h>
 
-struct CurveProcess : PostProcess {
+struct CurveDisplay : PostProcess {
 
-	CurveProcess();
+	CurveDisplay();
+
+	void Initialize() override;
+	Component* Clone() const override;
 
 	void PreRender() override;
 	void PostRender() override;
-	
+	void Render() override;
+
 private:
 
 	Shader* shader;
 	Framebuffer* fbo;
 
 	void ResizeHandler(Events::Event* event);
-
-	void Render() override;
 
 };
 

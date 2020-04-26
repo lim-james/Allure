@@ -3,6 +3,7 @@
 
 #include "PostProcess.h"
 
+#include <Events/Event.h>
 #include <vector>
 
 class PostProcessStack {
@@ -13,10 +14,16 @@ public:
 
 	Handler<void, void> rawRender;
 
+	PostProcessStack();
 	~PostProcessStack();
 
 	void Render();
-	void Push(PostProcess* const layer);
+
+private:
+
+	void ActiveHanlder(Events::Event* event);
+
+	void Process(unsigned const& index);
 
 };
 

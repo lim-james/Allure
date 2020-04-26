@@ -6,6 +6,8 @@
 #include "EditorCamera.h"
 #include "VoxelRenderer.h"
 #include "SpriteRenderer.h"
+// post processing
+#include "CurveProcess.h"
 // UI components
 #include "Panel.h"
 // Systems
@@ -33,6 +35,12 @@ void VoxelScene::Create() {
 	camera->SetMatch(1.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->cullingMask = UI;
+
+	// post processing voluem
+	{
+		const unsigned volume = entities->Create();
+		entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
+	}
 
 	// editor view
 	CreateEditor();

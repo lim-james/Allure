@@ -1,5 +1,12 @@
 #include "PostProcessStack.h"
 
+#include <Helpers/VectorHelpers.h>
+#include <Events/EventsManager.h>
+
+PostProcessStack::PostProcessStack() {
+	Events::EventsManager::GetInstance()->Subscribe("POST_PROCESS_ACTIVE", &PostProcessStack::ActiveHanlder, this);
+}
+
 PostProcessStack::~PostProcessStack() {
 	for (PostProcess* const layer : layers)
 		delete layer;
@@ -13,13 +20,27 @@ void PostProcessStack::Render() {
 		start->PreRender();
 		rawRender();
 		start->PostRender();
-		start->Process();
+		Process(1);
 	}
 }
 
-void PostProcessStack::Push(PostProcess * const layer) {
-	if (!layers.empty())
-		layers.back()->parent = layer;
+void PostProcessStack::ActiveHanlder(Events::Event * event) {
+	PostProcess* const c = static_cast<Events::AnyType<PostProcess*>*>(event)->data;
+	if (c->IsActive()) {
+		Helpers::Insert(layers, c);
+	} else {
+		Helpers::Remove(layers, c);
+	}
+}
 
-	layers.push_back(layer);
+void PostProcessStack::Process(unsigned const& index) {
+	if (layers.size() > index) {
+		PostProcess* const parent = layers[index];
+		parent->PreRender();
+		layers[index - 1]->Render();
+		parent->PostRender();
+		Process(index + 1);
+	} else {
+		layers[index - 1]->Render();
+	}
 }

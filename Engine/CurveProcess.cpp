@@ -3,7 +3,7 @@
 #include "SpriteRenderer.h"
 #include <Events/EventsManager.h>	
 
-CurveProcess::CurveProcess() {
+CurveDisplay::CurveDisplay() {
 	shader = new Shader("Files/Shaders/fb.vert", "Files/Shaders/curve.frag");
 	shader->Use();
 	shader->SetInt("tex", 0);
@@ -27,22 +27,28 @@ CurveProcess::CurveProcess() {
 	fbo = new Framebuffer(1, 1);
 	fbo->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
-	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &CurveProcess::ResizeHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &CurveDisplay::ResizeHandler, this);
 }
 
-void CurveProcess::PreRender() {
+void CurveDisplay::Initialize() {}
+
+Component * CurveDisplay::Clone() const {
+	return new CurveDisplay(*this);
+}
+
+void CurveDisplay::PreRender() {
 	fbo->Bind();
 }
 
-void CurveProcess::PostRender() {
+void CurveDisplay::PostRender() {
 	fbo->Unbind();
 }
 
-void CurveProcess::ResizeHandler(Events::Event * event) {
+void CurveDisplay::ResizeHandler(Events::Event * event) {
 	fbo->Resize(static_cast<Events::AnyType<vec2i>*>(event)->data);
 }
 
-void CurveProcess::Render() {
+void CurveDisplay::Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	shader->Use();
