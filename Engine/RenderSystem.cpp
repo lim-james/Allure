@@ -9,6 +9,8 @@
 #include "SpriteRenderer.h"
 #include "LineRenderer.h"
 #include "TextRenderer.h"
+// post processing
+#include "CurveProcess.h"	
 // Events
 #include "InputEvents.h"
 
@@ -22,8 +24,7 @@ RenderSystem::~RenderSystem() {
 	for (Renderer* const r : renderers)
 		delete r;
 
-	delete curveShader;
-	delete mainFBO;
+	delete postProccessing;
 }
 
 void RenderSystem::Initialize() {
@@ -39,32 +40,13 @@ void RenderSystem::Initialize() {
 	renderers.push_back(new LineRenderer);
 	renderers.push_back(new TextRenderer);
 
+	postProccessing = new PostProcessStack;
+	postProccessing->rawRender.Bind(&RenderSystem::Render, this);
+	postProccessing->Push(new CurveProcess);
+
 	for (Renderer* const r : renderers) {
 		r->Initialize(entities);
 	}
-
-	curveShader = new Shader("Files/Shaders/fb.vert", "Files/Shaders/curve.frag");
-	curveShader->Use();
-	curveShader->SetInt("tex", 0);
-
-	TextureData tData;
-	tData.level = 0;
-	tData.internalFormat = GL_RGB16F;
-	tData.border = 0;
-	tData.format = GL_RGBA;
-	tData.type = GL_UNSIGNED_BYTE;
-	tData.attachment = GL_COLOR_ATTACHMENT0;
-	tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
-	tData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
-	tData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE });
-	tData.parameters.push_back({ GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE });
-
-	RenderBufferData rbData;
-	rbData.internalFormat = GL_DEPTH24_STENCIL8;
-	rbData.attachmentFormat = GL_DEPTH_STENCIL_ATTACHMENT;
-
-	mainFBO = new Framebuffer(1, 1);
-	mainFBO->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
 	Events::EventsManager::GetInstance()->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
@@ -74,82 +56,8 @@ void RenderSystem::Initialize() {
 }
 
 void RenderSystem::Update(float const& dt) {
-	glViewport(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
-	glScissor(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
-	glClearColor(0, 0, 0, 0);
-
-	for (Renderer* const r : renderers) {
-		r->PreRender();
-	}
-
-	for (Camera* const cam : fbCameras) {
-		Framebuffer* const fb = cam->GetFramebuffer();
-		fb->Bind();
-
-		vec4f const& viewport = cam->GetViewport();
-
-		const Math::vec<2, GLint> origin(
-			static_cast<GLint>(viewport.origin.x),
-			static_cast<GLint>(viewport.origin.y)
-		);
-
-		const Math::vec<2, GLint> size(
-			static_cast<GLsizei>(viewport.size.w),
-			static_cast<GLsizei>(viewport.size.h)
-		);
-
-		RendererData data;
-		data.camera = cam;
-		data.projection = cam->GetProjectionMatrix();
-		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
-		data.lights = &lights;
-
-		glViewport(origin.x, origin.y, size.x, size.y);
-		glScissor(origin.x, origin.y, size.x, size.y);
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-		glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
-
-		Render(data);
-
-		fb->Unbind();
-	}
-
-	for (Camera* const cam : cameras) {
-		if (cam->isHidden) continue;
-
-		vec4f const& viewport = cam->GetViewport();
-
-		const Math::vec<2, GLint> origin(
-			static_cast<GLint>(viewport.origin.x),
-			static_cast<GLint>(viewport.origin.y)
-		);
-
-		const Math::vec<2, GLint> size(
-			static_cast<GLsizei>(viewport.size.w),
-			static_cast<GLsizei>(viewport.size.h)
-		);
-
-		RendererData data;
-		data.camera = cam;
-		data.projection = cam->GetProjectionMatrix();
-		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
-		data.lights = &lights;
-
-		glViewport(origin.x, origin.y, size.x, size.y);
-		glScissor(origin.x, origin.y, size.x, size.y);
-		glClear(GL_DEPTH_BUFFER_BIT);
-
-		if (cam->shouldClear) {
-			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
-			glClear(GL_COLOR_BUFFER_BIT);
-		}
-
-		Render(data);
-	}
-
-	for (Renderer* const r : renderers) {
-		r->PostRender();
-	}
+	FBRender();
+	postProccessing->Render();
 }
 
 void RenderSystem::Start() {
@@ -225,7 +133,88 @@ void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
 
 void RenderSystem::ResizeHandler(Events::Event* event) {
 	windowSize = static_cast<Events::AnyType<vec2i>*>(event)->data;
-	mainFBO->Resize(windowSize);
+	//mainFBO->Resize(windowSize);
+}
+
+void RenderSystem::FBRender() {
+	for (Camera* const cam : fbCameras) {
+		Framebuffer* const fb = cam->GetFramebuffer();
+		fb->Bind();
+
+		vec4f const& viewport = cam->GetViewport();
+
+		const Math::vec<2, GLint> origin(
+			static_cast<GLint>(viewport.origin.x),
+			static_cast<GLint>(viewport.origin.y)
+		);
+
+		const Math::vec<2, GLint> size(
+			static_cast<GLsizei>(viewport.size.w),
+			static_cast<GLsizei>(viewport.size.h)
+		);
+
+		RendererData data;
+		data.camera = cam;
+		data.projection = cam->GetProjectionMatrix();
+		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
+		data.lights = &lights;
+
+		glViewport(origin.x, origin.y, size.x, size.y);
+		glScissor(origin.x, origin.y, size.x, size.y);
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
+
+		Render(data);
+
+		fb->Unbind();
+	}
+}
+
+void RenderSystem::Render() {
+	glViewport(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
+	glScissor(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
+	glClearColor(0, 0, 0, 0);
+
+	for (Renderer* const r : renderers) {
+		r->PreRender();
+	}
+
+	for (Camera* const cam : cameras) {
+		if (cam->isHidden) continue;
+
+		vec4f const& viewport = cam->GetViewport();
+
+		const Math::vec<2, GLint> origin(
+			static_cast<GLint>(viewport.origin.x),
+			static_cast<GLint>(viewport.origin.y)
+		);
+
+		const Math::vec<2, GLint> size(
+			static_cast<GLsizei>(viewport.size.w),
+			static_cast<GLsizei>(viewport.size.h)
+		);
+
+		RendererData data;
+		data.camera = cam;
+		data.projection = cam->GetProjectionMatrix();
+		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
+		data.lights = &lights;
+
+		glViewport(origin.x, origin.y, size.x, size.y);
+		glScissor(origin.x, origin.y, size.x, size.y);
+		glClear(GL_DEPTH_BUFFER_BIT);
+
+		if (cam->shouldClear) {
+			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
+			glClear(GL_COLOR_BUFFER_BIT);
+		}
+
+		Render(data);
+	}
+
+	for (Renderer* const r : renderers) {
+		r->PostRender();
+	}
 }
 
 void RenderSystem::Render(RendererData const & data) {

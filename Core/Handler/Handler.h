@@ -124,6 +124,7 @@ public:
 	void operator()() const;
 
 	void operator=(std::nullptr_t);
+	void operator=(Handler<ReturnType, void> const& rhs);
 
 };
 

@@ -9,6 +9,7 @@
 // utils
 #include "Layers.h"
 
+#include <Math/Random.hpp>
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
@@ -107,7 +108,7 @@ void EditorCamera::MouseButtonHandler(Events::Event * event) {
 
 				VoxelRender* const render = entities->AddComponent<VoxelRender>(box);
 				render->SetActive(true);
-				render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+				render->tint = vec4f(Math::RandValue(), Math::RandValue(), Math::RandValue(), 1.f);
 				render->SetDynamic(false);
 
 				BoxCollider* const collider = entities->AddComponent<BoxCollider>(box);

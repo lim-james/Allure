@@ -143,9 +143,12 @@
     <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="Constraint.cpp" />
     <ClCompile Include="IBLMaterial.cpp" />
+    <ClCompile Include="CurveProcess.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="LayoutSystem.cpp" />
     <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="PostProcess.cpp" />
+    <ClCompile Include="PostProcessStack.cpp" />
     <ClCompile Include="VoxelDefaultMaterial.cpp" />
     <ClCompile Include="VoxelRender.cpp" />
     <ClCompile Include="VoxelRenderer.cpp" />
@@ -227,10 +230,13 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constraint.h" />
     <ClInclude Include="IBLMaterial.h" />
+    <ClInclude Include="CurveProcess.h" />
     <ClInclude Include="Layout.h" />
     <ClInclude Include="LayoutSystem.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="PostProcess.h" />
+    <ClInclude Include="PostProcessStack.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="VoxelDefaultMaterial.h" />
     <ClInclude Include="VoxelRender.h" />

@@ -77,12 +77,36 @@ void VoxelRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& inst
 }
 
 void VoxelRenderer::RenderBatches(RendererData const& data, Batches& batches) {
+	Transform* const cameraTransform = entities->GetComponent<Transform>(data.camera->entity);
+	const vec3f viewPosition = cameraTransform->GetWorldTranslation();
+	const unsigned lightCount = data.lights->size();
+
 	for (auto& shaderPair : batches) {
 		Shader* const shader = shaderPair.first;
 
 		shader->Use();
 		shader->SetMatrix4("projection", data.projection);
 		shader->SetMatrix4("view", data.view);
+
+		shader->SetVector3("viewPosition", viewPosition);
+		shader->SetInt("lightCount", lightCount);
+
+		for (unsigned i = 0; i < lightCount; ++i) {
+			Light* const light = data.lights->at(i);
+			const std::string tag = "lights[" + std::to_string(i) + "].";
+
+			shader->SetInt(tag + "type", light->type);
+			shader->SetFloat(tag + "range", light->range);
+			shader->SetFloat(tag + "innerCutOff", cos(light->innerCutOff * Math::toRad));
+			shader->SetFloat(tag + "outerCutOff", cos(light->outerCutOff * Math::toRad));
+			shader->SetVector3(tag + "color", light->color);
+			shader->SetFloat(tag + "intensity", light->intensity);
+			shader->SetFloat(tag + "strength", light->strength);
+
+			Transform* const transform = entities->GetComponent<Transform>(light->entity);
+			shader->SetVector3(tag + "position", transform->GetWorldTranslation());
+			shader->SetVector3(tag + "direction", transform->GetLocalFront());
+		}
 
 		for (auto& materialPair : shaderPair.second) {
 			materialPair.first->Use();

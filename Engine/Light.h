@@ -17,7 +17,7 @@ struct Light : Component {
 	float range;
 	float innerCutOff, outerCutOff;
 
-	vec4f color;
+	vec3f color;
 	float intensity;
 
 	bool castShadow;

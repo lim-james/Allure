@@ -66,10 +66,9 @@ void MeshRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& insta
 }
 
 void MeshRenderer::RenderBatches(RendererData const& data, Batches& batches) {
-	const unsigned lightCount = data.lights->size();
-
 	Transform* const cameraTransform = entities->GetComponent<Transform>(data.camera->entity);
 	const vec3f viewPosition = cameraTransform->GetWorldTranslation();
+	const unsigned lightCount = data.lights->size();
 
 	for (auto& shaderPair : batches) {
 		Shader* const shader = shaderPair.first;
@@ -89,7 +88,7 @@ void MeshRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 			shader->SetFloat(tag + "range", light->range);
 			shader->SetFloat(tag + "innerCutOff", cos(light->innerCutOff * Math::toRad));
 			shader->SetFloat(tag + "outerCutOff", cos(light->outerCutOff * Math::toRad));
-			shader->SetVector4(tag + "color", light->color);
+			shader->SetVector3(tag + "color", light->color);
 			shader->SetFloat(tag + "intensity", light->intensity);
 			shader->SetFloat(tag + "strength", light->strength);
 

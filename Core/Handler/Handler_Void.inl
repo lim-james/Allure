@@ -119,4 +119,7 @@ void Handler<ReturnType, void>::operator=(std::nullptr_t) {
 	UnbindAll();
 }
 
-
+template<typename ReturnType>
+void Handler<ReturnType, void>::operator=(Handler<ReturnType, void> const& rhs) {
+	customCallbacks = rhs.customCallbacks;
+}

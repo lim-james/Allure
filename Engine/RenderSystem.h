@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Framebuffer.h"
 #include "Renderer.h"
+#include "PostProcessStack.h"
 #include "Shader.h"
 
 #include <Events/Event.h>
@@ -21,9 +22,7 @@ class RenderSystem : public System {
 	std::vector<Camera*> fbCameras;
 
 	std::vector<Renderer*> renderers;
-
-	Shader* curveShader;
-	Framebuffer* mainFBO;
+	PostProcessStack* postProccessing;
 
 	vec2f windowSize;
 
@@ -47,6 +46,8 @@ private:
 
 	void ResizeHandler(Events::Event* event);
 
+	void FBRender();
+	void Render();
 	void Render(RendererData const& data);
 	
 };

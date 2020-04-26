@@ -133,6 +133,9 @@
     <Filter Include="Engine\Physics">
       <UniqueIdentifier>{e3abb734-b100-4c4c-bad4-24aa4632dc12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Render\Post Processing">
+      <UniqueIdentifier>{d5368b85-e30b-4906-a410-353ef553121e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -166,9 +169,6 @@
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Engine\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Framebuffer.cpp">
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="TransformComparator.cpp">
@@ -366,6 +366,18 @@
     <ClCompile Include="BoxCollider.cpp">
       <Filter>Engine\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Framebuffer.cpp">
+      <Filter>Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcess.cpp">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessStack.cpp">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="CurveProcess.cpp">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -399,9 +411,6 @@
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Framebuffer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="TransformSystem.h">
@@ -622,6 +631,18 @@
     </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framebuffer.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcess.h">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessStack.h">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="CurveProcess.h">
+      <Filter>Engine\Render\Post Processing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

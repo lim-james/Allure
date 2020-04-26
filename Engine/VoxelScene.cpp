@@ -13,6 +13,7 @@
 #include "ColliderSystem.h"
 // Utils
 #include "Layers.h"
+#include "VoxelUnlitMaterial.h"
 
 #include <Math/Random.hpp>
 
@@ -107,8 +108,32 @@ void VoxelScene::CreateEditor() {
 
 		Light* const light = entities->AddComponent<Light>(entity);
 		light->SetActive(true);
+		light->intensity = 0.5f;
 		light->color = vec4f(253.f / 255.f, 251.f / 255.f, 211.f / 255.f, 1.0f);
 		light->type = LIGHT_DIRECTIONAL;
+	}
+
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->translation = vec3f(0, 2.f, 0);
+		transform->SetDynamic(false);
+
+		Light* const light = entities->AddComponent<Light>(entity);
+		light->SetActive(true);
+		light->color = 1.f;
+		light->intensity = 10.f;
+		light->type = LIGHT_POINT;
+
+		VoxelRender* const render = entities->AddComponent<VoxelRender>(entity);
+		render->SetActive(true);
+		render->tint = vec4f(1.f);
+		render->SetMaterial(new Material::VoxelUnlit);
+		render->SetDynamic(false);
+
+		BoxCollider* const collider = entities->AddComponent<BoxCollider>(entity);
+		collider->SetActive(true);
 	}
 
 	const float size = 10.f;

@@ -9,6 +9,7 @@ layout(location = 3) in vec4 iTint;
 layout(location = 4) in vec3 iPosition;
 
 out VS_OUT {
+	vec3 worldPosition;
 	vec3 normal;
 	vec4 color;
 } vs_out;
@@ -17,7 +18,8 @@ uniform mat4 projection;
 uniform mat4 view;
 
 void main() {
+	vs_out.worldPosition = inPosition + iPosition;
 	vs_out.normal = inNormal;
 	vs_out.color = iTint;
-	gl_Position = projection * view * vec4(inPosition + iPosition, 1.f);
+	gl_Position = projection * view * vec4(vs_out.worldPosition, 1.f);
 }
