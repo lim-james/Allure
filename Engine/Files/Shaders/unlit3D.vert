@@ -13,14 +13,14 @@ out VS_OUT {
 
 uniform mat4 projection;
 uniform mat4 view;
+uniform mat4 model;
 
 uniform vec2 tiling;
 uniform vec2 offset;
 
 void main() {
 	vec4 position = vec4(inPosition, 1.f);
-
-	gl_Position = projection * view * iModel * position;
+	gl_Position = projection * view * iModel * model  * position;
 
 	vs_out.normal = mat3(transpose(iModel)) * inNormal;
 	vs_out.texCoord = inTexCoord * tiling + offset;

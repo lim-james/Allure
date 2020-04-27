@@ -3,12 +3,14 @@
 
 #include "Vertex.h"
 
+#include <Math/Mat4.hpp>
 #include <vector>
 
 struct Mesh {
 
 	unsigned VAO;
 	unsigned indicesSize;
+	mat4f modelTransform;
 
 	Mesh(std::vector<Vertex> const& vertices, std::vector<unsigned> const& indices);
 	~Mesh();

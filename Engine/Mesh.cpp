@@ -5,6 +5,8 @@
 Mesh::Mesh(std::vector<Vertex> const& vertices, std::vector<unsigned> const& indices) 
 	: vertices(vertices) 
 	, indices(indices) {
+	Math::SetToIdentity(modelTransform);
+
 	indicesSize = indices.size();
 
 	unsigned VBO, EBO;

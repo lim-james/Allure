@@ -4,6 +4,7 @@
 #include "SampleScene.h"
 #include "PortalScene.h"
 #include "VoxelScene.h"
+#include "LowPolyScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -46,7 +47,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new SampleScene);
+	sceneManager->Present(new LowPolyScene);
 
 	context->BroadcastSize();
 	em->TriggerQueued();

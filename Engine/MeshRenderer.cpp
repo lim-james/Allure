@@ -102,8 +102,10 @@ void MeshRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 			materialPair.first->Use();
 
 			for (auto& batchPair : materialPair.second) {
-				RenderStatic(data, batchPair.first, batchPair.second);
-				RenderDynamic(data, batchPair.first, batchPair.second);
+				Mesh* const mesh = batchPair.first;
+				shader->SetMatrix4("model", mesh->modelTransform);
+				RenderStatic(data, mesh, batchPair.second);
+				RenderDynamic(data, mesh, batchPair.second);
 			}
 		}
 	}
