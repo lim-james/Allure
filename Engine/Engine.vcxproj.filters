@@ -139,6 +139,9 @@
     <Filter Include="Assets\VFX">
       <UniqueIdentifier>{b8b8c0a4-0687-45af-8d50-4042401f09c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scenes\Low Poly">
+      <UniqueIdentifier>{bdc25e97-80ee-4538-b013-de2202e380b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -257,9 +260,6 @@
     </ClCompile>
     <ClCompile Include="SampleScene.cpp">
       <Filter>Assets\Scenes\Sample</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadOBJ.cpp">
-      <Filter>Engine\Render\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Engine\Render\Mesh\Model</Filter>
@@ -389,6 +389,12 @@
     </ClCompile>
     <ClCompile Include="Pixelated.cpp">
       <Filter>Engine\Render\Post Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="LowPolyScene.cpp">
+      <Filter>Assets\Scenes\Low Poly</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadModel.cpp">
+      <Filter>Engine\Render\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -520,9 +526,6 @@
     </ClInclude>
     <ClInclude Include="SampleScene.h">
       <Filter>Assets\Scenes\Sample</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadOBJ.h">
-      <Filter>Engine\Render\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Engine\Render\Mesh\Model</Filter>
@@ -661,6 +664,12 @@
     </ClInclude>
     <ClInclude Include="Pixelated.h">
       <Filter>Engine\Render\Post Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="LowPolyScene.h">
+      <Filter>Assets\Scenes\Low Poly</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadModel.h">
+      <Filter>Engine\Render\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

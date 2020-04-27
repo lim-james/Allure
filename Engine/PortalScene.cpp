@@ -13,7 +13,7 @@
 #include "PortalMaterial.h"
 // Utils
 #include "LoadTexture.h"
-#include "LoadOBJ.h"
+#include "LoadModel.h"
 #include "Layers.h"
 
 
@@ -76,8 +76,8 @@ void PortalScene::Create() {
 	Material::Portal* blueView = new Material::Portal;
 	blueView->flags += SURFACE_TRANSPARENT;
 
-	Model* const sphere = Load::OBJ("Files/Models/sphere.obj");
-	Model* const cube = Load::OBJ("Files/Models/cube.obj");
+	Mesh* const cube = Load::OBJ("Files/Models/cube.obj")->meshes[0];
+	Mesh* const sphere = Load::OBJ("Files/Models/sphere.obj")->meshes[0];
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
@@ -98,7 +98,7 @@ void PortalScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(portalCamera);
 		render->SetActive(true);
 		render->SetMaterial(green);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 
 		Camera* const pCam = entities->AddComponent<Camera>(portalCamera);
 		pCam->SetActive(true);
@@ -155,7 +155,7 @@ void PortalScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(red);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -172,7 +172,7 @@ void PortalScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(redView);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -187,7 +187,7 @@ void PortalScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(blue);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -204,7 +204,7 @@ void PortalScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(blueView);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -218,7 +218,7 @@ void PortalScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(rustediron);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -232,7 +232,7 @@ void PortalScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(hardwood);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -257,7 +257,7 @@ void PortalScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(opaque);
-		render->SetModel(sphere);
+		render->SetMesh(sphere);
 		render->SetDynamic(false);
 	}
 }

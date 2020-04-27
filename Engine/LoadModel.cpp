@@ -1,15 +1,18 @@
-#include "LoadOBJ.h"
+#include "LoadModel.h"
 
 #include <Math/Vectors.h>
 
 #include <Logger/Logger.h>
 #include <Helpers/StringHelpers.h>
+// asssimp
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #include <fstream>
 #include <string>
 
 Model* Load::OBJ(std::string const& filepath) {
-
 	if (modelCache.find(filepath) != modelCache.end())
 		return modelCache[filepath];
 
@@ -94,6 +97,17 @@ Model* Load::OBJ(std::string const& filepath) {
 
 	return model;
 }
+
+//Model * Load::Meshes(std::string const & filepath) {
+//	if (modelCache.find(filepath) != modelCache.end())
+//		return modelCache[filepath];
+//
+//	Mesh* mesh = new Mesh(vertices, indices);
+//	Model* model = new Model({ mesh });
+//	modelCache[filepath] = model;
+//
+//	return model;
+//}
 
 void Load::ClearModelCache() {
 	for (const auto& model : modelCache)

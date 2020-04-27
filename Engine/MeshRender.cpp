@@ -3,12 +3,12 @@
 #include <Events/EventsManager.h>
 
 MeshRender::MeshRender() 
-	: model(nullptr)
+	: mesh(nullptr)
 	, material(nullptr) {
 }
 
 void MeshRender::Initialize() {
-	model = nullptr;
+	mesh = nullptr;
 	SetMaterial(nullptr);
 }
 
@@ -26,14 +26,14 @@ void MeshRender::SetDynamic(bool const & state) {
 	Events::EventsManager::GetInstance()->Trigger("MESH_RENDER_DYNAMIC", new Events::AnyType<MeshRender*>(this));
 }
 
-Model * const MeshRender::GetModel() const {
-	return model;
+Mesh * const MeshRender::GetMesh() const {
+	return mesh;
 }
 
-void MeshRender::SetModel(Model * const _model) {
-	Events::ModelChange* event = new Events::ModelChange(model, this);
-	model = _model;
-	Events::EventsManager::GetInstance()->Trigger("MODEL_CHANGE", event);
+void MeshRender::SetMesh(Mesh * const _mesh) {
+	Events::MeshChange* event = new Events::MeshChange(mesh, this);
+	mesh = _mesh;
+	Events::EventsManager::GetInstance()->Trigger("MESH_CHANGE", event);
 }
 
 Material::Base * const MeshRender::GetMaterial() const {

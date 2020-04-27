@@ -18,7 +18,7 @@
 #include "SkyboxMaterial.h"
 // Utils
 #include "LoadTexture.h"
-#include "LoadOBJ.h"
+#include "LoadModel.h"
 #include "Layers.h"
 
 void SampleScene::Awake() {
@@ -89,8 +89,8 @@ void SampleScene::Create() {
 	skybox->flags += FRONT_FACE;
 	skybox->cubemap = skyboxMap;
 
-	Model* const cube = Load::OBJ("Files/Models/cube.obj");
-	Model* const sphere = Load::OBJ("Files/Models/sphere.obj");
+	Mesh* const cube = Load::OBJ("Files/Models/cube.obj")->meshes[0];
+	Mesh* const sphere = Load::OBJ("Files/Models/sphere.obj")->meshes[0];
 
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
@@ -127,7 +127,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(skybox);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -161,7 +161,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(opaque);
-		render->SetModel(sphere);
+		render->SetMesh(sphere);
 	}
 
 	const unsigned pointLight = entities->Create();
@@ -178,7 +178,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(pointLight);
 		render->SetActive(true);
 		render->SetMaterial(opaque);
-		render->SetModel(sphere);
+		render->SetMesh(sphere);
 	}
 
 	Orbit* const orbit = entities->AddComponent<Orbit>(pointLight);
@@ -196,7 +196,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(rustediron);
-		render->SetModel(sphere);
+		render->SetMesh(sphere);
 		render->SetDynamic(false);
 	}
 
@@ -211,7 +211,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(hardwood);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -226,7 +226,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(window);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -241,7 +241,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(white);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -256,7 +256,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(white);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -271,7 +271,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(white);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 
@@ -286,7 +286,7 @@ void SampleScene::Create() {
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(streakedmetal);
-		render->SetModel(cube);
+		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
 }

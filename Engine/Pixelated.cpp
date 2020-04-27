@@ -2,7 +2,7 @@
 
 #include "SpriteRenderer.h"
 #include <Events/EventsManager.h>	
-#include "LoadOBJ.h"
+#include "LoadModel.h"
 
 Pixelated::Pixelated() : size(100.f) {
 	shader = new Shader("Files/Shaders/fb.vert", "Files/Shaders/pixelated.frag");

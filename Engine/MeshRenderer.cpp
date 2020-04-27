@@ -19,7 +19,7 @@ void MeshRenderer::Initialize(EntityManager * const manager) {
 
 	Events::EventsManager::GetInstance()->Subscribe("MESH_RENDER_ACTIVE", &MeshRenderer::ActiveHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MESH_RENDER_DYNAMIC", &MeshRenderer::DynamicHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MODEL_CHANGE", &MeshRenderer::ModelChangeHandler, this);
+	Events::EventsManager::GetInstance()->Subscribe("MESH_CHANGE", &MeshRenderer::ModelChangeHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MESH_MATERIAL", &MeshRenderer::MaterialHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &MeshRenderer::ShaderHandler, this);
 	Events::EventsManager::GetInstance()->Subscribe("CAST_SHADOW", &MeshRenderer::CastShadowHandler, this);
@@ -174,29 +174,26 @@ void MeshRenderer::RenderDynamic(RendererData const& data, Mesh* const mesh, Bat
 void MeshRenderer::ActiveHandler(Events::Event * event) {
 	MeshRender* const c = static_cast<Events::AnyType<MeshRender*>*>(event)->data;
 
-	Model* const model = c->GetModel();
-	if (!model) return;
+	Mesh* const mesh = c->GetMesh();
+	if (!mesh) return;
 
 	Material::Base * const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	Shader * const shader = material->GetShader();
 
 	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
-	MeshBatches& meshBatches = batches[shader][material];
+	Batch& batch = batches[shader][material][mesh];
+	auto& list = c->IsDynamic() ? batch.dynamicList : batch.staticList;
 
-	for (Mesh* const mesh : model->meshes) {
-		Batch& batch = meshBatches[mesh];
-		auto& list = c->IsDynamic() ? batch.dynamicList : batch.staticList;
-		if (!c->IsDynamic()) updateStatic = true;
+	if (!c->IsDynamic()) updateStatic = true;
 
-		if (c->IsActive()) {
-			Helpers::Insert(list, c);
+	if (c->IsActive()) {
+		Helpers::Insert(list, c);
 
-			if (dynamicBuffers.find(mesh) == dynamicBuffers.end()) {
-				InitializeInstanceBuffer(mesh->VAO, dynamicBuffers[mesh]);
-			}
-		} else {
-			Helpers::Remove(list, c);
+		if (dynamicBuffers.find(mesh) == dynamicBuffers.end()) {
+			InitializeInstanceBuffer(mesh->VAO, dynamicBuffers[mesh]);
 		}
+	} else {
+		Helpers::Remove(list, c);
 	}
 }
 
@@ -205,30 +202,26 @@ void MeshRenderer::DynamicHandler(Events::Event * event) {
 
 	if (!c->IsActive()) return;
 
-	Model* const model = c->GetModel();
-	if (!model) return;
+	Mesh* const mesh = c->GetMesh();
+	if (!mesh) return;
 
 	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	Shader* const shader = material->GetShader();
-	
+
 	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
-	MeshBatches& meshBatches = batches[shader][material];
-	
-	for (Mesh* const mesh : model->meshes) {
-		Batch& batch = meshBatches[mesh];
+	Batch& batch = batches[shader][material][mesh];
 
-		auto& previousList = c->IsDynamic() ? batch.staticList : batch.dynamicList;
-		auto& currentList = c->IsDynamic() ? batch.dynamicList : batch.staticList;
+	auto& previousList = c->IsDynamic() ? batch.staticList : batch.dynamicList;
+	auto& currentList = c->IsDynamic() ? batch.dynamicList : batch.staticList;
 
-		if (Helpers::Remove(previousList, c)) {
-			Helpers::Insert(currentList, c);
-			updateStatic = true;
-		}
+	if (Helpers::Remove(previousList, c)) {
+		Helpers::Insert(currentList, c);
+		updateStatic = true;
 	}
 }
 
 void MeshRenderer::ModelChangeHandler(Events::Event* event) {
-	const auto changeEvent = static_cast<Events::ModelChange*>(event);
+	const auto changeEvent = static_cast<Events::MeshChange*>(event);
 	MeshRender* const c = changeEvent->component;
 
 	if (!c->IsActive()) return;
@@ -238,37 +231,30 @@ void MeshRenderer::ModelChangeHandler(Events::Event* event) {
 
 	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	MeshBatches& meshBatches = batches[shader][material];
-
-	Model* const current = c->GetModel();
+	Mesh* current = c->GetMesh();
 
 	if (c->IsDynamic()) {
 		if (changeEvent->previous) {
-			for (Mesh* const mesh : changeEvent->previous->meshes) 
-				Helpers::Remove(meshBatches[mesh].dynamicList, c);
+			Helpers::Remove(meshBatches[changeEvent->previous].dynamicList, c);
 		}
 
 		if (current) {
-			for (Mesh* const mesh : c->GetModel()->meshes) {
-				Helpers::Insert(meshBatches[mesh].dynamicList, c);
+			Helpers::Insert(meshBatches[current].dynamicList, c);
 
-				if (dynamicBuffers.find(mesh) == dynamicBuffers.end()) {
-					InitializeInstanceBuffer(mesh->VAO, dynamicBuffers[mesh]);
-				}
+			if (dynamicBuffers.find(current) == dynamicBuffers.end()) {
+				InitializeInstanceBuffer(current->VAO, dynamicBuffers[current]);
 			}
 		}
 	} else {
 		if (changeEvent->previous) {
-			for (Mesh* const mesh : changeEvent->previous->meshes) 
-				Helpers::Remove(meshBatches[mesh].staticList, c);
+			Helpers::Remove(meshBatches[changeEvent->previous].staticList, c);
 		}
 
 		if (current) {
-			for (Mesh* const mesh : c->GetModel()->meshes) {
-				Helpers::Insert(meshBatches[mesh].staticList, c);
+			Helpers::Insert(meshBatches[current].staticList, c);
 
-				if (dynamicBuffers.find(mesh) == dynamicBuffers.end()) {
-					InitializeInstanceBuffer(mesh->VAO, dynamicBuffers[mesh]);
-				}
+			if (dynamicBuffers.find(current) == dynamicBuffers.end()) {
+				InitializeInstanceBuffer(current->VAO, dynamicBuffers[current]);
 			}
 		}
 			
@@ -282,8 +268,8 @@ void MeshRenderer::MaterialHandler(Events::Event * event) {
 
 	if (!c->IsActive()) return;
 
-	Model* const model = c->GetModel();
-	if (!model) return;
+	Mesh* const mesh = c->GetMesh();
+	if (!mesh) return;
 
 	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
 	Shader* const shader = material->GetShader();
@@ -293,19 +279,17 @@ void MeshRenderer::MaterialHandler(Events::Event * event) {
 	Batches& previousBatches = previousMaterial->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	Batches& currentBatches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 
-	auto& previous = previousBatches[previousMaterial->GetShader()][previousMaterial];
-	auto& current = currentBatches[shader][material];
+	auto& previous = previousBatches[previousMaterial->GetShader()][previousMaterial][mesh];
+	auto& current = currentBatches[shader][material][mesh];
 
-	for (Mesh* const mesh : model->meshes) {
-		if (c->IsDynamic()) {
-			if (Helpers::Remove(previous[mesh].dynamicList, c)) {
-				Helpers::Insert(current[mesh].dynamicList, c);
-			}
-		} else {
-			if (Helpers::Remove(previous[mesh].staticList, c)) {
-				Helpers::Insert(current[mesh].staticList, c);
-				updateStatic = true;
-			}
+	if (c->IsDynamic()) {
+		if (Helpers::Remove(previous.dynamicList, c)) {
+			Helpers::Insert(current.dynamicList, c);
+		}
+	} else {
+		if (Helpers::Remove(previous.staticList, c)) {
+			Helpers::Insert(current.staticList, c);
+			updateStatic = true;
 		}
 	}
 }

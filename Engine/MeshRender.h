@@ -2,7 +2,7 @@
 #define MESH_RENDER_H
 
 #include "Component.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "Material.h"
 
 struct MeshRender : Component {
@@ -14,8 +14,8 @@ struct MeshRender : Component {
 	void SetActive(bool const& state) override;
 	void SetDynamic(bool const& state) override;
 
-	Model* const GetModel() const;
-	void SetModel(Model* const _model);
+	Mesh* const GetMesh() const;
+	void SetMesh(Mesh* const _mesh);
 
 	Material::Base* const GetMaterial() const;
 	void SetMaterial(Material::Base* const _material);
@@ -25,7 +25,7 @@ struct MeshRender : Component {
 
 private:
 
-	Model* model;
+	Mesh* mesh;
 	Material::Base* material;
 
 	bool castShadow;
@@ -33,11 +33,11 @@ private:
 };
 
 namespace Events {
-	struct ModelChange : Event {
-		Model * const previous;
+	struct MeshChange : Event {
+		Mesh * const previous;
 		MeshRender * const component;
 
-		ModelChange(Model * const previous, MeshRender * const component)
+		MeshChange(Mesh * const previous, MeshRender * const component)
 			: previous(previous)
 			, component(component) {}
 	};

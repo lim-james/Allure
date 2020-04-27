@@ -7,3 +7,13 @@ add fileid
 implement handler for events
 depth sorting
 fix resize lag
+
+https://free-game-assets.itch.io/free-winter-mountains-3d-low-poly-pack
+https://brokenvector.itch.io/low-poly-cliff-pack
+https://brokenvector.itch.io/low-poly-rock-pack
+https://mome-g.itch.io/8dir-char
+https://devilsworkshop.itch.io/lowpoly-forest-pack
+https://korveen.itch.io/lowpoly-environment-pack
+https://vertexcat.itch.io/farm-animals-set
+https://quaternius.itch.io/lowpoly-animated-animals
+

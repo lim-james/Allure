@@ -1,5 +1,5 @@
-#ifndef LOAD_OBJ_H
-#define LOAD_OBJ_H
+#ifndef LOAD_MODEL_H
+#define LOAD_MODEL_H
 
 #include "Model.h"
 
@@ -14,6 +14,7 @@ namespace Load {
 	static std::map<std::string, Model*> modelCache;
 
 	Model* OBJ(std::string const& filepath);
+	Model* Meshes(std::string const& filepath);
 
 	void ClearModelCache();
 

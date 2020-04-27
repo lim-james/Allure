@@ -76,12 +76,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\glfw\include;$(SolutionDir)libs\glew\include;$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\glfw\include;$(SolutionDir)libs\glew\include;$(SolutionDir)libs\assimp\build\include;$(SolutionDir)libs\assimp\include;$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>Yes</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)libs\glew\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\lua\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;winmm.lib;ws2_32.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)libs\glew\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;winmm.lib;ws2_32.lib;assimp-vc141-mtd.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -90,12 +90,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\glfw\include;$(SolutionDir)libs\glew\include;$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\glfw\include;$(SolutionDir)libs\glew\include;$(SolutionDir)libs\assimp\build\include;$(SolutionDir)libs\assimp\include;$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>Yes</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)libs\glew\lib;$(SolutionDir)libs\glfw\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;winmm.lib;ws2_32.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)libs\glew\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;winmm.lib;ws2_32.lib;assimp-vc141-mtd.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,14 +106,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\glfw\include;$(SolutionDir)libs\glew\include;$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\glfw\include;$(SolutionDir)libs\glew\include;$(SolutionDir)libs\assimp\build\include;$(SolutionDir)libs\assimp\include;$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>Yes</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)libs\glew\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\lua\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;winmm.lib;ws2_32.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)libs\glew\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;winmm.lib;ws2_32.lib;assimp-vc141-mtd.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,14 +124,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\glfw\include;$(SolutionDir)libs\glew\include;$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\glfw\include;$(SolutionDir)libs\glew\include;$(SolutionDir)libs\assimp\build\include;$(SolutionDir)libs\assimp\include;$(SolutionDir)Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>Yes</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)libs\glew\lib;$(SolutionDir)libs\glfw\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;winmm.lib;ws2_32.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)libs\glew\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;winmm.lib;ws2_32.lib;assimp-vc141-mtd.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -148,6 +148,8 @@
     <ClCompile Include="CurveDisplay.cpp" />
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="LayoutSystem.cpp" />
+    <ClCompile Include="LoadModel.cpp" />
+    <ClCompile Include="LowPolyScene.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Pixelated.cpp" />
     <ClCompile Include="PostProcess.cpp" />
@@ -167,7 +169,6 @@
     <ClCompile Include="LineDefaultMaterial.cpp" />
     <ClCompile Include="LineRender.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
-    <ClCompile Include="LoadOBJ.cpp" />
     <ClCompile Include="LoadTexture.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -237,6 +238,8 @@
     <ClInclude Include="CurveDisplay.h" />
     <ClInclude Include="Layout.h" />
     <ClInclude Include="LayoutSystem.h" />
+    <ClInclude Include="LoadModel.h" />
+    <ClInclude Include="LowPolyScene.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Pixelated.h" />
     <ClInclude Include="Plane.h" />
@@ -263,7 +266,6 @@
     <ClInclude Include="LineDefaultMaterial.h" />
     <ClInclude Include="LineRender.h" />
     <ClInclude Include="LineRenderer.h" />
-    <ClInclude Include="LoadOBJ.h" />
     <ClInclude Include="LoadTexture.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />

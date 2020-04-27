@@ -1,7 +1,7 @@
 #include "VoxelRenderer.h"
 
 #include "Transform.h"
-#include "LoadOBJ.h"
+#include "LoadModel.h"
 
 #include <Helpers/VectorHelpers.h>
 #include <Events/EventsManager.h>
