@@ -50,7 +50,7 @@ void LowPolyScene::Create() {
 	}
 
 	// tree
-	for (Mesh* const mesh : tree2->meshes) {
+	for (Mesh* const mesh : tree3->meshes) {
 		const unsigned entity = entities->Create();
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->scale = 0.1f;
