@@ -97,15 +97,6 @@
     <Filter Include="Assets\Scripts\Common\Orbit">
       <UniqueIdentifier>{508fdaa3-b472-434e-96f9-0968944f6e69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scenes\Portal">
-      <UniqueIdentifier>{cf4c577f-4eb8-46c3-9bc9-155f713a1011}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scripts\Portal">
-      <UniqueIdentifier>{f9970dbd-73dd-4592-9cf9-873fd6a33dee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scenes\Voxel">
-      <UniqueIdentifier>{aae28679-985a-4b3b-9a6b-1c582edac6eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Render\Line">
       <UniqueIdentifier>{2ebb9b4a-5997-481c-828f-9bf119ee765a}</UniqueIdentifier>
     </Filter>
@@ -124,9 +115,6 @@
     <Filter Include="Engine\Render\Mesh\Model">
       <UniqueIdentifier>{8fd62a2c-80cd-46ae-825d-86833a34cabe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scripts\UI">
-      <UniqueIdentifier>{4fd0d2d4-ba74-4844-99ae-896e2b73b3fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Layout">
       <UniqueIdentifier>{8169150f-ea73-4c55-a372-d747c1551f3d}</UniqueIdentifier>
     </Filter>
@@ -138,9 +126,6 @@
     </Filter>
     <Filter Include="Assets\VFX">
       <UniqueIdentifier>{b8b8c0a4-0687-45af-8d50-4042401f09c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scenes\Low Poly">
-      <UniqueIdentifier>{bdc25e97-80ee-4538-b013-de2202e380b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -255,9 +240,6 @@
     <ClCompile Include="TitleTransition.cpp">
       <Filter>Assets\Scripts\Title</Filter>
     </ClCompile>
-    <ClCompile Include="InvertMaterial.cpp">
-      <Filter>Assets\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="SampleScene.cpp">
       <Filter>Assets\Scenes\Sample</Filter>
     </ClCompile>
@@ -281,18 +263,6 @@
     </ClCompile>
     <ClCompile Include="LoadTexture.cpp">
       <Filter>Engine\Render\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="PortalScene.cpp">
-      <Filter>Assets\Scenes\Portal</Filter>
-    </ClCompile>
-    <ClCompile Include="PortalMaterial.cpp">
-      <Filter>Assets\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="PortalCamera.cpp">
-      <Filter>Assets\Scripts\Portal</Filter>
-    </ClCompile>
-    <ClCompile Include="VoxelScene.cpp">
-      <Filter>Assets\Scenes\Voxel</Filter>
     </ClCompile>
     <ClCompile Include="LineRender.cpp">
       <Filter>Engine\Render\Line</Filter>
@@ -351,9 +321,6 @@
     <ClCompile Include="VoxelUnlitMaterial.cpp">
       <Filter>Engine\Render\Voxel</Filter>
     </ClCompile>
-    <ClCompile Include="Panel.cpp">
-      <Filter>Assets\Scripts\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Layout.cpp">
       <Filter>Engine\Layout</Filter>
     </ClCompile>
@@ -389,9 +356,6 @@
     </ClCompile>
     <ClCompile Include="Pixelated.cpp">
       <Filter>Engine\Render\Post Processing</Filter>
-    </ClCompile>
-    <ClCompile Include="LowPolyScene.cpp">
-      <Filter>Assets\Scenes\Low Poly</Filter>
     </ClCompile>
     <ClCompile Include="LoadModel.cpp">
       <Filter>Engine\Render\Utilities</Filter>
@@ -521,9 +485,6 @@
     <ClInclude Include="Layers.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="InvertMaterial.h">
-      <Filter>Assets\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="SampleScene.h">
       <Filter>Assets\Scenes\Sample</Filter>
     </ClInclude>
@@ -548,20 +509,8 @@
     <ClInclude Include="LoadTexture.h">
       <Filter>Engine\Render\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="PortalScene.h">
-      <Filter>Assets\Scenes\Portal</Filter>
-    </ClInclude>
-    <ClInclude Include="PortalMaterial.h">
-      <Filter>Assets\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="PortalCamera.h">
-      <Filter>Assets\Scripts\Portal</Filter>
-    </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="VoxelScene.h">
-      <Filter>Assets\Scenes\Voxel</Filter>
     </ClInclude>
     <ClInclude Include="LineRender.h">
       <Filter>Engine\Render\Line</Filter>
@@ -620,9 +569,6 @@
     <ClInclude Include="VoxelUnlitMaterial.h">
       <Filter>Engine\Render\Voxel</Filter>
     </ClInclude>
-    <ClInclude Include="Panel.h">
-      <Filter>Assets\Scripts\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Layout.h">
       <Filter>Engine\Layout</Filter>
     </ClInclude>
@@ -664,9 +610,6 @@
     </ClInclude>
     <ClInclude Include="Pixelated.h">
       <Filter>Engine\Render\Post Processing</Filter>
-    </ClInclude>
-    <ClInclude Include="LowPolyScene.h">
-      <Filter>Assets\Scenes\Low Poly</Filter>
     </ClInclude>
     <ClInclude Include="LoadModel.h">
       <Filter>Engine\Render\Utilities</Filter>
