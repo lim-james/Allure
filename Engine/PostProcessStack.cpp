@@ -8,11 +8,6 @@ PostProcessStack::PostProcessStack() {
 	Events::EventsManager::GetInstance()->Subscribe("POST_PROCESS_ACTIVE", &PostProcessStack::ActiveHanlder, this);
 }
 
-PostProcessStack::~PostProcessStack() {
-	for (PostProcess* const layer : layers)
-		delete layer;
-}
-
 void PostProcessStack::Render() {
 
 	if (layers.empty()) {

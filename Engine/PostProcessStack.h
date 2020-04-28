@@ -15,7 +15,6 @@ public:
 	Handler<void, void> rawRender;
 
 	PostProcessStack();
-	~PostProcessStack();
 
 	void Render();
 
