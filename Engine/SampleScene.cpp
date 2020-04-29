@@ -16,6 +16,8 @@
 #include "MeshUnlitMaterial.h"
 #include "IBLMaterial.h"
 #include "SkyboxMaterial.h"
+// systems
+#include "AudioSystem.h"
 // Utils
 #include "LoadTexture.h"
 #include "LoadModel.h"
@@ -23,6 +25,8 @@
 
 void SampleScene::Awake() {
 	Scene::Awake();
+
+	systems->Subscribe<AudioSystem>(1);
 }
 
 void SampleScene::Create() {
@@ -32,62 +36,62 @@ void SampleScene::Create() {
 	opaque->alphaClipping = 0.01f;
 
 	Material::MeshDefault* rustediron = new Material::MeshDefault;
-	rustediron->useAlbedoMap = true;
-	rustediron->albedoMap = Load::Texture2D("Files/Textures/rustediron2_basecolor.png");
-	rustediron->useNormalMap = true;
-	rustediron->normalMap = Load::Texture2D("Files/Textures/rustediron2_normal.png");
-	rustediron->useMetallicMap = true;
-	rustediron->metallicMap = Load::Texture2D("Files/Textures/rustediron2_metallic.png");
-	rustediron->useRoughnessMap = true;
-	rustediron->roughnessMap = Load::Texture2D("Files/Textures/rustediron2_roughness.png");
+	//rustediron->useAlbedoMap = true;
+	//rustediron->albedoMap = Load::Texture2D("Files/Textures/rustediron2_basecolor.png");
+	//rustediron->useNormalMap = true;
+	//rustediron->normalMap = Load::Texture2D("Files/Textures/rustediron2_normal.png");
+	//rustediron->useMetallicMap = true;
+	//rustediron->metallicMap = Load::Texture2D("Files/Textures/rustediron2_metallic.png");
+	//rustediron->useRoughnessMap = true;
+	//rustediron->roughnessMap = Load::Texture2D("Files/Textures/rustediron2_roughness.png");
 	rustediron->ao = 0.01f;
 
 	Material::MeshDefault* streakedmetal = new Material::MeshDefault;
-	streakedmetal->useAlbedoMap = true;
-	streakedmetal->albedoMap = Load::Texture2D("Files/Textures/streakedmetal-albedo.png");
-	streakedmetal->useMetallicMap = true;
-	streakedmetal->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
-	streakedmetal->useRoughnessMap = true;
-	streakedmetal->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
+	//streakedmetal->useAlbedoMap = true;
+	//streakedmetal->albedoMap = Load::Texture2D("Files/Textures/streakedmetal-albedo.png");
+	//streakedmetal->useMetallicMap = true;
+	//streakedmetal->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
+	//streakedmetal->useRoughnessMap = true;
+	//streakedmetal->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
 	streakedmetal->ao = 0.01f;
 
 	Material::MeshDefault* hardwood = new Material::MeshDefault;
-	hardwood->useAlbedoMap = true;
-	hardwood->albedoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-albedo.png");
-	hardwood->useNormalMap = true;
-	hardwood->normalMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-normal-ogl.png");
-	hardwood->useMetallicMap = true;
-	hardwood->metallicMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-metallic.png");
-	hardwood->useRoughnessMap = true;
-	hardwood->roughnessMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-roughness.png");
-	hardwood->useAOMap = true;
-	hardwood->aoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-ao.png");
+	//hardwood->useAlbedoMap = true;
+	//hardwood->albedoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-albedo.png");
+	//hardwood->useNormalMap = true;
+	//hardwood->normalMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-normal-ogl.png");
+	//hardwood->useMetallicMap = true;
+	//hardwood->metallicMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-metallic.png");
+	//hardwood->useRoughnessMap = true;
+	//hardwood->roughnessMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-roughness.png");
+	//hardwood->useAOMap = true;
+	//hardwood->aoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-ao.png");
 
 	Material::MeshDefault* white = new Material::MeshDefault;
 	white->albedo = vec4f(1.f);
 	white->ao = 0.1f;
 
-	const unsigned skyboxMap = Load::Cubemap({
-		"Files/Textures/skybox/right.jpg",
-		"Files/Textures/skybox/left.jpg",
-		"Files/Textures/skybox/top.jpg",
-		"Files/Textures/skybox/bottom.jpg",
-		"Files/Textures/skybox/front.jpg",
-		"Files/Textures/skybox/back.jpg"
-	});
+	//const unsigned skyboxMap = Load::Cubemap({
+	//	"Files/Textures/skybox/right.jpg",
+	//	"Files/Textures/skybox/left.jpg",
+	//	"Files/Textures/skybox/top.jpg",
+	//	"Files/Textures/skybox/bottom.jpg",
+	//	"Files/Textures/skybox/front.jpg",
+	//	"Files/Textures/skybox/back.jpg"
+	//});
 
 	Material::IBL* window = new Material::IBL;
 	window->albedo = vec4f(1.f, 1.f, 1.f, 0.8f);
-	window->useMetallicMap = true;
-	window->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
-	window->useRoughnessMap = true;
-	window->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
+	//window->useMetallicMap = true;
+	//window->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
+	//window->useRoughnessMap = true;
+	//window->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
 	window->refractiveIndex = 1.0f;
-	window->environment = skyboxMap;
+	//window->environment = skyboxMap;
 
 	Material::Skybox* skybox = new Material::Skybox;
 	skybox->flags += FRONT_FACE;
-	skybox->cubemap = skyboxMap;
+	//skybox->cubemap = skyboxMap;
 
 	Mesh* const cube = Load::OBJ("Files/Models/cube.obj")->meshes[0];
 	Mesh* const sphere = Load::OBJ("Files/Models/sphere.obj")->meshes[0];
@@ -100,6 +104,9 @@ void SampleScene::Create() {
 	{
 		EditorCamera* const editorCamera = entities->AddComponent<EditorCamera>(mainCamera);
 		editorCamera->SetActive(true);
+
+		AudioListener* const listener = entities->AddComponent<AudioListener>(mainCamera);
+		listener->SetActive(true);
 	}
 
 	// directional light
@@ -198,6 +205,14 @@ void SampleScene::Create() {
 		render->SetMaterial(rustediron);
 		render->SetMesh(sphere);
 		render->SetDynamic(false);
+
+		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
+		audio->SetActive(true);
+		audio->audioClip = "Files/Media/hit.wav";
+		//audio->loop = true;
+		audio->volume = 1.f;
+		audio->spatialBlend = 1.f;
+		audio->Play();
 	}
 
 	{

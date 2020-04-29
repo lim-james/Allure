@@ -138,6 +138,9 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AudioSource.cpp" />
+    <ClCompile Include="AudioListener.cpp" />
+    <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
@@ -217,6 +220,9 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AudioSource.h" />
+    <ClInclude Include="AudioListener.h" />
+    <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="Bloom.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonAnimation.h" />

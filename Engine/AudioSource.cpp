@@ -1,0 +1,63 @@
+#include "AudioSource.h"
+
+#include <Events/EventsManager.h>
+
+AudioSource::AudioSource() 
+	: audioClip("")
+	, mute(false)
+	, loop(false)
+
+	, volume(1.f)
+	, speed(1.f)
+	, stereoPan(0.f)
+	, spatialBlend(0.f) 
+
+	, dopplerLevel(1.f)
+	, spread(0.f)
+	, minDistance(1.f)
+	, maxDistance(10.f) {
+}
+
+void AudioSource::Initialize() {
+	audioClip = "";
+	mute = false;
+	loop = false;
+
+	volume = 1.f;
+	speed = 1.f;
+	stereoPan = 0.f;
+	spatialBlend = 0.f;
+
+	dopplerLevel = 1.f;
+	spread = 0.f;
+	minDistance = 1.f;
+	maxDistance = 500.f;
+}
+
+Component * AudioSource::Clone() const {
+	return new AudioSource(*this);
+}
+
+void AudioSource::SetActive(bool const & state) {
+	Component::SetActive(state);
+	Events::EventsManager::GetInstance()->Trigger("AUDIO_SOURCE_ACTIVE", new Events::AnyType<AudioSource*>(this));
+}
+
+void AudioSource::Play() {
+	if (IsActive()) {
+		Events::EventsManager::GetInstance()->Trigger("AUDIO_SOURCE_PLAY", new Events::AnyType<AudioSource*>(this));
+	}
+}
+
+void AudioSource::Pause() {	
+	if (IsActive()) {
+		Events::EventsManager::GetInstance()->Trigger("AUDIO_SOURCE_PAUSE", new Events::AnyType<AudioSource*>(this));
+	}
+}
+
+void AudioSource::Stop() {
+	if (IsActive()) {
+		Events::EventsManager::GetInstance()->Trigger("AUDIO_SOURCE_STOP", new Events::AnyType<AudioSource*>(this));
+	}
+}
+
