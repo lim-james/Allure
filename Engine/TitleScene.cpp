@@ -16,6 +16,7 @@
 #include "LoadTexture.h"
 
 #include <Events/EventsManager.h>
+#include <irrKlang.h>
 
 void TitleScene::Awake() {
 	Scene::Awake();
@@ -27,6 +28,10 @@ void TitleScene::Awake() {
 
 void TitleScene::Create() {
 	Scene::Create();
+
+	irrklang::ISoundEngine* engine = irrklang::createIrrKlangDevice();
+	engine->play2D("Files/Media/hit.wav", true);
+	engine->drop();
 
 	// fonts
 	auto microsoft = Load::FNT("Files/Fonts/Microsoft.fnt", "Files/Fonts/Microsoft.tga");
