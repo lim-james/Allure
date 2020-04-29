@@ -5,7 +5,7 @@
 #include <Events/EventsManager.h>
 
 void FollowCursor::Awake() {
-	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &FollowCursor::CursorPositionHandler, this);
+	EventsManager::Get()->Subscribe("CURSOR_POSITION_INPUT", &FollowCursor::CursorPositionHandler, this);
 }
 
 void FollowCursor::CursorPositionHandler(Events::Event * event) {

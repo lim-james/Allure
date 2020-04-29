@@ -44,11 +44,11 @@ void RenderSystem::Initialize() {
 	postProccessing = new PostProcessStack;
 	postProccessing->rawRender.Bind(&RenderSystem::Render, this);
 
-	Events::EventsManager::GetInstance()->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &RenderSystem::ResizeHandler, this);
+	EventsManager::Get()->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
+	EventsManager::Get()->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
+	EventsManager::Get()->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
+	EventsManager::Get()->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
+	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &RenderSystem::ResizeHandler, this);
 }
 
 void RenderSystem::Update(float const& dt) {
@@ -59,7 +59,7 @@ void RenderSystem::Update(float const& dt) {
 void RenderSystem::Start() {
 	System::Start();
 
-	auto manager = Events::EventsManager::GetInstance();
+	auto manager = EventsManager::Get();
 	for (Renderer* const r : renderers)
 		manager->SubscribeContext(r);
 	manager->SubscribeContext(postProccessing);
@@ -68,7 +68,7 @@ void RenderSystem::Start() {
 void RenderSystem::Stop() {
 	System::Stop();
 
-	auto manager = Events::EventsManager::GetInstance();
+	auto manager = EventsManager::Get();
 	for (Renderer* const r : renderers)
 		manager->UnsubscribeContext(r);
 	manager->UnsubscribeContext(postProccessing);

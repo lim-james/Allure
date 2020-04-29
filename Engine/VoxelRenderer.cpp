@@ -32,10 +32,10 @@ void VoxelRenderer::Initialize(EntityManager * const manager) {
 
 	defaultMaterial = new Material::VoxelDefault;
 
-	Events::EventsManager::GetInstance()->Subscribe("VOXEL_RENDER_ACTIVE", &VoxelRenderer::ActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("VOXEL_RENDER_DYNAMIC", &VoxelRenderer::DynamicHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("VOXEL_MATERIAL", &VoxelRenderer::MaterialHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &VoxelRenderer::ShaderHandler, this);
+	EventsManager::Get()->Subscribe("VOXEL_RENDER_ACTIVE", &VoxelRenderer::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("VOXEL_RENDER_DYNAMIC", &VoxelRenderer::DynamicHandler, this);
+	EventsManager::Get()->Subscribe("VOXEL_MATERIAL", &VoxelRenderer::MaterialHandler, this);
+	EventsManager::Get()->Subscribe("MATERIAL_SHADER", &VoxelRenderer::ShaderHandler, this);
 }
 
 void VoxelRenderer::RenderDepth(RendererData const& data) {

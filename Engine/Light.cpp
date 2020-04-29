@@ -32,5 +32,5 @@ Component * Light::Clone() const {
 
 void Light::SetActive(bool const & state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("LIGHT_ACTIVE", new Events::AnyType<Light*>(this));
+	EventsManager::Get()->Trigger("LIGHT_ACTIVE", new Events::AnyType<Light*>(this));
 } 

@@ -16,7 +16,7 @@ Shader * const Material::Base::GetShader() const {
 void Material::Base::SetShader(Shader * const _shader) {
 	auto event = new Events::ShaderChange(shader, this);
 	shader = _shader;
-	Events::EventsManager::GetInstance()->Trigger("MATERIAL_SHADER", event);
+	EventsManager::Get()->Trigger("MATERIAL_SHADER", event);
 }
 
 void Material::Base::Use() {

@@ -62,7 +62,7 @@ Bloom::Bloom() {
 		finalBloomPass->Initialize(vec2u(1600, 900), { tData }, { rbData });
 	}
 
-	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &Bloom::ResizeHandler, this);
+	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &Bloom::ResizeHandler, this);
 }
 
 Bloom::~Bloom() {

@@ -36,7 +36,7 @@ Component * Animation::Clone() const {
 
 void Animation::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("ANIMATION_ACTIVE", new Events::AnyType<Animation*>(this));
+	EventsManager::Get()->Trigger("ANIMATION_ACTIVE", new Events::AnyType<Animation*>(this));
 }
 
 void Animation::Clear() {

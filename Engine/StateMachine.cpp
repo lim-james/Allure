@@ -12,7 +12,7 @@ StateMachine::~StateMachine() {
 }
 
 void StateMachine::Initialize() {
-	Events::EventsManager::GetInstance()->Subscribe("STATE_CONTAINER_ACTIVE", &StateMachine::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("STATE_CONTAINER_ACTIVE", &StateMachine::ActiveHandler, this);
 }
 
 void StateMachine::Update(float const& dt) {

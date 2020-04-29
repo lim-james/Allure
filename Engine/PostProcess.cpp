@@ -13,7 +13,7 @@ PostProcess::PostProcess() {
 
 void PostProcess::SetActive(bool const & state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("POST_PROCESS_ACTIVE", new Events::AnyType<PostProcess*>(this));
+	EventsManager::Get()->Trigger("POST_PROCESS_ACTIVE", new Events::AnyType<PostProcess*>(this));
 }
 
 

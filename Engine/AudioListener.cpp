@@ -10,5 +10,5 @@ Component * AudioListener::Clone() const {
 
 void AudioListener::SetActive(bool const & state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("AUDIO_LISTENER_ACTIVE", new Events::AnyType<AudioListener*>(this));
+	EventsManager::Get()->Trigger("AUDIO_LISTENER_ACTIVE", new Events::AnyType<AudioListener*>(this));
 }

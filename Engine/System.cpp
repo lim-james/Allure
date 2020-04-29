@@ -5,10 +5,10 @@
 System::~System() {}
 
 void System::Start() {
-	Events::EventsManager::GetInstance()->SubscribeContext(this);
+	EventsManager::Get()->SubscribeContext(this);
 }
 
 void System::Stop() {
-	Events::EventsManager::GetInstance()->UnsubscribeContext(this);
+	EventsManager::Get()->UnsubscribeContext(this);
 }
 

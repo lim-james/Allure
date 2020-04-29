@@ -12,7 +12,7 @@ Component * Layout::Clone() const {
 
 void Layout::SetActive(bool const & state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("LAYOUT_ACTIVE", new Events::AnyType<Layout*>(this));
+	EventsManager::Get()->Trigger("LAYOUT_ACTIVE", new Events::AnyType<Layout*>(this));
 }
 
 void Layout::AddConstraint(Constraint const & constraint) {

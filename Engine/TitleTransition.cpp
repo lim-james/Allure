@@ -65,7 +65,7 @@ void TitleTransition::Start() {
 
 void TitleTransition::Update() {
 	if (transitionDelay < 0.0f) {
-		Events::EventsManager::GetInstance()->Trigger("PRESENT_SCENE", new Events::PresentScene(new SampleScene));
+		EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(new SampleScene));
 		transitionDelay = 0.0f;
 	} else if (transitionDelay > 0.0f) {
 		transitionDelay -= time->dt;

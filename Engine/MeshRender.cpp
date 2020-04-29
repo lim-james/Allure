@@ -18,12 +18,12 @@ Component * MeshRender::Clone() const {
 
 void MeshRender::SetActive(bool const & state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("MESH_RENDER_ACTIVE", new Events::AnyType<MeshRender*>(this));
+	EventsManager::Get()->Trigger("MESH_RENDER_ACTIVE", new Events::AnyType<MeshRender*>(this));
 }
 
 void MeshRender::SetDynamic(bool const & state) {
 	Component::SetDynamic(state);
-	Events::EventsManager::GetInstance()->Trigger("MESH_RENDER_DYNAMIC", new Events::AnyType<MeshRender*>(this));
+	EventsManager::Get()->Trigger("MESH_RENDER_DYNAMIC", new Events::AnyType<MeshRender*>(this));
 }
 
 Mesh * const MeshRender::GetMesh() const {
@@ -33,7 +33,7 @@ Mesh * const MeshRender::GetMesh() const {
 void MeshRender::SetMesh(Mesh * const _mesh) {
 	Events::MeshChange* event = new Events::MeshChange(mesh, this);
 	mesh = _mesh;
-	Events::EventsManager::GetInstance()->Trigger("MESH_CHANGE", event);
+	EventsManager::Get()->Trigger("MESH_CHANGE", event);
 }
 
 Material::Base * const MeshRender::GetMaterial() const {
@@ -43,7 +43,7 @@ Material::Base * const MeshRender::GetMaterial() const {
 void MeshRender::SetMaterial(Material::Base * const _material) {
 	Events::MaterialChange* event = new Events::MaterialChange(material, this);
 	material = _material;
-	Events::EventsManager::GetInstance()->Trigger("MESH_MATERIAL", event);
+	EventsManager::Get()->Trigger("MESH_MATERIAL", event);
 }
 
 bool MeshRender::IsCastingShadow() const {
@@ -52,5 +52,5 @@ bool MeshRender::IsCastingShadow() const {
 
 void MeshRender::SetCastShader(bool const & state) {
 	castShadow = state;
-	Events::EventsManager::GetInstance()->Trigger("CAST_SHADOW", new Events::AnyType<MeshRender*>(this));
+	EventsManager::Get()->Trigger("CAST_SHADOW", new Events::AnyType<MeshRender*>(this));
 }

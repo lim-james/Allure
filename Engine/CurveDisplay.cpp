@@ -27,7 +27,7 @@ CurveDisplay::CurveDisplay() {
 	fbo = new Framebuffer(1, 1);
 	fbo->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
-	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &CurveDisplay::ResizeHandler, this);
+	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &CurveDisplay::ResizeHandler, this);
 }
 
 CurveDisplay::~CurveDisplay() {

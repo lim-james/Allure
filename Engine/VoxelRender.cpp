@@ -18,12 +18,12 @@ Component * VoxelRender::Clone() const {
 
 void VoxelRender::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("VOXEL_RENDER_ACTIVE", new Events::AnyType<VoxelRender*>(this));
+	EventsManager::Get()->Trigger("VOXEL_RENDER_ACTIVE", new Events::AnyType<VoxelRender*>(this));
 }
 
 void VoxelRender::SetDynamic(bool const & state) {
 	Component::SetDynamic(state);
-	Events::EventsManager::GetInstance()->Trigger("VOXEL_RENDER_DYNAMIC", new Events::AnyType<VoxelRender*>(this));
+	EventsManager::Get()->Trigger("VOXEL_RENDER_DYNAMIC", new Events::AnyType<VoxelRender*>(this));
 }
 
 Material::Base * const VoxelRender::GetMaterial() const {
@@ -33,5 +33,5 @@ Material::Base * const VoxelRender::GetMaterial() const {
 void VoxelRender::SetMaterial(Material::Base * _material) {
 	Events::MaterialChange* event = new Events::MaterialChange(material, this);
 	material = _material;
-	Events::EventsManager::GetInstance()->Trigger("VOXEL_MATERIAL", event);
+	EventsManager::Get()->Trigger("VOXEL_MATERIAL", event);
 }

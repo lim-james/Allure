@@ -18,8 +18,8 @@ void TextRenderer::Initialize(EntityManager * const manager) {
 	shader->Use();
 	shader->SetInt("tex", 0);
 
-	Events::EventsManager::GetInstance()->Subscribe("TEXT_ACTIVE", &TextRenderer::ActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("TEXT_FONT", &TextRenderer::FontHandler, this);
+	EventsManager::Get()->Subscribe("TEXT_ACTIVE", &TextRenderer::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("TEXT_FONT", &TextRenderer::FontHandler, this);
 }
 
 void TextRenderer::RenderDepth(RendererData const & data) {}

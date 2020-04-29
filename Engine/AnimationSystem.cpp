@@ -4,7 +4,7 @@
 #include <Events/EventsManager.h>
 
 void AnimationSystem::Initialize() {
-	Events::EventsManager::GetInstance()->Subscribe("ANIMATION_ACTIVE", &AnimationSystem::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("ANIMATION_ACTIVE", &AnimationSystem::ActiveHandler, this);
 }
 
 void AnimationSystem::Update(float const& dt) {

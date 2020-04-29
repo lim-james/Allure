@@ -17,12 +17,13 @@ void MeshRenderer::Initialize(EntityManager * const manager) {
 
 	 defaultMaterial = new Material::MeshDefault;
 
-	Events::EventsManager::GetInstance()->Subscribe("MESH_RENDER_ACTIVE", &MeshRenderer::ActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MESH_RENDER_DYNAMIC", &MeshRenderer::DynamicHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MESH_CHANGE", &MeshRenderer::ModelChangeHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MESH_MATERIAL", &MeshRenderer::MaterialHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &MeshRenderer::ShaderHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("CAST_SHADOW", &MeshRenderer::CastShadowHandler, this);
+	 EventsManager* const em = EventsManager::Get();
+	em->Subscribe("MESH_RENDER_ACTIVE", &MeshRenderer::ActiveHandler, this);
+	em->Subscribe("MESH_RENDER_DYNAMIC", &MeshRenderer::DynamicHandler, this);
+	em->Subscribe("MESH_CHANGE", &MeshRenderer::ModelChangeHandler, this);
+	em->Subscribe("MESH_MATERIAL", &MeshRenderer::MaterialHandler, this);
+	em->Subscribe("MATERIAL_SHADER", &MeshRenderer::ShaderHandler, this);
+	em->Subscribe("CAST_SHADOW", &MeshRenderer::CastShadowHandler, this);
 }
 
 void MeshRenderer::RenderDepth(RendererData const& data) {

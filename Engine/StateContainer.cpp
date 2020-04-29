@@ -17,5 +17,5 @@ Component * StateContainer::Clone() const {
 
 void StateContainer::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("STATE_CONTAINER_ACTIVE", new Events::AnyType<StateContainer*>(this));
+	EventsManager::Get()->Trigger("STATE_CONTAINER_ACTIVE", new Events::AnyType<StateContainer*>(this));
 }

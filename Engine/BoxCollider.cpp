@@ -13,5 +13,5 @@ Component * BoxCollider::Clone() const {
 
 void BoxCollider::SetActive(bool const & state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("BOX_COLLIDER_ACTIVE", new Events::AnyType<BoxCollider*>(this));
+	EventsManager::Get()->Trigger("BOX_COLLIDER_ACTIVE", new Events::AnyType<BoxCollider*>(this));
 }

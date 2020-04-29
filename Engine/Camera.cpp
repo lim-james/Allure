@@ -36,7 +36,7 @@ Camera::Camera()
 	, windowSize(1.f)
 	, framebuffer(nullptr) {
 
-	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &Camera::WindowResizeHandler, this);
+	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &Camera::WindowResizeHandler, this);
 }
 
 void Camera::Initialize() {
@@ -61,7 +61,7 @@ void Camera::Initialize() {
 	viewportRect = vec4f(vec2f(0.f), vec2f(1.f));
 
 	vec2i size;
-	Events::EventsManager::GetInstance()->Trigger("GET_WINDOW_SIZE", new Events::AnyType<vec2i*>(&size));
+	EventsManager::Get()->Trigger("GET_WINDOW_SIZE", new Events::AnyType<vec2i*>(&size));
 	windowSize = size;
 	framebuffer = nullptr;
 
@@ -74,7 +74,7 @@ Component * Camera::Clone() const {
 
 void Camera::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("CAMERA_ACTIVE", new Events::AnyType<Camera*>(this));
+	EventsManager::Get()->Trigger("CAMERA_ACTIVE", new Events::AnyType<Camera*>(this));
 }
 
 float const& Camera::GetSize() const {
@@ -92,7 +92,7 @@ float const& Camera::GetDepth() const {
 
 void Camera::SetDepth(float const& value) {
 	depth = value;
-	Events::EventsManager::GetInstance()->Trigger("CAMERA_DEPTH", new Events::AnyType<Camera*>(this));
+	EventsManager::Get()->Trigger("CAMERA_DEPTH", new Events::AnyType<Camera*>(this));
 }
 
 mat4f Camera::GetProjectionMatrix() const {
@@ -126,7 +126,7 @@ vec4f const& Camera::GetViewport() const {
 
 void Camera::SetFramebuffer(Framebuffer * const fb) {
 	framebuffer = fb;
-	Events::EventsManager::GetInstance()->Trigger("CAMERA_FRAMEBUFFER", new Events::AnyType<Camera*>(this));
+	EventsManager::Get()->Trigger("CAMERA_FRAMEBUFFER", new Events::AnyType<Camera*>(this));
 }
 
 Framebuffer * const Camera::GetFramebuffer() const {

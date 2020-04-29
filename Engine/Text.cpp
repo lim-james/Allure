@@ -37,7 +37,7 @@ Component * Text::Clone() const {
 
 void Text::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("TEXT_ACTIVE", new Events::AnyType<Text*>(this));
+	EventsManager::Get()->Trigger("TEXT_ACTIVE", new Events::AnyType<Text*>(this));
 }
 
 void Text::Unpack(AENotation const& data) {
@@ -80,5 +80,5 @@ Font * const Text::GetFont() const {
 void Text::SetFont(Font * const _font) {
 	Events::FontChange* event = new Events::FontChange(font, this);
 	font = _font;
-	Events::EventsManager::GetInstance()->Trigger("TEXT_FONT", event);
+	EventsManager::Get()->Trigger("TEXT_FONT", event);
 }

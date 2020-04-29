@@ -6,8 +6,8 @@
 #include <Events/EventsManager.h>
 
 void ColliderSystem::Initialize() {
-	Events::EventsManager::GetInstance()->Subscribe("BOX_COLLIDER_ACTIVE", &ColliderSystem::ActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("RAY_CAST", &ColliderSystem::RayCastHandler, this);
+	EventsManager::Get()->Subscribe("BOX_COLLIDER_ACTIVE", &ColliderSystem::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("RAY_CAST", &ColliderSystem::RayCastHandler, this);
 }
 
 void ColliderSystem::Update(float const & dt) {}

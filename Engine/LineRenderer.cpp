@@ -25,10 +25,11 @@ void LineRenderer::Initialize(EntityManager * const manager) {
 
 	defaultMaterial = new Material::LineDefault;
 
-	Events::EventsManager::GetInstance()->Subscribe("LINE_RENDER_ACTIVE", &LineRenderer::ActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("LINE_RENDER_DYNAMIC", &LineRenderer::DynamicHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("LINE_MATERIAL", &LineRenderer::MaterialHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &LineRenderer::ShaderHandler, this);
+	EventsManager* const em = EventsManager::Get();
+	em->Subscribe("LINE_RENDER_ACTIVE", &LineRenderer::ActiveHandler, this);
+	em->Subscribe("LINE_RENDER_DYNAMIC", &LineRenderer::DynamicHandler, this);
+	em->Subscribe("LINE_MATERIAL", &LineRenderer::MaterialHandler, this);
+	em->Subscribe("MATERIAL_SHADER", &LineRenderer::ShaderHandler, this);
 }
 
 void LineRenderer::RenderDepth(RendererData const & data) {}

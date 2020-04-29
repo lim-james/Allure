@@ -10,7 +10,7 @@
 #include <thread>
 
 void ParticleSystem::Initialize() {
-	Events::EventsManager::GetInstance()->Subscribe("EMITTER_ACTIVE", &ParticleSystem::EmitterActiveHandler, this);
+	EventsManager::Get()->Subscribe("EMITTER_ACTIVE", &ParticleSystem::EmitterActiveHandler, this);
 }
 
 void ParticleSystem::Update(float const& dt) {

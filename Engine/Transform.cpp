@@ -28,12 +28,12 @@ void Transform::Initialize() {
 
 void Transform::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("TRANSFORM_ACTIVE", new Events::AnyType<Transform*>(this));
+	EventsManager::Get()->Trigger("TRANSFORM_ACTIVE", new Events::AnyType<Transform*>(this));
 }
 
 void Transform::SetDynamic(bool const & state) {
 	Component::SetDynamic(state);
-	Events::EventsManager::GetInstance()->Trigger("TRANSFORM_DYNAMIC", new Events::AnyType<Transform*>(this));
+	EventsManager::Get()->Trigger("TRANSFORM_DYNAMIC", new Events::AnyType<Transform*>(this));
 }
 
 Component * Transform::Clone() const {

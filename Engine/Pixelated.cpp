@@ -28,7 +28,7 @@ Pixelated::Pixelated() : size(100.f) {
 	fbo = new Framebuffer(1, 1);
 	fbo->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
-	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &Pixelated::ResizeHandler, this);
+	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &Pixelated::ResizeHandler, this);
 }
 
 Pixelated::~Pixelated() {

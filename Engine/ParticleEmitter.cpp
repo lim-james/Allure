@@ -84,7 +84,7 @@ Component * ParticleEmitter::Clone() const {
 
 void ParticleEmitter::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("EMITTER_ACTIVE", new Events::AnyType<ParticleEmitter*>(this));
+	EventsManager::Get()->Trigger("EMITTER_ACTIVE", new Events::AnyType<ParticleEmitter*>(this));
 }
 
 void ParticleEmitter::Play() {

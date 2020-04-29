@@ -27,7 +27,7 @@ std::vector<std::function<void(Transform* const, float const&, bool const&)>> La
 };
 
 void LayoutSystem::Initialize() {
-	Events::EventsManager::GetInstance()->Subscribe("LAYOUT_ACTIVE", &LayoutSystem::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("LAYOUT_ACTIVE", &LayoutSystem::ActiveHandler, this);
 }
 
 void LayoutSystem::Update(float const& dt) {

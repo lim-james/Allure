@@ -12,8 +12,8 @@ TransformSystem::~TransformSystem() {
 void TransformSystem::Initialize() {
 	dynamicTree = new QuadTree<Transform*, TransformComparator>(5, 5);
 	staticTree = new QuadTree<Transform*, TransformComparator>(5, 5);
-	Events::EventsManager::GetInstance()->Subscribe("TRANSFORM_ACTIVE", &TransformSystem::ActiveHanlder, this);
-	Events::EventsManager::GetInstance()->Subscribe("TRANSFORM_DYNAMIC", &TransformSystem::DynamicHanlder, this);
+	EventsManager::Get()->Subscribe("TRANSFORM_ACTIVE", &TransformSystem::ActiveHanlder, this);
+	EventsManager::Get()->Subscribe("TRANSFORM_DYNAMIC", &TransformSystem::DynamicHanlder, this);
 }
 
 void TransformSystem::Update(float const& dt) {

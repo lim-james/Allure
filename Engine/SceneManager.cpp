@@ -3,8 +3,8 @@
 #include <Events/EventsManager.h>
 
 SceneManager::SceneManager() {
-	Events::EventsManager().GetInstance()->Subscribe("PRESENT_SCENE", &SceneManager::PresentHandler, this);
-	Events::EventsManager().GetInstance()->Subscribe("DISMISS_SCENE", &SceneManager::DismissHandler, this);
+	EventsManager().Get()->Subscribe("PRESENT_SCENE", &SceneManager::PresentHandler, this);
+	EventsManager().Get()->Subscribe("DISMISS_SCENE", &SceneManager::DismissHandler, this);
 }
 
 SceneManager::~SceneManager() {
@@ -43,7 +43,7 @@ void SceneManager::Segue() {
 		sceneStack.push(destination);
 
 		if (source) {
-			Events::EventsManager::GetInstance()->TriggerQueued();
+			EventsManager::Get()->TriggerQueued();
 			source->Exit();
 
 			destination->Awake();
@@ -56,7 +56,7 @@ void SceneManager::Segue() {
 			destination->Enter();
 		}
 
-		Events::EventsManager::GetInstance()->Trigger("BROADCAST_SIZE");
+		EventsManager::Get()->Trigger("BROADCAST_SIZE");
 	}
 }
 
@@ -71,13 +71,13 @@ void SceneManager::DismissHandler() {
 	sceneStack.pop();
 	Scene* current = sceneStack.top();
 
-	Events::EventsManager::GetInstance()->TriggerQueued();
+	EventsManager::Get()->TriggerQueued();
 	current->Exit();
 
 	previous->Enter();
 	current->PrepareForSegue(previous);
 
-	Events::EventsManager::GetInstance()->Trigger("BROADCAST_SIZE");
+	EventsManager::Get()->Trigger("BROADCAST_SIZE");
 
 	previous->Destroy();
 	delete previous;

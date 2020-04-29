@@ -31,7 +31,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 		Debug::Error << glewGetErrorString(err) << '\n';
 	}
 
-	auto em = Events::EventsManager::GetInstance();
+	auto em = EventsManager::Get();
 
 #if _DEBUG
 	em->Subscribe("TIMER_START", &Application::OnTimerEvent, this);
@@ -53,7 +53,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 void Application::Run() {
 	timer.Start();
 
-	auto em = Events::EventsManager::GetInstance();
+	auto em = EventsManager::Get();
 
 	em->Trigger("CURSOR_SENSITIVITY", new Events::AnyType<float>(0.1f));
 
@@ -73,7 +73,7 @@ void Application::Exit() {
 
 	Load::ClearFontCache();
 
-	Events::EventsManager::Destroy();
+	EventsManager::Destroy();
 }
 
 #if _DEBUG
@@ -107,7 +107,7 @@ void Application::Step() {
 
 	glfwPollEvents();
 
-	Events::EventsManager::GetInstance()->TriggerQueued();
+	EventsManager::Get()->TriggerQueued();
 
 	sceneManager->Segue();
 	context->UpdateFrame(dt);

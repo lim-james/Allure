@@ -14,11 +14,12 @@ ButtonSystem::~ButtonSystem() {
 }
 
 void ButtonSystem::Initialize() {
-	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &ButtonSystem::CursorPositionHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MOUSE_BUTTON_INPUT", &ButtonSystem::MouseButtonHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("CAMERA_ACTIVE", &ButtonSystem::CameraActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("BUTTON_ACTIVE", &ButtonSystem::ButtonActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("WINDOW_RESIZE", &ButtonSystem::ResizeHandler, this);
+	EventsManager* const em = EventsManager::Get();
+	em->Subscribe("CURSOR_POSITION_INPUT", &ButtonSystem::CursorPositionHandler, this);
+	em->Subscribe("MOUSE_BUTTON_INPUT", &ButtonSystem::MouseButtonHandler, this);
+	em->Subscribe("CAMERA_ACTIVE", &ButtonSystem::CameraActiveHandler, this);
+	em->Subscribe("BUTTON_ACTIVE", &ButtonSystem::ButtonActiveHandler, this);
+	em->Subscribe("WINDOW_RESIZE", &ButtonSystem::ResizeHandler, this);
 }
 
 void ButtonSystem::Update(float const& dt) {

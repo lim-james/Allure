@@ -49,7 +49,7 @@ void Scene::Create() {
 }
 
 void Scene::Enter() {
-	Events::EventsManager::GetInstance()->SubscribeContext(this);
+	EventsManager::Get()->SubscribeContext(this);
 	systems->Start();
 	scripts->Start();
 }
@@ -66,7 +66,7 @@ void Scene::Update(float const& dt) {
 void Scene::Exit() {
 	scripts->Stop();
 	systems->Stop();
-	Events::EventsManager::GetInstance()->UnsubscribeContext(this);
+	EventsManager::Get()->UnsubscribeContext(this);
 }
 
 void Scene::Destroy() { 

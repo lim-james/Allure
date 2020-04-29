@@ -28,10 +28,10 @@ Window::Window(int const& width, int const& height, const char* title, bool cons
 
 	glfwSetWindowSizeCallback(window, Window::Resize);
 
-	Events::EventsManager::GetInstance()->Subscribe("CLOSE_WINDOW", &Window::Close, this);
-	Events::EventsManager::GetInstance()->Subscribe("_WINDOW_RESIZE", &Window::ResizeHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("BROADCAST_SIZE", &Window::BroadcastSize, this);
-	Events::EventsManager::GetInstance()->Subscribe("GET_WINDOW_SIZE", &Window::GetSizeHandler, this);
+	EventsManager::Get()->Subscribe("CLOSE_WINDOW", &Window::Close, this);
+	EventsManager::Get()->Subscribe("_WINDOW_RESIZE", &Window::ResizeHandler, this);
+	EventsManager::Get()->Subscribe("BROADCAST_SIZE", &Window::BroadcastSize, this);
+	EventsManager::Get()->Subscribe("GET_WINDOW_SIZE", &Window::GetSizeHandler, this);
 }
 
 Window::~Window() {
@@ -73,12 +73,12 @@ bool Window::ShouldClose() const {
 }
 
 void Window::BroadcastSize() const {
-	Events::EventsManager::GetInstance()->Trigger("WINDOW_RESIZE", new Events::AnyType<vec2i>(size));
+	EventsManager::Get()->Trigger("WINDOW_RESIZE", new Events::AnyType<vec2i>(size));
 }
 
 void Window::Resize(GLFWwindow* window, int width, int height) {
 	const vec2i size(width, height);
-	Events::EventsManager::GetInstance()->Trigger("_WINDOW_RESIZE", new Events::AnyType<vec2i>(size));
+	EventsManager::Get()->Trigger("_WINDOW_RESIZE", new Events::AnyType<vec2i>(size));
 }
 
 void Window::ResizeHandler(Events::Event* event) {

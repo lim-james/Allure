@@ -4,7 +4,7 @@
 #include <Helpers/VectorHelpers.h>
 
 ScriptSystem::ScriptSystem(EntityManager * const entities) : entities(entities) {
-	Events::EventsManager::GetInstance()->Subscribe("SCRIPT_ACTIVE", &ScriptSystem::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("SCRIPT_ACTIVE", &ScriptSystem::ActiveHandler, this);
 
 	time.et = 0.0f;
 }
@@ -21,7 +21,7 @@ void ScriptSystem::Awake() {
 
 void ScriptSystem::Start() {
 	started = true;
-	Events::EventsManager* events = Events::EventsManager::GetInstance();
+	EventsManager* events = EventsManager::Get();
 	events->SubscribeContext(this);
 
 	for (auto& s : scripts) {
@@ -44,7 +44,7 @@ void ScriptSystem::Update(float const& dt) {
 
 void ScriptSystem::Stop() {
 	started = false;
-	Events::EventsManager* events = Events::EventsManager::GetInstance();
+	EventsManager* events = EventsManager::Get();
 	events->UnsubscribeContext(this);
 	
 	for (auto& s : scripts) {

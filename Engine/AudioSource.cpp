@@ -40,24 +40,24 @@ Component * AudioSource::Clone() const {
 
 void AudioSource::SetActive(bool const & state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("AUDIO_SOURCE_ACTIVE", new Events::AnyType<AudioSource*>(this));
+	EventsManager::Get()->Trigger("AUDIO_SOURCE_ACTIVE", new Events::AnyType<AudioSource*>(this));
 }
 
 void AudioSource::Play() {
 	if (IsActive()) {
-		Events::EventsManager::GetInstance()->Trigger("AUDIO_SOURCE_PLAY", new Events::AnyType<AudioSource*>(this));
+		EventsManager::Get()->Trigger("AUDIO_SOURCE_PLAY", new Events::AnyType<AudioSource*>(this));
 	}
 }
 
 void AudioSource::Pause() {	
 	if (IsActive()) {
-		Events::EventsManager::GetInstance()->Trigger("AUDIO_SOURCE_PAUSE", new Events::AnyType<AudioSource*>(this));
+		EventsManager::Get()->Trigger("AUDIO_SOURCE_PAUSE", new Events::AnyType<AudioSource*>(this));
 	}
 }
 
 void AudioSource::Stop() {
 	if (IsActive()) {
-		Events::EventsManager::GetInstance()->Trigger("AUDIO_SOURCE_STOP", new Events::AnyType<AudioSource*>(this));
+		EventsManager::Get()->Trigger("AUDIO_SOURCE_STOP", new Events::AnyType<AudioSource*>(this));
 	}
 }
 

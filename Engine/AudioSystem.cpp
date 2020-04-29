@@ -41,7 +41,7 @@ AudioSystem::~AudioSystem() {
 }
 
 void AudioSystem::Initialize() {
-	Events::EventsManager* em = Events::EventsManager::GetInstance();
+	EventsManager* const em = EventsManager::Get();
 
 	em->Subscribe("AUDIO_LISTENER_ACTIVE", &AudioSystem::ListenerActiveHandler, this);
 	em->Subscribe("AUDIO_SOURCE_ACTIVE", &AudioSystem::SourceActiveHandler, this);

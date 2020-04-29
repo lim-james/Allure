@@ -19,10 +19,11 @@ void EditorCamera::Awake() {
 	direction = vec3f(0.f);
 
 	camera = GetComponent<Camera>();
-
-	Events::EventsManager::GetInstance()->Subscribe("KEY_INPUT", &EditorCamera::KeyHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MOUSE_BUTTON_INPUT", &EditorCamera::MouseButtonHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("CURSOR_POSITION_INPUT", &EditorCamera::CursorPositionHandler, this);
+	
+	EventsManager* const em = EventsManager::Get();
+	em->Subscribe("KEY_INPUT", &EditorCamera::KeyHandler, this);
+	em->Subscribe("MOUSE_BUTTON_INPUT", &EditorCamera::MouseButtonHandler, this);
+	em->Subscribe("CURSOR_POSITION_INPUT", &EditorCamera::CursorPositionHandler, this);
 }
 
 void EditorCamera::Update() {
@@ -77,10 +78,10 @@ void EditorCamera::MouseButtonHandler(Events::Event * event) {
 	
 	if (input->button == GLFW_MOUSE_BUTTON_RIGHT) {
 		if (input->action == GLFW_PRESS) {
-			Events::EventsManager::GetInstance()->Trigger("INPUT_MODE_CHANGE", new Events::InputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED));
+			EventsManager::Get()->Trigger("INPUT_MODE_CHANGE", new Events::InputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED));
 			controlling = true;
 		} else if (input->action == GLFW_RELEASE) {
-			Events::EventsManager::GetInstance()->Trigger("INPUT_MODE_CHANGE", new Events::InputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL));
+			EventsManager::Get()->Trigger("INPUT_MODE_CHANGE", new Events::InputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL));
 			controlling = false;
 			direction = vec3f(0.0f);
 		}
@@ -94,7 +95,7 @@ void EditorCamera::MouseButtonHandler(Events::Event * event) {
 				BitField(DEFAULT),
 				&result
 			);
-			Events::EventsManager::GetInstance()->Trigger("RAY_CAST", rayCast);
+			EventsManager::Get()->Trigger("RAY_CAST", rayCast);
 
 			if (result.target) {
 				Transform* const targetTransform = entities->GetComponent<Transform>(result.target->entity);

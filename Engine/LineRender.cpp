@@ -22,12 +22,12 @@ Component* LineRender::Clone() const {
 
 void LineRender::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("LINE_RENDER_ACTIVE", new Events::AnyType<LineRender*>(this));
+	EventsManager::Get()->Trigger("LINE_RENDER_ACTIVE", new Events::AnyType<LineRender*>(this));
 }
 
 void LineRender::SetDynamic(bool const & state) {
 	Component::SetDynamic(state);
-	Events::EventsManager::GetInstance()->Trigger("LINE_RENDER_DYNAMIC", new Events::AnyType<LineRender*>(this));
+	EventsManager::Get()->Trigger("LINE_RENDER_DYNAMIC", new Events::AnyType<LineRender*>(this));
 }
 
 Material::Base * const LineRender::GetMaterial() const {
@@ -37,5 +37,5 @@ Material::Base * const LineRender::GetMaterial() const {
 void LineRender::SetMaterial(Material::Base * _material) {
 	auto event = new Events::MaterialChange(material, this);
 	material = _material;
-	Events::EventsManager::GetInstance()->Trigger("LINE_MATERIAL", event);
+	EventsManager::Get()->Trigger("LINE_MATERIAL", event);
 }

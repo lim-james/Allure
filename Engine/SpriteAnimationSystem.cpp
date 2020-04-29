@@ -9,7 +9,7 @@ SpriteAnimationSystem::~SpriteAnimationSystem() {
 }
 
 void SpriteAnimationSystem::Initialize() {
-	Events::EventsManager::GetInstance()->Subscribe("SPRITE_ANIMATION_ACTIVE", &SpriteAnimationSystem::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("SPRITE_ANIMATION_ACTIVE", &SpriteAnimationSystem::ActiveHandler, this);
 }
 
 void SpriteAnimationSystem::Update(float const& dt) {

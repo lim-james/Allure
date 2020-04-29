@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 
 PostProcessStack::PostProcessStack() {
-	Events::EventsManager::GetInstance()->Subscribe("POST_PROCESS_ACTIVE", &PostProcessStack::ActiveHanlder, this);
+	EventsManager::Get()->Subscribe("POST_PROCESS_ACTIVE", &PostProcessStack::ActiveHanlder, this);
 }
 
 void PostProcessStack::Render() {

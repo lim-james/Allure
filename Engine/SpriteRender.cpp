@@ -26,12 +26,12 @@ Component * SpriteRender::Clone() const {
 
 void SpriteRender::SetActive(bool const& state) {
 	Component::SetActive(state);
-	Events::EventsManager::GetInstance()->Trigger("SPRITE_RENDER_ACTIVE", new Events::AnyType<SpriteRender*>(this));
+	EventsManager::Get()->Trigger("SPRITE_RENDER_ACTIVE", new Events::AnyType<SpriteRender*>(this));
 }
 
 void SpriteRender::SetDynamic(bool const & state) {
 	Component::SetDynamic(state);
-	Events::EventsManager::GetInstance()->Trigger("SPRITE_RENDER_DYNAMIC", new Events::AnyType<SpriteRender*>(this));
+	EventsManager::Get()->Trigger("SPRITE_RENDER_DYNAMIC", new Events::AnyType<SpriteRender*>(this));
 }
 
 unsigned const& SpriteRender::GetSprite() const {
@@ -41,7 +41,7 @@ unsigned const& SpriteRender::GetSprite() const {
 void SpriteRender::SetSprite(unsigned const& _sprite) {
 	Events::SpriteChange* event = new Events::SpriteChange(sprite, this);
 	sprite = _sprite;
-	Events::EventsManager::GetInstance()->Trigger("SPRITE_CHANGE", event);
+	EventsManager::Get()->Trigger("SPRITE_CHANGE", event);
 }
 
 void SpriteRender::SetTilemapSize(int const& width, int const& height) {
@@ -69,5 +69,5 @@ Material::Base * const SpriteRender::GetMaterial() const {
 void SpriteRender::SetMaterial(Material::Base * _material) {
 	Events::MaterialChange* event = new Events::MaterialChange(material, this);
 	material = _material;
-	Events::EventsManager::GetInstance()->Trigger("SPRITE_MATERIAL", event);
+	EventsManager::Get()->Trigger("SPRITE_MATERIAL", event);
 }

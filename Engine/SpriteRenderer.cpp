@@ -25,11 +25,11 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 
 	defaultMaterial = new Material::SpriteDefault;
 
-	Events::EventsManager::GetInstance()->Subscribe("SPRITE_RENDER_ACTIVE", &SpriteRenderer::ActiveHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("SPRITE_RENDER_DYNAMIC", &SpriteRenderer::DynamicHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("SPRITE_CHANGE", &SpriteRenderer::SpriteChangeHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("SPRITE_MATERIAL", &SpriteRenderer::MaterialHandler, this);
-	Events::EventsManager::GetInstance()->Subscribe("MATERIAL_SHADER", &SpriteRenderer::ShaderHandler, this);
+	EventsManager::Get()->Subscribe("SPRITE_RENDER_ACTIVE", &SpriteRenderer::ActiveHandler, this);
+	EventsManager::Get()->Subscribe("SPRITE_RENDER_DYNAMIC", &SpriteRenderer::DynamicHandler, this);
+	EventsManager::Get()->Subscribe("SPRITE_CHANGE", &SpriteRenderer::SpriteChangeHandler, this);
+	EventsManager::Get()->Subscribe("SPRITE_MATERIAL", &SpriteRenderer::MaterialHandler, this);
+	EventsManager::Get()->Subscribe("MATERIAL_SHADER", &SpriteRenderer::ShaderHandler, this);
 }
 
 void SpriteRenderer::RenderDepth(RendererData const& data) {
