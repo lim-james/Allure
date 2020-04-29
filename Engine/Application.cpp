@@ -44,7 +44,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new SampleScene);
+	sceneManager->Present(new TitleScene);
 
 	context->BroadcastSize();
 	em->TriggerQueued();

@@ -15,6 +15,10 @@ ParticleEmitter::ParticleEmitter()
 	, angleRange(0.f)
 	, speed(1.f)
 	, speedRange(0.f)
+	, drag(0.f)
+	, angularVelocity(0.f)
+	, angularVelocityRange(0.f)
+	, angularDrag(0.f)
 	, offset(0.f)
 	, positionRange(0.f)
 	, gravity(0.f)
@@ -47,6 +51,9 @@ void ParticleEmitter::Initialize() {
 
 	speed = 1.f;
 	speedRange = 0.f;
+
+	angularVelocity = vec3f(0.f);
+	angularVelocityRange = vec3f(0.f);
 
 	offset = vec3f(0.f);
 	positionRange = vec3f(0.f);

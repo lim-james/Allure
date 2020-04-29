@@ -25,6 +25,13 @@ struct ParticleEmitter : Component {
 	float speed;
 	float speedRange;
 
+	float drag;
+
+	vec3f angularVelocity;
+	vec3f angularVelocityRange;
+
+	float angularDrag;
+
 	vec3f offset;
 	vec3f positionRange;
 

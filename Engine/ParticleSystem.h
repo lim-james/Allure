@@ -23,6 +23,7 @@ private:
 	void EmitterActiveHandler(Events::Event* event);
 
 	unsigned CreateParticle() const;
+	Particle* UpdateParticle(unsigned const& entity, ParticleEmitter* const emitter, vec3f const& position, float const& dt) const;
 
 
 };

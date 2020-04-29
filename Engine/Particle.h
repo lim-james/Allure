@@ -11,6 +11,7 @@ struct Particle : Component {
 	float lifetime;
 
 	vec3f velocity;
+	vec3f angularVelocity;
 
 	vec3f startSize;
 	vec3f endSize;

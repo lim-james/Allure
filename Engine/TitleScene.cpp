@@ -14,8 +14,6 @@
 #include "Layers.h"
 #include "LoadFNT.h"
 #include "LoadTexture.h"
-// materials
-#include "InvertMaterial.h"
 
 #include <Events/EventsManager.h>
 
@@ -116,7 +114,7 @@ void TitleScene::Create() {
 		auto text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
 		text->SetFont(microsoft);
-		text->text = "Allure 2D"; 
+		text->text = "Allure"; 
 		text->color = vec4f(1.f);
 		text->characterSpacing = 1;
 	}
@@ -201,10 +199,12 @@ void TitleScene::Create() {
 		emitter->angleRange = 180.f;
 
 		emitter->speed = 5.f;
+		emitter->angularVelocity.z = 180.f;
 
 		emitter->accelRad = -5.f;
 
-		emitter->startSize = vec3f(0.15f);
+		//emitter->startSize = vec3f(0.15f);
+		emitter->startSize = vec3f(0.5f);
 		emitter->endSize = vec3f(0.f);
 
 		emitter->startColor = vec4f(0.5f, 0.0f, 0.5f, 1.f);

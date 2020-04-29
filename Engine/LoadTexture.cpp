@@ -111,8 +111,6 @@ unsigned Load::TGA(std::string const& filepath) {
 	fileStream.read((char*)data, imageSize);
 	fileStream.close();
 
-	Debug::Warn << "C: " << bytesPerPixel << '\n';
-
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	if (bytesPerPixel == 3)

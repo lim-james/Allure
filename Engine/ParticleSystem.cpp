@@ -30,30 +30,7 @@ void ParticleSystem::Update(float const& dt) {
 			for (unsigned t = 0; t < threadCount; ++t) {
 				threads[t] = std::thread([t, interval, &group, emitter, dt, position, &erase, this]() {
 					for (unsigned i = (t + 1) * interval; i < Math::Min((t + 2) * interval, group.size()); ++i) {
-						const auto entity = group[i];
-						auto particle = entities->GetComponent<Particle>(entity);
-						auto transform = entities->GetComponent<Transform>(entity);
-						auto render = entities->GetComponent<SpriteRender>(entity);
-
-						transform->translation += particle->velocity * dt;
-						particle->velocity += emitter->gravity * dt;
-
-						const auto diff = transform->translation - position;
-						const float length = Math::Length(diff);
-						if (length > 0.f) {
-							const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
-							particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
-						}
-
-						const float ratio = particle->age / particle->lifetime;
-
-						const vec3f dSize = particle->endSize - particle->startSize;
-						transform->scale = dSize * ratio + particle->startSize;
-
-						const vec4f dColor = particle->endColor - particle->startColor;
-						render->tint = dColor * ratio + particle->startColor;
-
-						particle->age += dt;
+						Particle* const particle = UpdateParticle(group[i], emitter, position, dt);
 
 						if (particle->age >= particle->lifetime) {
 							erase.push_back(i);
@@ -63,37 +40,14 @@ void ParticleSystem::Update(float const& dt) {
 			}
 
 			for (unsigned i = 0; i < interval; ++i) {
-				const auto entity = group[i];
-				auto particle = entities->GetComponent<Particle>(entity);
-				auto transform = entities->GetComponent<Transform>(entity);
-				auto render = entities->GetComponent<SpriteRender>(entity);
-
-				transform->translation += particle->velocity * dt;
-				particle->velocity += emitter->gravity * dt;
-
-				const auto diff = transform->translation - position;
-				const float length = Math::Length(diff);
-				if (length > 0.f) {
-					const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
-					particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
-				}
-
-				const float ratio = particle->age / particle->lifetime;
-
-				const vec3f dSize = particle->endSize - particle->startSize;
-				transform->scale = dSize * ratio + particle->startSize;
-
-				const vec4f dColor = particle->endColor - particle->startColor;
-				render->tint = dColor * ratio + particle->startColor;
-
-				particle->age += dt;
-
+				Particle* const particle = UpdateParticle(group[i], emitter, position, dt);
+						
 				if (particle->age >= particle->lifetime) {
 					erase.push_back(i);
 				}
 			}
 
-			for (auto& t : threads) {
+			for (std::thread& t : threads) {
 				t.join();
 			}
 
@@ -105,36 +59,13 @@ void ParticleSystem::Update(float const& dt) {
 				group.erase(group.begin() + i);
 			}
 		} else {
-			auto end = static_cast<int>(group.size()) - 1;
+			const int end = static_cast<int>(group.size()) - 1;
 
 			for (int i = end; i >= 0; --i) {
-				const auto entity = group[i];
-				auto particle = entities->GetComponent<Particle>(entity);
-				auto transform = entities->GetComponent<Transform>(entity);
-				auto render = entities->GetComponent<SpriteRender>(entity);
-
-				transform->translation += particle->velocity * dt;
-				particle->velocity += emitter->gravity * dt;
-
-				const auto diff = transform->translation - position;
-				const float length = Math::Length(diff);
-				if (length > 0.f) {
-					const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
-					particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
-				}
-
-				const float ratio = particle->age / particle->lifetime;
-
-				const vec3f dSize = particle->endSize - particle->startSize;
-				transform->scale = dSize * ratio + particle->startSize;
-
-				const vec4f dColor = particle->endColor - particle->startColor;
-				render->tint = dColor * ratio + particle->startColor;
-
-				particle->age += dt;
-
+				Particle* const particle = UpdateParticle(group[i], emitter, position, dt);
+						
 				if (particle->age >= particle->lifetime) {
-					entities->Destroy(entity);
+					entities->Destroy(group[i]);
 					group.erase(group.begin() + i);
 				}
 			}
@@ -192,6 +123,14 @@ void ParticleSystem::Update(float const& dt) {
 				// made for 2D
 				particle->velocity = (emitter->speed + vSpeed) * worldUp;
 
+				const vec3f vAngular = vec3f(
+					Math::RandMinMax(-emitter->angularVelocityRange.x, emitter->angularVelocityRange.x),
+					Math::RandMinMax(-emitter->angularVelocityRange.y, emitter->angularVelocityRange.y),
+					Math::RandMinMax(-emitter->angularVelocityRange.z, emitter->angularVelocityRange.z)
+				);
+
+				particle->angularVelocity = emitter->angularVelocity + vAngular;
+
 				particle->startSize = emitter->startSize + vec3f(
 					Math::RandMinMax(-emitter->startSizeRange.x, emitter->startSizeRange.x),
 					Math::RandMinMax(-emitter->startSizeRange.y, emitter->startSizeRange.y),
@@ -245,4 +184,38 @@ unsigned ParticleSystem::CreateParticle() const {
 	entities->AddComponent<SpriteRender>(id);
 	entities->AddComponent<Particle>(id); 
 	return id;
+}
+
+Particle* ParticleSystem::UpdateParticle(unsigned const& entity, ParticleEmitter* const emitter, vec3f const& position, float const& dt) const {
+	Particle* const particle = entities->GetComponent<Particle>(entity);
+	Transform* const transform = entities->GetComponent<Transform>(entity);
+	SpriteRender* const render = entities->GetComponent<SpriteRender>(entity);
+
+	transform->translation += particle->velocity * dt;
+	transform->rotation += particle->angularVelocity * dt;
+	transform->UpdateAxes();
+
+	particle->velocity += emitter->gravity * dt;
+
+	const vec3f diff = transform->translation - position;
+	const float length = Math::Length(diff);
+	if (length > 0.f) {
+		const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
+		particle->velocity += (emitter->accelRad + vAccelRad) * dt * diff / length;
+	}
+
+	particle->velocity *= 1.f - emitter->drag * dt;
+	particle->angularVelocity *= 1.f - emitter->angularDrag * dt;
+
+	const float ratio = particle->age / particle->lifetime;
+
+	const vec3f dSize = particle->endSize - particle->startSize;
+	transform->scale = dSize * ratio + particle->startSize;
+
+	const vec4f dColor = particle->endColor - particle->startColor;
+	render->tint = dColor * ratio + particle->startColor;
+
+	particle->age += dt;
+
+	return particle;
 }
