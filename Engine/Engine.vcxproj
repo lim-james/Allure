@@ -155,6 +155,7 @@
     <ClCompile Include="Pixelated.cpp" />
     <ClCompile Include="PostProcess.cpp" />
     <ClCompile Include="PostProcessStack.cpp" />
+    <ClCompile Include="TestAudio.cpp" />
     <ClCompile Include="VoxelDefaultMaterial.cpp" />
     <ClCompile Include="VoxelRender.cpp" />
     <ClCompile Include="VoxelRenderer.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="PostProcess.h" />
     <ClInclude Include="PostProcessStack.h" />
     <ClInclude Include="RayCast.h" />
+    <ClInclude Include="TestAudio.h" />
     <ClInclude Include="VoxelDefaultMaterial.h" />
     <ClInclude Include="VoxelRender.h" />
     <ClInclude Include="VoxelRenderer.h" />

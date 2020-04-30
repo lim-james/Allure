@@ -130,6 +130,9 @@
     <Filter Include="Engine\Audio">
       <UniqueIdentifier>{9de552c7-be66-4f7b-aa9c-73a71de97f9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Test">
+      <UniqueIdentifier>{f883ee1c-935c-477c-8d64-4d0d22327a5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -371,6 +374,9 @@
     </ClCompile>
     <ClCompile Include="AudioSource.cpp">
       <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="TestAudio.cpp">
+      <Filter>Assets\Scripts\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -634,6 +640,9 @@
     </ClInclude>
     <ClInclude Include="AudioSource.h">
       <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="TestAudio.h">
+      <Filter>Assets\Scripts\Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

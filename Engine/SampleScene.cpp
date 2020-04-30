@@ -7,6 +7,7 @@
 #include "SpriteRender.h"
 #include "MeshRender.h"
 #include "Orbit.h"
+#include "TestAudio.h"
 // post vfx
 #include "Bloom.h"
 #include "CurveDisplay.h"
@@ -138,7 +139,7 @@ void SampleScene::Create() {
 		render->SetDynamic(false);
 	}
 
-	// post processing voluem
+	// post processing volume
 	{
 		const unsigned volume = entities->Create();
 		Pixelated* const pixelated = entities->AddComponent<Pixelated>(volume);
@@ -213,6 +214,9 @@ void SampleScene::Create() {
 		audio->volume = 1.f;
 		audio->spatialBlend = 1.f;
 		audio->Play();
+
+		TestAudio* const test = entities->AddComponent<TestAudio>(entity);
+		test->SetActive(true);
 	}
 
 	{

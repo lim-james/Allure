@@ -49,9 +49,19 @@ void AudioSource::Play() {
 	}
 }
 
-void AudioSource::Pause() {	
+bool AudioSource::IsPaused() const {
+	return isPaused;
+}
+
+void AudioSource::Pause() {
 	if (IsActive()) {
 		EventsManager::Get()->Trigger("AUDIO_SOURCE_PAUSE", new Events::AnyType<AudioSource*>(this));
+	}
+}
+
+void AudioSource::UnPause() {
+	if (IsActive()) {
+		EventsManager::Get()->Trigger("AUDIO_SOURCE_UNPAUSE", new Events::AnyType<AudioSource*>(this));
 	}
 }
 

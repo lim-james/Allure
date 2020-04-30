@@ -27,8 +27,17 @@ struct AudioSource : Component {
 	void SetActive(bool const& state) override;
 
 	void Play();
-	void Pause();
 	void Stop();
+
+	bool IsPaused() const;
+	void Pause();
+	void UnPause();
+
+private:
+
+	bool isPaused;
+
+	friend class AudioSystem;
 
 };
 
