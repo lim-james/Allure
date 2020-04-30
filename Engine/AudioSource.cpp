@@ -12,8 +12,7 @@ AudioSource::AudioSource()
 	, stereoPan(0.f)
 	, spatialBlend(0.f) 
 
-	, dopplerLevel(1.f)
-	, spread(0.f)
+	//, dopplerLevel(1.f)
 	, minDistance(1.f)
 	, maxDistance(10.f) {
 }
@@ -28,8 +27,7 @@ void AudioSource::Initialize() {
 	stereoPan = 0.f;
 	spatialBlend = 0.f;
 
-	dopplerLevel = 1.f;
-	spread = 0.f;
+	//dopplerLevel = 1.f;
 	minDistance = 1.f;
 	maxDistance = 500.f;
 }

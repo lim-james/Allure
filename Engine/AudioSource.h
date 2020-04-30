@@ -15,8 +15,7 @@ struct AudioSource : Component {
 	float stereoPan;
 	float spatialBlend;
 
-	float dopplerLevel;
-	float spread;
+	//float dopplerLevel;
 	float minDistance;
 	float maxDistance;
 
