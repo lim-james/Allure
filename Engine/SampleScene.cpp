@@ -123,7 +123,7 @@ void SampleScene::Create() {
 	{
 		const unsigned entity = entities->Create();
 
-		auto transform = entities->GetComponent<Transform>(entity);
+		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation.z = 10.f;
 
 		Camera* const uiCamera = entities->AddComponent<Camera>(entity);

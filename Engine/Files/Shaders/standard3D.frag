@@ -230,7 +230,10 @@ void main() {
         vec3 L = normalize(D);
         vec3 H = normalize(V + L);
 
-        float attenuation = intensity / (dist * dist);
+		float shadow = calculateShadow(vs_out.fragPosLightSpace.positions[i], lights[i]);
+		shadow *= lights[i].strength;	
+
+        float attenuation = intensity / (dist * dist) * (1.0 - shadow);
         vec3 radiance = vec3(lights[i].color) * attenuation;
 
         // Cook-Torrance BRDF
@@ -256,12 +259,8 @@ void main() {
         // scale light by NdotL
         float NdotL = max(dot(N, L), 0.0);        
 
-		float shadow = calculateShadow(vs_out.fragPosLightSpace.positions[i], lights[i]);
-		shadow *= lights[i].strength;	
-		shadow = 1.0 - shadow;
-
         // add to outgoing radiance Lo
-        Lo += (kD * albedo / PI + specular) * brightness * radiance * NdotL * shadow;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+        Lo += (kD * albedo / PI + specular) * brightness * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
 //        Lo += vec3(radiance * NdotL); 
     }   
 	

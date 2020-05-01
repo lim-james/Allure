@@ -104,17 +104,16 @@ void main() {
         vec3 L = normalize(D);
         vec3 H = normalize(V + L);
 
-        float attenuation = intensity / (dist * dist);
+		float shadow = calculateShadow(fs_in.fragPosLightSpace.positions[i], lights[i]);
+		shadow *= lights[i].strength;	
+
+        float attenuation = intensity / (dist * dist) * (1.f - shadow);
         vec3 radiance = vec3(lights[i].color) * attenuation;
 
 		float NdotL = max(dot(N, L), 0.0);        
 
-		float shadow = calculateShadow(fs_in.fragPosLightSpace.positions[i], lights[i]);
-		shadow *= lights[i].strength;	
-		shadow = 1.0 - shadow;
-
         // add to outgoing radiance Lo
-        Lo += fs_in.color.rgb * brightness * radiance * NdotL * shadow;  	
+        Lo += fs_in.color.rgb * brightness * radiance * NdotL;  	
 	}
 	
     // ambient lighting (note that the next IBL tutorial will replace 
