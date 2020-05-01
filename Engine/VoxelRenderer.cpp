@@ -156,7 +156,7 @@ void VoxelRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 
 		if (instances.empty()) return;
 
-		Batch::StaticData& staticData = batch.staticData.at(data.object);
+		Batch::StaticData& staticData = batch.staticData[data.object];
 
 		if (staticData.VAO == 0)
 			staticData.VAO = cube->GenerateVAO();

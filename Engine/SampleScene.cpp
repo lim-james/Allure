@@ -22,6 +22,7 @@
 // systems
 #include "AudioSystem.h"
 #include "LayoutSystem.h"
+#include "ColliderSystem.h"
 // Utils
 #include "LoadTexture.h"
 #include "LoadModel.h"
@@ -33,6 +34,7 @@ void SampleScene::Awake() {
 
 	systems->Subscribe<AudioSystem>(1);
 	systems->Subscribe<LayoutSystem>(2);
+	systems->Subscribe<ColliderSystem>(3);
 }
 
 void SampleScene::Create() {
@@ -288,6 +290,9 @@ void SampleScene::Create() {
 		render->SetMaterial(window);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
+
+		BoxCollider* const collider = entities->AddComponent<BoxCollider>(entity);
+		collider->SetActive(true);
 	}
 
 	{
