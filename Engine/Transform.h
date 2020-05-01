@@ -51,6 +51,7 @@ struct Transform : Component {
 	mat4f const& GetWorldTransform() const;
 
 	mat4f GetLocalLookAt() const;
+	mat4f GetWorldLookAt() const;
 
 	void SetParent(Transform * const transform);
 	Transform * const GetParent() const;

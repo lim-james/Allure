@@ -12,6 +12,7 @@ unsigned SpriteRenderer::dynamicBuffer = 0;
 SpriteRenderer::Batch::StaticData::StaticData() : VAO(0), count(0) { }
 
 SpriteRenderer::~SpriteRenderer() {
+	delete depthShader;
 	delete defaultMaterial;
 }
 
@@ -23,6 +24,7 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 
 	InitializeInstanceBuffer(dynamicVAO, dynamicBuffer);
 
+	depthShader = new Shader("Files/Shaders/depth2D.vert", "Files/Shaders/depth2D.frag");
 	defaultMaterial = new Material::SpriteDefault;
 
 	EventsManager::Get()->Subscribe("SPRITE_RENDER_ACTIVE", &SpriteRenderer::ActiveHandler, this);
@@ -33,8 +35,8 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 }
 
 void SpriteRenderer::RenderDepth(RendererData const& data) {
-	RenderBatches(data, opaqueBatches);
-	RenderBatches(data, transparentBatches);
+	RenderDepthBatches(data, opaqueBatches);
+	RenderDepthBatches(data, transparentBatches);
 }
 
 void SpriteRenderer::RenderOpaque(RendererData const & data) {
@@ -104,6 +106,21 @@ void SpriteRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& ins
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void SpriteRenderer::RenderDepthBatches(RendererData const & data, Batches & batches) {
+	depthShader->Use();
+	depthShader->SetMatrix4("projection", data.projection);
+	depthShader->SetMatrix4("view", data.view);
+
+	for (auto& shaderPair : batches) {
+		for (auto& materialPair : shaderPair.second) {
+			for (auto& batchPair : materialPair.second) {
+				RenderStatic(data, batchPair.second);
+				RenderDynamic(data, batchPair.second);
+			}
+		}
+	}
+}
+
 void SpriteRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 	for (auto& shaderPair : batches) {
 		Shader* const shader = shaderPair.first;
@@ -130,14 +147,14 @@ void SpriteRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 }
 
 void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
-	if (updateStatic || batch.staticData.find(data.camera) == batch.staticData.end()) {
+	if (updateStatic || batch.staticData.find(data.object) == batch.staticData.end()) {
 		if (batch.staticList.empty()) return;
 
 		std::vector<Instance> instances;
 		instances.reserve(batch.staticList.size());
 
 		for (SpriteRender* const c : batch.staticList) {
-			if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
+			if (entities->GetLayer(c->entity) != data.cullingMask) {
 				continue;
 			}
 
@@ -152,7 +169,7 @@ void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 
 		if (instances.empty()) return;
 
-		Batch::StaticData& staticData = batch.staticData[data.camera];
+		Batch::StaticData& staticData = batch.staticData.at(data.object);
 
 		if (staticData.VAO == 0)
 			GenerateQuad(staticData.VAO);
@@ -166,7 +183,7 @@ void SpriteRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 		glBufferData(GL_ARRAY_BUFFER, staticData.count * sizeof(Instance), &instances[0], GL_STATIC_DRAW);
 		glDrawArraysInstanced(GL_TRIANGLES, 0, 6, staticData.count);
 	} else {
-		Batch::StaticData& staticData = batch.staticData[data.camera];
+		Batch::StaticData& staticData = batch.staticData.at(data.object);
 		glBindVertexArray(staticData.VAO);
 		glDrawArraysInstanced(GL_TRIANGLES, 0, 6, staticData.count);
 	}
@@ -180,7 +197,7 @@ void SpriteRenderer::RenderDynamic(RendererData const& data, Batch const& batch)
 	instances.reserve(batch.dynamicList.size());
 
 	for (SpriteRender* const c : batch.dynamicList) {
-		if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
+		if (entities->GetLayer(c->entity) != data.cullingMask) {
 			continue;
 		}
 

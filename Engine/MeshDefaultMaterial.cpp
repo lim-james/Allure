@@ -1,5 +1,7 @@
 #include "MeshDefaultMaterial.h"
 
+#include "RenderProperties.h"
+
 #include <GL/glew.h>
 
 Material::MeshDefault::MeshDefault()
@@ -11,18 +13,27 @@ Material::MeshDefault::MeshDefault()
 	, tiling(1.f), offset(0.f)
 	, alphaClipping(0.5f) {
 	shader = new Shader("Files/Shaders/standard3D.vert", "Files/Shaders/standard3D.frag");
+
+	//shader = new Shader("Files/Shaders/depth3D.vert", "Files/Shaders/depth3D.frag");
 	shader->Use();
-	shader->SetInt("material.albedoMap", 0);
-	shader->SetInt("material.normalMap", 1);
-	shader->SetInt("material.metallicMap", 2);
-	shader->SetInt("material.roughnessMap", 3);
-	shader->SetInt("material.aoMap", 4);
+
+	for (unsigned i = 0; i < MAX_LIGHTS; ++i) {
+		shader->SetInt("lights[" + std::to_string(i) + "].shadowMap", i);
+	}
+
+	shader->SetInt("material.albedoMap", MAX_LIGHTS);
+	shader->SetInt("material.normalMap", MAX_LIGHTS + 1);
+	shader->SetInt("material.metallicMap", MAX_LIGHTS + 2);
+	shader->SetInt("material.roughnessMap", MAX_LIGHTS + 3);
+	shader->SetInt("material.aoMap", MAX_LIGHTS + 4);
 }
 
 void Material::MeshDefault::SetAttributes() {
+	const unsigned textureID = GL_TEXTURE0 + MAX_LIGHTS;
+
 	shader->SetInt("material.useAlbedoMap", useAlbedoMap);
 	if (useAlbedoMap) {
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(textureID);
 		glBindTexture(GL_TEXTURE_2D, albedoMap);
 	} else {
 		shader->SetVector4("material.albedo", albedo);
@@ -30,13 +41,13 @@ void Material::MeshDefault::SetAttributes() {
 
 	shader->SetInt("material.useNormalMap", useNormalMap);
 	if (useNormalMap) {
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(textureID + 1);
 		glBindTexture(GL_TEXTURE_2D, normalMap);
 	}
 
 	shader->SetInt("material.useMetallicMap", useMetallicMap);
 	if (useMetallicMap) {
-		glActiveTexture(GL_TEXTURE2);
+		glActiveTexture(textureID + 2);
 		glBindTexture(GL_TEXTURE_2D, metallicMap);
 	} else {
 		shader->SetFloat("material.metallic", metallic);
@@ -44,7 +55,7 @@ void Material::MeshDefault::SetAttributes() {
 
 	shader->SetInt("material.useRoughnessMap", useRoughnessMap);
 	if (useRoughnessMap) {
-		glActiveTexture(GL_TEXTURE3);
+		glActiveTexture(textureID + 3);
 		glBindTexture(GL_TEXTURE_2D, roughnessMap);
 	} else {
 		shader->SetFloat("material.roughness", roughness);
@@ -52,7 +63,7 @@ void Material::MeshDefault::SetAttributes() {
 
 	shader->SetInt("material.useAOMap", useAOMap);
 	if (useAOMap) {
-		glActiveTexture(GL_TEXTURE4);
+		glActiveTexture(textureID + 4);
 		glBindTexture(GL_TEXTURE_2D, aoMap);
 	} else {
 		shader->SetFloat("material.ao", ao);

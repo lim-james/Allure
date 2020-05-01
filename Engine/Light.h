@@ -4,6 +4,7 @@
 #include "Component.h"
 
 #include <Math/Vectors.h>
+#include <Math/Mat4.hpp>
 #include <Bit/BitField.h>
 
 #define LIGHT_SPOT			0
@@ -20,10 +21,11 @@ struct Light : Component {
 	vec3f color;
 	float intensity;
 
-	bool castShadow;
+	// shadow attributes
 	float strength;
-
 	BitField cullingMask;
+
+	unsigned shadowMap;
 
 	Light();
 
@@ -31,6 +33,15 @@ struct Light : Component {
 	Component* Clone() const override;
 
 	void SetActive(bool const& state) override;
+
+	mat4f GetProjectionMatrix() const;
+
+	bool const& CastShadows() const;
+	void SetCastShadows(bool const& state);
+
+private:
+
+	bool castShadows;
 
 };
 

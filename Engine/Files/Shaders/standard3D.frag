@@ -57,10 +57,37 @@ uniform vec3 viewPosition;
 uniform Material material;
 uniform float alphaClipping;
 
-uniform Light lights[16];
+uniform Light lights[8];
 uniform int lightCount;
 
 const float PI = 3.14159265359;
+
+float calculateShadow(vec4 fragPosLightSpace, Light light) {
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    projCoords = projCoords * 0.5 + 0.5;
+
+    float currentDepth = projCoords.z;
+    float closestDepth = texture(light.shadowMap, projCoords.xy).r; 
+
+	float kBias = 0.00001;
+	float bias = max(kBias * (1.0 - dot(vs_out.normal, -light.direction)), kBias);  
+
+	float shadow = 0.0;
+	vec2 texelSize = 1.0 / textureSize(light.shadowMap, 0);
+	const int depth = 1;
+	for(int x = -depth; x <= depth; ++x) {
+		for(int y = -depth; y <= depth; ++y) {
+			float pcfDepth = texture(light.shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+			shadow += currentDepth - bias > pcfDepth ? 1.f : 0.0;        
+		}    
+	}
+	shadow /= (depth * 2 + 1) * (depth * 2 + 1);
+
+	if(projCoords.z > 1.0)
+        shadow = 0.0;
+
+    return shadow;
+}
 
 vec3 getNormalFromMap() {
 	vec3 normal = texture(material.normalMap, vs_out.texCoord).xyz;
@@ -229,8 +256,12 @@ void main() {
         // scale light by NdotL
         float NdotL = max(dot(N, L), 0.0);        
 
+		float shadow = calculateShadow(vs_out.fragPosLightSpace.positions[i], lights[i]);
+		shadow *= lights[i].strength;	
+		shadow = 1.0 - shadow;
+
         // add to outgoing radiance Lo
-        Lo += (kD * albedo / PI + specular) * brightness * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+        Lo += (kD * albedo / PI + specular) * brightness * radiance * NdotL * shadow;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
 //        Lo += vec3(radiance * NdotL); 
     }   
 	

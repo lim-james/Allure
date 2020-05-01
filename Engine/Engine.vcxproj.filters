@@ -378,6 +378,9 @@
     <ClCompile Include="TestAudio.cpp">
       <Filter>Assets\Scripts\Test</Filter>
     </ClCompile>
+    <ClCompile Include="FPSCounter.cpp">
+      <Filter>Assets\Scripts\Common\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -643,6 +646,12 @@
     </ClInclude>
     <ClInclude Include="TestAudio.h">
       <Filter>Assets\Scripts\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderProperties.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCounter.h">
+      <Filter>Assets\Scripts\Common\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -36,7 +36,7 @@ void LineRenderer::RenderDepth(RendererData const & data) {}
 
 void LineRenderer::RenderOpaque(RendererData const & data) {
 	glDisable(GL_DEPTH_TEST);
-	glLineWidth(data.camera->GetSize() * .25f);
+	glLineWidth(5);
 
 	for (auto& shaderPair : batches) {
 		Shader * const shader = shaderPair.first;
@@ -92,16 +92,14 @@ void LineRenderer::InitializeInstanceBuffer(unsigned & instanceBuffer) {
 }
 
 void LineRenderer::RenderStatic(RendererData const & data, Batch & batch) {
-	Batch::StaticData& staticData = batch.staticData[data.camera];
-	
-	if (updateStatic) {
+	if (updateStatic || batch.staticData.find(data.object) == batch.staticData.end()) {
 		if (batch.staticList.empty()) return;
 
 		std::vector<Instance> instances;
 		instances.reserve(batch.staticList.size());
 
 		for (auto& c : batch.staticList) {
-			if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
+			if (entities->GetLayer(c->entity) != data.cullingMask) {
 				continue;
 			}
 
@@ -117,6 +115,8 @@ void LineRenderer::RenderStatic(RendererData const & data, Batch & batch) {
 
 		if (instances.empty()) return;
 
+		Batch::StaticData& staticData = batch.staticData.at(data.object);
+
 		if (staticData.VAO == 0)
 			GenerateLine(staticData.VAO);
 
@@ -129,6 +129,7 @@ void LineRenderer::RenderStatic(RendererData const & data, Batch & batch) {
 		glBufferData(GL_ARRAY_BUFFER, staticData.count * sizeof(Instance), &instances[0], GL_STATIC_DRAW);
 		glDrawArraysInstanced(GL_LINES, 0, 2,staticData.count);
 	} else {
+		Batch::StaticData& staticData = batch.staticData.at(data.object);
 		glBindVertexArray(staticData.VAO);
 		glDrawArraysInstanced(GL_LINES, 0, 2, staticData.count);
 	}
@@ -141,7 +142,7 @@ void LineRenderer::RenderDynamic(RendererData const & data, Batch const & batch)
 	instances.reserve(batch.dynamicList.size());
 
 	for (auto& c : batch.dynamicList) {
-		if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
+		if (entities->GetLayer(c->entity) != data.cullingMask) {
 			continue;
 		}
 

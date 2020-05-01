@@ -45,7 +45,7 @@ void TextRenderer::RenderTransparent(RendererData const& data) {
 		glBindVertexArray(font->VAO);
 
 		for (auto& text : textPair.second) {
-			if (entities->GetLayer(text->entity) != data.camera->cullingMask) {
+			if (entities->GetLayer(text->entity) != data.cullingMask) {
 				continue;
 			}
 

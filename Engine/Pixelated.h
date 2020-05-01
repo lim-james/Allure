@@ -22,6 +22,8 @@ struct Pixelated : PostProcess {
 	void PostRender() override;
 	void Render() override;
 
+	void Render(unsigned const& tex);
+
 private:
 
 	Shader* shader;

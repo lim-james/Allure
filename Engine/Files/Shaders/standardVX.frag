@@ -21,16 +21,48 @@ struct Light {
 	sampler2D shadowMap;
 };
 
+struct LightSpacePoints {
+	vec4 positions[16];
+};
+
 in VS_OUT {
 	vec3 worldPosition;
 	vec3 normal;
 	vec4 color;
+	LightSpacePoints fragPosLightSpace;
 } fs_in;
 
 uniform vec3 viewPosition;
 
 uniform Light lights[16];
 uniform int lightCount;
+
+float calculateShadow(vec4 fragPosLightSpace, Light light) {
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    projCoords = projCoords * 0.5 + 0.5;
+
+    float currentDepth = projCoords.z;
+    float closestDepth = texture(light.shadowMap, projCoords.xy).r; 
+
+	float kBias = 0.00001;
+	float bias = max(kBias * (1.0 - dot(fs_in.normal, -light.direction)), kBias);  
+
+	float shadow = 0.0;
+	vec2 texelSize = 1.0 / textureSize(light.shadowMap, 0);
+	const int depth = 1;
+	for(int x = -depth; x <= depth; ++x) {
+		for(int y = -depth; y <= depth; ++y) {
+			float pcfDepth = texture(light.shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+			shadow += currentDepth - bias > pcfDepth ? 1.f : 0.0;        
+		}    
+	}
+	shadow /= (depth * 2 + 1) * (depth * 2 + 1);
+
+	if(projCoords.z > 1.0)
+        shadow = 0.0;
+
+    return shadow;
+}
 
 vec4 getBrightColor(vec4 fragColor) {
 	float brightness = dot(fragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
@@ -41,8 +73,7 @@ vec4 getBrightColor(vec4 fragColor) {
 }
 
 void main() {
-
-	vec3 result = vec3(0.f);
+	vec3 Lo = vec3(0.f);
 	vec3 N = normalize(fs_in.normal);
     vec3 V = normalize(viewPosition - fs_in.worldPosition);
 
@@ -77,12 +108,25 @@ void main() {
         vec3 radiance = vec3(lights[i].color) * attenuation;
 
 		float NdotL = max(dot(N, L), 0.0);        
+
+		float shadow = calculateShadow(fs_in.fragPosLightSpace.positions[i], lights[i]);
+		shadow *= lights[i].strength;	
+		shadow = 1.0 - shadow;
+
         // add to outgoing radiance Lo
-        result += fs_in.color.rgb * brightness * radiance * NdotL;  	
+        Lo += fs_in.color.rgb * brightness * radiance * NdotL * shadow;  	
 	}
 	
-	result += fs_in.color.rgb * 0.3f;	
+    // ambient lighting (note that the next IBL tutorial will replace 
+    // this ambient lighting with environment lighting).
+    vec3 ambient = 0.03f * fs_in.color.rgb;
+    
+    vec3 color = ambient + Lo;
+    // HDR tonemapping
+    color = color / (color + vec3(1.0));
+    // gamma correct
+    color = pow(color, vec3(1.0/2.2)); 
 
-	fragColor = vec4(result, fs_in.color.a);
+	fragColor = vec4(color, fs_in.color.a);
 	brightColor = getBrightColor(fragColor);
 }

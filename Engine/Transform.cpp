@@ -138,6 +138,14 @@ mat4f Transform::GetLocalLookAt() const {
 	return Math::LookAt(translation, target, up);
 }
 
+mat4f Transform::GetWorldLookAt() const {
+	const vec3f target = GetWorldTranslation() + GetWorldFront();
+	const vec3f up = GetWorldUp();
+
+	return Math::LookAt(translation, target, up);
+
+}
+
 void Transform::SetParent(Transform * const transform) {
 	if (parent) {
 		Helpers::Remove(parent->children, this);

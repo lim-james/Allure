@@ -55,14 +55,20 @@ void Pixelated::Render() {
 	shader->Use();
 	shader->SetFloat("size", size);
 
-	auto temp = Load::OBJ("Files/Models/cube.obj")->meshes[0];
-
 	glBindVertexArray(VAO);
-	//glBindVertexArray(temp->VAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, fbo->GetTexture());
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	//glDrawElements(GL_TRIANGLES, temp->indicesSize, GL_UNSIGNED_INT, 0);
+}
+
+void Pixelated::Render(unsigned const & tex) {
+	shader->Use();
+	shader->SetFloat("size", 1000);
+
+	glBindVertexArray(VAO);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, tex);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 void Pixelated::ResizeHandler(Events::Event * event) {

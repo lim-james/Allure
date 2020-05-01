@@ -14,6 +14,7 @@ unsigned VoxelRenderer::dynamicBuffer = 0;
 VoxelRenderer::Batch::StaticData::StaticData() : VAO(0), count(0) { }
 
 VoxelRenderer::~VoxelRenderer() {
+	delete depthShader;
 	delete defaultMaterial;
 }
 
@@ -30,6 +31,7 @@ void VoxelRenderer::Initialize(EntityManager * const manager) {
 
 	InitializeInstanceBuffer(dynamicVAO, dynamicBuffer);
 
+	depthShader = new Shader("Files/Shaders/depthVX.vert", "Files/Shaders/depthVX.frag");
 	defaultMaterial = new Material::VoxelDefault;
 
 	EventsManager::Get()->Subscribe("VOXEL_RENDER_ACTIVE", &VoxelRenderer::ActiveHandler, this);
@@ -39,8 +41,8 @@ void VoxelRenderer::Initialize(EntityManager * const manager) {
 }
 
 void VoxelRenderer::RenderDepth(RendererData const& data) {
-	RenderBatches(data, opaqueBatches);
-	RenderBatches(data, transparentBatches);
+	RenderDepthBatches(data, opaqueBatches);
+	RenderDepthBatches(data, transparentBatches);
 }
 
 void VoxelRenderer::RenderOpaque(RendererData const & data) {
@@ -76,10 +78,21 @@ void VoxelRenderer::InitializeInstanceBuffer(unsigned const& VAO, unsigned& inst
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void VoxelRenderer::RenderDepthBatches(RendererData const & data, Batches & batches) {
+	depthShader->Use();
+	depthShader->SetMatrix4("projection", data.projection);
+	depthShader->SetMatrix4("view", data.view);
+
+	for (auto& shaderPair : batches) {
+		for (auto& materialPair : shaderPair.second) {
+			RenderStatic(data, materialPair.second);
+			RenderDynamic(data, materialPair.second);
+		}
+	}
+}
+
 void VoxelRenderer::RenderBatches(RendererData const& data, Batches& batches) {
-	Transform* const cameraTransform = entities->GetComponent<Transform>(data.camera->entity);
-	const vec3f viewPosition = cameraTransform->GetWorldTranslation();
-	const unsigned lightCount = data.lights->size();
+	const unsigned lightCount = data.lights ? data.lights->size() : 0;
 
 	for (auto& shaderPair : batches) {
 		Shader* const shader = shaderPair.first;
@@ -88,7 +101,7 @@ void VoxelRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 		shader->SetMatrix4("projection", data.projection);
 		shader->SetMatrix4("view", data.view);
 
-		shader->SetVector3("viewPosition", viewPosition);
+		shader->SetVector3("viewPosition", data.viewPosition);
 		shader->SetInt("lightCount", lightCount);
 
 		for (unsigned i = 0; i < lightCount; ++i) {
@@ -103,9 +116,14 @@ void VoxelRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 			shader->SetFloat(tag + "intensity", light->intensity);
 			shader->SetFloat(tag + "strength", light->strength);
 
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, light->shadowMap);
+
 			Transform* const transform = entities->GetComponent<Transform>(light->entity);
 			shader->SetVector3(tag + "position", transform->GetWorldTranslation());
 			shader->SetVector3(tag + "direction", transform->GetLocalFront());
+
+			shader->SetMatrix4("lightSpaceMatrices[" + std::to_string(i) + ']', data.lightSpaceMatrices[i]);
 		}
 
 		for (auto& materialPair : shaderPair.second) {
@@ -117,14 +135,14 @@ void VoxelRenderer::RenderBatches(RendererData const& data, Batches& batches) {
 }
 
 void VoxelRenderer::RenderStatic(RendererData const & data, Batch& batch) {
-	if (updateStatic || batch.staticData.find(data.camera) == batch.staticData.end()) {
+	if (updateStatic || batch.staticData.find(data.object) == batch.staticData.end()) {
 		if (batch.staticList.empty()) return;
 
 		std::vector<Instance> instances;
 		instances.reserve(batch.staticList.size());
 
 		for (VoxelRender* const c : batch.staticList) {
-			if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
+			if (entities->GetLayer(c->entity) != data.cullingMask) {
 				continue;
 			}
 
@@ -138,7 +156,7 @@ void VoxelRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 
 		if (instances.empty()) return;
 
-		Batch::StaticData& staticData = batch.staticData[data.camera];
+		Batch::StaticData& staticData = batch.staticData.at(data.object);
 
 		if (staticData.VAO == 0)
 			staticData.VAO = cube->GenerateVAO();
@@ -152,7 +170,7 @@ void VoxelRenderer::RenderStatic(RendererData const & data, Batch& batch) {
 		glBufferData(GL_ARRAY_BUFFER, staticData.count * sizeof(Instance), &instances[0], GL_STATIC_DRAW);
 		glDrawElementsInstanced(GL_TRIANGLES, cube->indicesSize, GL_UNSIGNED_INT, (void*)(0), staticData.count);
 	} else {
-		Batch::StaticData& staticData = batch.staticData[data.camera];
+		Batch::StaticData& staticData = batch.staticData.at(data.object);
 		glBindVertexArray(staticData.VAO);
 		glDrawElementsInstanced(GL_TRIANGLES, cube->indicesSize, GL_UNSIGNED_INT, (void*)(0), staticData.count);
 	}
@@ -166,7 +184,7 @@ void VoxelRenderer::RenderDynamic(RendererData const& data, Batch const& batch) 
 	instances.reserve(batch.dynamicList.size());
 
 	for (VoxelRender* const c : batch.dynamicList) {
-		if (entities->GetLayer(c->entity) != data.camera->cullingMask) {
+		if (entities->GetLayer(c->entity) != data.cullingMask) {
 			continue;
 		}
 

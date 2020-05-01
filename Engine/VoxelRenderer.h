@@ -21,7 +21,7 @@ class VoxelRenderer : public Renderer {
 			StaticData();
 		};
 
-		std::map<Camera*, StaticData> staticData;
+		std::map<void*, StaticData> staticData;
 		std::vector<VoxelRender*> staticList;
 		std::vector<VoxelRender*> dynamicList;
 	};
@@ -33,6 +33,7 @@ class VoxelRenderer : public Renderer {
 	static unsigned dynamicVAO;
 	static unsigned dynamicBuffer;
 
+	Shader* depthShader;
 	Material::VoxelDefault* defaultMaterial;
 
 	bool updateStatic;
@@ -53,6 +54,8 @@ public:
 private:
 
 	void InitializeInstanceBuffer(unsigned const& VAO, unsigned& instanceBuffer);
+
+	void RenderDepthBatches(RendererData const& data, Batches& batches);
 
 	void RenderBatches(RendererData const& data, Batches& batches);
 	void RenderStatic(RendererData const& data, Batch& batch);

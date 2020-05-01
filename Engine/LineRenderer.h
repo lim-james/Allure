@@ -22,7 +22,7 @@ class LineRenderer: public Renderer {
 			StaticData();
 		};
 
-		std::map<Camera*, StaticData> staticData;
+		std::map<void*, StaticData> staticData;
 		std::vector<LineRender*> staticList;
 		std::vector<LineRender*> dynamicList;
 	};

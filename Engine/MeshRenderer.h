@@ -15,7 +15,7 @@ class MeshRenderer : public Renderer {
 			StaticData();
 		};
 
-		std::map<Camera*, StaticData> staticData;
+		std::map<void*, StaticData> staticData;
 		std::vector<MeshRender*> staticList;
 		std::vector<MeshRender*> dynamicList;
 	};
@@ -25,6 +25,7 @@ class MeshRenderer : public Renderer {
 
 	static const unsigned INSTANCE_LAYOUT_LOCATION = 3;
 
+	Shader* depthShader;
 	Material::MeshDefault* defaultMaterial;
 
 	std::map<Mesh*, unsigned> dynamicBuffers;
@@ -45,6 +46,8 @@ public:
 private:
 
 	void InitializeInstanceBuffer(unsigned const& VAO, unsigned& instanceBuffer);
+
+	void RenderDepthBatches(RendererData const& data, Batches& batches);
 
 	void RenderBatches(RendererData const& data, Batches& batches);
 	void RenderStatic(RendererData const& data, Mesh* const mesh, Batch& batch);

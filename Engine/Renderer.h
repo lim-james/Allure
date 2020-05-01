@@ -6,12 +6,15 @@
 #include "Camera.h"
 
 struct RendererData {
-	Camera* camera;
-
 	mat4f projection;
 	mat4f view;
 
+	void* object;
+	vec3f viewPosition;
+	BitField cullingMask;
+
 	std::vector<Light*>* lights;
+	mat4f* lightSpaceMatrices;
 };
 
 class Renderer {

@@ -9,8 +9,10 @@
 #include "SpriteRenderer.h"
 #include "LineRenderer.h"
 #include "TextRenderer.h"
+// REMOVE::
 // Events
 #include "InputEvents.h"
+#include <GLFW/glfw3.h>
 
 #include <Events/EventsManager.h>
 #include <Helpers/VectorHelpers.h>
@@ -19,6 +21,9 @@
 #include <GL/glew.h>
 
 RenderSystem::~RenderSystem() {
+	for (Framebuffer* const fb : depthFBO)
+		delete fb;
+
 	for (Renderer* const r : renderers)
 		delete r;
 
@@ -32,6 +37,25 @@ void RenderSystem::Initialize() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	{
+		TextureData tData;
+		tData.level = 0;
+		tData.internalFormat = GL_DEPTH_COMPONENT;
+		tData.border = 0;
+		tData.format = GL_DEPTH_COMPONENT;
+		tData.type = GL_FLOAT;
+		tData.attachment = GL_DEPTH_ATTACHMENT;
+		tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
+		tData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
+		tData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER });
+		tData.parameters.push_back({ GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER });
+
+		for (unsigned i = 0; i < MAX_LIGHTS; ++i) {
+			depthFBO[i] = new Framebuffer(1, 0);
+			depthFBO[i]->Initialize(vec2u(1000, 1000), { tData }, { });
+		}
+	}
+
 	renderers.push_back(new MeshRenderer);
 	renderers.push_back(new VoxelRenderer);
 	renderers.push_back(new SpriteRenderer);
@@ -44,14 +68,18 @@ void RenderSystem::Initialize() {
 	postProccessing = new PostProcessStack;
 	postProccessing->rawRender.Bind(&RenderSystem::Render, this);
 
-	EventsManager::Get()->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
-	EventsManager::Get()->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
-	EventsManager::Get()->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
-	EventsManager::Get()->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
-	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &RenderSystem::ResizeHandler, this);
+	EventsManager* const em = EventsManager::Get();
+	em->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
+	em->Subscribe("LIGHT_CAST_SHADOWS", &RenderSystem::LightShadowHanlder, this);
+	em->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
+	em->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
+	em->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
+
+	em->Subscribe("KEY_INPUT", &RenderSystem::KeyHandler, this);
 }
 
 void RenderSystem::Update(float const& dt) {
+	DepthRender();
 	FBRender();
 	postProccessing->Render();
 }
@@ -78,9 +106,25 @@ void RenderSystem::LightActiveHandler(Events::Event * event) {
 	Light* const c = static_cast<Events::AnyType<Light*>*>(event)->data;
 
 	if (c->IsActive()) {
-		Helpers::Insert(lights, c);
+		if (Helpers::Insert(lights, c)) {
+			casters.push_back(c);
+		}
 	} else {
-		Helpers::Remove(lights, c);
+		if (Helpers::Remove(lights, c)) {
+			Helpers::Remove(casters, c);
+		}
+	}
+}
+
+void RenderSystem::LightShadowHanlder(Events::Event * event) {
+	Light* const c = static_cast<Events::AnyType<Light*>*>(event)->data;
+
+	if (!c->IsActive()) return;
+
+	if (c->CastShadows()) {
+		Helpers::Insert(casters, c);
+	} else {
+		Helpers::Remove(casters, c);
 	}
 }
 
@@ -129,9 +173,46 @@ void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
 	}
 }
 
-void RenderSystem::ResizeHandler(Events::Event* event) {
-	windowSize = static_cast<Events::AnyType<vec2i>*>(event)->data;
-	//mainFBO->Resize(windowSize);
+void RenderSystem::KeyHandler(Events::Event * event) {
+	auto input = static_cast<Events::KeyInput*>(event);
+	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
+		isDebug = !isDebug;
+	}
+}
+
+void RenderSystem::DepthRender() {
+	glCullFace(GL_FRONT);
+	glClearColor(0, 0, 0, 0);
+	for (unsigned i = 0; i < casters.size(); ++i) {
+		Light* const light = casters[i];
+		Framebuffer* const fb = depthFBO[i];
+
+		const vec2f size = fb->GetSize();
+		glViewport(0, 0, size.w, size.h);
+		glScissor(0, 0, size.w, size.h);
+
+		Transform* const transform = entities->GetComponent<Transform>(light->entity);
+
+		RendererData data;
+		data.object = (void*)light;
+		data.projection = light->GetProjectionMatrix();
+		data.view = transform->GetWorldLookAt();
+		data.cullingMask = light->cullingMask;
+		data.lights = nullptr;
+
+		fb->Bind();
+
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+		for (Renderer* const r : renderers)
+			r->RenderDepth(data);
+
+		fb->Unbind();
+
+		light->shadowMap = fb->GetTexture();
+		lightSpaceMatrices[i] = data.projection * data.view;
+	}
+	glCullFace(GL_BACK);
 }
 
 void RenderSystem::FBRender() {
@@ -151,11 +232,16 @@ void RenderSystem::FBRender() {
 			static_cast<GLsizei>(viewport.size.h)
 		);
 
+		Transform* const transform = entities->GetComponent<Transform>(cam->entity);
+
 		RendererData data;
-		data.camera = cam;
 		data.projection = cam->GetProjectionMatrix();
-		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
+		data.view = transform->GetWorldLookAt();
+		data.object = (void*)cam;
+		data.viewPosition = transform->GetWorldTranslation();
+		data.cullingMask = cam->cullingMask;
 		data.lights = &lights;
+		data.lightSpaceMatrices = lightSpaceMatrices;
 
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);
@@ -192,11 +278,16 @@ void RenderSystem::Render() {
 			static_cast<GLsizei>(viewport.size.h)
 		);
 
+		Transform* const transform = entities->GetComponent<Transform>(cam->entity);
+
 		RendererData data;
-		data.camera = cam;
 		data.projection = cam->GetProjectionMatrix();
-		data.view = entities->GetComponent<Transform>(cam->entity)->GetLocalLookAt();
+		data.view = transform->GetWorldLookAt();
+		data.object = (void*)cam;
+		data.viewPosition = transform->GetWorldTranslation();
+		data.cullingMask = cam->cullingMask;
 		data.lights = &lights;
+		data.lightSpaceMatrices = lightSpaceMatrices;
 
 		glViewport(origin.x, origin.y, size.x, size.y);
 		glScissor(origin.x, origin.y, size.x, size.y);

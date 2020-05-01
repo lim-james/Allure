@@ -6,12 +6,12 @@
 
 #define WIDTH		0
 #define HEIGHT		1	
-#define CENTER_X	2	
-#define CENTER_Y	3	
-#define LEFT		4	
-#define TOP			5	
-#define RIGHT		6	
-#define BOTTOM		7	
+#define CENTER_X_ANCHOR	2	
+#define CENTER_Y_ANCHOR	3	
+#define LEFT_ANCHOR		4	
+#define TOP_ANCHOR		5	
+#define RIGHT_ANCHOR	6	
+#define BOTTOM_ANCHOR	7	
 #define NA			8	
 
 struct Constraint  {
