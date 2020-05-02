@@ -29,8 +29,12 @@ class RenderSystem : public System {
 	std::vector<Renderer*> renderers;
 	PostProcessStack* postProccessing;
 
+	float scaleFactor;
 	vec2i windowSize;
 	Framebuffer* mainFBO;
+	Shader* fbShader;
+
+	static unsigned VAO;
 
 public:
 
@@ -51,9 +55,12 @@ private:
 	void CameraDepthHandler(Events::Event* event);
 	void CameraFramebufferHandler(Events::Event* event);
 
+	void ResizeHandler(Events::Event* event);
+
 	void DepthRender();
 	void FBRender();
 	void Render();
+	void RenderLowRes();
 	void Render(RendererData const& data);
 	
 };

@@ -7,6 +7,8 @@
 
 struct PostProcess : Component {
 
+	static unsigned VAO;
+
 	PostProcess();
 
 	void SetActive(bool const& state) override;
@@ -14,10 +16,6 @@ struct PostProcess : Component {
 	virtual void PreRender() = 0;
 	virtual void PostRender() = 0;
 	virtual void Render() = 0;
-
-protected:
-
-	static unsigned VAO;
 
 };
 

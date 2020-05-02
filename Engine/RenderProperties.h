@@ -2,6 +2,6 @@
 #define RENDER_PROPERTIES_H
 
 #define MAX_LIGHTS 8
-#define RESOLUTION 225
+#define RESOLUTION 480
 
 #endif

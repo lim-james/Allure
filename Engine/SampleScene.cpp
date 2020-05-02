@@ -46,36 +46,36 @@ void SampleScene::Create() {
 	opaque->alphaClipping = 0.01f;
 
 	Material::MeshDefault* rustediron = new Material::MeshDefault;
-	rustediron->useAlbedoMap = true;
-	rustediron->albedoMap = Load::Texture2D("Files/Textures/rustediron2_basecolor.png");
-	rustediron->useNormalMap = true;
-	rustediron->normalMap = Load::Texture2D("Files/Textures/rustediron2_normal.png");
-	rustediron->useMetallicMap = true;
-	rustediron->metallicMap = Load::Texture2D("Files/Textures/rustediron2_metallic.png");
-	rustediron->useRoughnessMap = true;
-	rustediron->roughnessMap = Load::Texture2D("Files/Textures/rustediron2_roughness.png");
+	//rustediron->useAlbedoMap = true;
+	//rustediron->albedoMap = Load::Texture2D("Files/Textures/rustediron2_basecolor.png");
+	//rustediron->useNormalMap = true;
+	//rustediron->normalMap = Load::Texture2D("Files/Textures/rustediron2_normal.png");
+	//rustediron->useMetallicMap = true;
+	//rustediron->metallicMap = Load::Texture2D("Files/Textures/rustediron2_metallic.png");
+	//rustediron->useRoughnessMap = true;
+	//rustediron->roughnessMap = Load::Texture2D("Files/Textures/rustediron2_roughness.png");
 	rustediron->ao = 0.01f;
 
 	Material::MeshDefault* streakedmetal = new Material::MeshDefault;
-	streakedmetal->useAlbedoMap = true;
-	streakedmetal->albedoMap = Load::Texture2D("Files/Textures/streakedmetal-albedo.png");
-	streakedmetal->useMetallicMap = true;
-	streakedmetal->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
-	streakedmetal->useRoughnessMap = true;
-	streakedmetal->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
+	//streakedmetal->useAlbedoMap = true;
+	//streakedmetal->albedoMap = Load::Texture2D("Files/Textures/streakedmetal-albedo.png");
+	//streakedmetal->useMetallicMap = true;
+	//streakedmetal->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
+	//streakedmetal->useRoughnessMap = true;
+	//streakedmetal->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
 	streakedmetal->ao = 0.01f;
 
 	Material::MeshDefault* hardwood = new Material::MeshDefault;
 	hardwood->useAlbedoMap = true;
-	hardwood->albedoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-albedo.png");
-	hardwood->useNormalMap = true;
-	hardwood->normalMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-normal-ogl.png");
-	hardwood->useMetallicMap = true;
-	hardwood->metallicMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-metallic.png");
-	hardwood->useRoughnessMap = true;
-	hardwood->roughnessMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-roughness.png");
-	hardwood->useAOMap = true;
-	hardwood->aoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-ao.png");
+	//hardwood->albedoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-albedo.png");
+	//hardwood->useNormalMap = true;
+	//hardwood->normalMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-normal-ogl.png");
+	//hardwood->useMetallicMap = true;
+	//hardwood->metallicMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-metallic.png");
+	//hardwood->useRoughnessMap = true;
+	//hardwood->roughnessMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-roughness.png");
+	//hardwood->useAOMap = true;
+	//hardwood->aoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-ao.png");
 
 	Material::MeshDefault* white = new Material::MeshDefault;
 	white->albedo = vec4f(1.f);
@@ -92,10 +92,10 @@ void SampleScene::Create() {
 
 	Material::IBL* window = new Material::IBL;
 	window->albedo = vec4f(1.f, 1.f, 1.f, 0.8f);
-	window->useMetallicMap = true;
-	window->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
-	window->useRoughnessMap = true;
-	window->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
+	//window->useMetallicMap = true;
+	//window->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
+	//window->useRoughnessMap = true;
+	//window->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
 	window->refractiveIndex = 1.0f;
 	//window->environment = skyboxMap;
 
@@ -247,7 +247,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		render->SetMaterial(rustediron);
+		//render->SetMaterial(rustediron);
 		render->SetMesh(sphere);
 		render->SetDynamic(false);
 
@@ -272,7 +272,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		render->SetMaterial(hardwood);
+		//render->SetMaterial(hardwood);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
@@ -287,7 +287,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		render->SetMaterial(window);
+		//render->SetMaterial(window);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 
@@ -305,7 +305,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		render->SetMaterial(white);
+		//render->SetMaterial(white);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
@@ -320,7 +320,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		render->SetMaterial(white);
+		//render->SetMaterial(white);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
@@ -335,7 +335,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		render->SetMaterial(white);
+		//render->SetMaterial(white);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
@@ -350,7 +350,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		render->SetMaterial(streakedmetal);
+		//render->SetMaterial(streakedmetal);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}

@@ -16,6 +16,8 @@
 #include <MACROS.h>
 #include <GL/glew.h>
 
+unsigned RenderSystem::VAO = 0;
+
 RenderSystem::~RenderSystem() {
 	for (Framebuffer* const fb : depthFBO)
 		delete fb;
@@ -23,6 +25,8 @@ RenderSystem::~RenderSystem() {
 	for (Renderer* const r : renderers)
 		delete r;
 
+	delete mainFBO;
+	delete fbShader;
 	delete postProccessing;
 }
 
@@ -64,7 +68,30 @@ void RenderSystem::Initialize() {
 	postProccessing = new PostProcessStack;
 	postProccessing->rawRender.Bind(&RenderSystem::Render, this);
 
-	mainFBO = new Framebuffer();
+	TextureData tData;
+	tData.level = 0;
+	tData.internalFormat = GL_RGB;
+	tData.border = 0;
+	tData.format = GL_RGB;
+	tData.type = GL_UNSIGNED_BYTE;
+	tData.attachment = GL_COLOR_ATTACHMENT0;
+	tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
+	tData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
+	tData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE });
+	tData.parameters.push_back({ GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE });
+
+	RenderBufferData rbData;
+	rbData.internalFormat = GL_DEPTH24_STENCIL8;
+	rbData.attachmentFormat = GL_DEPTH_STENCIL_ATTACHMENT;
+
+	mainFBO = new Framebuffer(1, 1);
+	mainFBO->Initialize(vec2u(RESOLUTION * 16.0 / 9.0, RESOLUTION), { tData }, { rbData });
+
+	fbShader = new Shader("Files/Shaders/fb.vert", "Files/Shaders/fb.frag");
+	fbShader->Use();
+	fbShader->SetInt("tex", 0);
+
+	if (VAO == 0) SpriteRenderer::GenerateQuad(VAO);
 
 	EventsManager* const em = EventsManager::Get();
 	em->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
@@ -72,11 +99,13 @@ void RenderSystem::Initialize() {
 	em->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
 	em->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
 	em->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
+	em->Subscribe("WINDOW_RESIZE", &RenderSystem::ResizeHandler, this);
 }
 
 void RenderSystem::Update(float const& dt) {
 	DepthRender();
 	FBRender();
+	RenderLowRes();
 	postProccessing->Render();
 }
 
@@ -169,6 +198,13 @@ void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
 	}
 }
 
+void RenderSystem::ResizeHandler(Events::Event * event) {
+	windowSize = static_cast<Events::AnyType<vec2i>*>(event)->data;
+	scaleFactor = static_cast<float>(RESOLUTION) / static_cast<float>(windowSize.h);
+	const float ratio = static_cast<float>(windowSize.w) / static_cast<float>(windowSize.h);
+	mainFBO->Resize(vec2u(RESOLUTION * ratio, RESOLUTION));
+}
+
 void RenderSystem::DepthRender() {
 	glCullFace(GL_FRONT);
 	glClearColor(0, 0, 0, 0);
@@ -246,7 +282,17 @@ void RenderSystem::FBRender() {
 void RenderSystem::Render() {
 	glViewport(0, 0, windowSize.w, windowSize.h);
 	glScissor(0, 0, windowSize.w, windowSize.h);
-	glClearColor(0, 0, 0, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	fbShader->Use();
+	glBindVertexArray(VAO);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mainFBO->GetTexture());
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void RenderSystem::RenderLowRes() {
+	mainFBO->Bind();
 
 	for (Renderer* const r : renderers) {
 		r->PreRender();
@@ -266,7 +312,7 @@ void RenderSystem::Render() {
 		data.lights = &lights;
 		data.lightSpaceMatrices = lightSpaceMatrices;
 
-		const vec4i viewport = cam->GetViewport();
+		const vec4i viewport = cam->GetViewport() * scaleFactor;
 		glViewport(viewport.origin.x, viewport.origin.y, viewport.size.x, viewport.size.y);
 		glScissor(viewport.origin.x, viewport.origin.y, viewport.size.x, viewport.size.y);
 
@@ -283,6 +329,8 @@ void RenderSystem::Render() {
 	for (Renderer* const r : renderers) {
 		r->PostRender();
 	}
+
+	mainFBO->Unbind();
 }
 
 void RenderSystem::Render(RendererData const & data) {

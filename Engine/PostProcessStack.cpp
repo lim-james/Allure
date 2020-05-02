@@ -9,7 +9,6 @@ PostProcessStack::PostProcessStack() {
 }
 
 void PostProcessStack::Render() {
-
 	if (layers.empty()) {
 		rawRender();
 	} else {
