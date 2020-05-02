@@ -10,9 +10,6 @@
 #include "PostProcessStack.h"
 #include "Shader.h"
 
-// REMOVE::
-#include "Pixelated.h"
-
 #include <Events/Event.h>
 
 #include <vector>
@@ -32,11 +29,8 @@ class RenderSystem : public System {
 	std::vector<Renderer*> renderers;
 	PostProcessStack* postProccessing;
 
-	// REMOVE::
-	bool isDebug = true;
-	Pixelated debug;
-
-	vec2f windowSize;
+	vec2i windowSize;
+	Framebuffer* mainFBO;
 
 public:
 
@@ -56,8 +50,6 @@ private:
 	void CameraActiveHandler(Events::Event* event);
 	void CameraDepthHandler(Events::Event* event);
 	void CameraFramebufferHandler(Events::Event* event);
-
-	void KeyHandler(Events::Event* event);
 
 	void DepthRender();
 	void FBRender();

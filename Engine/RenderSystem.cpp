@@ -9,10 +9,6 @@
 #include "SpriteRenderer.h"
 #include "LineRenderer.h"
 #include "TextRenderer.h"
-// REMOVE::
-// Events
-#include "InputEvents.h"
-#include <GLFW/glfw3.h>
 
 #include <Events/EventsManager.h>
 #include <Helpers/VectorHelpers.h>
@@ -68,14 +64,14 @@ void RenderSystem::Initialize() {
 	postProccessing = new PostProcessStack;
 	postProccessing->rawRender.Bind(&RenderSystem::Render, this);
 
+	mainFBO = new Framebuffer();
+
 	EventsManager* const em = EventsManager::Get();
 	em->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
 	em->Subscribe("LIGHT_CAST_SHADOWS", &RenderSystem::LightShadowHanlder, this);
 	em->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
 	em->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
 	em->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
-
-	em->Subscribe("KEY_INPUT", &RenderSystem::KeyHandler, this);
 }
 
 void RenderSystem::Update(float const& dt) {
@@ -173,13 +169,6 @@ void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
 	}
 }
 
-void RenderSystem::KeyHandler(Events::Event * event) {
-	auto input = static_cast<Events::KeyInput*>(event);
-	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
-		isDebug = !isDebug;
-	}
-}
-
 void RenderSystem::DepthRender() {
 	glCullFace(GL_FRONT);
 	glClearColor(0, 0, 0, 0);
@@ -187,7 +176,7 @@ void RenderSystem::DepthRender() {
 		Light* const light = casters[i];
 		Framebuffer* const fb = depthFBO[i];
 
-		const vec2f size = fb->GetSize();
+		const vec2u size = fb->GetSize();
 		glViewport(0, 0, size.w, size.h);
 		glScissor(0, 0, size.w, size.h);
 
@@ -255,8 +244,8 @@ void RenderSystem::FBRender() {
 }
 
 void RenderSystem::Render() {
-	glViewport(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
-	glScissor(0, 0, static_cast<GLsizei>(windowSize.w), static_cast<GLsizei>(windowSize.h));
+	glViewport(0, 0, windowSize.w, windowSize.h);
+	glScissor(0, 0, windowSize.w, windowSize.h);
 	glClearColor(0, 0, 0, 0);
 
 	for (Renderer* const r : renderers) {
@@ -265,18 +254,6 @@ void RenderSystem::Render() {
 
 	for (Camera* const cam : cameras) {
 		if (cam->isHidden) continue;
-
-		vec4f const& viewport = cam->GetViewport();
-
-		const Math::vec<2, GLint> origin(
-			static_cast<GLint>(viewport.origin.x),
-			static_cast<GLint>(viewport.origin.y)
-		);
-
-		const Math::vec<2, GLint> size(
-			static_cast<GLsizei>(viewport.size.w),
-			static_cast<GLsizei>(viewport.size.h)
-		);
 
 		Transform* const transform = entities->GetComponent<Transform>(cam->entity);
 
@@ -289,8 +266,9 @@ void RenderSystem::Render() {
 		data.lights = &lights;
 		data.lightSpaceMatrices = lightSpaceMatrices;
 
-		glViewport(origin.x, origin.y, size.x, size.y);
-		glScissor(origin.x, origin.y, size.x, size.y);
+		const vec4i viewport = cam->GetViewport();
+		glViewport(viewport.origin.x, viewport.origin.y, viewport.size.x, viewport.size.y);
+		glScissor(viewport.origin.x, viewport.origin.y, viewport.size.x, viewport.size.y);
 
 		if (cam->shouldClear) {
 			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);

@@ -28,15 +28,16 @@ uniform vec2 tiling;
 uniform vec2 offset;
 
 void main() {
-	vec4 position = vec4(inPosition, 1.f);
+	mat4 modelTransform = iModel * model;
+	vec4 worldPosition = modelTransform * vec4(inPosition, 1.f);
 
-	gl_Position = projection * view * iModel * model * position;
+	gl_Position = projection * view * worldPosition;
 
-	vs_out.worldPosition = vec3(iModel * position);
-	vs_out.normal = mat3(iModel) * inNormal;
+	vs_out.worldPosition = worldPosition.xyz;
+	vs_out.normal = mat3(modelTransform) * inNormal;
 	vs_out.texCoord = inTexCoord * tiling + offset;
 
 	for (int i = 0; i < lightCount; ++i) {
-		vs_out.fragPosLightSpace.positions[i] = lightSpaceMatrices[i] * vec4(vs_out.worldPosition, 1.f);
+		vs_out.fragPosLightSpace.positions[i] = lightSpaceMatrices[i] * worldPosition;
 	}
 }

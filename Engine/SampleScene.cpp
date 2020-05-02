@@ -81,14 +81,14 @@ void SampleScene::Create() {
 	white->albedo = vec4f(1.f);
 	white->ao = 0.1f;
 
-	const unsigned skyboxMap = Load::Cubemap({
-		"Files/Textures/skybox/right.jpg",
-		"Files/Textures/skybox/left.jpg",
-		"Files/Textures/skybox/top.jpg",
-		"Files/Textures/skybox/bottom.jpg",
-		"Files/Textures/skybox/front.jpg",
-		"Files/Textures/skybox/back.jpg"
-	});
+	//const unsigned skyboxMap = Load::Cubemap({
+	//	"Files/Textures/skybox/right.jpg",
+	//	"Files/Textures/skybox/left.jpg",
+	//	"Files/Textures/skybox/top.jpg",
+	//	"Files/Textures/skybox/bottom.jpg",
+	//	"Files/Textures/skybox/front.jpg",
+	//	"Files/Textures/skybox/back.jpg"
+	//});
 
 	Material::IBL* window = new Material::IBL;
 	window->albedo = vec4f(1.f, 1.f, 1.f, 0.8f);
@@ -97,7 +97,7 @@ void SampleScene::Create() {
 	window->useRoughnessMap = true;
 	window->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
 	window->refractiveIndex = 1.0f;
-	window->environment = skyboxMap;
+	//window->environment = skyboxMap;
 
 	Material::Skybox* skybox = new Material::Skybox;
 	skybox->flags += FRONT_FACE;
@@ -108,7 +108,7 @@ void SampleScene::Create() {
 
 	Camera* camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
-	camera->clearColor = vec4f(1.f, 0.f, 0.f, 1.f);
+	camera->clearColor = vec4f(0.f, 0.f, 0.f, 1.f);
 	camera->cullingMask -= UI;
 
 	{
@@ -152,27 +152,28 @@ void SampleScene::Create() {
 
 	// skybox
 	{
-		const unsigned entity = entities->Create();
+		//const unsigned entity = entities->Create();
 
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = 50.f;
-		transform->SetDynamic(false);
+		//Transform* const transform = entities->GetComponent<Transform>(entity);
+		//transform->scale = 50.f;
+		//transform->SetDynamic(false);
 
-		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
-		render->SetActive(true);
-		render->SetMaterial(skybox);
-		render->SetMesh(cube);
-		render->SetDynamic(false);
+		//MeshRender* const render = entities->AddComponent<MeshRender>(entity);
+		//render->SetActive(true);
+		//render->SetMaterial(skybox);
+		//render->SetMesh(cube);
+		//render->SetDynamic(false);
 	}
 
 	// FPS counter
 	{
 		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
 
 		Layout* const layout = entities->AddComponent<Layout>(entity);
 		layout->SetActive(true);
-		layout->AddConstraint(Constraint(LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.0, 0.0, camera));
-		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.0, 0.0, camera));
+		layout->AddConstraint(Constraint(LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.0, 1.0, camera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.0, -1.0, camera));
 
 		Text* const text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
@@ -253,7 +254,6 @@ void SampleScene::Create() {
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
 		audio->audioClip = "Files/Media/hit.wav";
-		//audio->loop = true;
 		audio->volume = 1.f;
 		audio->spatialBlend = 1.f;
 		audio->Play();
