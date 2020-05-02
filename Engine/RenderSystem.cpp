@@ -91,7 +91,7 @@ void RenderSystem::Initialize() {
 		rbData.attachmentFormat = GL_DEPTH_STENCIL_ATTACHMENT;
 
 		mainFBO = new Framebuffer(2, 1);
-		mainFBO->Initialize(vec2u(RESOLUTION * 16.0 / 9.0, RESOLUTION), tDataList, { rbData });
+		mainFBO->Initialize(vec2u(static_cast<unsigned>(RESOLUTION * 16.0f / 9.0f), RESOLUTION), tDataList, { rbData });
 	}
 
 	fbShader = new Shader("Files/Shaders/fb.vert", "Files/Shaders/upscale.frag");
@@ -210,7 +210,7 @@ void RenderSystem::ResizeHandler(Events::Event * event) {
 	windowSize = static_cast<Events::AnyType<vec2i>*>(event)->data;
 	scaleFactor = static_cast<float>(RESOLUTION) / static_cast<float>(windowSize.h);
 	const float ratio = static_cast<float>(windowSize.w) / static_cast<float>(windowSize.h);
-	const vec2u newResolution = vec2u(RESOLUTION * ratio, RESOLUTION);
+	const vec2u newResolution = vec2u(static_cast<unsigned>(RESOLUTION * ratio), RESOLUTION);
 	mainFBO->Resize(newResolution);
 
 	EventsManager::Get()->Trigger("RESOLUTION_CHANGE", new Events::AnyType<vec2u>(newResolution));
