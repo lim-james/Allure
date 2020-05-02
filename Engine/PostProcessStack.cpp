@@ -6,10 +6,13 @@
 
 PostProcessStack::PostProcessStack() {
 	EventsManager::Get()->Subscribe("POST_PROCESS_ACTIVE", &PostProcessStack::ActiveHanlder, this);
+	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &PostProcessStack::ResizeHandler, this);
 }
 
 void PostProcessStack::Render() {
 	if (layers.empty()) {
+		glViewport(0, 0, windowSize.w, windowSize.h);
+		glScissor(0, 0, windowSize.w, windowSize.h);
 		rawRender();
 	} else {
 		PostProcess* const start = layers.front();
@@ -20,8 +23,8 @@ void PostProcessStack::Render() {
 		glCullFace(GL_BACK);
 		glDisable(GL_DEPTH_TEST);
 		Process(1);
+		glEnable(GL_DEPTH_TEST);
 	}
-	glEnable(GL_DEPTH_TEST);
 }
 
 void PostProcessStack::ActiveHanlder(Events::Event * event) {
@@ -33,17 +36,24 @@ void PostProcessStack::ActiveHanlder(Events::Event * event) {
 	}
 }
 
-void PostProcessStack::Process(unsigned const& index) {
-	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
+void PostProcessStack::ResizeHandler(Events::Event * event) {
+	windowSize = static_cast<Events::AnyType<vec2i>*>(event)->data;
+}
 
+void PostProcessStack::Process(unsigned const& index) {
 	if (layers.size() > index) {
+		glClearColor(0, 0, 0, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
 		PostProcess* const parent = layers[index];
 		parent->PreRender();
 		layers[index - 1]->Render();
 		parent->PostRender();
 		Process(index + 1);
 	} else {
+		glViewport(0, 0, windowSize.w, windowSize.h);
+		glScissor(0, 0, windowSize.w, windowSize.h);
+		glClearColor(0, 0, 0, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
 		layers[index - 1]->Render();
 	}
 }

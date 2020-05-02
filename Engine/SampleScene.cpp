@@ -46,14 +46,14 @@ void SampleScene::Create() {
 	opaque->alphaClipping = 0.01f;
 
 	Material::MeshDefault* rustediron = new Material::MeshDefault;
-	//rustediron->useAlbedoMap = true;
-	//rustediron->albedoMap = Load::Texture2D("Files/Textures/rustediron2_basecolor.png");
-	//rustediron->useNormalMap = true;
-	//rustediron->normalMap = Load::Texture2D("Files/Textures/rustediron2_normal.png");
-	//rustediron->useMetallicMap = true;
-	//rustediron->metallicMap = Load::Texture2D("Files/Textures/rustediron2_metallic.png");
-	//rustediron->useRoughnessMap = true;
-	//rustediron->roughnessMap = Load::Texture2D("Files/Textures/rustediron2_roughness.png");
+	rustediron->useAlbedoMap = true;
+	rustediron->albedoMap = Load::Texture2D("Files/Textures/rustediron2_basecolor.png");
+	rustediron->useNormalMap = true;
+	rustediron->normalMap = Load::Texture2D("Files/Textures/rustediron2_normal.png");
+	rustediron->useMetallicMap = true;
+	rustediron->metallicMap = Load::Texture2D("Files/Textures/rustediron2_metallic.png");
+	rustediron->useRoughnessMap = true;
+	rustediron->roughnessMap = Load::Texture2D("Files/Textures/rustediron2_roughness.png");
 	rustediron->ao = 0.01f;
 
 	Material::MeshDefault* streakedmetal = new Material::MeshDefault;
@@ -67,41 +67,41 @@ void SampleScene::Create() {
 
 	Material::MeshDefault* hardwood = new Material::MeshDefault;
 	hardwood->useAlbedoMap = true;
-	//hardwood->albedoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-albedo.png");
-	//hardwood->useNormalMap = true;
-	//hardwood->normalMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-normal-ogl.png");
-	//hardwood->useMetallicMap = true;
-	//hardwood->metallicMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-metallic.png");
-	//hardwood->useRoughnessMap = true;
-	//hardwood->roughnessMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-roughness.png");
-	//hardwood->useAOMap = true;
-	//hardwood->aoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-ao.png");
+	hardwood->albedoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-albedo.png");
+	hardwood->useNormalMap = true;
+	hardwood->normalMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-normal-ogl.png");
+	hardwood->useMetallicMap = true;
+	hardwood->metallicMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-metallic.png");
+	hardwood->useRoughnessMap = true;
+	hardwood->roughnessMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-roughness.png");
+	hardwood->useAOMap = true;
+	hardwood->aoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-ao.png");
 
 	Material::MeshDefault* white = new Material::MeshDefault;
 	white->albedo = vec4f(1.f);
 	white->ao = 0.1f;
 
-	//const unsigned skyboxMap = Load::Cubemap({
-	//	"Files/Textures/skybox/right.jpg",
-	//	"Files/Textures/skybox/left.jpg",
-	//	"Files/Textures/skybox/top.jpg",
-	//	"Files/Textures/skybox/bottom.jpg",
-	//	"Files/Textures/skybox/front.jpg",
-	//	"Files/Textures/skybox/back.jpg"
-	//});
+	const unsigned skyboxMap = Load::Cubemap({
+		"Files/Textures/skybox/right.jpg",
+		"Files/Textures/skybox/left.jpg",
+		"Files/Textures/skybox/top.jpg",
+		"Files/Textures/skybox/bottom.jpg",
+		"Files/Textures/skybox/front.jpg",
+		"Files/Textures/skybox/back.jpg"
+	});
 
 	Material::IBL* window = new Material::IBL;
 	window->albedo = vec4f(1.f, 1.f, 1.f, 0.8f);
-	//window->useMetallicMap = true;
-	//window->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
-	//window->useRoughnessMap = true;
-	//window->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
+	window->useMetallicMap = true;
+	window->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
+	window->useRoughnessMap = true;
+	window->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
 	window->refractiveIndex = 1.0f;
-	//window->environment = skyboxMap;
+	window->environment = skyboxMap;
 
 	Material::Skybox* skybox = new Material::Skybox;
 	skybox->flags += FRONT_FACE;
-	//skybox->cubemap = skyboxMap;
+	skybox->cubemap = skyboxMap;
 
 	Mesh* const cube = Load::OBJ("Files/Models/cube.obj")->meshes[0];
 	Mesh* const sphere = Load::OBJ("Files/Models/sphere.obj")->meshes[0];
@@ -186,7 +186,7 @@ void SampleScene::Create() {
 
 	// post processing volume
 	{
-		//const unsigned volume = entities->Create();
+		const unsigned volume = entities->Create();
 		//entities->AddComponent<Bloom>(volume)->SetActive(true);
 		//entities->AddComponent<Pixelated>(volume)->SetActive(true);
 		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
@@ -247,7 +247,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		//render->SetMaterial(rustediron);
+		render->SetMaterial(rustediron);
 		render->SetMesh(sphere);
 		render->SetDynamic(false);
 
@@ -272,7 +272,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		//render->SetMaterial(hardwood);
+		render->SetMaterial(hardwood);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
@@ -287,7 +287,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		//render->SetMaterial(window);
+		render->SetMaterial(window);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 
@@ -305,7 +305,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		//render->SetMaterial(white);
+		render->SetMaterial(white);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
@@ -320,7 +320,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		//render->SetMaterial(white);
+		render->SetMaterial(white);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
@@ -335,7 +335,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		//render->SetMaterial(white);
+		render->SetMaterial(white);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
@@ -350,7 +350,7 @@ void SampleScene::Create() {
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
 		render->SetActive(true);
-		//render->SetMaterial(streakedmetal);
+		render->SetMaterial(streakedmetal);
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}

@@ -29,7 +29,7 @@ private:
 	Shader* shader;
 	Framebuffer* fbo;
 
-	void ResizeHandler(Events::Event* event);
+	void ResolutionHandler(Events::Event* event);
 
 };
 

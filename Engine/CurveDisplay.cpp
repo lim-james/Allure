@@ -27,7 +27,7 @@ CurveDisplay::CurveDisplay() {
 	fbo = new Framebuffer(1, 1);
 	fbo->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
-	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &CurveDisplay::ResizeHandler, this);
+	EventsManager::Get()->Subscribe("RESOLUTION_CHANGE", &CurveDisplay::ResolutionHandler, this);
 }
 
 CurveDisplay::~CurveDisplay() {
@@ -56,6 +56,6 @@ void CurveDisplay::Render() {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void CurveDisplay::ResizeHandler(Events::Event * event) {
-	fbo->Resize(static_cast<Events::AnyType<vec2i>*>(event)->data);
+void CurveDisplay::ResolutionHandler(Events::Event * event) {
+	fbo->Resize(static_cast<Events::AnyType<vec2u>*>(event)->data);
 }

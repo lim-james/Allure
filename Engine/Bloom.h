@@ -30,7 +30,7 @@ private:
 
 	unsigned bloomTexture;
 
-	void ResizeHandler(Events::Event* event);
+	void ResolutionHandler(Events::Event* event);
 
 };
 

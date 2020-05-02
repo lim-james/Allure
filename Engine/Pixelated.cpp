@@ -28,7 +28,7 @@ Pixelated::Pixelated() : size(100.f) {
 	fbo = new Framebuffer(1, 1);
 	fbo->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
-	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &Pixelated::ResizeHandler, this);
+	EventsManager::Get()->Subscribe("RESOLUTION_CHANGE", &Pixelated::ResolutionHandler, this);
 }
 
 Pixelated::~Pixelated() {
@@ -71,6 +71,6 @@ void Pixelated::Render(unsigned const & tex) {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Pixelated::ResizeHandler(Events::Event * event) {
-	fbo->Resize(static_cast<Events::AnyType<vec2i>*>(event)->data);
+void Pixelated::ResolutionHandler(Events::Event * event) {
+	fbo->Resize(static_cast<Events::AnyType<vec2u>*>(event)->data);
 }

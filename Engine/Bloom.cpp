@@ -22,7 +22,7 @@ Bloom::Bloom() {
 			tData.border = 0;
 			tData.format = GL_RGBA;
 			tData.type = GL_UNSIGNED_BYTE;
-			tData.attachment = GL_COLOR_ATTACHMENT0 + i * 2;
+			tData.attachment = GL_COLOR_ATTACHMENT0 + i;
 			tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
 			tData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
 			tData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE });
@@ -62,7 +62,7 @@ Bloom::Bloom() {
 		finalBloomPass->Initialize(vec2u(1600, 900), { tData }, { rbData });
 	}
 
-	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &Bloom::ResizeHandler, this);
+	EventsManager::Get()->Subscribe("RESOLUTION_CHANGE", &Bloom::ResolutionHandler, this);
 }
 
 Bloom::~Bloom() {
@@ -124,9 +124,9 @@ void Bloom::Render() {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Bloom::ResizeHandler(Events::Event * event) {
-	const vec2i size = static_cast<Events::AnyType<vec2i>*>(event)->data;
-	fbo->Resize(size);
-	blurPass->Resize(size);
-	finalBloomPass->Resize(size);
+void Bloom::ResolutionHandler(Events::Event * event) {
+	const vec2u resolution = static_cast<Events::AnyType<vec2u>*>(event)->data;
+	fbo->Resize(resolution);
+	blurPass->Resize(resolution);
+	finalBloomPass->Resize(resolution);
 }
