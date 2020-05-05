@@ -22,6 +22,7 @@ void InputController::Initialize(GLFWwindow* current) {
 	glfwSetMouseButtonCallback(context, MouseButtonCallback);
 	glfwSetScrollCallback(context, ScrollCallback);
 	glfwSetDropCallback(context, DropCallback);
+	glfwSetJoystickCallback(JoystickCallback);
 
 	sensitivity = 1.0f;
 
@@ -62,6 +63,11 @@ void InputController::ScrollCallback(GLFWwindow* window, double xOffset, double 
 void InputController::DropCallback(GLFWwindow * window, int count, const char ** paths) {
 	Events::DropInput* data = new Events::DropInput(count, paths);
 	EventsManager::Get()->Trigger("DROP_INPUT", data);
+}
+
+void InputController::JoystickCallback(int id, int event) {
+	Events::JoystickState* data = new Events::JoystickState(id, event);
+	EventsManager::Get()->Trigger("JOYSTICK_STATE", data);
 }
 
 void InputController::OnEvent(Events::Event* event) {

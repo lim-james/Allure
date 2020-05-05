@@ -94,7 +94,7 @@ void TitleScene::Create() {
 		auto transform = entities->GetComponent<Transform>(entity);
 		transform->scale = vec3f(80.0f, 45.0f, 0.0f);
 
-		auto render = entities->AddComponent<SpriteRender>(entity);
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
 		render->SetCellRect(0, 0, 32, 18);
@@ -191,8 +191,9 @@ void TitleScene::Create() {
 		emitter->SetActive(true);
 		transition->emitter = emitter;
 
-		emitter->lifetime = 5.f;
+		emitter->lifetime = 2.f;
 		emitter->lifetimeRange = 0.5f;
+		emitter->burstAmount = 3;
 
 		emitter->positionRange = vec3f(0.f);
 

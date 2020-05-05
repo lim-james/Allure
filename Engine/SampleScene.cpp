@@ -57,12 +57,12 @@ void SampleScene::Create() {
 	rustediron->ao = 0.01f;
 
 	Material::MeshDefault* streakedmetal = new Material::MeshDefault;
-	//streakedmetal->useAlbedoMap = true;
-	//streakedmetal->albedoMap = Load::Texture2D("Files/Textures/streakedmetal-albedo.png");
-	//streakedmetal->useMetallicMap = true;
-	//streakedmetal->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
-	//streakedmetal->useRoughnessMap = true;
-	//streakedmetal->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
+	streakedmetal->useAlbedoMap = true;
+	streakedmetal->albedoMap = Load::Texture2D("Files/Textures/streakedmetal-albedo.png");
+	streakedmetal->useMetallicMap = true;
+	streakedmetal->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
+	streakedmetal->useRoughnessMap = true;
+	streakedmetal->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
 	streakedmetal->ao = 0.01f;
 
 	Material::MeshDefault* hardwood = new Material::MeshDefault;
@@ -90,14 +90,14 @@ void SampleScene::Create() {
 		"Files/Textures/skybox/back.jpg"
 	});
 
-	Material::IBL* window = new Material::IBL;
+	Material::MeshDefault* window = new Material::MeshDefault;
 	window->albedo = vec4f(1.f, 1.f, 1.f, 0.8f);
 	window->useMetallicMap = true;
 	window->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
 	window->useRoughnessMap = true;
 	window->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
-	window->refractiveIndex = 1.0f;
-	window->environment = skyboxMap;
+	//window->refractiveIndex = 1.0f;
+	//window->environment = skyboxMap;
 
 	Material::Skybox* skybox = new Material::Skybox;
 	skybox->flags += FRONT_FACE;
@@ -131,7 +131,6 @@ void SampleScene::Create() {
 		uiCamera->SetSize(10.f);
 		uiCamera->SetDepth(1);
 		uiCamera->shouldClear = false;
-		uiCamera->clearColor = vec4f(0.f);
 		uiCamera->projection = ORTHOGRAPHIC;
 		uiCamera->cullingMask = UI;
 	}
@@ -187,7 +186,7 @@ void SampleScene::Create() {
 	// post processing volume
 	{
 		const unsigned volume = entities->Create();
-		//entities->AddComponent<Bloom>(volume)->SetActive(true);
+		entities->AddComponent<Bloom>(volume)->SetActive(true);
 		//entities->AddComponent<Pixelated>(volume)->SetActive(true);
 		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
 	}

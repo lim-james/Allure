@@ -179,10 +179,10 @@ void ParticleSystem::EmitterActiveHandler(Events::Event* event) {
 		particleGroups[c] = {};
 }
 
-unsigned ParticleSystem::CreateParticle() const {
+unsigned ParticleSystem::CreateParticle() {
 	const unsigned id = entities->Create();
 	entities->AddComponent<SpriteRender>(id);
-	entities->AddComponent<Particle>(id); 
+	entities->AddComponent<Particle>(id);
 	return id;
 }
 

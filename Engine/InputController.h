@@ -27,6 +27,7 @@ private:
 	static void MouseButtonCallback(GLFWwindow* window, int key, int action, int mods);
 	static void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
 	static void DropCallback(GLFWwindow* window, int count, const char** paths);
+	static void JoystickCallback(int id, int event);
 
 	void OnEvent(Events::Event* event);
 

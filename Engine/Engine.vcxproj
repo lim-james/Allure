@@ -156,6 +156,7 @@
     <ClCompile Include="Pixelated.cpp" />
     <ClCompile Include="PostProcess.cpp" />
     <ClCompile Include="PostProcessStack.cpp" />
+    <ClCompile Include="Stress3D.cpp" />
     <ClCompile Include="TestAudio.cpp" />
     <ClCompile Include="VoxelDefaultMaterial.cpp" />
     <ClCompile Include="VoxelRender.cpp" />
@@ -219,6 +220,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Stress3D.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="Application.h" />

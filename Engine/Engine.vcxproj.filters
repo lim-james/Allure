@@ -133,6 +133,9 @@
     <Filter Include="Assets\Scripts\Test">
       <UniqueIdentifier>{f883ee1c-935c-477c-8d64-4d0d22327a5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scenes\StressTest">
+      <UniqueIdentifier>{945dbf5b-5084-46dd-b80b-655358d19aec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -380,6 +383,9 @@
     </ClCompile>
     <ClCompile Include="FPSCounter.cpp">
       <Filter>Assets\Scripts\Common\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Stress3D.cpp">
+      <Filter>Assets\Scenes\StressTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -652,6 +658,9 @@
     </ClInclude>
     <ClInclude Include="FPSCounter.h">
       <Filter>Assets\Scripts\Common\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Stress3D.h">
+      <Filter>Assets\Scenes\StressTest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

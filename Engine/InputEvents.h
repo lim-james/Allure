@@ -61,6 +61,15 @@ namespace Events {
 			, paths(paths) {}
 	};
 
+	struct JoystickState : Event {
+		const int id;
+		const int state;
+
+		JoystickState(int const& id, int const& state)
+			: id(id)
+			, state(state) {}
+	};
+
 }
 
 #endif
