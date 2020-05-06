@@ -140,6 +140,7 @@ vec2f Camera::ScreenToWorldPosition(vec2f const& mousePosition) const {
 	unitPosition = unitPosition * 2.f - vec2f(1.f);
 
 	vec2f result = unitPosition * vec2f(right, top);
+	result.y = -result.y;
 
 	return result;
 }

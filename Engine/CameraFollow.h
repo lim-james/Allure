@@ -7,9 +7,11 @@
 
 struct CameraFollow : Script {
 	
-	Transform* target;
+	Transform* player;
+	Transform* crosshair;
 
 	vec3f offset;
+	float jutDistance;
 
 	bool stick;
 	float speed;

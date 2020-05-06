@@ -6,6 +6,7 @@
 // scripts
 #include "CameraFollow.h"
 #include "PlayerInput.h"
+#include "CrosshairController.h"
 // Utils
 #include "LoadTexture.h"
 
@@ -27,6 +28,7 @@ void MainGame::Create() {
 	follow->offset.z = 10.f;
 	follow->stick = false;
 	follow->speed = 10.f;
+	follow->jutDistance = 4.f;
 
 	// background
 	{
@@ -46,7 +48,7 @@ void MainGame::Create() {
 	{
 		const unsigned entity = entities->Create();
 
-		follow->target = entities->GetComponent<Transform>(entity);
+		follow->player = entities->GetComponent<Transform>(entity);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
@@ -65,8 +67,14 @@ void MainGame::Create() {
 	{
 		const unsigned entity = entities->Create();
 
+		follow->crosshair = entities->GetComponent<Transform>(entity);
+
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
 		render->SetActive(true);
+		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+
+		CrosshairController* const controller = entities->AddComponent<CrosshairController>(entity);
+		controller->SetActive(true);
+		controller->view = camera;
 	}
 }

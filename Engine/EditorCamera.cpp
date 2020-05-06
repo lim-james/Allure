@@ -120,7 +120,6 @@ void EditorCamera::MouseButtonHandler(Events::Event * event) {
 }
 
 void EditorCamera::CursorPositionHandler(Events::Event * event) {
-
 	const auto input = static_cast<Events::CursorPositionInput*>(event);
 	cursorPosition = input->position;
 

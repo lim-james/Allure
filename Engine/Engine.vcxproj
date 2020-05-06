@@ -148,7 +148,7 @@
     <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="CollisionData.cpp" />
     <ClCompile Include="Constraint.cpp" />
-    <ClCompile Include="Crosshair.cpp" />
+    <ClCompile Include="CrosshairController.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="IBLMaterial.cpp" />
     <ClCompile Include="CurveDisplay.cpp" />
@@ -227,7 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraFollow.h" />
-    <ClInclude Include="Crosshair.h" />
+    <ClInclude Include="CrosshairController.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsProperties.h" />
