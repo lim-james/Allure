@@ -2,6 +2,7 @@
 #define PLAYER_INPUT_H
 
 #include "Script.h"
+#include "ParticleEmitter.h"
 #include "Physics.h"
 
 #include <Math/Vectors.h>
@@ -14,6 +15,7 @@ struct PlayerInput : Script {
 
 private:
 
+	ParticleEmitter* emitter;
 	Physics* physics;
 
 	vec2f axes;

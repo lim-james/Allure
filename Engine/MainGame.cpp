@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "SpriteRender.h"
+#include "ParticleSystem.h"
 #include "PhysicsSystem.h"
 // scripts
 #include "FPSCounter.h"
@@ -15,6 +16,7 @@
 void MainGame::Awake() {
 	Scene::Awake();
 	
+	systems->Subscribe<ParticleSystem>(1);
 	systems->SubscribeFixed<PhysicsSystem>();
 }
 
@@ -71,6 +73,22 @@ void MainGame::Create() {
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
+
+		ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);
+		emitter->SetActive(true);
+		emitter->duration = 0.1f;
+		emitter->spawnInterval = 0.1f;
+		emitter->lifetime = 0.7f;
+		emitter->lifetimeRange = 0.2f;
+		emitter->loop = false;
+		emitter->speed = 0.f;
+		emitter->burstAmount = 15;
+		emitter->positionRange.xy = 0.8f;
+		emitter->startSize = 0.7f;
+		emitter->startSizeRange = 0.3f;
+		emitter->endSize = 0.0f;
+		emitter->startColor = 0.4f;
+		emitter->endColor = 0.4f;
 
 		Physics* const physics = entities->AddComponent<Physics>(entity);
 		physics->SetActive(true);

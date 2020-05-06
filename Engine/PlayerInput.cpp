@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 void PlayerInput::Awake() {
+	emitter = GetComponent<ParticleEmitter>();
 	physics = GetComponent<Physics>();
 
 	EventsManager::Get()->Subscribe("KEY_INPUT", &PlayerInput::KeyHandler, this);
@@ -37,5 +38,6 @@ void PlayerInput::KeyHandler(Events::Event* event) {
 
 	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
 		dashMagnitude = dash;
+		if (axes.x != 0.f || axes.y != 0.f) emitter->Play();
 	}
 }
