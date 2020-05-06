@@ -10,11 +10,15 @@
 struct PlayerInput : Script {
 
 	float speed;
+	float dash;
 
 private:
 
 	Physics* physics;
+
+	vec2f axes;
 	vec2f direction;
+	float dashMagnitude;
 
 	void Awake() override;
 	void Update() override;

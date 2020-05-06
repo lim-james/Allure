@@ -12,8 +12,8 @@ void PlayerInput::Awake() {
 }
 
 void PlayerInput::Update() {
-	physics->AddForce(direction * speed);
-	//transform->translation.xy +=  * speed * time->dt;
+	physics->AddForce(direction * speed * dashMagnitude);
+	dashMagnitude = 1.f;
 }
 
 void PlayerInput::KeyHandler(Events::Event* event) {
@@ -24,12 +24,18 @@ void PlayerInput::KeyHandler(Events::Event* event) {
 	const float delta = 1.f - static_cast<float>(input->action == GLFW_RELEASE) * 2;
 
 	if (input->key == GLFW_KEY_W) {
-		direction.y += delta;
+		axes.y += delta;
 	} else if (input->key == GLFW_KEY_S) {
-		direction.y -= delta;
+		axes.y -= delta;
 	} else if (input->key == GLFW_KEY_A) {
-		direction.x -= delta;
+		axes.x -= delta;
 	} else if (input->key == GLFW_KEY_D) {
-		direction.x += delta;
+		axes.x += delta;
+	}
+
+	direction = Math::Normalized(axes);
+
+	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
+		dashMagnitude = dash;
 	}
 }

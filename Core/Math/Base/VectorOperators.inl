@@ -273,13 +273,14 @@ inline T Math::LengthSquared(Math::vec<size, T> const& v) {
 
 template<unsigned size, typename T>
 inline void Math::Normalize(vec<size, T>& lhs) {
-	const T magnitude = Length(lhs);
-	lhs /= magnitude;
+	const T length = Length(lhs);
+	if (length) lhs /= length;
 }
 
 template<unsigned size, typename T>
 inline Math::vec<size, T> Math::Normalized(vec<size, T> const& lhs) {
-	return lhs / Length(lhs);
+	const T length = Length(lhs);
+	return length ? lhs / length : lhs;
 }
 
 template<unsigned size, typename T>

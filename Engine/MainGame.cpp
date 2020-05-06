@@ -4,11 +4,13 @@
 #include "SpriteRender.h"
 #include "PhysicsSystem.h"
 // scripts
+#include "FPSCounter.h"
 #include "CameraFollow.h"
 #include "PlayerInput.h"
 #include "CrosshairController.h"
 // Utils
 #include "LoadTexture.h"
+#include "LoadFNT.h"
 
 void MainGame::Awake() {
 	Scene::Awake();
@@ -18,6 +20,8 @@ void MainGame::Awake() {
 
 void MainGame::Create() {
 	Scene::Create();
+
+	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
@@ -29,6 +33,21 @@ void MainGame::Create() {
 	follow->stick = false;
 	follow->speed = 10.f;
 	follow->jutDistance = 4.f;
+
+	// FPS counter
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->translation = vec3f(-14.f, 8.f, 0.f);
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(courierNew);
+
+		FPSCounter* const fps = entities->AddComponent<FPSCounter>(entity);
+		fps->SetActive(true);
+	}
 
 	// background
 	{
@@ -60,14 +79,17 @@ void MainGame::Create() {
 
 		PlayerInput* const input = entities->AddComponent<PlayerInput>(entity);
 		input->SetActive(true);
-		input->speed = 20.f;
+		input->speed = 40.f;
+		input->dash = 100.f;
 	}
 
 	// crosshair
 	{
 		const unsigned entity = entities->Create();
 
-		follow->crosshair = entities->GetComponent<Transform>(entity);
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->scale = 0.5f;
+		follow->crosshair = transform;
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
