@@ -3,6 +3,7 @@
 #include "TitleScene.h"
 #include "SampleScene.h"
 #include "Stress3D.h"
+#include "MainGame.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -42,10 +43,10 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	em->Subscribe("STEP", &Application::Step, this);
 
 	// turn off vsync
-	glfwSwapInterval(0);
+	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new Stress3D);
+	sceneManager->Present(new MainGame);
 
 	context->BroadcastSize();
 	em->TriggerQueued();

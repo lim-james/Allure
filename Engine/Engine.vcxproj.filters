@@ -55,9 +55,6 @@
     <Filter Include="Assets\Scenes">
       <UniqueIdentifier>{254b132c-5b0a-4253-ba78-712a52f0c797}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scenes\Title">
-      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Scripts\Common">
       <UniqueIdentifier>{63b9d320-41aa-40d8-934c-514d986d3cf6}</UniqueIdentifier>
     </Filter>
@@ -84,9 +81,6 @@
     </Filter>
     <Filter Include="Assets\Materials">
       <UniqueIdentifier>{946e004f-350a-4b2f-b589-5dd0ea744569}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scenes\Sample">
-      <UniqueIdentifier>{fdcd3e26-cdf1-4245-b964-61a7be0d27a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\Scripts\Common\Editor Camera">
       <UniqueIdentifier>{4f40516b-2ef3-4ef1-b51b-1dc1a27617f5}</UniqueIdentifier>
@@ -133,8 +127,29 @@
     <Filter Include="Assets\Scripts\Test">
       <UniqueIdentifier>{f883ee1c-935c-477c-8d64-4d0d22327a5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scenes\StressTest">
+    <Filter Include="Assets\Scenes\Main">
+      <UniqueIdentifier>{bf737087-b85e-4b5a-ba3e-4f77e1bb4685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Sandbox">
+      <UniqueIdentifier>{dfd02f2e-e55a-44a1-96a4-a96e7036e6ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Sandbox\Title">
+      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Sandbox\Sample">
+      <UniqueIdentifier>{fdcd3e26-cdf1-4245-b964-61a7be0d27a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Sandbox\StressTest">
       <UniqueIdentifier>{945dbf5b-5084-46dd-b80b-655358d19aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Main">
+      <UniqueIdentifier>{3a607285-faab-4af5-baff-69a868937df8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Main\Player">
+      <UniqueIdentifier>{72575713-ba57-4c87-97ef-7055483272f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Main\Camera">
+      <UniqueIdentifier>{23c1c968-1f90-4890-a78b-10866244e3dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -214,7 +229,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>Assets\Scenes\Title</Filter>
+      <Filter>Assets\Scenes\Sandbox\Title</Filter>
     </ClCompile>
     <ClCompile Include="LoadFNT.cpp">
       <Filter>Engine\Render\Utilities</Filter>
@@ -250,7 +265,7 @@
       <Filter>Assets\Scripts\Title</Filter>
     </ClCompile>
     <ClCompile Include="SampleScene.cpp">
-      <Filter>Assets\Scenes\Sample</Filter>
+      <Filter>Assets\Scenes\Sandbox\Sample</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Engine\Render\Mesh\Model</Filter>
@@ -385,7 +400,22 @@
       <Filter>Assets\Scripts\Common\UI</Filter>
     </ClCompile>
     <ClCompile Include="Stress3D.cpp">
-      <Filter>Assets\Scenes\StressTest</Filter>
+      <Filter>Assets\Scenes\Sandbox\StressTest</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInput.cpp">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraFollow.cpp">
+      <Filter>Assets\Scripts\Main\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Engine\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -465,7 +495,7 @@
       <Filter>Application\Input</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>Assets\Scenes\Title</Filter>
+      <Filter>Assets\Scenes\Sandbox\Title</Filter>
     </ClInclude>
     <ClInclude Include="LoadFNT.h">
       <Filter>Engine\Render\Utilities</Filter>
@@ -513,7 +543,7 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="SampleScene.h">
-      <Filter>Assets\Scenes\Sample</Filter>
+      <Filter>Assets\Scenes\Sandbox\Sample</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Engine\Render\Mesh\Model</Filter>
@@ -660,7 +690,25 @@
       <Filter>Assets\Scripts\Common\UI</Filter>
     </ClInclude>
     <ClInclude Include="Stress3D.h">
-      <Filter>Assets\Scenes\StressTest</Filter>
+      <Filter>Assets\Scenes\Sandbox\StressTest</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInput.h">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraFollow.h">
+      <Filter>Assets\Scripts\Main\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsSystem.h">
+      <Filter>Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsProperties.h">
+      <Filter>Engine\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

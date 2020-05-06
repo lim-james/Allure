@@ -56,11 +56,12 @@ void Scene::Enter() {
 
 void Scene::FixedUpdate(float const& dt) {
 	scripts->FixedUpdate();
+	systems->FixedUpdate(dt);
 }
 
 void Scene::Update(float const& dt) {
-	systems->Update(dt);
 	scripts->Update(dt);
+	systems->Update(dt);
 }
 
 void Scene::Exit() {

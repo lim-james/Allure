@@ -14,6 +14,7 @@ class SystemManager {
 	EntityManager * const manager;
 
 	std::map<unsigned, System*> systems;
+	std::vector<System*> fixedSystems;
 
 	std::map<System*, float> frameDelta;
 	std::vector<std::vector<System*>> frameLayout;
@@ -29,11 +30,14 @@ public:
 
 	template<typename SystemType>
 	void Subscribe(unsigned const& frameIndex);
+	template<typename SystemType>
+	void SubscribeFixed();
 
 	template<typename SystemType>
 	SystemType* const Get();
 
 	void Update(float const& dt);
+	void FixedUpdate(float const& dt);
 
 };
 
@@ -55,6 +59,15 @@ void SystemManager::Subscribe(unsigned const& frameIndex) {
 	} 
 
 	frameLayout[frameIndex].push_back(s);
+}
+
+template<typename SystemType>
+void SystemManager::SubscribeFixed() {
+	System* s = new SystemType;
+	s->entities = manager;
+	s->Initialize();
+
+	fixedSystems.push_back(s);
 }
 
 template<typename SystemType>

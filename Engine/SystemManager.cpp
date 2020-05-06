@@ -7,17 +7,27 @@ SystemManager::SystemManager(EntityManager * const manager) : manager(manager) {
 SystemManager::~SystemManager() {
 	for (auto& pair : systems)
 		delete pair.second;
+
+	for (System* const s : fixedSystems)
+		delete s;
 }
 
 void SystemManager::Start() {
 	frame = frameLayout.begin();
+
 	for (auto& systemPair : systems)
 		systemPair.second->Start();
+
+	for (System* const s : fixedSystems)
+		s->Start();
 }
 
 void SystemManager::Stop() {
 	for (auto& systemPair : systems)
 		systemPair.second->Stop();
+
+	for (System* const s : fixedSystems)
+		s->Stop();
 }
 
 void SystemManager::Update(float const& dt) {
@@ -41,4 +51,9 @@ void SystemManager::Update(float const& dt) {
 		frame = frameLayout.begin();
 		++frame;
 	}
+}
+
+void SystemManager::FixedUpdate(float const & dt) {
+	for (System* const s : fixedSystems)
+		s->Update(dt);
 }
