@@ -38,3 +38,7 @@ void Physics::SetMass(float const & value) {
 	mass = value;
 	invMass = 1.f / value;
 }
+
+void Physics::AddForce(vec3f const & force) {
+	netForce += force;
+}

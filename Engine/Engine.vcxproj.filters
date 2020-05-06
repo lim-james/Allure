@@ -417,6 +417,9 @@
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Engine\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Crosshair.cpp">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -709,6 +712,9 @@
     </ClInclude>
     <ClInclude Include="PhysicsProperties.h">
       <Filter>Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Crosshair.h">
+      <Filter>Assets\Scripts\Main\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

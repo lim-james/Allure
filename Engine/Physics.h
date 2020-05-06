@@ -22,6 +22,8 @@ struct Physics : Component {
 	float const& GetInverseMass() const;
 	void SetMass(float const& value);
 
+	void AddForce(vec3f const& force);
+
 private:
 
 	float mass;
@@ -31,8 +33,8 @@ private:
 	vec3f velocity;
 	vec3f angularVelocity;
 
-	vec3f acceleration;
-	vec3f angularAcceleration;
+	vec3f netForce;
+	vec3f torque;
 
 	friend class PhysicsSystem;
 

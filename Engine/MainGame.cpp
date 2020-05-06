@@ -53,9 +53,20 @@ void MainGame::Create() {
 
 		Physics* const physics = entities->AddComponent<Physics>(entity);
 		physics->SetActive(true);
+		physics->useGravity = false;
+		physics->drag = 10.f;
 
-		//PlayerInput* const input = entities->AddComponent<PlayerInput>(entity);
-		//input->SetActive(true);
-		//input->speed = 20.f;
+		PlayerInput* const input = entities->AddComponent<PlayerInput>(entity);
+		input->SetActive(true);
+		input->speed = 20.f;
+	}
+
+	// crosshair
+	{
+		const unsigned entity = entities->Create();
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+		render->SetActive(true);
 	}
 }

@@ -6,11 +6,14 @@
 #include <GLFW/glfw3.h>
 
 void PlayerInput::Awake() {
+	physics = GetComponent<Physics>();
+
 	EventsManager::Get()->Subscribe("KEY_INPUT", &PlayerInput::KeyHandler, this);
 }
 
 void PlayerInput::Update() {
-	transform->translation.xy += direction * speed * time->dt;
+	physics->AddForce(direction * speed);
+	//transform->translation.xy +=  * speed * time->dt;
 }
 
 void PlayerInput::KeyHandler(Events::Event* event) {

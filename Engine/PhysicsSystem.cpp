@@ -18,8 +18,11 @@ void PhysicsSystem::Update(float const & dt) {
 
 		if (c->useGravity) c->velocity.y += GRAVITY * dt;
 
-		c->velocity += c->acceleration * dt;
-		c->angularVelocity += c->angularAcceleration * dt;
+		c->velocity += c->netForce * c->invMass * dt;
+		c->angularVelocity += c->torque * c->invMass * dt;
+
+		c->netForce = 0.f;
+		c->torque = 0.f;
 
 		transform->translation += c->velocity * dt;
 		transform->rotation += c->angularVelocity * dt;

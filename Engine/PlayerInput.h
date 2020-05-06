@@ -2,6 +2,7 @@
 #define PLAYER_INPUT_H
 
 #include "Script.h"
+#include "Physics.h"
 
 #include <Math/Vectors.h>
 #include <Events/Event.h>
@@ -12,8 +13,8 @@ struct PlayerInput : Script {
 
 private:
 
+	Physics* physics;
 	vec2f direction;
-	vec2f velocity;
 
 	void Awake() override;
 	void Update() override;
