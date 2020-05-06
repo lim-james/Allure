@@ -1,5 +1,5 @@
-#ifndef PLAYER_INPUT_H
-#define PLAYER_INPUT_H
+#ifndef PLAYER_MOVEMENT_H
+#define PLAYER_MOVEMENT_H
 
 #include "Script.h"
 #include "ParticleEmitter.h"
@@ -8,7 +8,7 @@
 #include <Math/Vectors.h>
 #include <Events/Event.h>
 
-struct PlayerInput : Script {
+struct PlayerMovement : Script {
 
 	float speed;
 	float dash;

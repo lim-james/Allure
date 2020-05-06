@@ -7,7 +7,12 @@ Physics::Physics()
 	, angularDrag(0.5f)	
 	, useGravity(true) 
 	, mass(1.f)
-	, invMass(1.f) {}
+	, invMass(1.f)
+	, speed(0.f)
+	, velocity(0.f) 
+	, angularVelocity(0.f)
+	, netForce(0.f)
+	, torque(0.f) {}
 
 void Physics::Initialize() {
 	drag = 0.f;
@@ -15,6 +20,13 @@ void Physics::Initialize() {
 	useGravity = true;
 
 	SetMass(1.f);
+
+	speed = 0.f;
+	velocity = 0.f;
+	angularVelocity = 0.f;
+	
+	netForce = 0.f;
+	torque = 0.f;
 }
 
 Component * Physics::Clone() const {

@@ -1,23 +1,23 @@
-#include "PlayerInput.h"
+#include "PlayerMovement.h"
 
 #include "InputEvents.h"
 
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
-void PlayerInput::Awake() {
+void PlayerMovement::Awake() {
 	emitter = GetComponent<ParticleEmitter>();
 	physics = GetComponent<Physics>();
 
-	EventsManager::Get()->Subscribe("KEY_INPUT", &PlayerInput::KeyHandler, this);
+	EventsManager::Get()->Subscribe("KEY_INPUT", &PlayerMovement::KeyHandler, this);
 }
 
-void PlayerInput::Update() {
+void PlayerMovement::Update() {
 	physics->AddForce(direction * speed * dashMagnitude);
 	dashMagnitude = 1.f;
 }
 
-void PlayerInput::KeyHandler(Events::Event* event) {
+void PlayerMovement::KeyHandler(Events::Event* event) {
 	auto input = static_cast<Events::KeyInput*>(event);
 
 	if (input->action == GLFW_REPEAT) return;

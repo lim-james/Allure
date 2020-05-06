@@ -38,8 +38,9 @@ void ScriptSystem::FixedUpdate() {
 void ScriptSystem::Update(float const& dt) {
 	time.dt = dt;
 	time.et += dt;
-	for (auto& s : scripts)
-		s->Update();
+
+	for (int i = static_cast<int>(scripts.size()) - 1; i >= 0; --i)
+		scripts[i]->Update();
 }
 
 void ScriptSystem::Stop() {

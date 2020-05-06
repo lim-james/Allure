@@ -151,6 +151,9 @@
     <Filter Include="Assets\Scripts\Main\Camera">
       <UniqueIdentifier>{23c1c968-1f90-4890-a78b-10866244e3dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Main\Weapon">
+      <UniqueIdentifier>{68dc03cf-dfc6-4fde-ad57-f377cfa3bf64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -405,9 +408,6 @@
     <ClCompile Include="MainGame.cpp">
       <Filter>Assets\Scenes\Main</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerInput.cpp">
-      <Filter>Assets\Scripts\Main\Player</Filter>
-    </ClCompile>
     <ClCompile Include="CameraFollow.cpp">
       <Filter>Assets\Scripts\Main\Camera</Filter>
     </ClCompile>
@@ -419,6 +419,21 @@
     </ClCompile>
     <ClCompile Include="CrosshairController.cpp">
       <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMovement.cpp">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCombat.cpp">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoGun.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfDestruct.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -698,9 +713,6 @@
     <ClInclude Include="MainGame.h">
       <Filter>Assets\Scenes\Main</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerInput.h">
-      <Filter>Assets\Scripts\Main\Player</Filter>
-    </ClInclude>
     <ClInclude Include="CameraFollow.h">
       <Filter>Assets\Scripts\Main\Camera</Filter>
     </ClInclude>
@@ -715,6 +727,21 @@
     </ClInclude>
     <ClInclude Include="CrosshairController.h">
       <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMovement.h">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCombat.h">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponBase.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoGun.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfDestruct.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

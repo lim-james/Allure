@@ -7,8 +7,11 @@
 // scripts
 #include "FPSCounter.h"
 #include "CameraFollow.h"
-#include "PlayerInput.h"
+#include "PlayerMovement.h"
+#include "PlayerCombat.h"
 #include "CrosshairController.h"
+// weapons
+#include "DemoGun.h"
 // Utils
 #include "LoadTexture.h"
 #include "LoadFNT.h"
@@ -24,6 +27,9 @@ void MainGame::Create() {
 	Scene::Create();
 
 	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
+
+	WeaponBase* demoGun = new DemoGun;
+	demoGun->Initialize(entities);
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
@@ -65,6 +71,23 @@ void MainGame::Create() {
 		render->tint.a = 0.15f;
 	}
 
+	// crosshair
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->scale = 0.5f;
+		follow->crosshair = transform;
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+
+		CrosshairController* const controller = entities->AddComponent<CrosshairController>(entity);
+		controller->SetActive(true);
+		controller->view = camera;
+	}
+
 	// player
 	{
 		const unsigned entity = entities->Create();
@@ -95,26 +118,14 @@ void MainGame::Create() {
 		physics->useGravity = false;
 		physics->drag = 10.f;
 
-		PlayerInput* const input = entities->AddComponent<PlayerInput>(entity);
-		input->SetActive(true);
-		input->speed = 40.f;
-		input->dash = 100.f;
-	}
+		PlayerMovement* const movement = entities->AddComponent<PlayerMovement>(entity);
+		movement->SetActive(true);
+		movement->speed = 40.f;
+		movement->dash = 100.f;
 
-	// crosshair
-	{
-		const unsigned entity = entities->Create();
-
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = 0.5f;
-		follow->crosshair = transform;
-
-		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		render->SetActive(true);
-		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
-
-		CrosshairController* const controller = entities->AddComponent<CrosshairController>(entity);
-		controller->SetActive(true);
-		controller->view = camera;
+		PlayerCombat* const combat = entities->AddComponent<PlayerCombat>(entity);
+		combat->SetActive(true);
+		combat->SetCrosshair(follow->crosshair);
+		combat->SetWeapon(demoGun);
 	}
 }
