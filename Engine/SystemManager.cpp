@@ -7,9 +7,6 @@ SystemManager::SystemManager(EntityManager * const manager) : manager(manager) {
 SystemManager::~SystemManager() {
 	for (auto& pair : systems)
 		delete pair.second;
-
-	for (System* const s : fixedSystems)
-		delete s;
 }
 
 void SystemManager::Start() {
