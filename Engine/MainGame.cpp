@@ -22,7 +22,9 @@ void MainGame::Awake() {
 	Scene::Awake();
 	
 	systems->Subscribe<AudioSystem>(0);
+	systems->Subscribe<PhysicsSystem>(0);
 	systems->Subscribe<ParticleSystem>(1);
+
 	systems->SubscribeFixed<PhysicsSystem>();
 }
 

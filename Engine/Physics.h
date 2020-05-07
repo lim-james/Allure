@@ -11,6 +11,7 @@ struct Physics : Component {
 	float angularDrag;
 
 	bool useGravity;
+	bool interpolate;
 
 	Physics();
 

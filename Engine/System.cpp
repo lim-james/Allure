@@ -4,6 +4,8 @@
 
 System::~System() {}
 
+void System::FixedUpdate(float const & dt) {}
+
 void System::Start() {
 	EventsManager::Get()->SubscribeContext(this);
 }

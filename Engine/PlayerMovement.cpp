@@ -22,6 +22,10 @@ void PlayerMovement::KeyHandler(Events::Event* event) {
 
 	if (input->action == GLFW_REPEAT) return;
 
+	if (input->key == GLFW_KEY_I && input->action == GLFW_PRESS) {
+		physics->interpolate = !physics->interpolate;
+	}
+
 	const float delta = 1.f - static_cast<float>(input->action == GLFW_RELEASE) * 2;
 
 	if (input->key == GLFW_KEY_W) {

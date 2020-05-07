@@ -63,9 +63,16 @@ void SystemManager::Subscribe(unsigned const& frameIndex) {
 
 template<typename SystemType>
 void SystemManager::SubscribeFixed() {
-	System* s = new SystemType;
-	s->entities = manager;
-	s->Initialize();
+	const unsigned hash = hashof(SystemType);
+
+	System* s = systems[hash];
+	if (!s) {
+		s = new SystemType;
+		s->entities = manager;
+		s->Initialize();
+		systems[hash] = s;
+		frameDelta[s] = 0.f;
+	} 
 
 	fixedSystems.push_back(s);
 }

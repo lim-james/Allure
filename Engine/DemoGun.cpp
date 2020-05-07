@@ -17,7 +17,7 @@ void DemoGun::Trigger() {
 
 void DemoGun::Hold(float const & dt) {
 	if (bt < 0.f) {
-		CreateBullet();
+		//CreateBullet();
 		bt = firerate;
 	} else {
 		bt -= dt;

@@ -1,7 +1,5 @@
 #include "PhysicsSystem.h"
 
-#include "Transform.h"
-
 #include <Events/EventsManager.h>
 #include <Helpers/VectorHelpers.h>
 
@@ -10,6 +8,21 @@ void PhysicsSystem::Initialize() {
 }
 
 void PhysicsSystem::Update(float const & dt) {
+	const float step = dt * invFR;
+
+	for (auto const& deltaPair : deltas) {
+		Transform* const transform = deltaPair.first;
+		Delta const& delta = deltaPair.second;
+
+		transform->translation += delta.translation * step;
+		transform->rotation += delta.rotation * step;
+	}
+}
+
+void PhysicsSystem::FixedUpdate(float const & dt) {
+	invFR = 1.f / dt;
+	deltas.clear();
+
 	for (Physics* const c : components) {
 		Transform* const transform = entities->GetComponent<Transform>(c->entity);
 
@@ -24,8 +37,12 @@ void PhysicsSystem::Update(float const & dt) {
 		c->netForce = 0.f;
 		c->torque = 0.f;
 
-		transform->translation += c->velocity * dt;
-		transform->rotation += c->angularVelocity * dt;
+		if (c->interpolate) {
+			deltas[transform] = Delta{ c->velocity * dt, c->angularVelocity * dt };
+		} else {
+			transform->translation += c->velocity * dt;
+			transform->rotation += c->angularVelocity * dt;
+		}
 	}
 }
 

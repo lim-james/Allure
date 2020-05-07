@@ -429,14 +429,14 @@
     <ClCompile Include="DemoGun.cpp">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SelfDestruct.cpp">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="ScreenShake.cpp">
       <Filter>Assets\Scripts\Main\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponBase.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

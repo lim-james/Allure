@@ -55,5 +55,5 @@ void SystemManager::Update(float const& dt) {
 
 void SystemManager::FixedUpdate(float const & dt) {
 	for (System* const s : fixedSystems)
-		s->Update(dt);
+		s->FixedUpdate(dt);
 }

@@ -2,10 +2,11 @@
 
 #include <Events/EventsManager.h>
 
-Physics::Physics() 
-	: drag(0.f) 
-	, angularDrag(0.5f)	
-	, useGravity(true) 
+Physics::Physics()
+	: drag(0.f)
+	, angularDrag(0.5f)
+	, useGravity(true)
+	, interpolate(true)
 	, mass(1.f)
 	, invMass(1.f)
 	, speed(0.f)
@@ -18,6 +19,7 @@ void Physics::Initialize() {
 	drag = 0.f;
 	angularDrag = 0.5f;
 	useGravity = true;
+	interpolate = true;
 
 	SetMass(1.f);
 
