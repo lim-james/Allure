@@ -101,8 +101,10 @@ void Application::Step() {
 
 	bt += dt;
 	if (bt >= FRAMERATE) {
-		current->FixedUpdate(bt);
-		bt = 0.f;
+		do {
+			current->FixedUpdate(FRAMERATE);
+			bt -= FRAMERATE;
+		} while (bt > FRAMERATE);
 	}
 
 	current->Update(dt);

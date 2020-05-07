@@ -4,6 +4,7 @@
 #include "EntityManager.h"
 
 #include "Transform.h"
+#include "AudioSource.h"
 
 class WeaponBase {
 
@@ -11,9 +12,10 @@ public:
 
 	WeaponBase();
 
-	void Initialize(EntityManager* const manager);
-	void SetPlayer(Transform* const transform);
-	void SetCrosshair(Transform* const transform);
+	virtual void Initialize(EntityManager* const manager);
+	virtual void SetPlayer(Transform* const transform);
+	virtual void SetCrosshair(Transform* const transform);
+	virtual void SetAudioSource(AudioSource* const source);
 
 	virtual void Trigger() = 0;
 	virtual void Hold(float const& dt) = 0;
@@ -25,6 +27,7 @@ protected:
 
 	Transform* player;
 	Transform* crosshair;
+	AudioSource* audio;
 
 };
 

@@ -4,9 +4,11 @@
 #include "SpriteRender.h"
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
+#include "AudioSystem.h"
 // scripts
 #include "FPSCounter.h"
 #include "CameraFollow.h"
+#include "ScreenShake.h"
 #include "PlayerMovement.h"
 #include "PlayerCombat.h"
 #include "CrosshairController.h"
@@ -19,6 +21,7 @@
 void MainGame::Awake() {
 	Scene::Awake();
 	
+	systems->Subscribe<AudioSystem>(0);
 	systems->Subscribe<ParticleSystem>(1);
 	systems->SubscribeFixed<PhysicsSystem>();
 }
@@ -41,6 +44,16 @@ void MainGame::Create() {
 	follow->stick = false;
 	follow->speed = 10.f;
 	follow->jutDistance = 4.f;
+
+	{
+		ScreenShake* const shake = entities->AddComponent<ScreenShake>(mainCamera);
+		shake->SetActive(true);
+		shake->duration = 0.25f;
+		shake->magnitude = 0.075f;
+
+		AudioListener* const listener = entities->AddComponent<AudioListener>(mainCamera);
+		listener->SetActive(true);
+	}
 
 	// FPS counter
 	{
@@ -117,6 +130,9 @@ void MainGame::Create() {
 		physics->SetActive(true);
 		physics->useGravity = false;
 		physics->drag = 10.f;
+
+		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
+		audio->SetActive(true);
 
 		PlayerMovement* const movement = entities->AddComponent<PlayerMovement>(entity);
 		movement->SetActive(true);

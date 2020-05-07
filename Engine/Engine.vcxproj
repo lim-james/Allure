@@ -164,6 +164,7 @@
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="PostProcess.cpp" />
     <ClCompile Include="PostProcessStack.cpp" />
+    <ClCompile Include="ScreenShake.cpp" />
     <ClCompile Include="SelfDestruct.cpp" />
     <ClCompile Include="Stress3D.cpp" />
     <ClCompile Include="TestAudio.cpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PlayerCombat.h" />
     <ClInclude Include="PlayerMovement.h" />
+    <ClInclude Include="ScreenShake.h" />
     <ClInclude Include="SelfDestruct.h" />
     <ClInclude Include="Stress3D.h" />
     <ClInclude Include="Animation.h" />

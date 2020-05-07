@@ -14,6 +14,7 @@ void PlayerCombat::SetWeapon(WeaponBase * const ptr) {
 	weapon = ptr;
 	if (weapon) {
 		weapon->SetPlayer(transform);
+		weapon->SetAudioSource(GetComponent<AudioSource>());
 		weapon->SetCrosshair(crosshair);
 	}
 }

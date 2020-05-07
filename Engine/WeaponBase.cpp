@@ -16,3 +16,7 @@ void WeaponBase::SetPlayer(Transform* const transform) {
 void WeaponBase::SetCrosshair(Transform* const transform) {
 	crosshair = transform;
 }
+
+void WeaponBase::SetAudioSource(AudioSource * const source) {
+	audio = source;
+}

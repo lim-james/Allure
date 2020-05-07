@@ -435,6 +435,9 @@
     <ClCompile Include="SelfDestruct.cpp">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="ScreenShake.cpp">
+      <Filter>Assets\Scripts\Main\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -742,6 +745,9 @@
     </ClInclude>
     <ClInclude Include="SelfDestruct.h">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenShake.h">
+      <Filter>Assets\Scripts\Main\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

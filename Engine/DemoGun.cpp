@@ -4,12 +4,15 @@
 #include "Physics.h"
 #include "SelfDestruct.h"
 
+#include <Events/EventsManager.h>
+
 DemoGun::DemoGun() 
-	: firerate(0.05f) 
+	: firerate(0.2f) 
 	, bt(0.f) {}
 
 void DemoGun::Trigger() {
 	CreateBullet();
+	bt = firerate;
 }
 
 void DemoGun::Hold(float const & dt) {
@@ -25,12 +28,12 @@ void DemoGun::Release() {}
 
 void DemoGun::CreateBullet() const { 
 	const unsigned entity = entities->Create();
-
-	const vec3f direction = Math::Normalized(crosshair->translation - player->translation);
 	
+	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
+
 	Transform* const transform = entities->GetComponent<Transform>(entity);
 	transform->translation = player->translation;
-	transform->scale = 0.6f;
+	transform->scale = 0.7f;
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
@@ -44,4 +47,8 @@ void DemoGun::CreateBullet() const {
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);
 	destruct->lifetime = 2.f;
+
+	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+	audio->audioClip = "Files/Media/hit.wav";
+	audio->Play();
 }
