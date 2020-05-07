@@ -1,13 +1,13 @@
-#ifndef BOX_COLLIDER_H
-#define BOX_COLLIDER_H
+#ifndef SPHERE_COLLIDER_H
+#define SPHERE_COLLIDER_H
 
 #include "Collider.h"
 
-#include <Math/Vectors.h>
+struct SphereCollider : Collider {
 
-struct BoxCollider : Collider {
-
-	vec3f scale, offset;
+	float radius;
+	
+	SphereCollider();
 
 	void Initialize() override;
 	Component* Clone() const override;

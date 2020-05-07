@@ -154,6 +154,9 @@
     <Filter Include="Assets\Scripts\Main\Weapon">
       <UniqueIdentifier>{68dc03cf-dfc6-4fde-ad57-f377cfa3bf64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Main\Enemy">
+      <UniqueIdentifier>{fb60e574-1b69-42d6-a305-934577123491}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -437,6 +440,15 @@
     </ClCompile>
     <ClCompile Include="WeaponBase.cpp">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyLife.cpp">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -748,6 +760,15 @@
     </ClInclude>
     <ClInclude Include="ScreenShake.h">
       <Filter>Assets\Scripts\Main\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyLife.h">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

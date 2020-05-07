@@ -2,10 +2,10 @@
 #define COLLISION_DATA_H
 
 #include <Math/Vectors.h>
-#include "BoxCollider.h"
+#include "Collider.h"
 
 struct CollisionData {
-	BoxCollider* target;
+	Collider* target;
 	float distance;
 	vec3f position;
 	vec3f normal;

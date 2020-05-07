@@ -4,6 +4,7 @@
 #include "SpriteRender.h"
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
+#include "ColliderSystem.h"
 #include "AudioSystem.h"
 // scripts
 #include "FPSCounter.h"
@@ -12,9 +13,11 @@
 #include "PlayerMovement.h"
 #include "PlayerCombat.h"
 #include "CrosshairController.h"
+#include "EnemyLife.h"
 // weapons
 #include "DemoGun.h"
 // Utils
+#include "Layers.h"
 #include "LoadTexture.h"
 #include "LoadFNT.h"
 
@@ -26,6 +29,7 @@ void MainGame::Awake() {
 	systems->Subscribe<ParticleSystem>(1);
 
 	systems->SubscribeFixed<PhysicsSystem>();
+	systems->SubscribeFixed<ColliderSystem>();
 }
 
 void MainGame::Create() {
@@ -39,6 +43,7 @@ void MainGame::Create() {
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
 	camera->projection = ORTHOGRAPHIC;
+	camera->cullingMask = DEFAULT | UI | PLAYER | ENEMY | BULLET;
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
 	follow->SetActive(true);
@@ -106,6 +111,7 @@ void MainGame::Create() {
 	// player
 	{
 		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, PLAYER);
 
 		follow->player = entities->GetComponent<Transform>(entity);
 
@@ -133,6 +139,9 @@ void MainGame::Create() {
 		physics->useGravity = false;
 		physics->drag = 10.f;
 
+		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+		collider->SetActive(true);
+
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
 
@@ -145,5 +154,49 @@ void MainGame::Create() {
 		combat->SetActive(true);
 		combat->SetCrosshair(follow->crosshair);
 		combat->SetWeapon(demoGun);
+	}
+
+	// test enemy
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, ENEMY);
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->translation = vec3f(5.f, 0.f, 0.f);
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+
+		ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);
+		emitter->SetActive(true);
+		emitter->duration = 0.1f;
+		emitter->spawnInterval = 0.1f;
+		emitter->lifetime = 1.5f;
+		emitter->lifetimeRange = 0.2f;
+		emitter->loop = false;
+		emitter->speed = 15.f;
+		emitter->speedRange = 3.f;
+		emitter->drag = 10.f;
+		emitter->angleRange.z = 180.f;
+		emitter->burstAmount = 30;
+		emitter->positionRange.xy = 0.0f;
+		emitter->startSize = 0.7f;
+		emitter->startSizeRange = 0.3f;
+		emitter->endSize = 0.0f;
+		emitter->startColor = vec4f(1.f, 0.f, 0.f, 1.f);
+		emitter->endColor = vec4f(1.f, 0.f, 0.f, 1.f);
+
+		Physics* const physics = entities->AddComponent<Physics>(entity);
+		physics->SetActive(true);
+		physics->useGravity = false;
+		physics->drag = 10.f;
+
+		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+		collider->SetActive(true);
+
+		EnemyLife* const life = entities->AddComponent<EnemyLife>(entity);
+		life->SetActive(true);
+		collider->handlers[COLLISION_ENTER].Bind(&EnemyLife::OnCollisionEnter, life);
 	}
 }

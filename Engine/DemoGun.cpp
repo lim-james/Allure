@@ -2,7 +2,9 @@
 
 #include "SpriteRender.h"
 #include "Physics.h"
+#include "SphereCollider.h"
 #include "SelfDestruct.h"
+#include "Layers.h"
 
 #include <Events/EventsManager.h>
 
@@ -28,6 +30,7 @@ void DemoGun::Release() {}
 
 void DemoGun::CreateBullet() const { 
 	const unsigned entity = entities->Create();
+	entities->SetLayer(entity, BULLET);
 	
 	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
 
@@ -43,6 +46,10 @@ void DemoGun::CreateBullet() const {
 	physics->SetActive(true);
 	physics->AddForce(direction * 5000.f);
 	physics->useGravity = false;
+
+	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+	collider->SetActive(true);
+	collider->ignoreMask = PLAYER;
 
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);
