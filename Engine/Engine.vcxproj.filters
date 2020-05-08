@@ -124,9 +124,6 @@
     <Filter Include="Engine\Audio">
       <UniqueIdentifier>{9de552c7-be66-4f7b-aa9c-73a71de97f9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scripts\Test">
-      <UniqueIdentifier>{f883ee1c-935c-477c-8d64-4d0d22327a5f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Scenes\Main">
       <UniqueIdentifier>{bf737087-b85e-4b5a-ba3e-4f77e1bb4685}</UniqueIdentifier>
     </Filter>
@@ -156,6 +153,15 @@
     </Filter>
     <Filter Include="Assets\Scripts\Main\Enemy">
       <UniqueIdentifier>{fb60e574-1b69-42d6-a305-934577123491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Prefabs">
+      <UniqueIdentifier>{c6e0d24f-043a-4e7a-bfcf-9f8f029727b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Prefabs\Bullets">
+      <UniqueIdentifier>{a8c83f3f-7cb1-4140-ab36-9429ff2220d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Test">
+      <UniqueIdentifier>{f883ee1c-935c-477c-8d64-4d0d22327a5f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +455,15 @@
     </ClCompile>
     <ClCompile Include="EnemyLife.cpp">
       <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Prefab.cpp">
+      <Filter>Assets\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicBullet.cpp">
+      <Filter>Assets\Prefabs\Bullets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -769,6 +784,15 @@
     </ClInclude>
     <ClInclude Include="EnemyLife.h">
       <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Prefab.h">
+      <Filter>Assets\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicBullet.h">
+      <Filter>Assets\Prefabs\Bullets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

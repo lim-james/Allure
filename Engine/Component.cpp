@@ -31,6 +31,6 @@ void Component::Unpack(AENotation const& data) {
 void Component::Pack(AENotation& data) {
 	data.Set("resource", resourceID);
 	data.Set("entity", entity);
-	data.Set("flags", flags);
+	data.Set("flags", flags.GetField());
 }
 

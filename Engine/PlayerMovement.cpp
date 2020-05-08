@@ -13,6 +13,14 @@ void PlayerMovement::Awake() {
 }
 
 void PlayerMovement::Update() {
+	const vec3f innerBounds = bounds - transform->scale * 0.5f;
+
+	transform->translation.x = Math::Clamp(transform->translation.x, -innerBounds.x, innerBounds.x);
+	transform->translation.y = Math::Clamp(transform->translation.y, -innerBounds.y, innerBounds.y);
+	transform->translation.z = Math::Clamp(transform->translation.z, -innerBounds.z, innerBounds.z);
+}
+
+void PlayerMovement::FixedUpdate() {
 	physics->AddForce(direction * speed * dashMagnitude);
 	dashMagnitude = 1.f;
 }

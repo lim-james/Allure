@@ -9,6 +9,7 @@ SceneManager::SceneManager() {
 
 SceneManager::~SceneManager() {
 	while (!sceneStack.empty()) {
+		sceneStack.top()->Destroy();
 		delete sceneStack.top();
 		sceneStack.pop();
 	}

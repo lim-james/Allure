@@ -29,31 +29,13 @@ void DemoGun::Hold(float const & dt) {
 void DemoGun::Release() {}
 
 void DemoGun::CreateBullet() const { 
-	const unsigned entity = entities->Create();
-	entities->SetLayer(entity, BULLET);
-	
 	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
 
-	Transform* const transform = entities->GetComponent<Transform>(entity);
+	Transform* const transform = bulletPrefab->Create();
 	transform->translation = player->translation;
-	transform->scale = 0.7f;
 
-	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-	render->SetActive(true);
-	render->tint = vec4f(0.f, 1.f, 1.f, 1.f);
-
-	Physics* const physics = entities->AddComponent<Physics>(entity);
-	physics->SetActive(true);
+	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 	physics->AddForce(direction * 5000.f);
-	physics->useGravity = false;
-
-	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
-	collider->SetActive(true);
-	collider->ignoreMask = PLAYER;
-
-	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
-	destruct->SetActive(true);
-	destruct->lifetime = 2.f;
 
 	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 	audio->audioClip = "Files/Media/hit.wav";

@@ -14,11 +14,6 @@
 #include "Bloom.h"
 #include "CurveDisplay.h"
 #include "Pixelated.h"
-// materials
-#include "MeshDefaultMaterial.h"
-#include "MeshUnlitMaterial.h"
-#include "IBLMaterial.h"
-#include "SkyboxMaterial.h"
 // systems
 #include "AudioSystem.h"
 #include "LayoutSystem.h"
@@ -42,10 +37,11 @@ void SampleScene::Create() {
 
 	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 
-	Material::MeshUnlit* opaque = new Material::MeshUnlit;
+	opaque = new Material::MeshUnlit; 
 	opaque->alphaClipping = 0.01f;
 
-	Material::MeshDefault* rustediron = new Material::MeshDefault;
+	rustediron = new Material::MeshDefault;
+	//resources->Track(rustediron);
 	rustediron->useAlbedoMap = true;
 	rustediron->albedoMap = Load::Texture2D("Files/Textures/rustediron2_basecolor.png");
 	rustediron->useNormalMap = true;
@@ -56,7 +52,8 @@ void SampleScene::Create() {
 	rustediron->roughnessMap = Load::Texture2D("Files/Textures/rustediron2_roughness.png");
 	rustediron->ao = 0.01f;
 
-	Material::MeshDefault* streakedmetal = new Material::MeshDefault;
+	streakedmetal = new Material::MeshDefault;
+	//resources->Track(streakedmetal);
 	streakedmetal->useAlbedoMap = true;
 	streakedmetal->albedoMap = Load::Texture2D("Files/Textures/streakedmetal-albedo.png");
 	streakedmetal->useMetallicMap = true;
@@ -65,7 +62,8 @@ void SampleScene::Create() {
 	streakedmetal->roughnessMap = Load::Texture2D("Files/Textures/streakedmetal-roughness.png");
 	streakedmetal->ao = 0.01f;
 
-	Material::MeshDefault* hardwood = new Material::MeshDefault;
+	hardwood = new Material::MeshDefault;
+	//resources->Track(hardwood);
 	hardwood->useAlbedoMap = true;
 	hardwood->albedoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-albedo.png");
 	hardwood->useNormalMap = true;
@@ -77,7 +75,8 @@ void SampleScene::Create() {
 	hardwood->useAOMap = true;
 	hardwood->aoMap = Load::Texture2D("Files/Textures/hardwood-brown-planks-ao.png");
 
-	Material::MeshDefault* white = new Material::MeshDefault;
+	white = new Material::MeshDefault;
+	//resources->Track(white);
 	white->albedo = vec4f(1.f);
 	white->ao = 0.1f;
 
@@ -90,7 +89,8 @@ void SampleScene::Create() {
 		"Files/Textures/skybox/back.jpg"
 	});
 
-	Material::MeshDefault* window = new Material::MeshDefault;
+	window = new Material::MeshDefault;
+	//resources->Track(window);
 	window->albedo = vec4f(1.f, 1.f, 1.f, 0.8f);
 	window->useMetallicMap = true;
 	window->metallicMap = Load::Texture2D("Files/Textures/streakedmetal-metalness.png");
@@ -99,7 +99,8 @@ void SampleScene::Create() {
 	//window->refractiveIndex = 1.0f;
 	//window->environment = skyboxMap;
 
-	Material::Skybox* skybox = new Material::Skybox;
+	skybox = new Material::Skybox;
+	//resources->Track(skybox);
 	skybox->flags += FRONT_FACE;
 	skybox->cubemap = skyboxMap;
 
@@ -353,4 +354,15 @@ void SampleScene::Create() {
 		render->SetMesh(cube);
 		render->SetDynamic(false);
 	}
+}
+
+void SampleScene::Destroy() {
+	Scene::Destroy();
+	delete opaque;
+	delete rustediron;
+	delete streakedmetal;
+	delete hardwood;
+	delete white;
+	delete window;
+	delete skybox;
 }

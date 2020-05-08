@@ -5,11 +5,6 @@
 
 struct SphereCollider : Collider {
 
-	float radius;
-	
-	SphereCollider();
-
-	void Initialize() override;
 	Component* Clone() const override;
 	void SetActive(bool const& state) override;
 

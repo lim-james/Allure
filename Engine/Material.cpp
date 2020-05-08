@@ -5,6 +5,10 @@
 
 Material::Base::Base() : flags(CULL_FACE), shader(nullptr) {}
 
+Material::Base::~Base() {
+	delete shader;
+}
+
 BitField const & Material::Base::GetFlags() const {
 	return flags;
 }
@@ -29,4 +33,3 @@ void Material::Base::Use() {
 
 	SetAttributes();
 }
-

@@ -2,13 +2,6 @@
 
 #include <Events/EventsManager.h>
 
-SphereCollider::SphereCollider() : radius(1.f) {}
-
-void SphereCollider::Initialize() {
-	Collider::Initialize();
-	radius = 1.f;
-}
-
 Component * SphereCollider::Clone() const {
 	return new SphereCollider(*this);
 }

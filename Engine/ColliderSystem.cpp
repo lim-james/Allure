@@ -149,8 +149,14 @@ void ColliderSystem::SphereSphere(Collider * const a, Collider * const b) {
 	Transform* const t1 = entities->GetComponent<Transform>(c1->entity);
 	Transform* const t2 = entities->GetComponent<Transform>(c2->entity);
 
-	const float distSq = Math::LengthSquared(t2->GetWorldTranslation() - t1->GetWorldTranslation());
-	const float minDist = c1->radius + c2->radius;
+	const vec3f s1 = t1->scale * c1->scale;
+	const vec3f s2 = t2->scale * c2->scale;
+
+	const float r1 = max(s1.x, max(s1.y, s1.z)) * 0.5f;
+	const float r2 = max(s2.x, max(s2.y, s2.z)) * 0.5f;
+
+	const float distSq = Math::LengthSquared((t2->GetWorldTranslation() + c2->offset) - (t1->GetWorldTranslation() + c1->offset));
+	const float minDist = r1 + r2;
 
 	bool& wasInside = history[a][b];
 	

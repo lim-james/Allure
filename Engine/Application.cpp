@@ -7,6 +7,7 @@
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
+#include "LoadModel.h"
 // external
 #include <Events/EventsManager.h>
 #include <Logger/Logger.h>
@@ -74,6 +75,7 @@ void Application::Exit() {
 	delete sceneManager;
 
 	Load::ClearFontCache();
+	Load::ClearModelCache();
 
 	EventsManager::Destroy();
 }

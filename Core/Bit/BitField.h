@@ -12,6 +12,8 @@ public:
 	BitField();
 	BitField(unsigned const& flags);
 
+	unsigned const& GetField() const;
+
 	bool Is(unsigned const& flag) const;
 	void Set(unsigned const& flag, bool const& state);
 	void Set(unsigned const& flags);

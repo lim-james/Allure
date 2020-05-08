@@ -3,6 +3,7 @@
 
 #include "Component.h"
 
+#include <Math/Vectors.h>
 #include <Bit/BitField.h>
 #include <Handler/Handler.h>
 
@@ -14,6 +15,7 @@
 struct Collider : Component {
 
 	bool isTrigger;
+	vec3f scale, offset;
 
 	BitField ignoreMask;
 	Handler<void, unsigned> handlers[COLLISION_ACTION_COUNT];

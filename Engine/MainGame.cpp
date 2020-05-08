@@ -14,8 +14,7 @@
 #include "PlayerCombat.h"
 #include "CrosshairController.h"
 #include "EnemyLife.h"
-// weapons
-#include "DemoGun.h"
+#include "EnemyManager.h"
 // Utils
 #include "Layers.h"
 #include "LoadTexture.h"
@@ -37,7 +36,11 @@ void MainGame::Create() {
 
 	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 
-	WeaponBase* demoGun = new DemoGun;
+	basicBullet = new BasicBullet;
+	basicBullet->Initialize(entities);
+
+	demoGun = new DemoGun;
+	demoGun->bulletPrefab = basicBullet;
 	demoGun->Initialize(entities);
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
@@ -82,6 +85,7 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		auto transform = entities->GetComponent<Transform>(entity);
+		transform->translation.z = -1.f;
 		transform->scale = vec3f(80.0f, 45.0f, 0.0f);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -147,8 +151,9 @@ void MainGame::Create() {
 
 		PlayerMovement* const movement = entities->AddComponent<PlayerMovement>(entity);
 		movement->SetActive(true);
-		movement->speed = 40.f;
-		movement->dash = 100.f;
+		movement->speed = 200.f;
+		movement->dash = 30.f;
+		movement->bounds = vec3f(40.f, 22.5f, 1.f);
 
 		PlayerCombat* const combat = entities->AddComponent<PlayerCombat>(entity);
 		combat->SetActive(true);
@@ -156,47 +161,19 @@ void MainGame::Create() {
 		combat->SetWeapon(demoGun);
 	}
 
-	// test enemy
+	// enemy manager
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, ENEMY);
 
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation = vec3f(5.f, 0.f, 0.f);
-
-		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		render->SetActive(true);
-		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
-
-		ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);
-		emitter->SetActive(true);
-		emitter->duration = 0.1f;
-		emitter->spawnInterval = 0.1f;
-		emitter->lifetime = 1.5f;
-		emitter->lifetimeRange = 0.2f;
-		emitter->loop = false;
-		emitter->speed = 15.f;
-		emitter->speedRange = 3.f;
-		emitter->drag = 10.f;
-		emitter->angleRange.z = 180.f;
-		emitter->burstAmount = 30;
-		emitter->positionRange.xy = 0.0f;
-		emitter->startSize = 0.7f;
-		emitter->startSizeRange = 0.3f;
-		emitter->endSize = 0.0f;
-		emitter->startColor = vec4f(1.f, 0.f, 0.f, 1.f);
-		emitter->endColor = vec4f(1.f, 0.f, 0.f, 1.f);
-
-		Physics* const physics = entities->AddComponent<Physics>(entity);
-		physics->SetActive(true);
-		physics->useGravity = false;
-		physics->drag = 10.f;
-
-		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
-		collider->SetActive(true);
-
-		EnemyLife* const life = entities->AddComponent<EnemyLife>(entity);
-		life->SetActive(true);
-		collider->handlers[COLLISION_ENTER].Bind(&EnemyLife::OnCollisionEnter, life);
+		EnemyManager* const manager = entities->AddComponent<EnemyManager>(entity);
+		manager->SetActive(true);
+		manager->player = follow->player;
 	}
+}
+
+void MainGame::Destroy() {
+	Scene::Destroy();
+	delete basicBullet;
+	delete demoGun;
 }

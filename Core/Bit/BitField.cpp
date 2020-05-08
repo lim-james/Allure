@@ -6,6 +6,10 @@ BitField::BitField() : field(0) {}
 
 BitField::BitField(unsigned const & flags) : field(flags) {}
 
+unsigned const& BitField::GetField() const {
+	return field;
+}
+
 bool BitField::Is(unsigned const & flag) const {
 	return field & flag;
 }

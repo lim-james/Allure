@@ -2,6 +2,7 @@
 #define FONT_H
 
 #include <Math/Vectors.h>
+#include <Encoding/Resource.h>
 
 #include <string>
 #include <map>
@@ -13,7 +14,7 @@ struct Character {
 	float xAdvance;
 };
 
-struct Font {
+struct Font : Resource {
 
 	std::string name;
 	vec2f scale;

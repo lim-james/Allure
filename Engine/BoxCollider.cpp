@@ -2,12 +2,6 @@
 
 #include <Events/EventsManager.h>
 
-void BoxCollider::Initialize() {
-	Collider::SetActive(true);
-	scale = 1.f;
-	offset = 0.f;
-}
-
 Component * BoxCollider::Clone() const {
 	return new BoxCollider(*this);
 }

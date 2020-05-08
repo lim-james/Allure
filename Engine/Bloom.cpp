@@ -36,6 +36,7 @@ Bloom::Bloom() {
 
 		fbo = new Framebuffer(2, 1);
 		fbo->Initialize(vec2u(1600, 900), tDataList, { rbData });
+		tDataList.clear();
 	}
 
 	{

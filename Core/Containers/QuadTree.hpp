@@ -19,6 +19,7 @@ class QuadTree {
 public:
 
 	QuadTree(unsigned const& items, unsigned const& depth);
+	~QuadTree();
 	
 	void Sort();
 	void Clear();
@@ -48,6 +49,14 @@ QuadTree<ContentType, ComparatorType>::QuadTree(unsigned const& items, unsigned 
 	root = new Quad<ContentType>(nullptr, vec2f(0.f), vec2f(10.f));
 	comparator = new ComparatorType;
 }
+
+template<typename ContentType, typename ComparatorType>
+QuadTree<ContentType, ComparatorType>::~QuadTree() {
+	Clear();
+	delete root;
+	delete comparator;
+}
+
 
 template<typename ContentType, typename ComparatorType>
 void QuadTree<ContentType, ComparatorType>::Sort() {

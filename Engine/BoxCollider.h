@@ -3,13 +3,8 @@
 
 #include "Collider.h"
 
-#include <Math/Vectors.h>
-
 struct BoxCollider : Collider {
 
-	vec3f scale, offset;
-
-	void Initialize() override;
 	Component* Clone() const override;
 	void SetActive(bool const& state) override;
 

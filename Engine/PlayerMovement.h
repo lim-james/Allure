@@ -10,6 +10,8 @@
 
 struct PlayerMovement : Script {
 
+	vec3f bounds;
+
 	float speed;
 	float dash;
 
@@ -24,6 +26,7 @@ private:
 
 	void Awake() override;
 	void Update() override;
+	void FixedUpdate() override;
 
 	void KeyHandler(Events::Event* event);
 

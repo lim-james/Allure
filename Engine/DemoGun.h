@@ -2,6 +2,7 @@
 #define DEMO_GUN_H
 
 #include "WeaponBase.h"
+#include "Prefab.h"
 
 class DemoGun : public WeaponBase {
 
@@ -9,6 +10,8 @@ class DemoGun : public WeaponBase {
 	float bt;
 
 public:
+
+	Prefab* bulletPrefab;
 	
 	DemoGun();
 

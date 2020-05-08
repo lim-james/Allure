@@ -6,9 +6,9 @@
 #include "Transform.h"
 #include "AudioSource.h"
 
-class WeaponBase {
+#include <Encoding/Resource.h>
 
-public:
+struct WeaponBase : Resource {
 
 	WeaponBase();
 

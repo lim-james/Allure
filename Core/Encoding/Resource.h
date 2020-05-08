@@ -3,8 +3,10 @@
 
 struct Resource {
 	unsigned resourceID;
-
-	Resource();
 };
+
+//class Resource {
+//	unsigned resourceID;
+//};
 
 #endif

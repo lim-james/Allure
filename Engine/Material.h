@@ -4,6 +4,7 @@
 #include "Shader.h"
 
 #include "Component.h"
+
 #include <Bit/BitField.h>
 #include <Events/Event.h>
 
@@ -18,6 +19,7 @@ namespace Material {
 		BitField flags;
 
 		Base();
+		virtual ~Base();
 
 		BitField const& GetFlags() const;
 
