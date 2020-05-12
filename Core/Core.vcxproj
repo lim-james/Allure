@@ -28,7 +28,9 @@
     <ClInclude Include="Handler\Handler.h" />
     <ClInclude Include="Handler\variadic_placeholder.h" />
     <ClInclude Include="Helpers\FileHelpers.h" />
+    <ClInclude Include="Loaders\AudioFile.h" />
     <ClInclude Include="Loaders\LoadCSV.hpp" />
+    <ClInclude Include="Loaders\LoadWAV.hpp" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="MACROS.h" />
     <ClInclude Include="Math\Base\BaseTypes.h" />
