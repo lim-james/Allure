@@ -138,10 +138,13 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="AudioListener.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="BackgroundMaterial.cpp" />
     <ClCompile Include="BasicBullet.cpp" />
+    <ClCompile Include="BeatController.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
@@ -237,7 +240,11 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationProperties.h" />
+    <ClInclude Include="AudioController.h" />
+    <ClInclude Include="BackgroundMaterial.h" />
     <ClInclude Include="BasicBullet.h" />
+    <ClInclude Include="BeatController.h" />
     <ClInclude Include="CameraFollow.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CrosshairController.h" />

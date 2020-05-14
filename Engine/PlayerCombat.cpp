@@ -40,6 +40,7 @@ void PlayerCombat::MouseButtonHandler(Events::Event * event) {
 		if (input->action == GLFW_PRESS) {
 			isTriggering = true;
 			weapon->Trigger();
+			fire();
 		} else {
 			isTriggering = false;
 			weapon->Release();

@@ -4,6 +4,7 @@
 struct Time {
 	float dt;
 	float et;
+	float fixedDt;
 };
 
 #endif

@@ -9,15 +9,15 @@ Math::vec<4, T>::vec(T const& x, T const& y, T const& z, T const& w) : x(x), y(y
 template<typename T>
 Math::vec<4, T>::vec(T const& x, vec<3, T> const& yzw) : x(x), yzw(yzw) { }
 template<typename T>
-Math::vec<4, T>::vec(vec<3, T> const& xyz, T const& w) : xyz(xyz), w(w) {}
+Math::vec<4, T>::vec(vec<3, T> const& xyz, T const& w) : xyz(xyz) { this->w = w; }
 template<typename T>
 Math::vec<4, T>::vec(vec<2, T> const& xy, vec<2, T> const& zw) : xy(xy), zw(zw) {}
 template<typename T>
 Math::vec<4, T>::vec(vec<2, T> const& xy, T const& z, T const& w) : xy(xy), zw(z, w) {}
 template<typename T>
-Math::vec<4, T>::vec(T const& x, vec<2, T> const& yz, T const& y) : x(x), yz(yz), w(w) {}
+Math::vec<4, T>::vec(T const& x, vec<2, T> const& yz, T const& w) : x(x), yz(yz), w(w) {}
 template<typename T>
-Math::vec<4, T>::vec(T const& x, T const& y, vec<2, T> const& zw) : x(x), y(y), zw(zw) {}
+Math::vec<4, T>::vec(T const& x, T const& y, vec<2, T> const& zw) : x(x, y), zw(zw) {}
 
 template<typename T>
 template<typename t>

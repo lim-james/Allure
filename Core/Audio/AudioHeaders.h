@@ -1,7 +1,8 @@
-#ifndef AUDIO_FILE_H
-#define AUDIO_FILE_H
+#ifndef AUDIO_HEADERS_H
+#define AUDIO_HEADERS_H
 
 #include <cstdint>
+#include <fstream>
 
 struct AudioChunk {
 	char chunkID[4];		// 4 bytes

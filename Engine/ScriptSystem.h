@@ -22,7 +22,7 @@ public:
 
 	void Awake();
 	void Start();
-	void FixedUpdate();
+	void FixedUpdate(float const& dt);
 	void Update(float const& dt);
 	void Stop();
 	void Destroy();

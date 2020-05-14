@@ -111,10 +111,10 @@
     <ClInclude Include="stb\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Loaders\AudioFile.h">
+    <ClInclude Include="Audio\AudioFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Loaders\LoadWAV.hpp">
+    <ClInclude Include="Audio\AudioHeaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -164,6 +164,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Helpers\StringHelpers.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Audio\AudioFile.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

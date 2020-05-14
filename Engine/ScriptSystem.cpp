@@ -30,7 +30,8 @@ void ScriptSystem::Start() {
 	}
 }
 
-void ScriptSystem::FixedUpdate() {
+void ScriptSystem::FixedUpdate(float const& dt) {
+	time.fixedDt = dt;
 	for (auto& s : scripts)
 		s->FixedUpdate();
 }

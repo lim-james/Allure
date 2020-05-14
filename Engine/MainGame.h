@@ -3,12 +3,16 @@
 
 #include "Scene.h"
 
+// materials
+#include "BackgroundMaterial.h"
 // prefabs
 #include "BasicBullet.h"
 // weapons
 #include "DemoGun.h"
 
 class MainGame : public Scene {
+
+	Material::Background* background;
 
 	BasicBullet* basicBullet;
 	DemoGun* demoGun;
@@ -20,6 +24,5 @@ private:
 	void Destroy() override;
 
 };
-
 
 #endif

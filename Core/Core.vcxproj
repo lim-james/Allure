@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\AudioFile.h" />
     <ClInclude Include="Bit\BitField.h" />
     <ClInclude Include="Containers\Comparator.h" />
     <ClInclude Include="Encoding\AENotation.hpp" />
@@ -28,9 +29,8 @@
     <ClInclude Include="Handler\Handler.h" />
     <ClInclude Include="Handler\variadic_placeholder.h" />
     <ClInclude Include="Helpers\FileHelpers.h" />
-    <ClInclude Include="Loaders\AudioFile.h" />
+    <ClInclude Include="Audio\AudioHeaders.h" />
     <ClInclude Include="Loaders\LoadCSV.hpp" />
-    <ClInclude Include="Loaders\LoadWAV.hpp" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="MACROS.h" />
     <ClInclude Include="Math\Base\BaseTypes.h" />
@@ -65,6 +65,7 @@
     <ClCompile Include="Timer\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Audio\AudioFile.inl" />
     <None Include="Handler\Handler_NonVoid.inl" />
     <None Include="Handler\Handler_Void.inl" />
     <None Include="Helpers\StringHelpers.inl" />

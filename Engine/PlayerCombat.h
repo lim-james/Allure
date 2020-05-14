@@ -4,7 +4,11 @@
 #include "Script.h"
 #include "WeaponBase.h"
 
+#include <Handler/Handler.h>
+
 struct PlayerCombat : Script {
+
+	Handler<void, void> fire;
 
 	void SetCrosshair(Transform* const transform);
 	void SetWeapon(WeaponBase* const ptr);

@@ -127,18 +127,6 @@
     <Filter Include="Assets\Scenes\Main">
       <UniqueIdentifier>{bf737087-b85e-4b5a-ba3e-4f77e1bb4685}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scenes\Sandbox">
-      <UniqueIdentifier>{dfd02f2e-e55a-44a1-96a4-a96e7036e6ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scenes\Sandbox\Title">
-      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scenes\Sandbox\Sample">
-      <UniqueIdentifier>{fdcd3e26-cdf1-4245-b964-61a7be0d27a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scenes\Sandbox\StressTest">
-      <UniqueIdentifier>{945dbf5b-5084-46dd-b80b-655358d19aec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Scripts\Main">
       <UniqueIdentifier>{3a607285-faab-4af5-baff-69a868937df8}</UniqueIdentifier>
     </Filter>
@@ -162,6 +150,21 @@
     </Filter>
     <Filter Include="Assets\Scripts\Test">
       <UniqueIdentifier>{f883ee1c-935c-477c-8d64-4d0d22327a5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Main\Audio">
+      <UniqueIdentifier>{246ae482-a874-4dbf-babf-7dacd2c39342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Sandbox">
+      <UniqueIdentifier>{dfd02f2e-e55a-44a1-96a4-a96e7036e6ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Sandbox\Title">
+      <UniqueIdentifier>{75342c16-563d-47d8-982e-9ae5ea4ce302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Sandbox\Sample">
+      <UniqueIdentifier>{fdcd3e26-cdf1-4245-b964-61a7be0d27a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes\Sandbox\StressTest">
+      <UniqueIdentifier>{945dbf5b-5084-46dd-b80b-655358d19aec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -464,6 +467,15 @@
     </ClCompile>
     <ClCompile Include="BasicBullet.cpp">
       <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioController.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="BeatController.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="BackgroundMaterial.cpp">
+      <Filter>Assets\Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -793,6 +805,18 @@
     </ClInclude>
     <ClInclude Include="BasicBullet.h">
       <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioController.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationProperties.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatController.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundMaterial.h">
+      <Filter>Assets\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

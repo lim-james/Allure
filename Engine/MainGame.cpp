@@ -15,6 +15,8 @@
 #include "CrosshairController.h"
 #include "EnemyLife.h"
 #include "EnemyManager.h"
+#include "AudioController.h"
+#include "BeatController.h"
 // Utils
 #include "Layers.h"
 #include "LoadTexture.h"
@@ -36,12 +38,21 @@ void MainGame::Create() {
 
 	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 
+	background = new Material::Background;
+	background->speed = 75.f;
+	background->spread = 10.f;
+	background->spreadTint = vec3f(0.25f, 0., 0.25f);
+	background->indicatorTint = vec3f(0.5f);
+	background->thresholdTint = vec3f(1.f, 0.f, 0.f);
+
 	basicBullet = new BasicBullet;
 	basicBullet->Initialize(entities);
 
 	demoGun = new DemoGun;
 	demoGun->bulletPrefab = basicBullet;
 	demoGun->Initialize(entities);
+
+	background->viewSize = 10.f;
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
@@ -70,7 +81,6 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation = vec3f(-14.f, 8.f, 0.f);
 
 		Text* const text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
@@ -84,15 +94,25 @@ void MainGame::Create() {
 	{
 		const unsigned entity = entities->Create();
 
-		auto transform = entities->GetComponent<Transform>(entity);
+		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation.z = -1.f;
-		transform->scale = vec3f(80.0f, 45.0f, 0.0f);
+		transform->scale = vec3f(80.0f, 45.0f, 1.0f);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
+		render->SetMaterial(background);
 		render->SetCellRect(0, 0, 16, 9);
 		render->tint.a = 0.15f;
+
+		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
+		audio->SetActive(true);
+		audio->audioClip = "Files/Media/LOUD - Thoughts.wav";
+		audio->loop = true;
+
+		AudioController* const controller = entities->AddComponent<AudioController>(entity);
+		controller->SetActive(true);
+		controller->material = background;
 	}
 
 	// crosshair
@@ -159,6 +179,14 @@ void MainGame::Create() {
 		combat->SetActive(true);
 		combat->SetCrosshair(follow->crosshair);
 		combat->SetWeapon(demoGun);
+
+		BeatController* const beat = entities->AddComponent<BeatController>(entity);
+		beat->SetActive(true);
+		beat->SetTempo(60);
+		beat->material = background;
+		beat->threshold = 0.15f;
+
+		combat->fire.Bind(&BeatController::Hit, beat);
 	}
 
 	// enemy manager
@@ -174,6 +202,7 @@ void MainGame::Create() {
 
 void MainGame::Destroy() {
 	Scene::Destroy();
+	delete background;
 	delete basicBullet;
 	delete demoGun;
 }

@@ -55,7 +55,7 @@ void Scene::Enter() {
 }
 
 void Scene::FixedUpdate(float const& dt) {
-	scripts->FixedUpdate();
+	scripts->FixedUpdate(dt);
 	systems->FixedUpdate(dt);
 }
 

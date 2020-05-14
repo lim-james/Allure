@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "ApplicationProperties.h"
 
 #include "TitleScene.h"
 #include "SampleScene.h"
@@ -102,11 +103,11 @@ void Application::Step() {
 	auto current = sceneManager->GetSource();
 
 	bt += dt;
-	if (bt >= FRAMERATE) {
+	if (bt >= FIXED_TIME_STEP) {
 		do {
-			current->FixedUpdate(FRAMERATE);
-			bt -= FRAMERATE;
-		} while (bt > FRAMERATE);
+			current->FixedUpdate(FIXED_TIME_STEP);
+			bt -= FIXED_TIME_STEP;
+		} while (bt > FIXED_TIME_STEP);
 	}
 
 	current->Update(dt);
