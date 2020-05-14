@@ -6,6 +6,9 @@
 #include "PhysicsSystem.h"
 #include "ColliderSystem.h"
 #include "AudioSystem.h"
+// post vfx
+#include "Bloom.h"
+#include "CurveDisplay.h"
 // scripts
 #include "FPSCounter.h"
 #include "CameraFollow.h"
@@ -41,9 +44,9 @@ void MainGame::Create() {
 	background = new Material::Background;
 	background->speed = 75.f;
 	background->spread = 10.f;
-	background->spreadTint = vec3f(0.25f, 0., 0.25f);
+	background->spreadTint = vec3f(0.5f, 0.0f, 0.25f);
 	background->indicatorTint = vec3f(0.5f);
-	background->thresholdTint = vec3f(1.f, 0.f, 0.f);
+	background->thresholdTint = vec3f(10.f, 0.2f, 0.2f);
 
 	basicBullet = new BasicBullet;
 	basicBullet->Initialize(entities);
@@ -74,6 +77,13 @@ void MainGame::Create() {
 
 		AudioListener* const listener = entities->AddComponent<AudioListener>(mainCamera);
 		listener->SetActive(true);
+	}
+
+	// post processing volume
+	{
+		//const unsigned volume = entities->Create();
+		//entities->AddComponent<Bloom>(volume)->SetActive(true);
+		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
 	}
 
 	// FPS counter

@@ -10,7 +10,7 @@ uniform bool horizontal;
 uniform float weight[5] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
 
 void main() {             
-     vec2 texOffset = 2.0 / textureSize(tex, 0); // gets size of single texel
+     vec2 texOffset = 1.0 / textureSize(tex, 0); // gets size of single texel
      vec3 result = texture(tex, texCoord).rgb * 0.227;
 
 	 int size = 5;
