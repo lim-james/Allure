@@ -169,5 +169,11 @@
     <None Include="Audio\AudioFile.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Handler\Handler_Void_Constructors.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Handler\Handler_NonVoid_Constructors.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

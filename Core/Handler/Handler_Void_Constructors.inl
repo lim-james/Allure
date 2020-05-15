@@ -1,8 +1,16 @@
 #include "Handler.h"
 
 template<typename ReturnType>
+Handler<ReturnType, void>::Handler() {}
+
+template<typename ReturnType>
+Handler<ReturnType, void>::Handler(std::nullptr_t) {
+	UnbindAll();
+}
+
+template<typename ReturnType>
 template<typename Context>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(Context::* callback)(void),
 	Context * context
 ) {
@@ -11,7 +19,7 @@ void Handler<ReturnType, void>::Bind(
 
 template<typename ReturnType>
 template<typename Context>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(Context::* callback)(void) const,
 	Context * context
 ) {
@@ -20,7 +28,7 @@ void Handler<ReturnType, void>::Bind(
 
 template<typename ReturnType>
 template<typename MethodContext, typename Context>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(MethodContext::* callback)(void),
 	Context * context
 ) {
@@ -29,7 +37,7 @@ void Handler<ReturnType, void>::Bind(
 
 template<typename ReturnType>
 template<typename MethodContext, typename Context>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(MethodContext::* callback)(void) const,
 	Context * context
 ) {
@@ -37,8 +45,13 @@ void Handler<ReturnType, void>::Bind(
 }
 
 template<typename ReturnType>
+Handler<ReturnType, void>::Handler(std::function<ReturnType(void)> callback) {
+	customCallbacks.push_back(callback);
+}
+
+template<typename ReturnType>
 template<typename Context, typename ...ArgumentTypes>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(Context::* callback)(ArgumentTypes...),
 	Context * context,
 	ArgumentTypes... arguments
@@ -48,7 +61,7 @@ void Handler<ReturnType, void>::Bind(
 
 template<typename ReturnType>
 template<typename Context, typename ...ArgumentTypes>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(Context::* callback)(ArgumentTypes...) const,
 	Context * context,
 	ArgumentTypes... arguments
@@ -58,7 +71,7 @@ void Handler<ReturnType, void>::Bind(
 
 template<typename ReturnType>
 template<typename MethodContext, typename Context, typename ...ArgumentTypes>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(MethodContext::* callback)(ArgumentTypes...),
 	Context * context,
 	ArgumentTypes... arguments
@@ -68,7 +81,7 @@ void Handler<ReturnType, void>::Bind(
 
 template<typename ReturnType>
 template<typename MethodContext, typename Context, typename ...ArgumentTypes>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(MethodContext::* callback)(ArgumentTypes...) const,
 	Context * context,
 	ArgumentTypes... arguments
@@ -78,30 +91,9 @@ void Handler<ReturnType, void>::Bind(
 
 template<typename ReturnType>
 template<typename ...ArgumentTypes>
-void Handler<ReturnType, void>::Bind(
+Handler<ReturnType, void>::Handler(
 	ReturnType(*callback)(ArgumentTypes...),
 	ArgumentTypes... arguments
 ) {
 	customCallbacks.push_back(std::bind(callback, arguments...));
-}
-
-template<typename ReturnType>
-void Handler<ReturnType, void>::UnbindAll() {
-	customCallbacks.clear();
-}
-
-template<typename ReturnType>
-void Handler<ReturnType, void>::operator()() const {
-	for (auto& callback : customCallbacks)
-		callback();
-}
-
-template<typename ReturnType>
-void Handler<ReturnType, void>::operator=(std::nullptr_t) {
-	UnbindAll();
-}
-
-template<typename ReturnType>
-void Handler<ReturnType, void>::operator=(Handler<ReturnType, void> const& rhs) {
-	customCallbacks = rhs.customCallbacks;
 }

@@ -6,7 +6,7 @@
 
 #include <fstream>
 
-Font* Load::FNT(std::string const& fntPath, std::string const& tgaPath) {
+Font* Load::FNT(std::string const& fntPath, std::string const& imagePath) {
 	if (fontCache[fntPath])
 		return fontCache[fntPath];
 
@@ -113,7 +113,7 @@ Font* Load::FNT(std::string const& fntPath, std::string const& tgaPath) {
 
 	ifs.close();
 
-	font->texture = Load::TGA(tgaPath);
+	font->texture = Load::Texture2D(imagePath);
 
 	unsigned VBO, EBO;
 	glGenVertexArrays(1, &font->VAO);

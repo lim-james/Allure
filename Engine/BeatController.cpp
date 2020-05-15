@@ -1,15 +1,22 @@
 #include "BeatController.h"
 
+#include "Text.h"
+
 void BeatController::SetTempo(unsigned const & tempo) {
 	delay = 60.f / static_cast<float>(tempo);
 }
 
 void BeatController::Hit() {
 	if (threshold >= bt) {
-		Debug::Warn << "ON TEMPO\n";
 		material->et = 0.0f;
 	} else {
-		Debug::Warn << "TOO EARLY\n";
+		{
+			Transform* const indicator = indicatorPrefab->Create();
+			indicator->translation = transform->GetWorldTranslation();
+
+			Text* const text = entities->GetComponent<Text>(indicator->entity);
+			text->text = "TOO EARLY";
+		}
 	}
 
 	bt = delay;
@@ -29,7 +36,13 @@ void BeatController::Update() {
 
 	if (bt < 0.f) {
 		bt = delay;
-		Debug::Warn << "MISSED\n";
+		{
+			Transform* const indicator = indicatorPrefab->Create();
+			indicator->translation = transform->GetWorldTranslation();
+		
+			Text* const text = entities->GetComponent<Text>(indicator->entity);
+			text->text = "MISSED";
+		}
 	}
 
 }

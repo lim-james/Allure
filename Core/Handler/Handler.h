@@ -18,7 +18,45 @@ public:
 	Handler();
 	Handler(std::nullptr_t);
 
-	// standard methods
+	// constructors
+	// standard member methods
+	template<typename Context>
+	Handler(ReturnType (Context::*callback)(ParameterTypes...), Context* context);
+	template<typename Context>
+	Handler(ReturnType (Context::*callback)(ParameterTypes...) const, Context* context);
+	template<typename MethodContext, typename Context>
+	Handler(ReturnType (MethodContext::*callback)(ParameterTypes...), Context* context);
+	template<typename MethodContext, typename Context>
+	Handler(ReturnType (MethodContext::*callback)(ParameterTypes...) const, Context* context);
+	// standard non member methods
+	Handler(std::function<ReturnType(ParameterTypes...)> callback);
+
+	// void member methods
+	template<typename Context>
+	Handler(ReturnType (Context::*callback)(void), Context* context);
+	template<typename Context>
+	Handler(ReturnType (Context::*callback)(void) const, Context* context);
+	template<typename MethodContext, typename Context>
+	Handler(ReturnType (MethodContext::*callback)(void), Context* context);
+	template<typename MethodContext, typename Context>
+	Handler(ReturnType (MethodContext::*callback)(void) const, Context* context);
+	// void non members methods
+	Handler(std::function<ReturnType(void)> callback);
+
+	// custom members methods
+	template<typename Context, typename ... ArgumentTypes>
+	Handler(ReturnType (Context::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
+	template<typename Context, typename ... ArgumentTypes>
+	Handler(ReturnType (Context::*callback)(ArgumentTypes...) const, Context* context, ArgumentTypes... arguments);
+	template<typename MethodContext, typename Context, typename ... ArgumentTypes>
+	Handler(ReturnType (MethodContext::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
+	template<typename MethodContext, typename Context, typename ... ArgumentTypes>
+	Handler(ReturnType (MethodContext::*callback)(ArgumentTypes...) const, Context* context, ArgumentTypes... arguments);
+	// custom non member methods
+	template<typename ... ArgumentTypes>
+	Handler(ReturnType (*callback)(ArgumentTypes...), ArgumentTypes... arguments);
+
+	// standard member methods
 	template<typename Context>
 	void Bind(ReturnType (Context::*callback)(ParameterTypes...), Context* context);
 	template<typename Context>
@@ -27,11 +65,10 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(ParameterTypes...), Context* context);
 	template<typename MethodContext, typename Context>
 	void Bind(ReturnType (MethodContext::*callback)(ParameterTypes...) const, Context* context);
-	// non members
-	void Bind(ReturnType (*callback)(ParameterTypes...));
+	// standard non member methods
 	void Bind(std::function<ReturnType(ParameterTypes...)> callback);
 
-	// void class methods
+	// void member methods
 	template<typename Context>
 	void Bind(ReturnType (Context::*callback)(void), Context* context);
 	template<typename Context>
@@ -40,11 +77,10 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(void), Context* context);
 	template<typename MethodContext, typename Context>
 	void Bind(ReturnType (MethodContext::*callback)(void) const, Context* context);
-	// non members
-	void Bind(ReturnType (*callback)(void));
+	// void non members methods
 	void Bind(std::function<ReturnType(void)> callback);
 
-	// custom methods
+	// custom members methods
 	template<typename Context, typename ... ArgumentTypes>
 	void Bind(ReturnType (Context::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
 	template<typename Context, typename ... ArgumentTypes>
@@ -53,7 +89,7 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
 	template<typename MethodContext, typename Context, typename ... ArgumentTypes>
 	void Bind(ReturnType (MethodContext::*callback)(ArgumentTypes...) const, Context* context, ArgumentTypes... arguments);
-	// non member
+	// custom non member methods
 	template<typename ... ArgumentTypes>
 	void Bind(ReturnType (*callback)(ArgumentTypes...), ArgumentTypes... arguments);
 
@@ -93,7 +129,33 @@ public:
 	Handler();
 	Handler(std::nullptr_t);
 
-	// void class methods
+	// constructors
+	// void member methods
+	template<typename Context>
+	Handler(ReturnType (Context::*callback)(void), Context* context);
+	template<typename Context>
+	Handler(ReturnType (Context::*callback)(void) const, Context* context);
+	template<typename MethodContext, typename Context>
+	Handler(ReturnType (MethodContext::*callback)(void), Context* context);
+	template<typename MethodContext, typename Context>
+	Handler(ReturnType (MethodContext::*callback)(void) const, Context* context);
+	// void non member methods
+	Handler(std::function<ReturnType(void)> callback);
+
+	// custom member methods
+	template<typename Context, typename ... ArgumentTypes>
+	Handler(ReturnType(Context::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
+	template<typename Context, typename ... ArgumentTypes>
+	Handler(ReturnType(Context::*callback)(ArgumentTypes...) const, Context* context, ArgumentTypes... arguments);
+	template<typename MethodContext, typename Context, typename ... ArgumentTypes>
+	Handler(ReturnType(MethodContext::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
+	template<typename MethodContext, typename Context, typename ... ArgumentTypes>
+	Handler(ReturnType(MethodContext::*callback)(ArgumentTypes...) const, Context* context, ArgumentTypes... arguments);
+	// custom non member methods
+	template<typename ... ArgumentTypes>
+	Handler(ReturnType (*callback)(ArgumentTypes...), ArgumentTypes... arguments);
+
+	// void member methods
 	template<typename Context>
 	void Bind(ReturnType (Context::*callback)(void), Context* context);
 	template<typename Context>
@@ -102,11 +164,10 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(void), Context* context);
 	template<typename MethodContext, typename Context>
 	void Bind(ReturnType (MethodContext::*callback)(void) const, Context* context);
-	// non member
-	void Bind(ReturnType (*callback)(void));
+	// void non members methods
 	void Bind(std::function<ReturnType(void)> callback);
 
-	// custom methods
+	// custom member methods
 	template<typename Context, typename ... ArgumentTypes>
 	void Bind(ReturnType (Context::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
 	template<typename Context, typename ... ArgumentTypes>
@@ -115,7 +176,7 @@ public:
 	void Bind(ReturnType (MethodContext::*callback)(ArgumentTypes...), Context* context, ArgumentTypes... arguments);
 	template<typename MethodContext, typename Context, typename ... ArgumentTypes>
 	void Bind(ReturnType (MethodContext::*callback)(ArgumentTypes...) const, Context* context, ArgumentTypes... arguments);
-	// non member
+	// custom non member methods
 	template<typename ... ArgumentTypes>
 	void Bind(ReturnType (*callback)(ArgumentTypes...), ArgumentTypes... arguments);
 
@@ -128,7 +189,9 @@ public:
 
 };
 
+#include "Handler_NonVoid_Constructors.inl"
 #include "Handler_NonVoid.inl"
+#include "Handler_Void_Constructors.inl"
 #include "Handler_Void.inl"
 
 #endif

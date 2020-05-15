@@ -166,6 +166,9 @@
     <Filter Include="Assets\Scenes\Sandbox\StressTest">
       <UniqueIdentifier>{945dbf5b-5084-46dd-b80b-655358d19aec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Prefabs\UI">
+      <UniqueIdentifier>{6f306014-6abd-407e-af76-a356c69f624f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -476,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="BackgroundMaterial.cpp">
       <Filter>Assets\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="IndicatorLabel.cpp">
+      <Filter>Assets\Prefabs\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -817,6 +823,9 @@
     </ClInclude>
     <ClInclude Include="BackgroundMaterial.h">
       <Filter>Assets\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="IndicatorLabel.h">
+      <Filter>Assets\Prefabs\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

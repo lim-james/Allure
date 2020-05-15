@@ -6,6 +6,7 @@
 #include "PhysicsSystem.h"
 #include "ColliderSystem.h"
 #include "AudioSystem.h"
+#include "AnimationSystem.h"
 // post vfx
 #include "Bloom.h"
 #include "CurveDisplay.h"
@@ -31,6 +32,7 @@ void MainGame::Awake() {
 	systems->Subscribe<AudioSystem>(0);
 	systems->Subscribe<PhysicsSystem>(0);
 	systems->Subscribe<ParticleSystem>(1);
+	systems->Subscribe<AnimationSystem>(2);
 
 	systems->SubscribeFixed<PhysicsSystem>();
 	systems->SubscribeFixed<ColliderSystem>();
@@ -48,6 +50,9 @@ void MainGame::Create() {
 	background->indicatorTint = vec3f(0.5f);
 	background->thresholdTint = vec3f(10.f, 0.2f, 0.2f);
 
+	indicatorLabel = new IndicatorLabel;
+	indicatorLabel->Initialize(entities);
+
 	basicBullet = new BasicBullet;
 	basicBullet->Initialize(entities);
 
@@ -58,7 +63,7 @@ void MainGame::Create() {
 	background->viewSize = 10.f;
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
-	camera->SetSize(10.f);
+	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->cullingMask = DEFAULT | UI | PLAYER | ENEMY | BULLET;
 
@@ -90,11 +95,10 @@ void MainGame::Create() {
 	{
 		const unsigned entity = entities->Create();
 
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-
 		Text* const text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
 		text->SetFont(courierNew);
+		text->scale = 3.f;
 
 		FPSCounter* const fps = entities->AddComponent<FPSCounter>(entity);
 		fps->SetActive(true);
@@ -119,6 +123,7 @@ void MainGame::Create() {
 		audio->SetActive(true);
 		audio->audioClip = "Files/Media/LOUD - Thoughts.wav";
 		audio->loop = true;
+		audio->Play();
 
 		AudioController* const controller = entities->AddComponent<AudioController>(entity);
 		controller->SetActive(true);
@@ -192,7 +197,8 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(60);
+		beat->SetTempo(100);
+		beat->indicatorPrefab = indicatorLabel;
 		beat->material = background;
 		beat->threshold = 0.15f;
 
@@ -213,6 +219,7 @@ void MainGame::Create() {
 void MainGame::Destroy() {
 	Scene::Destroy();
 	delete background;
+	delete indicatorLabel;
 	delete basicBullet;
 	delete demoGun;
 }

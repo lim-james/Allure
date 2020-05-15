@@ -3,10 +3,12 @@
 
 #include "Script.h"
 #include "BackgroundMaterial.h"
+#include "Prefab.h"
 
 struct BeatController : Script {
 
 	Material::Background* material;
+	Prefab* indicatorPrefab;
 
 	float threshold;
 

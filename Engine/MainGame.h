@@ -6,6 +6,7 @@
 // materials
 #include "BackgroundMaterial.h"
 // prefabs
+#include "IndicatorLabel.h"
 #include "BasicBullet.h"
 // weapons
 #include "DemoGun.h"
@@ -14,6 +15,7 @@ class MainGame : public Scene {
 
 	Material::Background* background;
 
+	IndicatorLabel* indicatorLabel;
 	BasicBullet* basicBullet;
 	DemoGun* demoGun;
 

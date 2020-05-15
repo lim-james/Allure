@@ -67,7 +67,9 @@
   <ItemGroup>
     <None Include="Audio\AudioFile.inl" />
     <None Include="Handler\Handler_NonVoid.inl" />
+    <None Include="Handler\Handler_NonVoid_Constructors.inl" />
     <None Include="Handler\Handler_Void.inl" />
+    <None Include="Handler\Handler_Void_Constructors.inl" />
     <None Include="Helpers\StringHelpers.inl" />
     <None Include="Math\Base\vec2.inl" />
     <None Include="Math\Base\vec3.inl" />
