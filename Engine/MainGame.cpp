@@ -7,6 +7,7 @@
 #include "ColliderSystem.h"
 #include "AudioSystem.h"
 #include "AnimationSystem.h"
+#include "LayoutSystem.h"
 // post vfx
 #include "Bloom.h"
 #include "CurveDisplay.h"
@@ -33,6 +34,7 @@ void MainGame::Awake() {
 	systems->Subscribe<PhysicsSystem>(0);
 	systems->Subscribe<ParticleSystem>(1);
 	systems->Subscribe<AnimationSystem>(2);
+	systems->Subscribe<LayoutSystem>(3);
 
 	systems->SubscribeFixed<PhysicsSystem>();
 	systems->SubscribeFixed<ColliderSystem>();
@@ -42,6 +44,7 @@ void MainGame::Create() {
 	Scene::Create();
 
 	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
+	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
 	background = new Material::Background;
 	background->speed = 75.f;
@@ -65,7 +68,7 @@ void MainGame::Create() {
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
-	camera->cullingMask = DEFAULT | UI | PLAYER | ENEMY | BULLET;
+	camera->cullingMask = DEFAULT | PLAYER | ENEMY | BULLET;
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
 	follow->SetActive(true);
@@ -82,6 +85,24 @@ void MainGame::Create() {
 
 		AudioListener* const listener = entities->AddComponent<AudioListener>(mainCamera);
 		listener->SetActive(true);
+	}
+	
+	// ui camera
+
+	Camera* uiCamera = nullptr;
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->translation.z = 10.f;
+
+		uiCamera = entities->AddComponent<Camera>(entity);
+		uiCamera->SetActive(true);
+		uiCamera->SetSize(10.f);
+		uiCamera->SetDepth(1);
+		uiCamera->shouldClear = false;
+		uiCamera->projection = ORTHOGRAPHIC;
+		uiCamera->cullingMask = UI;
 	}
 
 	// post processing volume
@@ -145,6 +166,73 @@ void MainGame::Create() {
 		CrosshairController* const controller = entities->AddComponent<CrosshairController>(entity);
 		controller->SetActive(true);
 		controller->view = camera;
+	}
+
+	// Total score label
+
+	Transform* scoreTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		scoreTransform= entities->AddComponent<Transform>(entity);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 2.f, uiCamera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 0.75f;
+		text->text = "100";
+		text->paragraphAlignment = PARAGRAPH_LEFT;
+		text->verticalAlignment = ALIGN_TOP;
+	}
+
+	// Build score label
+	Transform* buildScoreTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		buildScoreTransform = entities->AddComponent<Transform>(entity);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 0.75f;
+		text->text = "100";
+		text->paragraphAlignment = PARAGRAPH_RIGHT;
+		text->verticalAlignment = ALIGN_TOP;
+	}
+
+	// multiplier label
+	Transform* multiplierTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		multiplierTransform = entities->AddComponent<Transform>(entity);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, buildScoreTransform, BOTTOM_ANCHOR, 1.f, -0.1f, uiCamera));
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 1.2f;
+		text->text = "x8";
+		text->paragraphAlignment = PARAGRAPH_RIGHT;
+		text->verticalAlignment = ALIGN_TOP;
 	}
 
 	// player

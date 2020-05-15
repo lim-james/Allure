@@ -62,6 +62,7 @@ void Scene::FixedUpdate(float const& dt) {
 void Scene::Update(float const& dt) {
 	scripts->Update(dt);
 	systems->Update(dt);
+	entities->Update();
 }
 
 void Scene::Exit() {

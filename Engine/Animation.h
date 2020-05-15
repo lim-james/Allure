@@ -32,6 +32,10 @@ public:
 
 	virtual void Update(float const& dt);
 	const bool IsActive() const;
+
+	float const& GetDuration() const;
+	float const& GetDelay() const;
+
 };
 
 template<typename T>
@@ -76,7 +80,7 @@ public:
 
 struct Animation : Component {
 
-	std::map<int, AnimationBase*> animations;
+	std::map<int, std::vector<AnimationBase*>> animations;
 
 	Animation();
 	~Animation() override;
@@ -86,14 +90,9 @@ struct Animation : Component {
 	void SetActive(bool const& state) override;
 
 	template<typename T>
-	void Animate(AnimationBase const& base, T* target, T const& outcome) {
+	void Queue(AnimationBase const& base, T* target, T const& outcome) {
 		const int t = (int)target;
-	
-		if (animations[t])
-			delete animations[t];
-
-		animations[t] = new AnimationData<T>(base, target, outcome);
-		//animations.push_back(new AnimationData<T>(base, &target, outcome));
+		animations[t].push_back(new AnimationData<T>(base, target, outcome));
 	}
 
 	void Clear();

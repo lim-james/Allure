@@ -12,7 +12,7 @@ void ButtonAnimation::Awake() {
 }
 
 void ButtonAnimation::OnMouseOver(unsigned target) {
-	animation->Animate(
+	animation->Queue(
 		AnimationBase(false, 0.2f),
 		&render->tint.a,
 		1.f
@@ -20,7 +20,7 @@ void ButtonAnimation::OnMouseOver(unsigned target) {
 }
 
 void ButtonAnimation::OnMouseOut(unsigned target) {
-	animation->Animate(
+	animation->Queue(
 		AnimationBase(false, 0.2f),
 		&render->tint.a,
 		0.5f
@@ -28,7 +28,7 @@ void ButtonAnimation::OnMouseOut(unsigned target) {
 }
 
 void ButtonAnimation::OnMouseDown(unsigned target) {
-	animation->Animate(
+	animation->Queue(
 		AnimationBase(false, 0.2f),
 		&transform->scale,
 		vec3f(7.f, 1.5f, 0.f) * 0.9f
@@ -36,7 +36,7 @@ void ButtonAnimation::OnMouseDown(unsigned target) {
 }
 
 void ButtonAnimation::OnMouseUp(unsigned target) {
-	animation->Animate(
+	animation->Queue(
 		AnimationBase(false, 0.2f),
 		&transform->scale,
 		vec3f(7.f, 1.5f, 0.f)

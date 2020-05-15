@@ -20,6 +20,14 @@ const bool AnimationBase::IsActive() const {
 	return loop || et < duration;
 }
 
+float const & AnimationBase::GetDuration() const {
+	return duration;
+}
+
+float const & AnimationBase::GetDelay() const {
+	return delay;
+}
+
 Animation::Animation() {}
 
 Animation::~Animation() {
@@ -40,8 +48,9 @@ void Animation::SetActive(bool const& state) {
 }
 
 void Animation::Clear() {
-	for (auto& a : animations)
-		delete a.second;
+	for (auto& list : animations)
+		for (AnimationBase* const a : list.second)
+			delete a;
 
 	animations.clear();
 }

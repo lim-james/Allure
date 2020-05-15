@@ -17,16 +17,20 @@ void AnimationSystem::Update(float const& dt) {
 
 		for (auto& a : anims) {
 			keys.push_back(a.first);
-			a.second->Update(static_cast<float>(dt));
+			a.second[0]->Update(static_cast<float>(dt));
 		}
 
 		const int size = static_cast<int>(keys.size());
 
 		for (int i = size - 1; i >= 0; --i) {
 			int const& key = keys[i];
-			if (!anims[key]->IsActive()) {
-				delete anims[key];
-				anims.erase(key);
+			auto& list = anims[key];
+
+			if (!list[0]->IsActive()) {
+				delete list[0];
+				list.erase(list.begin());
+				if (list.empty())
+					anims.erase(key);
 			}
 		}
 	}

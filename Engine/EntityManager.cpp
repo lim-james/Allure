@@ -27,16 +27,23 @@ EntityManager::~EntityManager() {
 }
 
 void EntityManager::Destroy(unsigned const& id) {
-	if (Helpers::Remove(used, id)) {
-		for (auto& pair : entities[id].components) {
-			if (pair.second) {
-				pair.second->Initialize();
-				pair.second->SetActive(false);
-			}
-		}
+	destroyQueue.push_back(id);
+}
 
-		unused.push_back(id);
+void EntityManager::Update() {
+	for (unsigned const& id : destroyQueue) {
+		if (Helpers::Remove(used, id)) {
+			for (auto& pair : entities[id].components) {
+				if (pair.second) {
+					pair.second->Initialize();
+					pair.second->SetActive(false);
+				}
+			}
+
+			unused.push_back(id);
+		}
 	}
+	destroyQueue.clear();
 }
 
 void EntityManager::SetLayer(unsigned const & id, unsigned const & layer) {

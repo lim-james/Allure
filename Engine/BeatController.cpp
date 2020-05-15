@@ -12,7 +12,7 @@ void BeatController::Hit() {
 	} else {
 		{
 			Transform* const indicator = indicatorPrefab->Create();
-			indicator->translation = transform->GetWorldTranslation();
+			indicator->translation = transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f);
 
 			Text* const text = entities->GetComponent<Text>(indicator->entity);
 			text->text = "TOO EARLY";
@@ -38,7 +38,7 @@ void BeatController::Update() {
 		bt = delay;
 		{
 			Transform* const indicator = indicatorPrefab->Create();
-			indicator->translation = transform->GetWorldTranslation();
+			indicator->translation = transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f);
 		
 			Text* const text = entities->GetComponent<Text>(indicator->entity);
 			text->text = "MISSED";

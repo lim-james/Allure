@@ -25,6 +25,8 @@ class EntityManager {
 	std::vector<unsigned> used;
 	std::vector<unsigned> unused;
 
+	std::vector<unsigned> destroyQueue;
+
 public:
 
 	~EntityManager();
@@ -32,6 +34,7 @@ public:
 	unsigned Create();
 
 	void Destroy(unsigned const& id);
+	void Update();
 
 	void SetLayer(unsigned const& id, unsigned const& layer);
 	unsigned const& GetLayer(unsigned const& id);

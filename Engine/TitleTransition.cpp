@@ -10,37 +10,37 @@ void TitleTransition::FadeOut() {
 
 	AnimationBase base = AnimationBase(false, 0.5f);
 
-	animation->Animate(
+	animation->Queue(
 		base,
 		&titleText->color.a,
 		0.f
 	);
 
-	animation->Animate(
+	animation->Queue(
 		base,
 		&titleTransform->translation.y,
 		0.25f
 	);
 
-	animation->Animate(
+	animation->Queue(
 		base,
 		&buttonRender->tint.a,
 		0.f
 	);
 
-	animation->Animate(
+	animation->Queue(
 		base,
 		&buttonTransform->translation.y,
 		-7.25f
 	);
 
-	animation->Animate(
+	animation->Queue(
 		base,
 		&grid->tint.a,
 		0.f
 	);
 
-	animation->Animate(
+	animation->Queue(
 		base,
 		&underline->tint.a,
 		0.f
