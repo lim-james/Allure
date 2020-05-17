@@ -55,15 +55,6 @@
     <Filter Include="Assets\Scenes">
       <UniqueIdentifier>{254b132c-5b0a-4253-ba78-712a52f0c797}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scripts\Common">
-      <UniqueIdentifier>{63b9d320-41aa-40d8-934c-514d986d3cf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scripts\Common\UI">
-      <UniqueIdentifier>{a629f47c-d2bc-4a27-800b-7564890e3a76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scripts\Common\Mouse">
-      <UniqueIdentifier>{c9c4dcfc-6d11-481c-8f10-a0424b58891e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Scripts\Title">
       <UniqueIdentifier>{43bad25f-669f-426a-bd0b-fd500975463d}</UniqueIdentifier>
     </Filter>
@@ -82,14 +73,8 @@
     <Filter Include="Assets\Materials">
       <UniqueIdentifier>{946e004f-350a-4b2f-b589-5dd0ea744569}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scripts\Common\Editor Camera">
-      <UniqueIdentifier>{4f40516b-2ef3-4ef1-b51b-1dc1a27617f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Render\Light">
       <UniqueIdentifier>{a114e2eb-b104-46a8-ab16-9fbec3156cf9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Scripts\Common\Orbit">
-      <UniqueIdentifier>{508fdaa3-b472-434e-96f9-0968944f6e69}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Render\Line">
       <UniqueIdentifier>{2ebb9b4a-5997-481c-828f-9bf119ee765a}</UniqueIdentifier>
@@ -174,6 +159,21 @@
     </Filter>
     <Filter Include="Assets\States">
       <UniqueIdentifier>{e5e5052e-c23a-4d03-a671-4adc39b8225c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\General">
+      <UniqueIdentifier>{63b9d320-41aa-40d8-934c-514d986d3cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\General\UI">
+      <UniqueIdentifier>{a629f47c-d2bc-4a27-800b-7564890e3a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\General\Mouse">
+      <UniqueIdentifier>{c9c4dcfc-6d11-481c-8f10-a0424b58891e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\General\Editor Camera">
+      <UniqueIdentifier>{4f40516b-2ef3-4ef1-b51b-1dc1a27617f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\General\Orbit">
+      <UniqueIdentifier>{508fdaa3-b472-434e-96f9-0968944f6e69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -280,10 +280,10 @@
       <Filter>Application\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="ButtonAnimation.cpp">
-      <Filter>Assets\Scripts\Common\UI</Filter>
+      <Filter>Assets\Scripts\General\UI</Filter>
     </ClCompile>
     <ClCompile Include="FollowCursor.cpp">
-      <Filter>Assets\Scripts\Common\Mouse</Filter>
+      <Filter>Assets\Scripts\General\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="TitleTransition.cpp">
       <Filter>Assets\Scripts\Title</Filter>
@@ -301,13 +301,13 @@
       <Filter>Engine\Render\Mesh\Model</Filter>
     </ClCompile>
     <ClCompile Include="EditorCamera.cpp">
-      <Filter>Assets\Scripts\Common\Editor Camera</Filter>
+      <Filter>Assets\Scripts\General\Editor Camera</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Engine\Render\Light</Filter>
     </ClCompile>
     <ClCompile Include="Orbit.cpp">
-      <Filter>Assets\Scripts\Common\Orbit</Filter>
+      <Filter>Assets\Scripts\General\Orbit</Filter>
     </ClCompile>
     <ClCompile Include="LoadTexture.cpp">
       <Filter>Engine\Render\Utilities</Filter>
@@ -421,7 +421,7 @@
       <Filter>Assets\Scripts\Test</Filter>
     </ClCompile>
     <ClCompile Include="FPSCounter.cpp">
-      <Filter>Assets\Scripts\Common\UI</Filter>
+      <Filter>Assets\Scripts\General\UI</Filter>
     </ClCompile>
     <ClCompile Include="Stress3D.cpp">
       <Filter>Assets\Scenes\Sandbox\StressTest</Filter>
@@ -448,9 +448,6 @@
       <Filter>Assets\Scripts\Main\Player</Filter>
     </ClCompile>
     <ClCompile Include="DemoGun.cpp">
-      <Filter>Assets\Scripts\Main\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="SelfDestruct.cpp">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="ScreenShake.cpp">
@@ -480,9 +477,6 @@
     <ClCompile Include="AudioController.cpp">
       <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="BeatController.cpp">
-      <Filter>Assets\Scripts\Main\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="BackgroundMaterial.cpp">
       <Filter>Assets\Materials</Filter>
     </ClCompile>
@@ -497,6 +491,12 @@
     </ClCompile>
     <ClCompile Include="EnemyTarget.cpp">
       <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosiveBullet.cpp">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfDestruct.cpp">
+      <Filter>Assets\Scripts\General</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -609,13 +609,13 @@
       <Filter>Application\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="ButtonAnimation.h">
-      <Filter>Assets\Scripts\Common\UI</Filter>
+      <Filter>Assets\Scripts\General\UI</Filter>
     </ClInclude>
     <ClInclude Include="ScriptTemplate.h">
       <Filter>Assets\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="FollowCursor.h">
-      <Filter>Assets\Scripts\Common\Mouse</Filter>
+      <Filter>Assets\Scripts\General\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="TitleTransition.h">
       <Filter>Assets\Scripts\Title</Filter>
@@ -636,13 +636,13 @@
       <Filter>Engine\Render\Mesh\Model</Filter>
     </ClInclude>
     <ClInclude Include="EditorCamera.h">
-      <Filter>Assets\Scripts\Common\Editor Camera</Filter>
+      <Filter>Assets\Scripts\General\Editor Camera</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Engine\Render\Light</Filter>
     </ClInclude>
     <ClInclude Include="Orbit.h">
-      <Filter>Assets\Scripts\Common\Orbit</Filter>
+      <Filter>Assets\Scripts\General\Orbit</Filter>
     </ClInclude>
     <ClInclude Include="LoadTexture.h">
       <Filter>Engine\Render\Utilities</Filter>
@@ -768,7 +768,7 @@
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="FPSCounter.h">
-      <Filter>Assets\Scripts\Common\UI</Filter>
+      <Filter>Assets\Scripts\General\UI</Filter>
     </ClInclude>
     <ClInclude Include="Stress3D.h">
       <Filter>Assets\Scenes\Sandbox\StressTest</Filter>
@@ -803,9 +803,6 @@
     <ClInclude Include="DemoGun.h">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="SelfDestruct.h">
-      <Filter>Assets\Scripts\Main\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="ScreenShake.h">
       <Filter>Assets\Scripts\Main\Camera</Filter>
     </ClInclude>
@@ -833,9 +830,6 @@
     <ClInclude Include="ApplicationProperties.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="BeatController.h">
-      <Filter>Assets\Scripts\Main\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="BackgroundMaterial.h">
       <Filter>Assets\Materials</Filter>
     </ClInclude>
@@ -853,6 +847,12 @@
     </ClInclude>
     <ClInclude Include="EnemyData.h">
       <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosiveBullet.h">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfDestruct.h">
+      <Filter>Assets\Scripts\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,8 +12,8 @@ DemoGun::DemoGun()
 	: firerate(0.2f) 
 	, bt(0.f) {}
 
-void DemoGun::Trigger() {
-	CreateBullet();
+void DemoGun::Trigger(bool const& onBeat) {
+	CreateBullet(onBeat);
 	bt = firerate;
 }
 
@@ -26,12 +26,12 @@ void DemoGun::Hold(float const & dt) {
 	}
 }
 
-void DemoGun::Release() {}
+void DemoGun::Release(bool const& onBeat) {}
 
-void DemoGun::CreateBullet() const { 
+void DemoGun::CreateBullet(bool const& onBeat) const { 
 	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
 
-	Transform* const transform = bulletPrefab->Create();
+	Transform* const transform = (onBeat ? explosivePrefab : standardPrefab)->Create();
 	transform->translation = player->translation;
 
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);

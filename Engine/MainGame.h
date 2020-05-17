@@ -8,6 +8,7 @@
 // prefabs
 #include "IndicatorLabel.h"
 #include "BasicBullet.h"
+#include "ExplosiveBullet.h"
 #include "BasicEnemy.h"
 // weapons
 #include "DemoGun.h"
@@ -18,6 +19,7 @@ class MainGame : public Scene {
 
 	IndicatorLabel* indicatorLabel;
 	BasicBullet* basicBullet;
+	ExplosiveBullet* explosiveBullet;
 	DemoGun* demoGun;
 
 	// enemies

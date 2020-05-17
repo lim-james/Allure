@@ -11,17 +11,18 @@ class DemoGun : public WeaponBase {
 
 public:
 
-	Prefab* bulletPrefab;
+	Prefab* standardPrefab;
+	Prefab* explosivePrefab;
 	
 	DemoGun();
 
-	void Trigger() override;
+	void Trigger(bool const& onBeat) override;
 	void Hold(float const& dt) override;
-	void Release() override;
+	void Release(bool const& onBeat) override;
 
 private:
 
-	void CreateBullet() const;
+	void CreateBullet(bool const& onBeat) const;
 
 };
 

@@ -17,9 +17,9 @@ struct WeaponBase : Resource {
 	virtual void SetCrosshair(Transform* const transform);
 	virtual void SetAudioSource(AudioSource* const source);
 
-	virtual void Trigger() = 0;
+	virtual void Trigger(bool const& onBeat) = 0;
 	virtual void Hold(float const& dt) = 0;
-	virtual void Release() = 0;
+	virtual void Release(bool const& onBeat) = 0;
 
 protected:
 

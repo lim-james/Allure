@@ -23,7 +23,6 @@
 #include "EnemyTarget.h"
 #include "EnemyManager.h"
 #include "AudioController.h"
-#include "BeatController.h"
 // states
 #include "ChaseState.h"
 // Utils
@@ -68,8 +67,12 @@ void MainGame::Create() {
 	basicBullet = new BasicBullet;
 	basicBullet->Initialize(entities);
 
+	explosiveBullet = new ExplosiveBullet;
+	explosiveBullet->Initialize(entities);
+
 	demoGun = new DemoGun;
-	demoGun->bulletPrefab = basicBullet;
+	demoGun->standardPrefab = basicBullet;
+	demoGun->explosivePrefab = explosiveBullet;
 	demoGun->Initialize(entities);
 
 	basicEnemy = new BasicEnemy;
@@ -93,7 +96,7 @@ void MainGame::Create() {
 		ScreenShake* const shake = entities->AddComponent<ScreenShake>(mainCamera);
 		shake->SetActive(true);
 		shake->duration = 0.25f;
-		shake->magnitude = 0.075f;
+		shake->magnitude = 0.25f;
 
 		AudioListener* const listener = entities->AddComponent<AudioListener>(mainCamera);
 		listener->SetActive(true);
@@ -298,17 +301,12 @@ void MainGame::Create() {
 
 		PlayerCombat* const combat = entities->AddComponent<PlayerCombat>(entity);
 		combat->SetActive(true);
+		combat->SetTempo(60);
+		combat->indicatorPrefab = indicatorLabel;
+		combat->material = background;
+		combat->threshold = 0.15f;
 		combat->SetCrosshair(follow->crosshair);
 		combat->SetWeapon(demoGun);
-
-		BeatController* const beat = entities->AddComponent<BeatController>(entity);
-		beat->SetActive(true);
-		beat->SetTempo(144);
-		beat->indicatorPrefab = indicatorLabel;
-		beat->material = background;
-		beat->threshold = 0.15f;
-
-		combat->fire.Bind(&BeatController::Hit, beat);
 	}
 
 	// enemy manager
@@ -320,7 +318,7 @@ void MainGame::Create() {
 		manager->SetActive(true);
 		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
-		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 10, 1 });
 	}
 
 	// test enemy
@@ -341,6 +339,7 @@ void MainGame::Destroy() {
 
 	delete indicatorLabel;
 	delete basicBullet;
+	delete explosiveBullet;
 	delete demoGun;
 
 	delete basicEnemy;
