@@ -6,13 +6,11 @@
 
 struct EnemyLife : Script {
 
-	void OnCollisionEnter(unsigned entity);
+	void OnCollisionEnter(unsigned target);
 
 private:
 
-	ParticleEmitter* emitter;
-
-	void Awake() override;
+	//void Awake() override;
 
 };
 

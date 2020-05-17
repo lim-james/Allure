@@ -1,6 +1,7 @@
 #include "SystemManager.h"
 
 #include <Events/EventsManager.h>
+#include <thread>
 
 SystemManager::SystemManager(EntityManager * const manager) : manager(manager) {}
 
@@ -38,9 +39,26 @@ void SystemManager::Update(float const& dt) {
 
 	if (frameLayout.size() <= 1) return;
 
+	//std::vector<System*>& f = *frame;
+	//std::thread* threads = new std::thread[f.size()];
+
+	//for (unsigned i = 0; i < f.size(); ++i) {
+	//	System* const s = f[i];
+	//	const float fdt = frameDelta[s];
+	//	frameDelta[s] = 0.f;
+
+	//	threads[i] = std::thread([s, fdt]() {
+	//		s->Update(fdt);
+	//	});
+	//}
+
+	//for (unsigned i = 0; i < f.size(); ++i) {
+	//	threads[i].join();
+	//}
+
 	for (auto& s : *frame) {
 		s->Update(frameDelta[s]);
-		frameDelta[s] = 0.f;
+		frameDelta[s] = 0.0f;
 	}
 
 	++frame;

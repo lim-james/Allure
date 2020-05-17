@@ -8,6 +8,7 @@
 #include "AudioSystem.h"
 #include "AnimationSystem.h"
 #include "LayoutSystem.h"
+#include "StateMachine.h"
 // post vfx
 #include "Bloom.h"
 #include "CurveDisplay.h"
@@ -19,9 +20,12 @@
 #include "PlayerCombat.h"
 #include "CrosshairController.h"
 #include "EnemyLife.h"
+#include "EnemyTarget.h"
 #include "EnemyManager.h"
 #include "AudioController.h"
 #include "BeatController.h"
+// states
+#include "ChaseState.h"
 // Utils
 #include "Layers.h"
 #include "LoadTexture.h"
@@ -33,11 +37,16 @@ void MainGame::Awake() {
 	systems->Subscribe<AudioSystem>(0);
 	systems->Subscribe<PhysicsSystem>(0);
 	systems->Subscribe<ParticleSystem>(1);
-	systems->Subscribe<AnimationSystem>(2);
-	systems->Subscribe<LayoutSystem>(3);
+	systems->Subscribe<AnimationSystem>(1);
+	systems->Subscribe<LayoutSystem>(1);
+	systems->Subscribe<StateMachine>(2);
 
 	systems->SubscribeFixed<PhysicsSystem>();
 	systems->SubscribeFixed<ColliderSystem>();
+	systems->SubscribeFixed<StateMachine>();
+
+	StateMachine* const stateMachine = systems->Get<StateMachine>();
+	stateMachine->AttachState<States::Chase>("CHASE");
 }
 
 void MainGame::Create() {
@@ -62,6 +71,9 @@ void MainGame::Create() {
 	demoGun = new DemoGun;
 	demoGun->bulletPrefab = basicBullet;
 	demoGun->Initialize(entities);
+
+	basicEnemy = new BasicEnemy;
+	basicEnemy->Initialize(entities);
 
 	background->viewSize = 10.f;
 
@@ -115,11 +127,16 @@ void MainGame::Create() {
 	// FPS counter
 	{
 		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(CENTER_X_ANCHOR, nullptr, CENTER_X_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
 
 		Text* const text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
-		text->SetFont(courierNew);
-		text->scale = 3.f;
+		text->SetFont(vcrMono);
 
 		FPSCounter* const fps = entities->AddComponent<FPSCounter>(entity);
 		fps->SetActive(true);
@@ -145,6 +162,7 @@ void MainGame::Create() {
 		audio->audioClip = "Files/Media/LOUD - Thoughts.wav";
 		audio->loop = true;
 		audio->Play();
+		audio->volume = 0.f;
 
 		AudioController* const controller = entities->AddComponent<AudioController>(entity);
 		controller->SetActive(true);
@@ -169,7 +187,6 @@ void MainGame::Create() {
 	}
 
 	// Total score label
-
 	Transform* scoreTransform = nullptr;
 	{
 		const unsigned entity = entities->Create();
@@ -268,13 +285,14 @@ void MainGame::Create() {
 
 		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 		collider->SetActive(true);
+		collider->ignoreMask = BULLET;
 
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
 
 		PlayerMovement* const movement = entities->AddComponent<PlayerMovement>(entity);
 		movement->SetActive(true);
-		movement->speed = 200.f;
+		movement->speed = 400.f;
 		movement->dash = 30.f;
 		movement->bounds = vec3f(40.f, 22.5f, 1.f);
 
@@ -302,12 +320,27 @@ void MainGame::Create() {
 		manager->SetActive(true);
 		manager->player = follow->player;
 	}
+
+	// test enemy
+	{
+		Transform* const transform = basicEnemy->Create();
+		
+		unsigned const& entity = transform->entity;
+
+		EnemyTarget* const target = entities->GetComponent<EnemyTarget>(entity);
+		target->speed = 200.f;
+		target->player = follow->player;
+	}
 }
 
 void MainGame::Destroy() {
 	Scene::Destroy();
+
 	delete background;
+
 	delete indicatorLabel;
 	delete basicBullet;
 	delete demoGun;
+
+	delete basicEnemy;
 }

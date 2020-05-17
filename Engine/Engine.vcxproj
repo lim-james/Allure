@@ -143,12 +143,14 @@
     <ClCompile Include="AudioListener.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BackgroundMaterial.cpp" />
+    <ClCompile Include="BasicEnemy.cpp" />
     <ClCompile Include="BasicBullet.cpp" />
     <ClCompile Include="BeatController.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraFollow.cpp" />
+    <ClCompile Include="ChaseState.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="CollisionData.cpp" />
@@ -157,6 +159,7 @@
     <ClCompile Include="DemoGun.cpp" />
     <ClCompile Include="EnemyLife.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemyTarget.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="IBLMaterial.cpp" />
     <ClCompile Include="CurveDisplay.cpp" />
@@ -244,6 +247,8 @@
     <ClInclude Include="ApplicationProperties.h" />
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="BackgroundMaterial.h" />
+    <ClInclude Include="ChaseState.h" />
+    <ClInclude Include="BasicEnemy.h" />
     <ClInclude Include="BasicBullet.h" />
     <ClInclude Include="BeatController.h" />
     <ClInclude Include="CameraFollow.h" />
@@ -252,6 +257,7 @@
     <ClInclude Include="DemoGun.h" />
     <ClInclude Include="EnemyLife.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemyTarget.h" />
     <ClInclude Include="IndicatorLabel.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Physics.h" />

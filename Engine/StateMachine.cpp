@@ -31,6 +31,13 @@ void StateMachine::Update(float const& dt) {
 	}
 }
 
+void StateMachine::FixedUpdate(float const& dt) {
+	for (auto& c : components) {
+		if (c->currentState != "")
+			states[c->currentState]->FixedUpdate(c->entity, dt, entities);
+	}
+}
+
 void StateMachine::ActiveHandler(Events::Event* event) {
 	const auto c = static_cast<Events::AnyType<StateContainer*>*>(event)->data;
 

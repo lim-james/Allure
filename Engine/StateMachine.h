@@ -22,6 +22,7 @@ public:
 
 	void Initialize() override;
 	void Update(float const& dt) override;
+	void FixedUpdate(float const& dt) override;
 
 	template<typename State>
 	void AttachState(std::string const& key);

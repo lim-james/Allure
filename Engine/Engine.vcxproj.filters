@@ -169,6 +169,12 @@
     <Filter Include="Assets\Prefabs\UI">
       <UniqueIdentifier>{6f306014-6abd-407e-af76-a356c69f624f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Prefabs\Enemies">
+      <UniqueIdentifier>{ceb4afeb-cea0-4253-9cba-c518c5ecf181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\States">
+      <UniqueIdentifier>{e5e5052e-c23a-4d03-a671-4adc39b8225c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -482,6 +488,15 @@
     </ClCompile>
     <ClCompile Include="IndicatorLabel.cpp">
       <Filter>Assets\Prefabs\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicEnemy.cpp">
+      <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaseState.cpp">
+      <Filter>Assets\States</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTarget.cpp">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -826,6 +841,15 @@
     </ClInclude>
     <ClInclude Include="IndicatorLabel.h">
       <Filter>Assets\Prefabs\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicEnemy.h">
+      <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaseState.h">
+      <Filter>Assets\States</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTarget.h">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
