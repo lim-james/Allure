@@ -255,6 +255,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CrosshairController.h" />
     <ClInclude Include="DemoGun.h" />
+    <ClInclude Include="EnemyData.h" />
     <ClInclude Include="EnemyLife.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyTarget.h" />

@@ -20,6 +20,8 @@ private:
 	float delay;
 	float bt;
 
+	bool isHit;
+
 	void Start();
 	void Update();
 

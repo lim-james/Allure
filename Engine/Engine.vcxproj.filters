@@ -851,6 +851,9 @@
     <ClInclude Include="EnemyTarget.h">
       <Filter>Assets\Scripts\Main\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyData.h">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt">

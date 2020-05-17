@@ -1,6 +1,7 @@
 #include "BasicEnemy.h"
 
 #include "SpriteRender.h"
+#include "ParticleEmitter.h"
 #include "Physics.h"
 #include "SphereCollider.h"
 #include "StateContainer.h"
@@ -14,12 +15,31 @@ Transform * BasicEnemy::Create() {
 	entities->SetLayer(entity, ENEMY);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale = 3.f;
+	transform->scale = 2.f;
 	
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
 	render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
 	
+	//ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);
+	//emitter->SetActive(true);
+	//emitter->duration = 0.1f;
+	//emitter->spawnInterval = 0.1f;
+	//emitter->lifetime = 1.5f;
+	//emitter->lifetimeRange = 0.2f;
+	//emitter->loop = false;
+	//emitter->speed = 15.f;
+	//emitter->speedRange = 3.f;
+	//emitter->drag = 10.f;
+	//emitter->angleRange.z = 180.f;
+	//emitter->burstAmount = 15;
+	//emitter->positionRange.xy = 0.0f;
+	//emitter->startSize = 0.3f;
+	//emitter->startSizeRange = 0.3f;
+	//emitter->endSize = 0.0f;
+	//emitter->startColor = vec4f(1.f, 0.f, 0.f, 1.f);
+	//emitter->endColor = vec4f(1.f, 0.f, 0.f, 1.f);
+
 	Physics* const physics = entities->AddComponent<Physics>(entity);
 	physics->SetActive(true);
 	physics->useGravity = false;
@@ -40,6 +60,7 @@ Transform * BasicEnemy::Create() {
 
 	EnemyTarget* const target = entities->AddComponent<EnemyTarget>(entity);
 	target->SetActive(true);
+	target->speed = 200.f;
 
 	return transform;
 }

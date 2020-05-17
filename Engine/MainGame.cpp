@@ -148,13 +148,13 @@ void MainGame::Create() {
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation.z = -1.f;
-		transform->scale = vec3f(80.0f, 45.0f, 1.0f);
+		transform->scale = vec3f(160.0f, 90.0f, 1.0f);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
 		render->SetMaterial(background);
-		render->SetCellRect(0, 0, 16, 9);
+		render->SetCellRect(0, 0, 32, 18);
 		render->tint.a = 0.15f;
 
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
@@ -294,7 +294,7 @@ void MainGame::Create() {
 		movement->SetActive(true);
 		movement->speed = 400.f;
 		movement->dash = 30.f;
-		movement->bounds = vec3f(40.f, 22.5f, 1.f);
+		movement->bounds = vec3f(80.f, 45.f, 1.f);
 
 		PlayerCombat* const combat = entities->AddComponent<PlayerCombat>(entity);
 		combat->SetActive(true);
@@ -303,7 +303,7 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(100);
+		beat->SetTempo(144);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->material = background;
 		beat->threshold = 0.15f;
@@ -318,7 +318,9 @@ void MainGame::Create() {
 
 		EnemyManager* const manager = entities->AddComponent<EnemyManager>(entity);
 		manager->SetActive(true);
+		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
+		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 1 });
 	}
 
 	// test enemy
@@ -328,7 +330,6 @@ void MainGame::Create() {
 		unsigned const& entity = transform->entity;
 
 		EnemyTarget* const target = entities->GetComponent<EnemyTarget>(entity);
-		target->speed = 200.f;
 		target->player = follow->player;
 	}
 }

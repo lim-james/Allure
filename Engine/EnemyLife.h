@@ -8,10 +8,6 @@ struct EnemyLife : Script {
 
 	void OnCollisionEnter(unsigned target);
 
-private:
-
-	//void Awake() override;
-
 };
 
 #endif
