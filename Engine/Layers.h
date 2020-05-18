@@ -6,6 +6,8 @@
 // custom
 #define PLAYER	0b100
 #define ENEMY	0b1000
-#define BULLET	0b10000
+
+#define BULLET			0b10000
+#define BONUS_BULLET	0b100000
 
 #endif

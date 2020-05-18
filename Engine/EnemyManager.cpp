@@ -1,6 +1,8 @@
 #include "EnemyManager.h"
 
 #include "EnemyTarget.h"
+#include "EnemyLife.h"
+
 #include <Math/Random.hpp>
 
 void EnemyManager::AddEnemy(EnemyData const & data) {
@@ -22,6 +24,9 @@ void EnemyManager::Update() {
 
 			EnemyTarget* const target = entities->GetComponent<EnemyTarget>(eTransform->entity);
 			target->player = player;
+	
+			EnemyLife* const life = entities->GetComponent<EnemyLife>(eTransform->entity);
+			life->points = data.points;
 		}
 	} else {
 		bt += time->dt;

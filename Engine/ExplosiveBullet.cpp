@@ -8,7 +8,7 @@
 
 Transform * ExplosiveBullet::Create() {
 	const unsigned entity = entities->Create();
-	entities->SetLayer(entity, BULLET);
+	entities->SetLayer(entity, BONUS_BULLET);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
 	transform->scale = 2.f;

@@ -55,6 +55,7 @@ void PlayerCombat::Update() {
 		
 			Text* const text = entities->GetComponent<Text>(indicator->entity);
 			text->text = "MISSED";
+			EventsManager::Get()->Trigger("RESET_MULTIPLIER");
 		}
 		isHit = false;
 	}

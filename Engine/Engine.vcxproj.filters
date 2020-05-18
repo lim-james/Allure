@@ -175,6 +175,9 @@
     <Filter Include="Assets\Scripts\General\Orbit">
       <UniqueIdentifier>{508fdaa3-b472-434e-96f9-0968944f6e69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Main\Score">
+      <UniqueIdentifier>{88327e12-f0dc-426a-83c7-4354671a7d06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -497,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="SelfDestruct.cpp">
       <Filter>Assets\Scripts\General</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreController.cpp">
+      <Filter>Assets\Scripts\Main\Score</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -853,6 +859,12 @@
     </ClInclude>
     <ClInclude Include="SelfDestruct.h">
       <Filter>Assets\Scripts\General</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreController.h">
+      <Filter>Assets\Scripts\Main\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreEvent.h">
+      <Filter>Assets\Scripts\Main\Score</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

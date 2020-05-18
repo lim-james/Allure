@@ -23,6 +23,7 @@
 #include "EnemyTarget.h"
 #include "EnemyManager.h"
 #include "AudioController.h"
+#include "ScoreController.h"
 // states
 #include "ChaseState.h"
 // Utils
@@ -83,7 +84,7 @@ void MainGame::Create() {
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
-	camera->cullingMask = DEFAULT | PLAYER | ENEMY | BULLET;
+	camera->cullingMask = DEFAULT | PLAYER | ENEMY | BULLET | BONUS_BULLET;
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
 	follow->SetActive(true);
@@ -145,6 +146,88 @@ void MainGame::Create() {
 		fps->SetActive(true);
 	}
 
+	// Score controller
+	ScoreController* scoreController = nullptr;
+	{
+		const unsigned entity = entities->Create();
+
+		scoreController = entities->AddComponent<ScoreController>(entity);
+		scoreController->SetActive(true);
+		scoreController->indicatorPrefab = indicatorLabel;
+	}
+
+	// Total score label
+	Transform* scoreTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		scoreTransform = entities->AddComponent<Transform>(entity);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 2.f, uiCamera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 0.75f;
+		text->text = "100";
+		text->paragraphAlignment = PARAGRAPH_LEFT;
+		text->verticalAlignment = ALIGN_TOP;
+
+		scoreController->totalScoreLabel = text;
+	}
+
+	// Build score label
+	Transform* buildScoreTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		buildScoreTransform = entities->AddComponent<Transform>(entity);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 0.75f;
+		text->text = "100";
+		text->paragraphAlignment = PARAGRAPH_RIGHT;
+		text->verticalAlignment = ALIGN_TOP;
+
+		scoreController->buildScoreLabel = text;
+	}
+
+	// multiplier label
+	Transform* multiplierTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		multiplierTransform = entities->AddComponent<Transform>(entity);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, buildScoreTransform, BOTTOM_ANCHOR, 1.f, -0.1f, uiCamera));
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 1.2f;
+		text->text = "x8";
+		text->paragraphAlignment = PARAGRAPH_RIGHT;
+		text->verticalAlignment = ALIGN_TOP;
+
+		scoreController->multiplierLabel = text;
+	}
+
 	// background
 	{
 		const unsigned entity = entities->Create();
@@ -187,72 +270,6 @@ void MainGame::Create() {
 		CrosshairController* const controller = entities->AddComponent<CrosshairController>(entity);
 		controller->SetActive(true);
 		controller->view = camera;
-	}
-
-	// Total score label
-	Transform* scoreTransform = nullptr;
-	{
-		const unsigned entity = entities->Create();
-		entities->SetLayer(entity, UI);
-
-		scoreTransform= entities->AddComponent<Transform>(entity);
-
-		Layout* const layout = entities->AddComponent<Layout>(entity);
-		layout->SetActive(true);
-		layout->AddConstraint(Constraint(LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 2.f, uiCamera));
-		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
-
-		Text* const text = entities->AddComponent<Text>(entity);
-		text->SetActive(true);
-		text->SetFont(vcrMono);
-		text->scale = 0.75f;
-		text->text = "100";
-		text->paragraphAlignment = PARAGRAPH_LEFT;
-		text->verticalAlignment = ALIGN_TOP;
-	}
-
-	// Build score label
-	Transform* buildScoreTransform = nullptr;
-	{
-		const unsigned entity = entities->Create();
-		entities->SetLayer(entity, UI);
-
-		buildScoreTransform = entities->AddComponent<Transform>(entity);
-
-		Layout* const layout = entities->AddComponent<Layout>(entity);
-		layout->SetActive(true);
-		layout->AddConstraint(Constraint(RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
-		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
-
-		Text* const text = entities->AddComponent<Text>(entity);
-		text->SetActive(true);
-		text->SetFont(vcrMono);
-		text->scale = 0.75f;
-		text->text = "100";
-		text->paragraphAlignment = PARAGRAPH_RIGHT;
-		text->verticalAlignment = ALIGN_TOP;
-	}
-
-	// multiplier label
-	Transform* multiplierTransform = nullptr;
-	{
-		const unsigned entity = entities->Create();
-		entities->SetLayer(entity, UI);
-
-		multiplierTransform = entities->AddComponent<Transform>(entity);
-
-		Layout* const layout = entities->AddComponent<Layout>(entity);
-		layout->SetActive(true);
-		layout->AddConstraint(Constraint(RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
-		layout->AddConstraint(Constraint(TOP_ANCHOR, buildScoreTransform, BOTTOM_ANCHOR, 1.f, -0.1f, uiCamera));
-
-		Text* const text = entities->AddComponent<Text>(entity);
-		text->SetActive(true);
-		text->SetFont(vcrMono);
-		text->scale = 1.2f;
-		text->text = "x8";
-		text->paragraphAlignment = PARAGRAPH_RIGHT;
-		text->verticalAlignment = ALIGN_TOP;
 	}
 
 	// player
@@ -319,16 +336,6 @@ void MainGame::Create() {
 		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
 		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 10, 1 });
-	}
-
-	// test enemy
-	{
-		Transform* const transform = basicEnemy->Create();
-		
-		unsigned const& entity = transform->entity;
-
-		EnemyTarget* const target = entities->GetComponent<EnemyTarget>(entity);
-		target->player = follow->player;
 	}
 }
 

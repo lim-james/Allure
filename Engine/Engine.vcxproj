@@ -176,6 +176,7 @@
     <ClCompile Include="PostProcess.cpp" />
     <ClCompile Include="PostProcessStack.cpp" />
     <ClCompile Include="Prefab.cpp" />
+    <ClCompile Include="ScoreController.cpp" />
     <ClCompile Include="ScreenShake.cpp" />
     <ClCompile Include="SelfDestruct.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -267,6 +268,8 @@
     <ClInclude Include="PlayerCombat.h" />
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Prefab.h" />
+    <ClInclude Include="ScoreController.h" />
+    <ClInclude Include="ScoreEvent.h" />
     <ClInclude Include="ScreenShake.h" />
     <ClInclude Include="SelfDestruct.h" />
     <ClInclude Include="SphereCollider.h" />

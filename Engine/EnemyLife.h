@@ -3,8 +3,11 @@
 
 #include "Script.h"
 #include "ParticleEmitter.h"
+#include "Prefab.h"
 
 struct EnemyLife : Script {
+
+	unsigned points;
 
 	void OnCollisionEnter(unsigned target);
 
