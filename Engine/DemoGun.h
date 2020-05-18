@@ -16,9 +16,9 @@ public:
 	
 	DemoGun();
 
-	void Trigger(bool const& onBeat) override;
+	void Trigger() override;
 	void Hold(float const& dt) override;
-	void Release(bool const& onBeat) override;
+	void Release() override;
 
 private:
 

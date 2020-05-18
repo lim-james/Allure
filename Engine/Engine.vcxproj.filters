@@ -504,6 +504,9 @@
     <ClCompile Include="ScoreController.cpp">
       <Filter>Assets\Scripts\Main\Score</Filter>
     </ClCompile>
+    <ClCompile Include="BeatController.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -865,6 +868,9 @@
     </ClInclude>
     <ClInclude Include="ScoreEvent.h">
       <Filter>Assets\Scripts\Main\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatController.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

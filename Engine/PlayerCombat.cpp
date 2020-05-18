@@ -6,10 +6,6 @@
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
-void PlayerCombat::SetTempo(unsigned const & tempo) {
-	delay = 60.f / static_cast<float>(tempo);
-}
-
 void PlayerCombat::SetCrosshair(Transform * const transform) {
 	crosshair = transform;
 	if (weapon) weapon->SetCrosshair(crosshair);
@@ -32,33 +28,8 @@ void PlayerCombat::Awake() {
 	EventsManager::Get()->Subscribe("MOUSE_BUTTON_INPUT", &PlayerCombat::MouseButtonHandler, this);
 }
 
-void PlayerCombat::Start() {
-	bt = delay;
-	isHit = false;
-}
-
 void PlayerCombat::Update() {
 	if (isTriggering) weapon->Hold(time->dt);
-
-	bt -= time->dt;
-
-	material->interval = delay;
-	material->bt = bt;
-	material->threshold = threshold;
-	material->playerPosition = transform->GetWorldTranslation();
-
-	if (bt < 0.f) {
-		bt = delay;
-		if (!isHit) {
-			Transform* const indicator = indicatorPrefab->Create();
-			indicator->translation = transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f);
-		
-			Text* const text = entities->GetComponent<Text>(indicator->entity);
-			text->text = "MISSED";
-			EventsManager::Get()->Trigger("RESET_MULTIPLIER");
-		}
-		isHit = false;
-	}
 }
 
 void PlayerCombat::MouseButtonHandler(Events::Event * event) {
@@ -69,27 +40,10 @@ void PlayerCombat::MouseButtonHandler(Events::Event * event) {
 	if (input->button == GLFW_MOUSE_BUTTON_LEFT) {
 		if (input->action == GLFW_PRESS) {
 			isTriggering = true;
-			weapon->Trigger(Hit());
+			weapon->Trigger();
 		} else {
 			isTriggering = false;
-			weapon->Release(Hit());
+			weapon->Release();
 		}
-	}
-}
-
-bool PlayerCombat::Hit() {
-	if (!isHit && threshold >= bt) {
-		material->et = 0.0f;
-		isHit = true;
-		return true;
-	} else {
-		//if (isHit) {
-		//	Transform* const indicator = indicatorPrefab->Create();
-		//	indicator->translation = transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f);
-
-		//	Text* const text = entities->GetComponent<Text>(indicator->entity);
-		//	text->text = "TOO EARLY";
-		//}
-		return false;
 	}
 }

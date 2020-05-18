@@ -18,6 +18,7 @@
 #include "ScreenShake.h"
 #include "PlayerMovement.h"
 #include "PlayerCombat.h"
+#include "BeatController.h"
 #include "CrosshairController.h"
 #include "EnemyLife.h"
 #include "EnemyTarget.h"
@@ -226,6 +227,9 @@ void MainGame::Create() {
 		text->verticalAlignment = ALIGN_TOP;
 
 		scoreController->multiplierLabel = text;
+
+		Animation* const animation = entities->AddComponent<Animation>(entity);
+		animation->SetActive(true);
 	}
 
 	// background
@@ -318,12 +322,15 @@ void MainGame::Create() {
 
 		PlayerCombat* const combat = entities->AddComponent<PlayerCombat>(entity);
 		combat->SetActive(true);
-		combat->SetTempo(60);
-		combat->indicatorPrefab = indicatorLabel;
-		combat->material = background;
-		combat->threshold = 0.15f;
 		combat->SetCrosshair(follow->crosshair);
 		combat->SetWeapon(demoGun);
+
+		BeatController* const beat = entities->AddComponent<BeatController>(entity);
+		beat->SetActive(true);
+		beat->SetTempo(120);
+		beat->indicatorPrefab = indicatorLabel;
+		beat->background = background;
+		beat->threshold = 0.3f;
 	}
 
 	// enemy manager

@@ -12,7 +12,10 @@ DemoGun::DemoGun()
 	: firerate(0.2f) 
 	, bt(0.f) {}
 
-void DemoGun::Trigger(bool const& onBeat) {
+void DemoGun::Trigger() {
+	bool onBeat = false;
+	EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
+
 	CreateBullet(onBeat);
 	bt = firerate;
 }
@@ -26,7 +29,7 @@ void DemoGun::Hold(float const & dt) {
 	}
 }
 
-void DemoGun::Release(bool const& onBeat) {}
+void DemoGun::Release() {}
 
 void DemoGun::CreateBullet(bool const& onBeat) const { 
 	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
