@@ -37,6 +37,7 @@ namespace Helpers {
 	std::map<Key, Value> GetDictionary(std::string const& content, char const& delimiter, Separator const& separator);
 
 	std::string Trim(std::string content);
+	std::string Pad(std::string const& content, unsigned const& length, char const& padding);
 
 }
 

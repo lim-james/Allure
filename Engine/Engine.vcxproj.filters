@@ -507,6 +507,9 @@
     <ClCompile Include="BeatController.cpp">
       <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Vignette.cpp">
+      <Filter>Engine\Render\Post Processing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -871,6 +874,9 @@
     </ClInclude>
     <ClInclude Include="BeatController.h">
       <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Vignette.h">
+      <Filter>Engine\Render\Post Processing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

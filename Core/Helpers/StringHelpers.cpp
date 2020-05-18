@@ -63,3 +63,13 @@ std::string Helpers::Trim(std::string content) {
 
 	return content;
 }
+
+std::string Helpers::Pad(std::string const & content, unsigned const & length, char const & padding) {
+	std::string result = content;
+
+	while (result.length() < length) {
+		result.insert(result.begin(), padding);
+	}
+
+	return result;
+}

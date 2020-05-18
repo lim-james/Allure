@@ -183,6 +183,7 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Stress3D.cpp" />
     <ClCompile Include="TestAudio.cpp" />
+    <ClCompile Include="Vignette.cpp" />
     <ClCompile Include="VoxelDefaultMaterial.cpp" />
     <ClCompile Include="VoxelRender.cpp" />
     <ClCompile Include="VoxelRenderer.cpp" />
@@ -305,6 +306,7 @@
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="RenderProperties.h" />
     <ClInclude Include="TestAudio.h" />
+    <ClInclude Include="Vignette.h" />
     <ClInclude Include="VoxelDefaultMaterial.h" />
     <ClInclude Include="VoxelRender.h" />
     <ClInclude Include="VoxelRenderer.h" />

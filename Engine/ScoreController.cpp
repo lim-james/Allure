@@ -3,6 +3,7 @@
 #include "ScoreEvent.h"
 
 #include <Events/EventsManager.h>
+#include <Helpers/StringHelpers.h>
 
 void ScoreController::Awake() {
 	EventsManager::Get()->Subscribe("SCORE", &ScoreController::ScoreHandler, this);
@@ -17,7 +18,7 @@ void ScoreController::Start() {
 
 	hiddenScore = 0;
 
-	totalScoreLabel->text = std::to_string(totalScore);
+	totalScoreLabel->text = Helpers::Pad(std::to_string(totalScore), 6,'0');
 	buildScoreLabel->text = "";
 	multiplierLabel->text = "";
 }
@@ -26,7 +27,7 @@ void ScoreController::ScoreHandler(Events::Event * event) {
 	const auto score = static_cast<Events::Score*>(event);
 	hiddenScore += score->points;
 	buildScore += hiddenScore;
-	buildScoreLabel->text = std::to_string(buildScore);
+	buildScoreLabel->text = Helpers::Pad(std::to_string(buildScore), 6,'0');
 
 	Transform* const iTransform = indicatorPrefab->Create();
 	iTransform->translation = score->position;
@@ -39,6 +40,8 @@ void ScoreController::ScoreHandler(Events::Event * event) {
 void ScoreController::BuildHandler() {
 	++multiplier;
 	multiplierLabel->text = "x" + std::to_string(multiplier);
+
+	vfx->multiplier = max(static_cast<float>(multiplier) - 10.f, 0.f) / 10.f;
 }
 
 void ScoreController::ResetHandler() {
@@ -47,7 +50,9 @@ void ScoreController::ResetHandler() {
 	multiplier = 1;
 	hiddenScore = 0;
 
-	totalScoreLabel->text = std::to_string(totalScore);
+	totalScoreLabel->text = Helpers::Pad(std::to_string(totalScore), 6,'0');
 	buildScoreLabel->text = "";
 	multiplierLabel->text = "";
+
+	vfx->multiplier = 0.f;
 }

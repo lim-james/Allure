@@ -4,6 +4,7 @@
 #include "Script.h"
 #include "Text.h"
 #include "Prefab.h"
+#include "Vignette.h"
 
 struct ScoreController : Script {
 	
@@ -12,6 +13,8 @@ struct ScoreController : Script {
 	Text* multiplierLabel;
 
 	Prefab* indicatorPrefab;
+
+	Vignette* vfx;
 
 private:
 

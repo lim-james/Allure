@@ -12,6 +12,7 @@
 // post vfx
 #include "Bloom.h"
 #include "CurveDisplay.h"
+#include "Vignette.h"
 // scripts
 #include "FPSCounter.h"
 #include "CameraFollow.h"
@@ -122,13 +123,6 @@ void MainGame::Create() {
 		uiCamera->cullingMask = UI;
 	}
 
-	// post processing volume
-	{
-		//const unsigned volume = entities->Create();
-		//entities->AddComponent<Bloom>(volume)->SetActive(true);
-		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
-	}
-
 	// FPS counter
 	{
 		const unsigned entity = entities->Create();
@@ -155,6 +149,17 @@ void MainGame::Create() {
 		scoreController = entities->AddComponent<ScoreController>(entity);
 		scoreController->SetActive(true);
 		scoreController->indicatorPrefab = indicatorLabel;
+	}
+
+	// post processing volume
+	{
+		const unsigned volume = entities->Create();
+		Vignette* const vignette = entities->AddComponent<Vignette>(volume);
+		vignette->SetActive(true);
+		vignette->tint = vec3f(1.f, 0.f, 0.f);
+		scoreController->vfx = vignette;
+		//entities->AddComponent<Bloom>(volume)->SetActive(true);
+		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
 	}
 
 	// Total score label
