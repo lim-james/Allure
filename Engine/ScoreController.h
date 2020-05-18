@@ -19,6 +19,8 @@ private:
 	unsigned buildScore;
 	unsigned multiplier;
 
+	unsigned hiddenScore;
+
 	void Awake() override;
 	void Start() override;
 

@@ -221,15 +221,12 @@ void MainGame::Create() {
 		Text* const text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
 		text->SetFont(vcrMono);
-		text->scale = 1.2f;
+		text->scale = 1.25f;
 		text->text = "x8";
 		text->paragraphAlignment = PARAGRAPH_RIGHT;
 		text->verticalAlignment = ALIGN_TOP;
 
 		scoreController->multiplierLabel = text;
-
-		Animation* const animation = entities->AddComponent<Animation>(entity);
-		animation->SetActive(true);
 	}
 
 	// background

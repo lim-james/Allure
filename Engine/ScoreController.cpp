@@ -15,14 +15,17 @@ void ScoreController::Start() {
 	buildScore = 0;
 	multiplier = 1;
 
+	hiddenScore = 0;
+
 	totalScoreLabel->text = std::to_string(totalScore);
-	buildScoreLabel->text = std::to_string(buildScore);
-	multiplierLabel->text = "x" + std::to_string(multiplier);
+	buildScoreLabel->text = "";
+	multiplierLabel->text = "";
 }
 
 void ScoreController::ScoreHandler(Events::Event * event) {
 	const auto score = static_cast<Events::Score*>(event);
-	buildScore += score->points;
+	hiddenScore += score->points;
+	buildScore += hiddenScore;
 	buildScoreLabel->text = std::to_string(buildScore);
 
 	Transform* const iTransform = indicatorPrefab->Create();
@@ -30,7 +33,7 @@ void ScoreController::ScoreHandler(Events::Event * event) {
 	iTransform->translation.y += 3.f;
 
 	Text* const text = entities->GetComponent<Text>(iTransform->entity);
-	text->text = std::to_string(score->points);
+	text->text = std::to_string(hiddenScore);
 }
 
 void ScoreController::BuildHandler() {
@@ -42,8 +45,9 @@ void ScoreController::ResetHandler() {
 	totalScore += buildScore * multiplier;
 	buildScore = 0;
 	multiplier = 1;
+	hiddenScore = 0;
 
 	totalScoreLabel->text = std::to_string(totalScore);
-	buildScoreLabel->text = std::to_string(buildScore);
-	multiplierLabel->text = "x" + std::to_string(multiplier);
+	buildScoreLabel->text = "";
+	multiplierLabel->text = "";
 }

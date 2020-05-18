@@ -57,7 +57,7 @@ void main() {
 	}
 
 	// threshold
-	createIndicator(threshold * 0.75f, thresholdTint, square);
+	// createIndicator(threshold * 0.75f, thresholdTint, square);
 	
 	float brightness = dot(fragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
     if(brightness > 1.0) {
