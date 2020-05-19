@@ -228,6 +228,9 @@ std::istream& Math::operator>>(std::istream& is, vec<size, T>& v) {
 	for (T i; is >> i;) {
 		v[index++] = i;
 
+		if (index == size)
+			return is;
+
 		if (is.peek() == ',')
 			is.ignore();
 	}

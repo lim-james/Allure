@@ -33,6 +33,7 @@
 #include "Layers.h"
 #include "LoadTexture.h"
 #include "LoadFNT.h"
+#include "LoadSAD.h"
 
 void MainGame::Awake() {
 	Scene::Awake();
@@ -295,32 +296,9 @@ void MainGame::Create() {
 		render->SetSprite(playerSheet);
 		render->SetTilemapSize(8, 17);
 
-		// Setup sprite sheet animation
-
-		Keyframe frame;
-		frame.SetTilemapSize(8, 17);
-		frame.duration = 0.1f;
-
-		// idle data
-		SpriteAnimationData idleData;
-		for (int i = 3; i < 7; ++i) {
-			frame.SetCellRect(i, 16, 1, 1);
-			idleData.frames.push_back(frame);
-		}
-
-		// walk data
-		SpriteAnimationData walkData;
-		for (int i = 3; i < 8; ++i) {
-			frame.SetCellRect(i, 15, 1, 1);
-			walkData.frames.push_back(frame);
-		}
-
-		// End up sprite sheet
-
 		SpriteAnimation* const spriteAnimation = entities->AddComponent<SpriteAnimation>(entity);
 		spriteAnimation->SetActive(true);
-		spriteAnimation->animations["IDLE"] = idleData;
-		spriteAnimation->animations["WALK"] = walkData;
+		spriteAnimation->animations = Load::SAD("Files/Sprites/MainCharacter.sad");
 		spriteAnimation->currentAnimation = "IDLE";
 
 		ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);

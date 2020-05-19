@@ -510,6 +510,9 @@
     <ClCompile Include="Vignette.cpp">
       <Filter>Engine\Render\Post Processing</Filter>
     </ClCompile>
+    <ClCompile Include="LoadSAD.cpp">
+      <Filter>Engine\Sprite Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -877,6 +880,9 @@
     </ClInclude>
     <ClInclude Include="Vignette.h">
       <Filter>Engine\Render\Post Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadSAD.h">
+      <Filter>Engine\Sprite Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

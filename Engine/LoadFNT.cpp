@@ -2,6 +2,7 @@
 #include "LoadTexture.h"
 
 #include <Helpers/StringHelpers.h>
+#include <Logger/Logger.h>
 #include <GL/glew.h>
 
 #include <fstream>
@@ -11,6 +12,12 @@ Font* Load::FNT(std::string const& fntPath, std::string const& imagePath) {
 		return fontCache[fntPath];
 
 	std::ifstream ifs(fntPath);
+
+	if (!ifs.is_open()) {
+		Debug::Error << '"' << fntPath << "\" not found.\n";
+		return nullptr;
+	}
+	
 	std::string buffer;
 
 	// info

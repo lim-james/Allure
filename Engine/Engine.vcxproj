@@ -168,6 +168,7 @@
     <ClCompile Include="Layout.cpp" />
     <ClCompile Include="LayoutSystem.cpp" />
     <ClCompile Include="LoadModel.cpp" />
+    <ClCompile Include="LoadSAD.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="EnemyTarget.h" />
     <ClInclude Include="ExplosiveBullet.h" />
     <ClInclude Include="IndicatorLabel.h" />
+    <ClInclude Include="LoadSAD.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsProperties.h" />
