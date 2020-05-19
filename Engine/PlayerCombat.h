@@ -9,6 +9,8 @@
 
 struct PlayerCombat : Script {
 
+	Transform* weaponHolder;
+
 	void SetCrosshair(Transform* const transform);
 	void SetWeapon(WeaponBase* const ptr);
 

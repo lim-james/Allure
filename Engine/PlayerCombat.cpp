@@ -33,8 +33,12 @@ void PlayerCombat::Awake() {
 void PlayerCombat::Update() {
 	if (isTriggering) weapon->Hold(time->dt);
 
-	const float direction = transform->GetWorldTranslation().x - crosshair->GetWorldTranslation().x;
-	transform->rotation.y = 90.f + 90.f * direction / fabs(direction);
+	const vec2f diff = crosshair->GetWorldTranslation() - transform->GetWorldTranslation();
+
+	const float direction = diff.x;
+	transform->rotation.y = 90.f - 90.f * direction / fabs(direction);
+
+	weaponHolder->rotation.z = atanf(diff.y / fabs(diff.x)) * Math::toDeg;
 }
 
 void PlayerCombat::MouseButtonHandler(Events::Event * event) {

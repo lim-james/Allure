@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 #include <fstream>
 
-unsigned Load::Texture2D(std::string const & filepath) {
+unsigned Load::Texture2D(std::string const & filepath, bool const& flipVertically) {
 	if (textureCache.find(filepath) != textureCache.end())
 		return textureCache[filepath];
 
@@ -21,6 +21,7 @@ unsigned Load::Texture2D(std::string const & filepath) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(flipVertically);
 	unsigned char *data = stbi_load(filepath.c_str(), &width, &height, &nrChannels, 0);
 
 	if (data) {

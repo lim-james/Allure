@@ -86,6 +86,7 @@ void MainGame::Create() {
 	basicEnemy->Initialize(entities);
 
 	const unsigned playerSheet = Load::Texture2D("Files/Sprites/NTlikeTDSSprites_4X_Size.png");
+	const unsigned ukGunSheet = Load::Texture2D("Files/Sprites/UK.png");
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(20.f);
@@ -103,7 +104,7 @@ void MainGame::Create() {
 		ScreenShake* const shake = entities->AddComponent<ScreenShake>(mainCamera);
 		shake->SetActive(true);
 		shake->duration = 0.25f;
-		shake->magnitude = 0.25f;
+		shake->magnitude = 0.125f;
 
 		AudioListener* const listener = entities->AddComponent<AudioListener>(mainCamera);
 		listener->SetActive(true);
@@ -160,7 +161,7 @@ void MainGame::Create() {
 		const unsigned volume = entities->Create();
 		Vignette* const vignette = entities->AddComponent<Vignette>(volume);
 		vignette->SetActive(true);
-		vignette->tint = vec3f(1.f, 0.f, 0.f);
+		vignette->tint = vec3f(0.5f, 0.f, 0.5f);
 		scoreController->vfx = vignette;
 		//entities->AddComponent<Bloom>(volume)->SetActive(true);
 		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
@@ -243,7 +244,7 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.z = -5.f;
+		transform->translation.z = -10.f;
 		transform->scale = vec3f(160.0f, 90.0f, 1.0f);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -282,6 +283,29 @@ void MainGame::Create() {
 		controller->view = camera;
 	}
 
+	// gun holder 
+	Transform* weaponHolderTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		weaponHolderTransform = entities->GetComponent<Transform>(entity);
+	}
+
+	// gun 
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const gunTransform = entities->GetComponent<Transform>(entity);
+		gunTransform->SetParent(weaponHolderTransform);
+		gunTransform->translation = vec3f(2.f, -0.5f, 0.5f);
+		gunTransform->scale.xy = vec2f(6.f, 3.f);
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetSprite(ukGunSheet);
+		render->SetTilemapSize(4, 2);
+		render->SetCellRect(2, 1, 1, 1);
+	}
+
 	// player
 	{
 		const unsigned entity = entities->Create();
@@ -289,7 +313,9 @@ void MainGame::Create() {
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->scale = 4.f;
+
 		follow->player = transform;
+		weaponHolderTransform->SetParent(transform);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
@@ -337,6 +363,7 @@ void MainGame::Create() {
 
 		PlayerCombat* const combat = entities->AddComponent<PlayerCombat>(entity);
 		combat->SetActive(true);
+		combat->weaponHolder = weaponHolderTransform;
 		combat->SetCrosshair(follow->crosshair);
 		combat->SetWeapon(demoGun);
 
@@ -357,7 +384,7 @@ void MainGame::Create() {
 		manager->SetActive(true);
 		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
-		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 10, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 5, 1 });
 	}
 }
 

@@ -9,7 +9,7 @@ namespace Load {
 
 	static std::map<std::string, unsigned> textureCache;
 
-	unsigned Texture2D(std::string const& filepath);
+	unsigned Texture2D(std::string const& filepath, bool const& flipVertically = true);
 	unsigned Cubemap(std::vector<std::string> const& filepaths);
 	unsigned TGA(std::string const& filepath);
 

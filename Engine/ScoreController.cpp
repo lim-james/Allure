@@ -41,7 +41,7 @@ void ScoreController::BuildHandler() {
 	++multiplier;
 	multiplierLabel->text = "x" + std::to_string(multiplier);
 
-	vfx->multiplier = max(static_cast<float>(multiplier) - 10.f, 0.f) / 10.f;
+	vfx->multiplier = min(max(static_cast<float>(multiplier) - 10.f, 0.f) / 10.f, 1.f);
 }
 
 void ScoreController::ResetHandler() {
