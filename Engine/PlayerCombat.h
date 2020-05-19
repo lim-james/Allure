@@ -2,6 +2,7 @@
 #define PLAYER_COMBAT_H
 
 #include "Script.h"
+#include "SpriteAnimation.h"
 #include "WeaponBase.h"
 
 #include <Handler/Handler.h>
@@ -12,6 +13,8 @@ struct PlayerCombat : Script {
 	void SetWeapon(WeaponBase* const ptr);
 
 private:
+
+	SpriteAnimation* spriteAnimation;
 
 	Transform* crosshair;
 	WeaponBase* weapon;

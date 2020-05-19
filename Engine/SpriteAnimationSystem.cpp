@@ -14,7 +14,7 @@ void SpriteAnimationSystem::Initialize() {
 
 void SpriteAnimationSystem::Update(float const& dt) {
 	for (auto& c : components) {
-		if (c->queued != "") {
+		if (c->queued != "" && c->queued != c->currentAnimation) {
 			ResetAnimation(c->animations[c->currentAnimation]);
 			c->currentAnimation = c->queued;
 			c->queued = "";

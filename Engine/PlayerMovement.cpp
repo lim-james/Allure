@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 void PlayerMovement::Awake() {
+	spriteAnimation = GetComponent<SpriteAnimation>();
 	emitter = GetComponent<ParticleEmitter>();
 	physics = GetComponent<Physics>();
 
@@ -46,7 +47,14 @@ void PlayerMovement::KeyHandler(Events::Event* event) {
 		axes.x += delta;
 	}
 
-	direction = Math::Normalized(axes);
+	const float length = Math::Length(axes);
+	if (length == 0.f) {
+		direction = 0.f;
+		spriteAnimation->queued = "IDLE";
+	} else {
+		direction = axes / length;
+		spriteAnimation->queued = "WALK";
+	}
 
 	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
 		dashMagnitude = dash;

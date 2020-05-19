@@ -25,11 +25,16 @@ void PlayerCombat::Awake() {
 	weapon = nullptr;
 	isTriggering = false;
 
+	spriteAnimation = GetComponent<SpriteAnimation>();
+
 	EventsManager::Get()->Subscribe("MOUSE_BUTTON_INPUT", &PlayerCombat::MouseButtonHandler, this);
 }
 
 void PlayerCombat::Update() {
 	if (isTriggering) weapon->Hold(time->dt);
+
+	const float direction = transform->GetWorldTranslation().x - crosshair->GetWorldTranslation().x;
+	transform->rotation.y = 90.f + 90.f * direction / fabs(direction);
 }
 
 void PlayerCombat::MouseButtonHandler(Events::Event * event) {

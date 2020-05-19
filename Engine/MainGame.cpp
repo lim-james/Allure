@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "SpriteRender.h"
+#include "SpriteAnimationSystem.h"
 #include "ParticleSystem.h"
 #include "PhysicsSystem.h"
 #include "ColliderSystem.h"
@@ -42,6 +43,7 @@ void MainGame::Awake() {
 	systems->Subscribe<AnimationSystem>(1);
 	systems->Subscribe<LayoutSystem>(1);
 	systems->Subscribe<StateMachine>(2);
+	systems->Subscribe<SpriteAnimationSystem>(2);
 
 	systems->SubscribeFixed<PhysicsSystem>();
 	systems->SubscribeFixed<ColliderSystem>();
@@ -60,6 +62,7 @@ void MainGame::Create() {
 	background = new Material::Background;
 	background->speed = 75.f;
 	background->spread = 10.f;
+	background->viewSize = 10.f;
 	background->spreadTint = vec3f(0.5f, 0.0f, 0.25f);
 	background->indicatorTint = vec3f(0.5f);
 	background->thresholdTint = vec3f(10.f, 0.2f, 0.2f);
@@ -81,7 +84,7 @@ void MainGame::Create() {
 	basicEnemy = new BasicEnemy;
 	basicEnemy->Initialize(entities);
 
-	background->viewSize = 10.f;
+	const unsigned playerSheet = Load::Texture2D("Files/Sprites/NTlikeTDSSprites_4X_Size.png");
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(20.f);
@@ -239,7 +242,7 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.z = -1.f;
+		transform->translation.z = -5.f;
 		transform->scale = vec3f(160.0f, 90.0f, 1.0f);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -283,10 +286,42 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, PLAYER);
 
-		follow->player = entities->GetComponent<Transform>(entity);
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->scale = 4.f;
+		follow->player = transform;
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
+		render->SetSprite(playerSheet);
+		render->SetTilemapSize(8, 17);
+
+		// Setup sprite sheet animation
+
+		Keyframe frame;
+		frame.SetTilemapSize(8, 17);
+		frame.duration = 0.1f;
+
+		// idle data
+		SpriteAnimationData idleData;
+		for (int i = 3; i < 7; ++i) {
+			frame.SetCellRect(i, 16, 1, 1);
+			idleData.frames.push_back(frame);
+		}
+
+		// walk data
+		SpriteAnimationData walkData;
+		for (int i = 3; i < 8; ++i) {
+			frame.SetCellRect(i, 15, 1, 1);
+			walkData.frames.push_back(frame);
+		}
+
+		// End up sprite sheet
+
+		SpriteAnimation* const spriteAnimation = entities->AddComponent<SpriteAnimation>(entity);
+		spriteAnimation->SetActive(true);
+		spriteAnimation->animations["IDLE"] = idleData;
+		spriteAnimation->animations["WALK"] = walkData;
+		spriteAnimation->currentAnimation = "IDLE";
 
 		ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);
 		emitter->SetActive(true);

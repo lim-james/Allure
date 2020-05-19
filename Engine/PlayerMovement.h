@@ -2,6 +2,7 @@
 #define PLAYER_MOVEMENT_H
 
 #include "Script.h"
+#include "SpriteAnimation.h"
 #include "ParticleEmitter.h"
 #include "Physics.h"
 
@@ -17,6 +18,7 @@ struct PlayerMovement : Script {
 
 private:
 
+	SpriteAnimation* spriteAnimation;
 	ParticleEmitter* emitter;
 	Physics* physics;
 
