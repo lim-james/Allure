@@ -64,7 +64,7 @@ Transform * BasicEnemy::Create() {
 	collider->ignoreMask = ENEMY;
 
 	StateContainer* const states = entities->AddComponent<StateContainer>(entity);
-	//states->SetActive(true);
+	states->SetActive(true);
 	states->queuedState = "CHASE";
 
 	EnemyLife* const life = entities->AddComponent<EnemyLife>(entity);

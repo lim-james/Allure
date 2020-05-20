@@ -17,6 +17,7 @@ private:
 	Physics* physics;
 
 	void Awake() override;
+	void Update() override;
 
 };
 
