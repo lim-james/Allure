@@ -18,6 +18,8 @@ class Application {
 
 	Timer timer;
 	float bt;
+	
+	float freezeTime;
 
 	Window* context;
 	InputController inputController;
@@ -38,6 +40,7 @@ private:
 #endif
 
 	void Step();
+	void Freeze(Events::Event* event);
 
 };
 

@@ -66,7 +66,8 @@ void MainGame::Create() {
 	background->speed = 75.f;
 	background->spread = 10.f;
 	background->viewSize = 10.f;
-	background->spreadTint = vec3f(0.5f, 0.0f, 0.25f);
+	//background->spreadTint = vec3f(0.5f, 0.0f, 0.25f);
+	background->spreadTint = vec3f(1.f, 0.0f, 0.5f);
 	background->indicatorTint = vec3f(0.5f);
 	background->thresholdTint = vec3f(10.f, 0.2f, 0.2f);
 
@@ -98,6 +99,7 @@ void MainGame::Create() {
 	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->cullingMask = DEFAULT | PLAYER | ENEMY | EFFECT_AREA | BULLET | BONUS_BULLET;
+	camera->clearColor = vec4f(0.569f, 0.627f, 0.263f, 1.f);
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
 	follow->SetActive(true);

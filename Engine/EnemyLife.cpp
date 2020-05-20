@@ -40,8 +40,12 @@ void EnemyLife::Start() {
 
 void EnemyLife::Update() {
 	if (bt > 0.f) {
+		if (!hasFroze && bt < flashBt) {	
+			EventsManager::Get()->Trigger("FREEZE", new Events::AnyType<float>(0.05f));
+			hasFroze = true;
+		}
 		bt -= time->dt;
-		if (bt < 0.f) {
+		if (bt <= 0.f) {
 			render->tint.rgb = 1.f;
 		} else {
 			render->tint.rgb = 100.f;
@@ -51,6 +55,7 @@ void EnemyLife::Update() {
 
 void EnemyLife::Hit(bool const& bonus) {
 	bt = flashBt;
+	hasFroze = false;
 
 	if (--lives <= 0) {
 		state->queuedState = "DEAD";

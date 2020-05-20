@@ -17,6 +17,7 @@ struct EnemyLife : Script {
 
 private:
 
+	bool hasFroze;
 	float flashBt;
 	float bt;
 

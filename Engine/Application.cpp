@@ -43,6 +43,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 #endif
 
 	em->Subscribe("STEP", &Application::Step, this);
+	em->Subscribe("FREEZE", &Application::Freeze, this);
 
 	// turn off vsync
 	//glfwSwapInterval(0);
@@ -96,11 +97,21 @@ void Application::OnTimerEvent(Events::Event* event) {
 
 void Application::Step() {
 	const float et = static_cast<float>(timer.GetElapsedTime());
-	const float dt = static_cast<float>(timer.GetDeltaTime());
+	float dt = static_cast<float>(timer.GetDeltaTime());
+
+	if (freezeTime > 0) {
+		freezeTime -= dt;
+		if (freezeTime >= 0.f) {
+			timer.Update();
+			return;
+		} else {
+			dt = -freezeTime;
+		}
+	}
 
 	//context->SetTitle(std::to_string((int)(1.0f / dt)).c_str());
 
-	auto current = sceneManager->GetSource();
+	Scene* const current = sceneManager->GetSource();
 
 	bt += dt;
 	if (bt >= FIXED_TIME_STEP) {
@@ -119,4 +130,8 @@ void Application::Step() {
 	sceneManager->Segue();
 	context->UpdateFrame(dt);
 	timer.Update();
+}
+
+void Application::Freeze(Events::Event * event) {
+	freezeTime = static_cast<Events::AnyType<float>*>(event)->data;
 }
