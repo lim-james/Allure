@@ -16,6 +16,6 @@ Component * SpriteAnimation::Clone() const {
 
 void SpriteAnimation::SetActive(bool const& state) {
 	Component::SetActive(state);
-	EventsManager::Get()->Queue("SPRITE_ANIMATION_ACTIVE", new Events::AnyType<SpriteAnimation*>(this));
+	EventsManager::Get()->Trigger("SPRITE_ANIMATION_ACTIVE", new Events::AnyType<SpriteAnimation*>(this));
 }
 

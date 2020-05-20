@@ -3,6 +3,7 @@
 #include "SpriteRender.h"
 
 #include <Events/EventsManager.h>
+#include <Helpers/VectorHelpers.h>
 
 SpriteAnimationSystem::~SpriteAnimationSystem() {
 	components.clear();
@@ -32,9 +33,9 @@ void SpriteAnimationSystem::ActiveHandler(Events::Event* event) {
 	const auto c = static_cast<Events::AnyType<SpriteAnimation*>*>(event)->data;
 
 	if (c->IsActive()) {
-		components.push_back(c);
+		Helpers::Insert(components, c);
 	} else {
-		components.erase(vfind(components, c));
+		Helpers::Remove(components, c);
 	}
 }
 

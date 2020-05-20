@@ -1,6 +1,7 @@
 #include "BasicEnemy.h"
 
 #include "SpriteRender.h"
+#include "SpriteAnimation.h"
 #include "ParticleEmitter.h"
 #include "Physics.h"
 #include "SphereCollider.h"
@@ -8,18 +9,31 @@
 #include "EnemyLife.h"
 #include "EnemyTarget.h"
 
+#include "LoadTexture.h"
+#include "LoadSAD.h"
 #include "Layers.h"
 
+BasicEnemy::BasicEnemy() {
+	spriteSheet = Load::Texture2D("Files/Sprites/Imp Sprite Sheet.png");
+	spriteData = Load::SAD("Files/Sprites/imp.sad");
+}
+
 Transform * BasicEnemy::Create() {
+
 	const unsigned entity = entities->Create();
 	entities->SetLayer(entity, ENEMY);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale = 2.f;
+	transform->scale = 8.f;
 	
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
-	render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+	render->SetSprite(spriteSheet);
+
+	SpriteAnimation* const spriteAnimation = entities->AddComponent<SpriteAnimation>(entity);
+	spriteAnimation->SetActive(true);
+	spriteAnimation->animations = spriteData;
+	spriteAnimation->currentAnimation = "WALK";
 	
 	//ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);
 	//emitter->SetActive(true);
@@ -50,7 +64,7 @@ Transform * BasicEnemy::Create() {
 	collider->ignoreMask = ENEMY;
 
 	StateContainer* const states = entities->AddComponent<StateContainer>(entity);
-	states->SetActive(true);
+	//states->SetActive(true);
 	states->queuedState = "CHASE";
 
 	EnemyLife* const life = entities->AddComponent<EnemyLife>(entity);
