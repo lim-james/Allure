@@ -7,6 +7,7 @@
 #include "BackgroundMaterial.h"
 // prefabs
 #include "IndicatorLabel.h"
+#include "ExplosionArea.h"
 #include "BasicBullet.h"
 #include "ExplosiveBullet.h"
 #include "BasicEnemy.h"
@@ -18,6 +19,7 @@ class MainGame : public Scene {
 	Material::Background* background;
 
 	IndicatorLabel* indicatorLabel;
+	ExplosionArea* explosionArea;
 	BasicBullet* basicBullet;
 	ExplosiveBullet* explosiveBullet;
 	DemoGun* demoGun;

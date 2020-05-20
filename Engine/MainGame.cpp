@@ -29,6 +29,7 @@
 #include "ScoreController.h"
 // states
 #include "ChaseState.h"
+#include "DeadState.h"
 // Utils
 #include "Layers.h"
 #include "LoadTexture.h"
@@ -52,6 +53,7 @@ void MainGame::Awake() {
 
 	StateMachine* const stateMachine = systems->Get<StateMachine>();
 	stateMachine->AttachState<States::Chase>("CHASE");
+	stateMachine->AttachState<States::Dead>("DEAD");
 }
 
 void MainGame::Create() {
@@ -71,11 +73,15 @@ void MainGame::Create() {
 	indicatorLabel = new IndicatorLabel;
 	indicatorLabel->Initialize(entities);
 
+	explosionArea = new ExplosionArea;
+	explosionArea->Initialize(entities);
+
 	basicBullet = new BasicBullet;
 	basicBullet->Initialize(entities);
 
 	explosiveBullet = new ExplosiveBullet;
 	explosiveBullet->Initialize(entities);
+	explosiveBullet->explosionPrefab = explosionArea;
 
 	demoGun = new DemoGun;
 	demoGun->standardPrefab = basicBullet;
@@ -91,7 +97,7 @@ void MainGame::Create() {
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
-	camera->cullingMask = DEFAULT | PLAYER | ENEMY | BULLET | BONUS_BULLET;
+	camera->cullingMask = DEFAULT | PLAYER | ENEMY | EFFECT_AREA | BULLET | BONUS_BULLET;
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
 	follow->SetActive(true);
@@ -369,7 +375,7 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(120);
+		beat->SetTempo(60);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
 		beat->threshold = 0.3f;
@@ -384,7 +390,8 @@ void MainGame::Create() {
 		manager->SetActive(true);
 		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
-		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 5, 1 });
+		
+		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 1, 5, 1 });
 	}
 }
 
@@ -394,6 +401,7 @@ void MainGame::Destroy() {
 	delete background;
 
 	delete indicatorLabel;
+	delete explosionArea;
 	delete basicBullet;
 	delete explosiveBullet;
 	delete demoGun;

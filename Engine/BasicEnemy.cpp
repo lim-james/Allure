@@ -33,7 +33,8 @@ Transform * BasicEnemy::Create() {
 	SpriteAnimation* const spriteAnimation = entities->AddComponent<SpriteAnimation>(entity);
 	spriteAnimation->SetActive(true);
 	spriteAnimation->animations = spriteData;
-	spriteAnimation->currentAnimation = "WALK";
+	spriteAnimation->currentAnimation = "IDLE";
+	spriteAnimation->animations["DEAD"].loop = false;
 	
 	//ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);
 	//emitter->SetActive(true);
@@ -71,6 +72,7 @@ Transform * BasicEnemy::Create() {
 	life->SetActive(true);
 
 	collider->handlers[COLLISION_ENTER].Bind(&EnemyLife::OnCollisionEnter, life);
+	spriteAnimation->animations["DEAD"].completed.Bind(&EnemyLife::Kill, life);
 
 	EnemyTarget* const target = entities->AddComponent<EnemyTarget>(entity);
 	target->SetActive(true);

@@ -4,7 +4,13 @@
 #include "Physics.h"
 #include "SphereCollider.h"
 #include "SelfDestruct.h"
+
+#include "LoadTexture.h"
 #include "Layers.h"
+
+BasicBullet::BasicBullet() {
+	spriteSheet = Load::Texture2D("Files/Sprites/NTlikeTDSSprites.png");
+}
 
 Transform* BasicBullet::Create() {
 	const unsigned entity = entities->Create();
@@ -15,6 +21,8 @@ Transform* BasicBullet::Create() {
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
+	//render->SetSprite(spriteSheet);
+	//render->SetTilemapSize(8, 16);
 	render->tint = vec4f(0.f, 1.f, 1.f, 1.f);
 
 	Physics* const physics = entities->AddComponent<Physics>(entity);

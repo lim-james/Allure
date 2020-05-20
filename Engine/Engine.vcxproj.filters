@@ -513,6 +513,18 @@
     <ClCompile Include="LoadSAD.cpp">
       <Filter>Engine\Sprite Animation</Filter>
     </ClCompile>
+    <ClCompile Include="DeadState.cpp">
+      <Filter>Assets\States</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosiveScript.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionArea.cpp">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpandScript.cpp">
+      <Filter>Assets\Scripts\General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -883,6 +895,18 @@
     </ClInclude>
     <ClInclude Include="LoadSAD.h">
       <Filter>Engine\Sprite Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadState.h">
+      <Filter>Assets\States</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosiveScript.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionArea.h">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpandScript.h">
+      <Filter>Assets\Scripts\General</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

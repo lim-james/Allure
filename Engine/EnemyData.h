@@ -10,6 +10,7 @@
 struct EnemyData {
 	Prefab* prefab;
 	short risk;
+	int lives;
 	unsigned points;
 	unsigned spawnLevel;
 };

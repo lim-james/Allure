@@ -3,8 +3,8 @@
 
 #include "Keyframe.h"
 
+#include <Handler/Handler.h>
 #include <vector>
-#include <functional>
 
 struct SpriteAnimationData {
 
@@ -14,7 +14,7 @@ struct SpriteAnimationData {
 	std::vector<Keyframe> frames;
 	bool loop;
 
-	std::function<void()> completed;
+	Handler<void, void> completed;
 
 	SpriteAnimationData();
 

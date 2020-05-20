@@ -4,6 +4,9 @@
 #include "Prefab.h"
 
 struct BasicBullet : Prefab {
+	unsigned spriteSheet;
+
+	BasicBullet();
 	Transform* Create() override;
 };
 

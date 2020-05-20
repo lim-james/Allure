@@ -26,6 +26,7 @@ void EnemyManager::Update() {
 			target->player = player;
 	
 			EnemyLife* const life = entities->GetComponent<EnemyLife>(eTransform->entity);
+			life->lives = data.lives;
 			life->points = data.points;
 		}
 	} else {

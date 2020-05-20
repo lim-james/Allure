@@ -4,6 +4,7 @@
 #include "Physics.h"
 #include "SphereCollider.h"
 #include "SelfDestruct.h"
+#include "ExplosiveScript.h"
 #include "Layers.h"
 
 Transform * ExplosiveBullet::Create() {
@@ -28,6 +29,10 @@ Transform * ExplosiveBullet::Create() {
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);
 	destruct->lifetime = 2.f;
+
+	ExplosiveScript* const explosive = entities->AddComponent<ExplosiveScript>(entity);
+	explosive->explosionPrefab = explosionPrefab;
+	explosive->SetActive(true);
 
 	return transform;
 }
