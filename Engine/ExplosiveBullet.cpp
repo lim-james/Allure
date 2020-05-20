@@ -5,7 +5,13 @@
 #include "SphereCollider.h"
 #include "SelfDestruct.h"
 #include "ExplosiveScript.h"
+
+#include "LoadTexture.h"
 #include "Layers.h"
+
+ExplosiveBullet::ExplosiveBullet() {
+	spriteSheet = Load::Texture2D("Files/Sprites/NTlikeTDSSprites.png");
+}
 
 Transform * ExplosiveBullet::Create() {
 	const unsigned entity = entities->Create();
@@ -16,7 +22,10 @@ Transform * ExplosiveBullet::Create() {
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
-	render->tint = vec4f(1.f, 0.f, 1.f, 1.f);
+	render->SetSprite(spriteSheet);
+	render->SetTilemapSize(58, 55);
+	render->SetCellRect(15, 13, 9, 4);
+	//render->tint = vec4f(1.f, 0.f, 1.f, 1.f);
 
 	Physics* const physics = entities->AddComponent<Physics>(entity);
 	physics->SetActive(true);

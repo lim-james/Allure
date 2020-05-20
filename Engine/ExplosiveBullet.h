@@ -4,7 +4,10 @@
 #include "Prefab.h"
 
 struct ExplosiveBullet : Prefab {
+	unsigned spriteSheet;
+
 	Prefab* explosionPrefab;
+	ExplosiveBullet();
 	Transform* Create() override;
 };
 

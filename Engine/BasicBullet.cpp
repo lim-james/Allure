@@ -17,13 +17,14 @@ Transform* BasicBullet::Create() {
 	entities->SetLayer(entity, BULLET);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale = 1.25f;
+	transform->scale = 2.25f;
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
-	//render->SetSprite(spriteSheet);
-	//render->SetTilemapSize(8, 16);
-	render->tint = vec4f(0.f, 1.f, 1.f, 1.f);
+	render->SetSprite(spriteSheet);
+	render->SetTilemapSize(22, 54);
+	render->SetCellRect(9, 13, 3, 3);
+	//render->tint = vec4f(0.f, 1.f, 1.f, 1.f);
 
 	Physics* const physics = entities->AddComponent<Physics>(entity);
 	physics->SetActive(true);
