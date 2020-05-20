@@ -85,7 +85,7 @@ void MainGame::Create() {
 	basicEnemy = new BasicEnemy;
 	basicEnemy->Initialize(entities);
 
-	const unsigned playerSheet = Load::Texture2D("Files/Sprites/NTlikeTDSSprites_4X_Size.png");
+	const unsigned playerSheet = Load::Texture2D("Files/Sprites/NTlikeTDSSprites.png");
 	const unsigned ukGunSheet = Load::Texture2D("Files/Sprites/UK.png");
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
