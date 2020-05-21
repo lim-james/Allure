@@ -99,7 +99,7 @@ void MainGame::Create() {
 	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->cullingMask = DEFAULT | PLAYER | ENEMY | EFFECT_AREA | BULLET | BONUS_BULLET;
-	camera->clearColor = vec4f(0.569f, 0.627f, 0.263f, 1.f);
+	//camera->clearColor = vec4f(0.569f, 0.627f, 0.263f, 1.f);
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
 	follow->SetActive(true);
@@ -171,7 +171,6 @@ void MainGame::Create() {
 		vignette->SetActive(true);
 		vignette->tint = vec3f(0.5f, 0.f, 0.5f);
 		scoreController->vfx = vignette;
-		//entities->AddComponent<Bloom>(volume)->SetActive(true);
 		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
 	}
 
@@ -241,6 +240,7 @@ void MainGame::Create() {
 		text->SetFont(vcrMono);
 		text->scale = 1.25f;
 		text->text = "x8";
+		text->color = vec4f(1.f, 0.749f, 0.f, 1.f);
 		text->paragraphAlignment = PARAGRAPH_RIGHT;
 		text->verticalAlignment = ALIGN_TOP;
 
@@ -279,7 +279,7 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = 0.5f;
+		transform->scale = 1.5f;
 		follow->crosshair = transform;
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -380,7 +380,7 @@ void MainGame::Create() {
 		beat->SetTempo(60);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
-		beat->threshold = 0.3f;
+		beat->threshold = 0.2f;
 	}
 
 	// enemy manager

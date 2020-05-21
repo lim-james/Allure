@@ -51,6 +51,7 @@ void main() {
 	fragColor.rgb += v * spreadTint.rgb * fragColor.rgb;
 
 	float square = max(abs(delta.x), abs(delta.y)) / viewSize;
+//	float square = length(delta.xy) / viewSize;
 
 	for (float i = 0; i < 2.f; ++i) {
 		createIndicator(bt + i * interval, indicatorTint, square);

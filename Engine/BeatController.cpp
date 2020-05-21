@@ -42,7 +42,7 @@ void BeatController::Update() {
 
 void BeatController::HitHandler(Events::Event * event) {
 	bool * const state = static_cast<Events::AnyType<bool*>*>(event)->data;
-	if (!isHit && (threshold >= bt || delay - bt <= threshold)) {
+	if (!isHit && threshold >= bt) {
 		background->et = 0.f;
 		isHit = true;
 		*state = true;
