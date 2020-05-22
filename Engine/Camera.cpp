@@ -125,6 +125,7 @@ vec4f const& Camera::GetViewport() const {
 }
 
 void Camera::SetFramebuffer(Framebuffer * const fb) {
+	Debug::Warn << "Set\n";
 	framebuffer = fb;
 	EventsManager::Get()->Trigger("CAMERA_FRAMEBUFFER", new Events::AnyType<Camera*>(this));
 }

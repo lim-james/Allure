@@ -2,19 +2,30 @@
 
 #include "EnemyTarget.h"
 #include "EnemyLife.h"
+#include "InputEvents.h"
 
 #include <Math/Random.hpp>
+#include <Events/EventsManager.h>
+#include <GLFW/glfw3.h>
 
 void EnemyManager::AddEnemy(EnemyData const & data) {
 	enemies.push_back(data);
 }
 
 void EnemyManager::Awake() {
-	bt = 0.f;
 	spawnDelay = 1.f;
+
+	EventsManager::Get()->Subscribe("KEY_INPUT", &EnemyManager::KeyHandler, this);
+}
+
+void EnemyManager::Start() {
+	bt = 0.f;
+	enabled = false;
 }
 
 void EnemyManager::Update() {
+	if (!enabled) return;
+	
 	if (bt > spawnDelay) {
 		bt = 0.f;
 		for (EnemyData const& data : enemies) {
@@ -34,3 +45,10 @@ void EnemyManager::Update() {
 	}
 }
 
+void EnemyManager::KeyHandler(Events::Event* event) {
+	auto input = static_cast<Events::KeyInput*>(event);
+
+	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
+		enabled = !enabled;
+	}
+}

@@ -27,7 +27,7 @@ void PlayerMovement::FixedUpdate() {
 }
 
 void PlayerMovement::KeyHandler(Events::Event* event) {
-	auto input = static_cast<Events::KeyInput*>(event);
+	const auto input = static_cast<Events::KeyInput*>(event);
 
 	if (input->action == GLFW_REPEAT) return;
 

@@ -19,6 +19,7 @@ class Application {
 	Timer timer;
 	float bt;
 	
+	float ft;	// time that was forzen
 	float freezeTime;
 
 	Window* context;

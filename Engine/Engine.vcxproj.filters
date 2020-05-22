@@ -55,9 +55,6 @@
     <Filter Include="Assets\Scenes">
       <UniqueIdentifier>{254b132c-5b0a-4253-ba78-712a52f0c797}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scripts\Title">
-      <UniqueIdentifier>{43bad25f-669f-426a-bd0b-fd500975463d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application">
       <UniqueIdentifier>{96b7720e-6a7f-4034-b300-3807cf53bbe7}</UniqueIdentifier>
     </Filter>
@@ -178,6 +175,18 @@
     <Filter Include="Assets\Scripts\Main\Score">
       <UniqueIdentifier>{88327e12-f0dc-426a-83c7-4354671a7d06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Scene">
+      <UniqueIdentifier>{d306c749-75f2-4f03-a898-2c42a14f1794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Scene\Title">
+      <UniqueIdentifier>{43bad25f-669f-426a-bd0b-fd500975463d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Scene\Pause">
+      <UniqueIdentifier>{0cb4c8bb-1de6-46c5-bc09-b9dd8806bbd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Scene\Game">
+      <UniqueIdentifier>{3e610ad1-a398-4922-90f9-b2bbc6250f84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -289,7 +298,7 @@
       <Filter>Assets\Scripts\General\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="TitleTransition.cpp">
-      <Filter>Assets\Scripts\Title</Filter>
+      <Filter>Assets\Scripts\Scene\Title</Filter>
     </ClCompile>
     <ClCompile Include="SampleScene.cpp">
       <Filter>Assets\Scenes\Sandbox\Sample</Filter>
@@ -525,6 +534,18 @@
     <ClCompile Include="ExpandScript.cpp">
       <Filter>Assets\Scripts\General</Filter>
     </ClCompile>
+    <ClCompile Include="PauseScene.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBlink.cpp">
+      <Filter>Assets\Scripts\General\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseManager.cpp">
+      <Filter>Assets\Scripts\Scene\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Assets\Scripts\Scene\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -645,7 +666,7 @@
       <Filter>Assets\Scripts\General\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="TitleTransition.h">
-      <Filter>Assets\Scripts\Title</Filter>
+      <Filter>Assets\Scripts\Scene\Title</Filter>
     </ClInclude>
     <ClInclude Include="Layers.h">
       <Filter>Engine</Filter>
@@ -907,6 +928,18 @@
     </ClInclude>
     <ClInclude Include="ExpandScript.h">
       <Filter>Assets\Scripts\General</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseScene.h">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBlink.h">
+      <Filter>Assets\Scripts\General\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseManager.h">
+      <Filter>Assets\Scripts\Scene\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Assets\Scripts\Scene\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

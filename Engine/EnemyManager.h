@@ -15,13 +15,18 @@ struct EnemyManager : Script {
 
 private:
 
+	bool enabled;
+
 	float bt;
 	float spawnDelay;
 
 	std::vector<EnemyData> enemies;
 
 	void Awake() override;
+	void Start() override;
 	void Update() override;
+
+	void KeyHandler(Events::Event* event);
 
 };
 

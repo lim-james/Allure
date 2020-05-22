@@ -166,6 +166,7 @@
     <ClCompile Include="ExplosiveBullet.cpp" />
     <ClCompile Include="ExplosiveScript.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="IBLMaterial.cpp" />
     <ClCompile Include="CurveDisplay.cpp" />
     <ClCompile Include="IndicatorLabel.cpp" />
@@ -174,6 +175,8 @@
     <ClCompile Include="LoadModel.cpp" />
     <ClCompile Include="LoadSAD.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="PauseManager.cpp" />
+    <ClCompile Include="PauseScene.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="Pixelated.cpp" />
@@ -188,6 +191,7 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Stress3D.cpp" />
     <ClCompile Include="TestAudio.cpp" />
+    <ClCompile Include="TextBlink.cpp" />
     <ClCompile Include="Vignette.cpp" />
     <ClCompile Include="VoxelDefaultMaterial.cpp" />
     <ClCompile Include="VoxelRender.cpp" />
@@ -272,9 +276,12 @@
     <ClInclude Include="ExpandScript.h" />
     <ClInclude Include="ExplosiveBullet.h" />
     <ClInclude Include="ExplosiveScript.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="IndicatorLabel.h" />
     <ClInclude Include="LoadSAD.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="PauseManager.h" />
+    <ClInclude Include="PauseScene.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsProperties.h" />
     <ClInclude Include="PhysicsSystem.h" />
@@ -316,6 +323,7 @@
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="RenderProperties.h" />
     <ClInclude Include="TestAudio.h" />
+    <ClInclude Include="TextBlink.h" />
     <ClInclude Include="Vignette.h" />
     <ClInclude Include="VoxelDefaultMaterial.h" />
     <ClInclude Include="VoxelRender.h" />

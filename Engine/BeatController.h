@@ -20,6 +20,7 @@ private:
 	float bt;
 
 	bool isHit; // check if this beat has been hit
+	bool endCycle;
 	vec3f playerPosition;
 
 	void Awake() override;

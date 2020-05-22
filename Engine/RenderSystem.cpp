@@ -131,7 +131,7 @@ void RenderSystem::Stop() {
 
 	auto manager = EventsManager::Get();
 	for (Renderer* const r : renderers)
-		manager->UnsubscribeContext(r);
+		manager->UnsubscribeContext(r); 
 	manager->UnsubscribeContext(postProccessing);
 }
 

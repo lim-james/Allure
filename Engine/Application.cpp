@@ -5,6 +5,7 @@
 #include "SampleScene.h"
 #include "Stress3D.h"
 #include "MainGame.h"
+#include "PauseScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -102,10 +103,12 @@ void Application::Step() {
 	if (freezeTime > 0) {
 		freezeTime -= dt;
 		if (freezeTime >= 0.f) {
+			ft += dt;
 			timer.Update();
 			return;
 		} else {
-			dt = -freezeTime;
+			dt = -freezeTime + ft;
+			ft = 0.f;
 		}
 	}
 

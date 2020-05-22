@@ -95,7 +95,8 @@ void Framebuffer::Resize(vec2u const& resize) {
 		attachments.push_back(t.attachment);
 	}
 
-	glDrawBuffers(texCount, &attachments[0]);
+	if (texCount > 0)
+		glDrawBuffers(texCount, &attachments[0]);
 
 	for (unsigned i = 0; i < rboCount; ++i) {
 		glBindRenderbuffer(GL_RENDERBUFFER, RBOs[i]);

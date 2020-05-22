@@ -68,18 +68,22 @@ void SceneManager::PresentHandler(Events::Event * event) {
 void SceneManager::DismissHandler() {
 	if (sceneStack.empty()) return;
 
-	Scene* previous = sceneStack.top();
+	Scene* source = sceneStack.top();
 	sceneStack.pop();
-	Scene* current = sceneStack.top();
+
+	if (sceneStack.empty()) {
+		EventsManager::Get()->Trigger("CLOSE_WINDOW");
+	}
 
 	EventsManager::Get()->TriggerQueued();
-	current->Exit();
 
-	previous->Enter();
-	current->PrepareForSegue(previous);
+	Scene* destination = sceneStack.top();
+	source->Exit();
+	destination->Enter();
+	source->PrepareForSegue(destination);
 
 	EventsManager::Get()->Trigger("BROADCAST_SIZE");
 
-	previous->Destroy();
-	delete previous;
+	source->Destroy();
+	delete source;
 }

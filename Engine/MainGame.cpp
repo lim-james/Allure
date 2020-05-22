@@ -15,6 +15,7 @@
 #include "CurveDisplay.h"
 #include "Vignette.h"
 // scripts
+#include "GameManager.h"
 #include "FPSCounter.h"
 #include "CameraFollow.h"
 #include "ScreenShake.h"
@@ -247,6 +248,16 @@ void MainGame::Create() {
 		scoreController->multiplierLabel = text;
 	}
 
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetDynamic(false);
+
+		GameManager* const manager = entities->AddComponent<GameManager>(entity);
+		manager->SetActive(true);
+	}
+
 	// background
 	{
 		const unsigned entity = entities->Create();
@@ -254,20 +265,21 @@ void MainGame::Create() {
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->translation.z = -10.f;
 		transform->scale = vec3f(160.0f, 90.0f, 1.0f);
+		transform->SetDynamic(false);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
 		render->SetMaterial(background);
-		render->SetCellRect(0, 0, 32, 18);
+		//render->SetCellRect(0, 0, 32, 18);
+		render->SetCellRect(0, 0, 16, 9);
 		render->tint.a = 0.15f;
 
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
-		audio->audioClip = "Files/Media/LOUD - Thoughts.wav";
+		audio->audioClip = "Files/Media/NowhereToRun.wav";
 		audio->loop = true;
-		audio->Play();
-		audio->volume = 0.f;
+		//audio->volume = 1.f;
 
 		AudioController* const controller = entities->AddComponent<AudioController>(entity);
 		controller->SetActive(true);
@@ -377,7 +389,7 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(60);
+		beat->SetTempo(80);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
 		beat->threshold = 0.2f;

@@ -13,8 +13,9 @@ void BeatController::Awake() {
 }
 
 void BeatController::Start() {
-	bt = delay;
+	bt = threshold;
 	isHit = false;
+	endCycle = false;
 }
 
 void BeatController::Update() {
@@ -26,7 +27,11 @@ void BeatController::Update() {
 	background->playerPosition = transform->GetWorldTranslation();
 
 	if (bt < 0.f) {
-		bt = delay;
+		bt = delay + bt;
+		endCycle = true;
+	}
+
+	if (endCycle && threshold < delay - bt) {
 		if (!isHit) {
 			Transform* const indicator = indicatorPrefab->Create();
 			indicator->translation = transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f);
@@ -35,6 +40,7 @@ void BeatController::Update() {
 			text->text = "MISSED";
 			EventsManager::Get()->Trigger("RESET_MULTIPLIER");
 		}
+		endCycle = false;
 		isHit = false;
 	}
 
@@ -42,7 +48,7 @@ void BeatController::Update() {
 
 void BeatController::HitHandler(Events::Event * event) {
 	bool * const state = static_cast<Events::AnyType<bool*>*>(event)->data;
-	if (!isHit && threshold >= bt) {
+	if (!isHit && (threshold >= bt || threshold >= delay - bt)) {
 		background->et = 0.f;
 		isHit = true;
 		*state = true;
