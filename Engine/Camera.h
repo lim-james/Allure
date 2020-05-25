@@ -29,6 +29,7 @@ struct Camera : Component {
 	BitField cullingMask;
 
 	Camera();
+	~Camera() override;
 
 	void Initialize() override;
 	Component* Clone() const override;

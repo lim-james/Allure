@@ -39,6 +39,10 @@ Camera::Camera()
 	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &Camera::WindowResizeHandler, this);
 }
 
+Camera::~Camera() {
+	EventsManager::Get()->UnsubscribeContext(this);
+}
+
 void Camera::Initialize() {
 	isHidden = false;
 

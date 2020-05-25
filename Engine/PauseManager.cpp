@@ -13,6 +13,7 @@ void PauseManager::Quit() {
 }
 
 void PauseManager::Awake() {
+	std::cout << "XXXXX Awake " << this << '\n';
 	EventsManager::Get()->Subscribe("KEY_INPUT", &PauseManager::KeyHanlder, this);
 }
 
@@ -20,6 +21,7 @@ void PauseManager::KeyHanlder(Events::Event * event) {
 	const auto input = static_cast<Events::KeyInput*>(event);
 
 	if (input->key == GLFW_KEY_ESCAPE && input->action == GLFW_PRESS) {
+		std::cout << "XXXXX Unpause " << this << '\n';
 		Unpause();
 	}
 }

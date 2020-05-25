@@ -85,5 +85,5 @@ void SceneManager::DismissHandler() {
 	EventsManager::Get()->Trigger("BROADCAST_SIZE");
 
 	source->Destroy();
-	delete source;
+	//delete source;
 }

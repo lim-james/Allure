@@ -2,6 +2,7 @@
 
 void TextBlink::Awake() {
 	text = GetComponent<Text>();
+	Debug::Warn << "Set " << this << "'s text to " << text << '\n';
 }
 
 void TextBlink::Start() {

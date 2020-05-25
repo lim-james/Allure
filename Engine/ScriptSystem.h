@@ -8,7 +8,7 @@
 
 class ScriptSystem {
 
-	Time time;
+	Time* time;
 
 	EntityManager * const entities;
 	bool started;

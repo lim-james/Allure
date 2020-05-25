@@ -41,6 +41,6 @@ void DemoGun::CreateBullet(bool const& onBeat) const {
 	physics->AddForce(direction * 5000.f);
 
 	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
-	audio->audioClip = "Files/Media/hit.wav";
+	audio->audioClip = onBeat ? "Files/Media/base.wav" : "Files/Media/hit.wav";
 	audio->Play();
 }
