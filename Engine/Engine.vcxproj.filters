@@ -546,6 +546,9 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Assets\Scripts\Scene\Game</Filter>
     </ClCompile>
+    <ClCompile Include="BatEnemy.cpp">
+      <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -940,6 +943,9 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Assets\Scripts\Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BatEnemy.h">
+      <Filter>Assets\Prefabs\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

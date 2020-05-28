@@ -145,6 +145,7 @@
     <ClCompile Include="BackgroundMaterial.cpp" />
     <ClCompile Include="BasicEnemy.cpp" />
     <ClCompile Include="BasicBullet.cpp" />
+    <ClCompile Include="BatEnemy.cpp" />
     <ClCompile Include="BeatController.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="ApplicationProperties.h" />
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="BackgroundMaterial.h" />
+    <ClInclude Include="BatEnemy.h" />
     <ClInclude Include="BeatController.h" />
     <ClInclude Include="ChaseState.h" />
     <ClInclude Include="BasicEnemy.h" />

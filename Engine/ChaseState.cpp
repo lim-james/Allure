@@ -4,7 +4,7 @@
 #include "EnemyTarget.h"
 
 void States::Chase::Enter(unsigned const & target, EntityManager * const entities) {
-	entities->GetComponent<SpriteAnimation>(target)->queued = "WALK";
+	entities->GetComponent<SpriteAnimation>(target)->queued = "CHASE";
 }
 
 void States::Chase::Update(unsigned const & target, float const & dt, EntityManager * const entities) {}

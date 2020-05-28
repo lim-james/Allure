@@ -6,7 +6,6 @@
 ScriptSystem::ScriptSystem(EntityManager * const entities) : entities(entities) {
 	EventsManager::Get()->Subscribe("SCRIPT_ACTIVE", &ScriptSystem::ActiveHandler, this);
 
-	std::cout << this << " init\n";
 	time = new Time;
 	time->et = 0.0f;
 }
@@ -26,7 +25,6 @@ void ScriptSystem::Awake() {
 void ScriptSystem::Start() {
 	started = true;
 	EventsManager* events = EventsManager::Get();
-	std::cout << this << " start\n";
 	events->SubscribeContext(this);
 
 	for (auto& s : scripts) {
@@ -50,7 +48,6 @@ void ScriptSystem::Update(float const& dt) {
 }
 
 void ScriptSystem::Stop() {
-	std::cout << this << " stop\n";
 	started = false;
 	EventsManager* events = EventsManager::Get();
 	events->UnsubscribeContext(this);
@@ -86,7 +83,6 @@ void ScriptSystem::ActiveHandler(Events::Event * event) {
 }
 
 void ScriptSystem::Setup(Script * const script) {
-	std::cout << this << " setting " << script << '\n';
 	script->time = time;
 	script->entities = entities;
 	script->transform = script->GetComponent<Transform>();

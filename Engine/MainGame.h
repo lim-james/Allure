@@ -10,7 +10,9 @@
 #include "ExplosionArea.h"
 #include "BasicBullet.h"
 #include "ExplosiveBullet.h"
+// enemy prefabs
 #include "BasicEnemy.h"
+#include "BatEnemy.h"
 // weapons
 #include "DemoGun.h"
 
@@ -26,6 +28,7 @@ class MainGame : public Scene {
 
 	// enemies
 	BasicEnemy* basicEnemy;
+	BatEnemy* batEnemy;
 
 private:
 

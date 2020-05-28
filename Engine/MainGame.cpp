@@ -93,6 +93,9 @@ void MainGame::Create() {
 	basicEnemy = new BasicEnemy;
 	basicEnemy->Initialize(entities);
 
+	batEnemy = new BatEnemy;
+	batEnemy->Initialize(entities);
+
 	const unsigned playerSheet = Load::Texture2D("Files/Sprites/NTlikeTDSSprites.png");
 	const unsigned ukGunSheet = Load::Texture2D("Files/Sprites/UK.png");
 
@@ -248,15 +251,16 @@ void MainGame::Create() {
 		scoreController->multiplierLabel = text;
 	}
 
-	{
-		const unsigned entity = entities->Create();
+	// Game manager
+	//{
+	//	const unsigned entity = entities->Create();
 
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetDynamic(false);
+	//	Transform* const transform = entities->GetComponent<Transform>(entity);
+	//	transform->SetDynamic(false);
 
-		GameManager* const manager = entities->AddComponent<GameManager>(entity);
-		manager->SetActive(true);
-	}
+	//	GameManager* const manager = entities->AddComponent<GameManager>(entity);
+	//	manager->SetActive(true);
+	//}
 
 	// background
 	{
@@ -389,7 +393,7 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(80);
+		beat->SetTempo(85);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
 		beat->threshold = 0.2f;
@@ -406,6 +410,7 @@ void MainGame::Create() {
 		manager->player = follow->player;
 		
 		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 1, 5, 1 });
+		manager->AddEnemy(EnemyData{ batEnemy, LOW_RISK, 1, 2, 1 });
 	}
 }
 
@@ -421,4 +426,5 @@ void MainGame::Destroy() {
 	delete demoGun;
 
 	delete basicEnemy;
+	delete batEnemy;
 }
