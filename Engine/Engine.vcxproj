@@ -141,6 +141,7 @@
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="AudioListener.cpp" />
+    <ClCompile Include="AudioSpectrumScene.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BackgroundMaterial.cpp" />
     <ClCompile Include="BasicEnemy.cpp" />
@@ -189,6 +190,8 @@
     <ClCompile Include="ScoreController.cpp" />
     <ClCompile Include="ScreenShake.cpp" />
     <ClCompile Include="SelfDestruct.cpp" />
+    <ClCompile Include="SoundBar.cpp" />
+    <ClCompile Include="SpectrumManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Stress3D.cpp" />
     <ClCompile Include="TestAudio.cpp" />
@@ -259,6 +262,7 @@
   <ItemGroup>
     <ClInclude Include="ApplicationProperties.h" />
     <ClInclude Include="AudioController.h" />
+    <ClInclude Include="AudioSpectrumScene.h" />
     <ClInclude Include="BackgroundMaterial.h" />
     <ClInclude Include="BatEnemy.h" />
     <ClInclude Include="BeatController.h" />
@@ -294,6 +298,8 @@
     <ClInclude Include="ScoreEvent.h" />
     <ClInclude Include="ScreenShake.h" />
     <ClInclude Include="SelfDestruct.h" />
+    <ClInclude Include="SoundBar.h" />
+    <ClInclude Include="SpectrumManager.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Stress3D.h" />
     <ClInclude Include="Animation.h" />

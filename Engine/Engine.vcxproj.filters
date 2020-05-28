@@ -187,6 +187,12 @@
     <Filter Include="Assets\Scripts\Scene\Game">
       <UniqueIdentifier>{3e610ad1-a398-4922-90f9-b2bbc6250f84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scenes\Sandbox\Spectrum">
+      <UniqueIdentifier>{6a6378bd-f588-46f4-b2d6-49c83e573a6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Prefabs\SoundBar">
+      <UniqueIdentifier>{6ac3eeec-c24e-4878-ab3a-95f24a3b7f6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -548,6 +554,15 @@
     </ClCompile>
     <ClCompile Include="BatEnemy.cpp">
       <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSpectrumScene.cpp">
+      <Filter>Assets\Scenes\Sandbox\Spectrum</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectrumManager.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundBar.cpp">
+      <Filter>Assets\Prefabs\SoundBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -946,6 +961,15 @@
     </ClInclude>
     <ClInclude Include="BatEnemy.h">
       <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSpectrumScene.h">
+      <Filter>Assets\Scenes\Sandbox\Spectrum</Filter>
+    </ClInclude>
+    <ClInclude Include="SpectrumManager.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundBar.h">
+      <Filter>Assets\Prefabs\SoundBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

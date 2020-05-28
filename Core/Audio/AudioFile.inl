@@ -1,6 +1,7 @@
 #include "AudioFile.h"
 
 #include "../Logger/Logger.h"
+#include "../Math/Math.hpp"
 
 template<typename T>
 AudioFile<T>::AudioFile()
@@ -202,4 +203,64 @@ T AudioFile<T>::C(float const& t, size_t const & numBlocks) {
 	return static_cast<T>(-0.0000015 * Varience(t, numBlocks) + 1.5142857);
 }
 
+template<typename T>
+std::vector<float> AudioFile<T>::Spectrum(float const& t, float const td, unsigned const& bands, unsigned const& startF, unsigned const& endF) {
+	std::vector<T> samples = SampleDuration(t, td);
+
+	const unsigned N = samples.size();
+	const unsigned dF = (endF - startF) / N;
+	
+	std::vector<std::complex<double>> spectrum(N, 0.0);
+
+	for (unsigned i = 0; i < N; ++i) {
+		spectrum[i] = static_cast<double>(samples[i]) / 32768.0;
+	}
+
+	fft(spectrum, startF, dF);
+	
+	const unsigned bR = N / bands / 2;
+
+	std::vector<float> result(bands, 0.f);
+
+	const double unit = 2.0 / static_cast<double>(N);
+	double m = 0.0;
+	
+	for (unsigned i = 0; i < bands; ++i) {
+		const double a = spectrum[i].real();
+		const double b = spectrum[i].imag();
+		result[i] = sqrt(a * a + b * b) * unit; 
+	}
+
+	return result;
+}
+
+template<typename T>
+void AudioFile<T>::fft(std::vector<std::complex<double>>& samples, unsigned const& offset, unsigned const& df) {
+	const unsigned N = samples.size();
+
+	if (N <= 1) return;
+
+	// split even and odd
+
+	const unsigned M = N / 2;
+	std::vector<std::complex<double>> odd(M, 0);
+	std::vector<std::complex<double>> even(M, 0);
+
+	for (unsigned i = 0; i < M; ++i) {
+		even[i] = samples[i * 2];
+		odd[i] = samples[i * 2 + 1];
+	}
+
+	// Split on tasks
+	fft(even, offset, df);
+	fft(odd, offset, df);
+
+	// Calculate DFT
+	for (unsigned i = 0; i < M; ++i) {
+		const unsigned k = i * df + offset;
+		std::complex<double> t = exp(std::complex<double>(0, -2 * Math::PI * i / N)) * odd[i];
+		samples[i] = even[i] + t;
+		samples[N / 2 + i] = even[i] - t;
+	}
+}
 

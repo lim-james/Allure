@@ -13,6 +13,8 @@
 struct AudioController : Script {
 
 	Material::Background* material;
+	float meterMaxHeight;
+	float* meterHeight;
 
 private:
 

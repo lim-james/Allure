@@ -13,6 +13,7 @@ struct Layout : Component {
 	void SetActive(bool const& state) override;
 
 	void AddConstraint(Constraint const& constraint);
+	Constraint* GetConstraint(short const& type);
 	std::vector<Constraint> const& GetConstraints() const;
 
 private:

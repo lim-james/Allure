@@ -24,6 +24,13 @@ void Layout::AddConstraint(Constraint const & constraint) {
 	constraints.push_back(constraint);
 }
 
+Constraint* Layout::GetConstraint(short const & type) {
+	for (Constraint& c : constraints)
+		if (c.self == type)
+			return &c;
+	return nullptr;
+}
+
 std::vector<Constraint> const & Layout::GetConstraints() const {
 	return constraints;
 }

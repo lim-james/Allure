@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <complex>
 
 template<typename T>
 class AudioFile {
@@ -39,6 +40,12 @@ public:
 	T AverageEnergy(float const& t, size_t const& numBlocks, size_t const& blockSize);
 	T Varience(float const& t, size_t const& numBlocks);
 	T C(float const& t, size_t const& numBlocks);
+
+	std::vector<float> Spectrum(float const& t, float const td, unsigned const& bands, unsigned const& startF, unsigned const& endF);
+	
+private:
+
+	void fft(std::vector<std::complex<double>>& samples, unsigned const& offset, unsigned const& df);
 
 };
 

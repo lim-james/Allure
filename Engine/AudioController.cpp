@@ -21,7 +21,10 @@ void AudioController::FixedUpdate() {
 	t += time->fixedDt;
 
 	//const int16_t data = file->AverageEnergy(t, 10, 10);
-	//const float result = static_cast<float>(data) / 32768.f;
+	const int16_t data = max(file->SampleCount(t, 2)[0], 0);
+	const float result = static_cast<float>(data) / 32768.f;
+
+	*meterHeight = meterMaxHeight * result;
 
 	//render->tint = result;
 }

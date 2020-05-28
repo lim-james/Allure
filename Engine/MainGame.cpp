@@ -262,6 +262,25 @@ void MainGame::Create() {
 	//	manager->SetActive(true);
 	//}
 
+	// energy meter
+	float* meterHeight = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 2.f, uiCamera));
+		layout->AddConstraint(Constraint(BOTTOM_ANCHOR, nullptr, BOTTOM_ANCHOR, 1.f, 2.f, uiCamera));
+		layout->AddConstraint(Constraint(HEIGHT, nullptr, NA, 1.f, 1.f, uiCamera));
+		meterHeight = &(layout->GetConstraint(HEIGHT)->constant);
+
+		//meterHeight = &(layout->GetConstraint(2).constant);
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+	}
+
 	// background
 	{
 		const unsigned entity = entities->Create();
@@ -281,13 +300,16 @@ void MainGame::Create() {
 
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
-		audio->audioClip = "Files/Media/NowhereToRun.wav";
+		//audio->audioClip = "Files/Media/NowhereToRun.wav";
+		audio->audioClip = "Files/Media/LOUD - Thoughts.wav";
 		audio->loop = true;
 		//audio->volume = 1.f;
 
 		AudioController* const controller = entities->AddComponent<AudioController>(entity);
 		controller->SetActive(true);
 		controller->material = background;
+		controller->meterMaxHeight = 5.f;
+		controller->meterHeight = meterHeight;
 	}
 
 	// crosshair
