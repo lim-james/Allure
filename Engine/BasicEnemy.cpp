@@ -77,6 +77,7 @@ Transform * BasicEnemy::Create() {
 	EnemyTarget* const target = entities->AddComponent<EnemyTarget>(entity);
 	target->SetActive(true);
 	target->speed = 200.f;
+	target->minRadius = 20.f;
 
 	return transform;
 }

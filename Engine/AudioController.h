@@ -9,11 +9,19 @@
 #include "BackgroundMaterial.h"
 
 #include <Audio/AudioFile.h>
+#include <Events/Event.h>	
 
 struct AudioController : Script {
 
 	Material::Background* material;
-	float meterMaxHeight;
+
+	unsigned startFrequency;
+	unsigned endFrequency;
+	unsigned frequencyBands;
+
+	float audioDuration;
+
+	float maxHeight;
 	float* meterHeight;
 
 private:
@@ -30,6 +38,8 @@ private:
 	void Update() override;
 	void FixedUpdate() override;
 	void Stop() override;
+
+	void KeyHandler(Events::Event* event);
 
 };
 

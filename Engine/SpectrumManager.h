@@ -32,9 +32,12 @@ private:
 
 	AudioFile<int16_t>* file;
 
+	void Awake() override;
 	void Start() override;
 	void Update() override;
 	void OnDestroy() override;
+
+	void KeyHandler(Events::Event* event);
 
 };
 

@@ -1,9 +1,17 @@
 #include "SpectrumManager.h"
 
+#include "InputEvents.h"
+
 #include <Math/Random.hpp>
+#include <Events/EventsManager.h>
+#include <GLFW/glfw3.h>
 
 SpectrumManager::SpectrumManager() 
 	: bars(nullptr), file(nullptr) {}
+
+void SpectrumManager::Awake() {
+	EventsManager::Get()->Subscribe("KEY_INPUT", &SpectrumManager::KeyHandler, this);
+}
 
 void SpectrumManager::Start() {
 	t = 0.f;
@@ -26,11 +34,11 @@ void SpectrumManager::Start() {
 			bars[static_cast<unsigned>(i)] = t;
 		}
 	}
-
-	source->Play();
 }
 
 void SpectrumManager::Update() {
+	if (source->IsPaused()) return;
+
 	t += time->dt * source->speed;
 
 	const auto sample = file->Spectrum(t, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
@@ -44,4 +52,12 @@ void SpectrumManager::Update() {
 
 void SpectrumManager::OnDestroy() {
 	delete[] bars;
+}
+
+void SpectrumManager::KeyHandler(Events::Event * event) {
+	auto input = static_cast<Events::KeyInput*>(event);
+
+	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
+		source->Play();
+	}
 }

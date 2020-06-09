@@ -146,16 +146,16 @@ void MainGame::Create() {
 		entities->SetLayer(entity, UI);
 
 		Layout* const layout = entities->AddComponent<Layout>(entity);
-		layout->SetActive(true);
+		//layout->SetActive(true);
 		layout->AddConstraint(Constraint(CENTER_X_ANCHOR, nullptr, CENTER_X_ANCHOR, 1.f, 0.f, uiCamera));
 		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
 
 		Text* const text = entities->AddComponent<Text>(entity);
-		text->SetActive(true);
+		//text->SetActive(true);
 		text->SetFont(vcrMono);
 
 		FPSCounter* const fps = entities->AddComponent<FPSCounter>(entity);
-		fps->SetActive(true);
+		//fps->SetActive(true);
 	}
 
 	// Score controller
@@ -301,14 +301,20 @@ void MainGame::Create() {
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
 		//audio->audioClip = "Files/Media/NowhereToRun.wav";
-		audio->audioClip = "Files/Media/LOUD - Thoughts.wav";
+		//audio->audioClip = "Files/Media/IceFlow.wav";
+		audio->audioClip = "Files/Media/128C.wav";
 		audio->loop = true;
 		//audio->volume = 1.f;
 
 		AudioController* const controller = entities->AddComponent<AudioController>(entity);
 		controller->SetActive(true);
 		controller->material = background;
-		controller->meterMaxHeight = 5.f;
+		controller->startFrequency = 20.f;
+		controller->endFrequency = 2000.f;
+		controller->audioDuration = 1.f;
+		controller->frequencyBands = 50;
+		controller->maxHeight = 10.f;
+
 		controller->meterHeight = meterHeight;
 	}
 
@@ -415,7 +421,7 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(85);
+		beat->SetTempo(128);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
 		beat->threshold = 0.2f;

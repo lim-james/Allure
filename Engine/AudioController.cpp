@@ -1,34 +1,52 @@
 #include "AudioController.h"
 
+#include "InputEvents.h"
+#include <Events/EventsManager.h>
+#include <GLFW/glfw3.h>
+
 void AudioController::Awake() {
 	render = GetComponent<SpriteRender>();
 	audio = GetComponent<AudioSource>();
+
+	EventsManager::Get()->Subscribe("KEY_INPUT", &AudioController::KeyHandler, this);
 }
 
 void AudioController::Start() {
 	t = 0.f;
-	audio->Play();
+	//audio->Play();
 
 	file = new AudioFile<int16_t>;
 	file->Open(audio->audioClip);
 }
 
 void AudioController::Update() {
-	material->et += time->dt;
+	if (!audio->IsPaused())
+	{
+		material->et += time->dt;
+		t += time->dt;
+	}
 }
 
 void AudioController::FixedUpdate() {
-	t += time->fixedDt;
+	if (audio->IsPaused()) return;
 
-	//const int16_t data = file->AverageEnergy(t, 10, 10);
-	const int16_t data = max(file->SampleCount(t, 2)[0], 0);
-	const float result = static_cast<float>(data) / 32768.f;
+	const auto sample = file->Spectrum(t, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
+	float result = 0.f;
+	//for (unsigned i = 0; i < frequencyBands; ++i)
+		//result = max(result, sample[i]);
+	result = sample[2];
 
-	*meterHeight = meterMaxHeight * result;
-
-	//render->tint = result;
+	EventsManager::Get()->Trigger("BEAT_VALUE", new Events::AnyType<float>(result));
+	*meterHeight = maxHeight * result;
 }
 
 void AudioController::Stop() {
 	audio->Pause();
+}
+
+void AudioController::KeyHandler(Events::Event * event) {
+	Events::KeyInput* input = static_cast<Events::KeyInput*>(event);
+	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
+		audio->Play();
+	}
 }
