@@ -6,6 +6,7 @@
 
 #include "EnemyData.h"
 
+
 struct EnemyManager : Script {
 
 	vec2f boundary;
@@ -15,18 +16,20 @@ struct EnemyManager : Script {
 
 private:
 
+	struct EnemyGroup {
+		EnemyData data;
+		int beats;
+	};
+
 	bool enabled;
 
-	float bt;
-	float spawnDelay;
-
-	std::vector<EnemyData> enemies;
+	std::vector<EnemyGroup> enemies;
 
 	void Awake() override;
 	void Start() override;
-	void Update() override;
 
 	void KeyHandler(Events::Event* event);
+	void BeatHandler();
 
 };
 

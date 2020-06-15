@@ -3,20 +3,28 @@
 
 #include "Script.h"
 
+#include "EnemyData.h"
 #include "Physics.h"
+
 #include <Events/Event.h>
 
 struct EnemyTarget : Script {
 
 	float magnitude;
 
-	float speed;
-	float minRadius;
 	Transform* player;
+	vec2f boundary;
+
+	TargetStyle farStyle;
+	TargetStyle nearStyle;
+	TargetStyle* style;
 
 	void Chase();
 
 private:
+
+	bool isNear;
+	vec2f target;
 
 	Physics* physics;
 

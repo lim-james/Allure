@@ -28,6 +28,7 @@
     <ClInclude Include="Events\EventsManager.h" />
     <ClInclude Include="Handler\Handler.h" />
     <ClInclude Include="Handler\variadic_placeholder.h" />
+    <ClInclude Include="Helpers\ColorHelpers.h" />
     <ClInclude Include="Helpers\FileHelpers.h" />
     <ClInclude Include="Audio\AudioHeaders.h" />
     <ClInclude Include="Loaders\LoadCSV.hpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="Math\Base\vec3.h" />
     <ClInclude Include="Math\Base\vec4.h" />
     <ClInclude Include="Math\Base\VectorOperators.h" />
+    <ClInclude Include="Math\Converter.h" />
     <ClInclude Include="Math\LinePlane.hpp" />
     <ClInclude Include="Math\Math.hpp" />
     <ClInclude Include="Math\Mat4.hpp" />
@@ -59,9 +61,11 @@
     <ClCompile Include="Encoding\AENotation.cpp" />
     <ClCompile Include="Encoding\AEObject.cpp" />
     <ClCompile Include="Events\EventsManager.cpp" />
+    <ClCompile Include="Helpers\ColorHelpers.cpp" />
     <ClCompile Include="Helpers\FileHelpers.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="Helpers\StringHelpers.cpp" />
+    <ClCompile Include="Math\Converter.cpp" />
     <ClCompile Include="Timer\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>

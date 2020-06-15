@@ -17,13 +17,19 @@ void AudioController::Start() {
 
 	file = new AudioFile<int16_t>;
 	file->Open(audio->audioClip);
+	duration = file->GetDuration();
 }
 
 void AudioController::Update() {
 	if (!audio->IsPaused())
 	{
-		material->et += time->dt;
-		t += time->dt;
+		const float dt = time->dt * audio->speed;
+		material->et += dt;
+		t += dt;
+
+		while (t > duration) {
+			t -= duration;
+		}
 	}
 }
 
@@ -34,7 +40,7 @@ void AudioController::FixedUpdate() {
 	float result = 0.f;
 	//for (unsigned i = 0; i < frequencyBands; ++i)
 		//result = max(result, sample[i]);
-	result = sample[2];
+	//result = sample[2];
 
 	EventsManager::Get()->Trigger("BEAT_VALUE", new Events::AnyType<float>(result));
 	*meterHeight = maxHeight * result;

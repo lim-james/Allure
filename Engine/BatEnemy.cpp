@@ -56,8 +56,6 @@ Transform * BatEnemy::Create() {
 
 	EnemyTarget* const target = entities->AddComponent<EnemyTarget>(entity);
 	target->SetActive(true);
-	target->speed = 200.f;
-	target->minRadius = 0.f;
 
 	return transform;
 }

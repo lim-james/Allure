@@ -29,6 +29,7 @@ void BeatController::Update() {
 	if (bt < 0.f) {
 		bt = delay + bt;
 		endCycle = true;
+		EventsManager::Get()->Trigger("BEAT");
 	}
 
 	if (endCycle && threshold < delay - bt) {

@@ -57,7 +57,12 @@ void EnemyLife::Hit(bool const& bonus) {
 	bt = flashBt;
 	hasFroze = false;
 
-	if (--lives <= 0) {
+	if (shield > 0) {
+		--shield;
+		return;
+	}
+
+	if (--health <= 0) {
 		state->queuedState = "DEAD";
 
 		EventsManager::Get()->Trigger("SCORE", new Events::Score(

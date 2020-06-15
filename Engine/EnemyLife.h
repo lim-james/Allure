@@ -10,7 +10,8 @@
 struct EnemyLife : Script {
 
 	unsigned points;
-	int lives;
+	int shield;
+	int health;
 
 	void OnCollisionEnter(unsigned target);
 	void Kill();

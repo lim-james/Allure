@@ -27,6 +27,7 @@ struct AudioController : Script {
 private:
 
 	float t;
+	float duration;
 
 	SpriteRender* render;
 	AudioSource* audio;

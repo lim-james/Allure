@@ -43,10 +43,13 @@ void SpectrumManager::Update() {
 
 	const auto sample = file->Spectrum(t, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
 
+	const float halfW = width * 0.5f;
+
 	const float dH = maxHeight - thickness;
 	for (unsigned i = 0; i < frequencyBands; ++i) {
-		const float a = sample[i];
-		bars[i]->scale.y = dH * a + thickness;
+		const vec2d a = sample[i];
+		//bars[i]->translation.x = a.x * width - halfW;
+		bars[i]->scale.y = dH * a.y + thickness;
 	}
 }
 
@@ -59,5 +62,14 @@ void SpectrumManager::KeyHandler(Events::Event * event) {
 
 	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
 		source->Play();
+
+		//const auto sample = file->Spectrum(t, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
+
+		//const float dH = maxHeight - thickness;
+		//for (unsigned i = 0; i < frequencyBands; ++i) {
+		//	const vec2d a = sample[i];
+		//	bars[i]->translation.x = a.x * width - width * .5f;
+		//	bars[i]->scale.y = dH * a.y + thickness;
+		//}
 	}
 }

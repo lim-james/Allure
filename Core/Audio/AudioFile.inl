@@ -77,8 +77,15 @@ size_t AudioFile<T>::BPM(float const & t, size_t const & numBlocks) {
 }
 
 template<typename T>
+size_t AudioFile<T>::GetTime(float const& t) const {
+	size_t offset = static_cast<size_t>(t * timeUnit);
+	size_t index = offset / bytesPerSample;
+	return index * bytesPerSample;
+}
+
+template<typename T>
 std::vector<T> AudioFile<T>::SampleDuration(float const & t, float const & duration) {
-	const size_t resultOffset = static_cast<size_t>(t * timeUnit) + dataOffset;
+	const size_t resultOffset = GetTime(t) + dataOffset;
 	const size_t resultSize = static_cast<size_t>(duration * timeUnit / bytesPerSample);
 
 	std::vector<T> data(resultSize);
@@ -113,7 +120,7 @@ std::vector<T> AudioFile<T>::SampleDuration(float const & t, float const & durat
 
 template<typename T>
 std::vector<T> AudioFile<T>::SampleCount(float const & t, size_t const & count) {
-	const size_t resultOffset = static_cast<size_t>(t * timeUnit) + dataOffset;
+	const size_t resultOffset = GetTime(t) + dataOffset;
 
 	std::vector<T> data(count);
 
@@ -204,32 +211,50 @@ T AudioFile<T>::C(float const& t, size_t const & numBlocks) {
 }
 
 template<typename T>
-std::vector<float> AudioFile<T>::Spectrum(float const& t, float const td, unsigned const& bands, unsigned const& startF, unsigned const& endF) {
+std::vector<vec2d> AudioFile<T>::Spectrum(float const& t, float const td, unsigned const& bands, unsigned const& startF, unsigned const& endF) {
+	// get time scale 
 	std::vector<T> samples = SampleDuration(t, td);
 
+	if (samples.size() % 2) samples.pop_back();
 	const unsigned N = samples.size();
+	// frequency delta
 	const unsigned dF = (endF - startF) / N;
 	
 	std::vector<std::complex<double>> spectrum(N, 0.0);
 
+	const double k = 2.0 * Math::PI / static_cast<double>(N);
 	for (unsigned i = 0; i < N; ++i) {
-		spectrum[i] = static_cast<double>(samples[i]) / 32768.0;
+		const double sample = static_cast<double>(samples[i]);
+		const double window = 0.54 - 0.46 * cos(k * i);
+		spectrum[i] = std::complex<double>(sample * window, 0.0);
 	}
 
 	fft(spectrum, startF, dF);
 	
-	const unsigned bR = N / bands / 2;
+	const unsigned bR = N / (bands * 2); // stride 
+	//std::vector<vec2d> result(bands, 0.0);
+	std::vector<vec2d> result;
 
-	std::vector<float> result(bands, 0.f);
+	const double unit = static_cast<double>(N) * 10.0 / 10000.0;
 
-	const double unit = 2.0 / static_cast<double>(N);
-	double m = 0.0;
-	
-	for (unsigned i = 0; i < bands; ++i) {
-		const double a = spectrum[i].real();
-		const double b = spectrum[i].imag();
-		result[i] = sqrt(a * a + b * b) * unit; 
+	for (float i = 3.f; i < N / 2.f; i *= 1.01f) {
+		const vec2d sample(
+			log(i) / log(min(N / 2.0, 20000.0)),
+			abs(spectrum[i]) / 100000000.0
+		);
+		result.push_back(sample);
 	}
+	//for (unsigned bI = 0; bI < bands; ++bI) {
+	//	const unsigned i = bI * bR;
+	//	//const double a = spectrum[i].real();
+	//	//const double b = spectrum[i].imag();
+	//	//result[bI] = abs(spectrum[i]) * unit;
+	//	//result[bI] = abs(spectrum[i]) / 10000 * 500;
+	//	//result[bI] = log10(sqrt(a * a + b * b)) * unit;
+	//	result[bI].x = log(i) / log(min(N / 2.f, 20000.f));
+	//	result[bI].y = abs(spectrum[i]) / 100000000.0 * 500.0;
+	//	//result[bI].y = log10(abs(spectrum[i])) / (N / 2);
+	//}
 
 	return result;
 }
@@ -251,16 +276,16 @@ void AudioFile<T>::fft(std::vector<std::complex<double>>& samples, unsigned cons
 		odd[i] = samples[i * 2 + 1];
 	}
 
-	// Split on tasks
+	// split on tasks
 	fft(even, offset, df);
 	fft(odd, offset, df);
 
-	// Calculate DFT
+	// calculate DFT
 	for (unsigned i = 0; i < M; ++i) {
 		const unsigned k = i * df + offset;
-		std::complex<double> t = exp(std::complex<double>(0, -2 * Math::PI * i / N)) * odd[i];
+		std::complex<double> t = std::polar(1.0, -2.0 * Math::PI * i / N) * odd[i];
 		samples[i] = even[i] + t;
-		samples[N / 2 + i] = even[i] - t;
+		samples[i + N / 2] = even[i] - t;
 	}
 }
 

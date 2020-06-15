@@ -2,17 +2,52 @@
 #define ENEMY_DATA_H
 
 #include "Prefab.h"
+#include <Math/Vectors.h>
 
-#define LOW_RISK	0
-#define MEDIUM_RISK 1
-#define HIGH_RISK	2
+#define RISK_LOW	0
+#define RISK_MEDIUM 1
+#define RISK_HIGH	2
+#define BOSS_RISK	3
+
+#define TARGET_LOCKON	0
+#define TARGET_DASH		1
+#define TARGET_RANDOM	2
+
+#define MOVEMENT_CONSTANT	0
+#define MOVEMENT_DASH		1
+#define MOVEMENT_DISTANT	3
+#define MOVEMENT_TELEPORT	4
+
+struct TargetStyle {
+	short type;
+	short movement;
+	float speed;
+	float radius;
+};
 
 struct EnemyData {
 	Prefab* prefab;
-	short risk;
-	int lives;
+
+	vec4f colour;
+
+	// life
+
+	int shield;
+	int health;
 	unsigned points;
+
+	//target 
+
+	TargetStyle farStyle;
+	TargetStyle nearStyle;
+
+	// spawn
+
+	short risk;
 	unsigned spawnLevel;
+	int beatDelay;
+	int beatStride;
+	unsigned batchSize;
 };
 
 #endif

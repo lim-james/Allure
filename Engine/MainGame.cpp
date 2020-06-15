@@ -37,6 +37,8 @@
 #include "LoadFNT.h"
 #include "LoadSAD.h"
 
+#include <Helpers/ColorHelpers.h>
+
 void MainGame::Awake() {
 	Scene::Awake();
 	
@@ -60,6 +62,24 @@ void MainGame::Awake() {
 void MainGame::Create() {
 	Scene::Create();
 
+	// color scheme
+	//const vec4f BG		= Helpers::GetColor("1E1E3E");
+	//const vec4f blue	= Helpers::GetColor("285BB5");
+	//const vec4f red		= Helpers::GetColor("C53533");
+	//const vec4f green	= Helpers::GetColor("73D540");
+	//const vec4f yellow	= Helpers::GetColor("FAE74D");
+	//const vec4f purple	= Helpers::GetColor("644AF5");
+	//const vec4f pink	= Helpers::GetColor("E84471");
+	//const vec4f cyan	= Helpers::GetColor("5EC3C6");
+	//const vec4f grey	= Helpers::GetColor("C7C7C7");
+
+	const vec4f BG		= Helpers::GetColor("000000");
+	const vec4f yellow	= Helpers::GetColor("ffd319");
+	const vec4f orange	= Helpers::GetColor("ff901f");
+	const vec4f red		= Helpers::GetColor("ff2975");
+	const vec4f pink	= Helpers::GetColor("f222ff");
+	const vec4f purple	= Helpers::GetColor("8c1eff");
+
 	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
 	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
@@ -68,7 +88,7 @@ void MainGame::Create() {
 	background->spread = 10.f;
 	background->viewSize = 10.f;
 	//background->spreadTint = vec3f(0.5f, 0.0f, 0.25f);
-	background->spreadTint = vec3f(1.f, 0.0f, 0.5f);
+	background->spreadTint = purple;// vec3f(1.f, 0.0f, 0.5f);
 	background->indicatorTint = vec3f(0.5f);
 	background->thresholdTint = vec3f(10.f, 0.2f, 0.2f);
 
@@ -103,7 +123,7 @@ void MainGame::Create() {
 	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->cullingMask = DEFAULT | PLAYER | ENEMY | EFFECT_AREA | BULLET | BONUS_BULLET;
-	//camera->clearColor = vec4f(0.569f, 0.627f, 0.263f, 1.f);
+	camera->clearColor = BG;
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
 	follow->SetActive(true);
@@ -146,16 +166,16 @@ void MainGame::Create() {
 		entities->SetLayer(entity, UI);
 
 		Layout* const layout = entities->AddComponent<Layout>(entity);
-		//layout->SetActive(true);
+		layout->SetActive(true);
 		layout->AddConstraint(Constraint(CENTER_X_ANCHOR, nullptr, CENTER_X_ANCHOR, 1.f, 0.f, uiCamera));
 		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
 
 		Text* const text = entities->AddComponent<Text>(entity);
-		//text->SetActive(true);
+		text->SetActive(true);
 		text->SetFont(vcrMono);
 
 		FPSCounter* const fps = entities->AddComponent<FPSCounter>(entity);
-		//fps->SetActive(true);
+		fps->SetActive(true);
 	}
 
 	// Score controller
@@ -173,7 +193,7 @@ void MainGame::Create() {
 		const unsigned volume = entities->Create();
 		Vignette* const vignette = entities->AddComponent<Vignette>(volume);
 		vignette->SetActive(true);
-		vignette->tint = vec3f(0.5f, 0.f, 0.5f);
+		vignette->tint = purple;// vec3f(0.5f, 0.f, 0.5f);
 		scoreController->vfx = vignette;
 		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
 	}
@@ -244,7 +264,7 @@ void MainGame::Create() {
 		text->SetFont(vcrMono);
 		text->scale = 1.25f;
 		text->text = "x8";
-		text->color = vec4f(1.f, 0.749f, 0.f, 1.f);
+		text->color = orange;// vec4f(1.f, 0.749f, 0.f, 1.f);
 		text->paragraphAlignment = PARAGRAPH_RIGHT;
 		text->verticalAlignment = ALIGN_TOP;
 
@@ -301,16 +321,16 @@ void MainGame::Create() {
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
 		//audio->audioClip = "Files/Media/NowhereToRun.wav";
-		//audio->audioClip = "Files/Media/IceFlow.wav";
-		audio->audioClip = "Files/Media/128C.wav";
+		audio->audioClip = "Files/Media/IceFlow.wav";
+		//audio->audioClip = "Files/Media/128C.wav";
 		audio->loop = true;
-		//audio->volume = 1.f;
+		//audio->volume = 0.f;
 
 		AudioController* const controller = entities->AddComponent<AudioController>(entity);
 		controller->SetActive(true);
 		controller->material = background;
-		controller->startFrequency = 20.f;
-		controller->endFrequency = 2000.f;
+		controller->startFrequency = 20;
+		controller->endFrequency = 2000;
 		controller->audioDuration = 1.f;
 		controller->frequencyBands = 50;
 		controller->maxHeight = 10.f;
@@ -421,7 +441,7 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(128);
+		beat->SetTempo(60);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
 		beat->threshold = 0.2f;
@@ -436,9 +456,22 @@ void MainGame::Create() {
 		manager->SetActive(true);
 		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
+
+		const TargetStyle trackPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 100.f, 30.f };
+		const TargetStyle dashPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 300.f, 15.f };
+		const TargetStyle dash = { TARGET_DASH, MOVEMENT_CONSTANT, 400.f, 15.f };
+		const TargetStyle avoidPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, -200.f, 20.f };
+		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 250.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, LOW_RISK, 1, 5, 1 });
-		manager->AddEnemy(EnemyData{ batEnemy, LOW_RISK, 1, 2, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, red, 0, 1, 5, trackPlayer, dashPlayer, RISK_LOW, 1, 0, 10, 2 });
+		manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, trackPlayer, avoidPlayer, RISK_LOW, 1, 2, 10, 2 });
+		manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, roam, dash, RISK_LOW, 1, 4, 8, 2 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
+
+		//manager->AddEnemy(EnemyData{ batEnemy, RISK_LOW, 1, 2, 1 });
 	}
 }
 
@@ -446,8 +479,8 @@ void MainGame::Destroy() {
 	Scene::Destroy();
 
 	delete background;
-
 	delete indicatorLabel;
+	
 	delete explosionArea;
 	delete basicBullet;
 	delete explosiveBullet;

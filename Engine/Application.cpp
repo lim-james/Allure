@@ -51,7 +51,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new MainGame);
+	sceneManager->Present(new AudioSpectrumScene);
 
 	context->BroadcastSize();
 	em->TriggerQueued();
