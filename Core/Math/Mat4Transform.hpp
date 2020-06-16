@@ -94,10 +94,24 @@ namespace Math {
 	}
 
 	template<typename T>
+	void Rotate(vec<3, T>& vector, T const& angle, vec<3, T> const& axis) {
+		mat4<T> transform;
+		SetToRotation(transform, angle, axis);
+		vector = transform * vector;
+	}
+
+	template<typename T>
 	mat4<T> Rotated(mat4<T> const& mat, T const& angle, vec<3, T> const& axis) {
 		mat4<T> transform;
 		SetToRotation(transform, angle, axis);
 		return mat * transform;
+	}
+
+	template<typename T>
+	vec<3, T> Rotated(vec<3, T> const& vector, T const& angle, vec<3, T> const& axis) {
+		mat4<T> transform;
+		SetToRotation(transform, angle, axis);
+		return transform * vector;
 	}
 
 	template<typename T>
@@ -116,10 +130,24 @@ namespace Math {
 	}
 
 	template<typename T>
+	void Rotate(vec<3, T>& vector, vec<3, T> const& angles) {
+		mat4<T> transform;
+		SetToRotation(transform, angles);
+		vector = transform * vector;
+	}
+
+	template<typename T>
 	mat4<T> Rotated(mat4<T> const& mat, vec<3, T> const& angles) {
 		mat4<T> transform;
 		SetToRotation(transform, angles);
 		return mat * transform;
+	}
+
+	template<typename T>
+	vec<3, T> Rotated(vec<3, T>& vector, vec<3, T> const& angles) {
+		mat4<T> transform;
+		SetToRotation(transform, angles);
+		return transform * vector;
 	}
 
 	template<typename T>

@@ -240,7 +240,7 @@ std::vector<vec2d> AudioFile<T>::Spectrum(float const& t, float const td, unsign
 	for (float i = 3.f; i < N / 2.f; i *= 1.01f) {
 		const vec2d sample(
 			log(i) / log(min(N / 2.0, 20000.0)),
-			abs(spectrum[i]) / 100000000.0
+			abs(spectrum[static_cast<unsigned>(i)]) / 100000000.0
 		);
 		result.push_back(sample);
 	}

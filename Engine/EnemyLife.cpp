@@ -9,14 +9,10 @@
 void EnemyLife::OnCollisionEnter(unsigned target) {
 	switch (entities->GetLayer(target)) {
 	case EFFECT_AREA:
-		Hit(false);
-		break;
 	case BULLET:
-		entities->Destroy(target);
 		Hit(false);
 		break;
 	case BONUS_BULLET:
-		entities->Destroy(target);
 		Hit(true);
 		break;
 	default:

@@ -4,6 +4,7 @@
 #include "Physics.h"
 #include "SphereCollider.h"
 #include "SelfDestruct.h"
+#include "BulletHandler.h"
 
 #include "LoadTexture.h"
 #include "Layers.h"
@@ -32,11 +33,15 @@ Transform* BasicBullet::Create() {
 
 	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = PLAYER;
+	collider->ignoreMask = PLAYER & WEAPON;
 
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);
 	destruct->lifetime = 2.f;
+
+	BulletHandler* const bullet = entities->AddComponent<BulletHandler>(entity);
+	bullet->SetActive(true);
+	collider->handlers[COLLISION_ENTER].Bind(&BulletHandler::OnHit, bullet);
 
 	return transform;
 }

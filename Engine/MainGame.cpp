@@ -39,6 +39,14 @@
 
 #include <Helpers/ColorHelpers.h>
 
+// remove
+#include "PistolScript.h"
+#include "AutomaticScript.h"
+#include "ShotgunScript.h"
+#include "SniperScript.h"
+#include "GrenadeLauncherScript.h"
+#include "LaserScript.h"
+
 void MainGame::Awake() {
 	Scene::Awake();
 	
@@ -101,14 +109,39 @@ void MainGame::Create() {
 	basicBullet = new BasicBullet;
 	basicBullet->Initialize(entities);
 
+	longBullet = new LongBullet;
+	longBullet->Initialize(entities);
+
 	explosiveBullet = new ExplosiveBullet;
 	explosiveBullet->Initialize(entities);
 	explosiveBullet->explosionPrefab = explosionArea;
 
-	demoGun = new DemoGun;
-	demoGun->standardPrefab = basicBullet;
-	demoGun->explosivePrefab = explosiveBullet;
-	demoGun->Initialize(entities);
+	laserPath = new LaserPath;
+	laserPath->Initialize(entities);
+
+	pistol = new Pistol;
+	pistol->Initialize(entities);
+	pistol->bulletPrefab = basicBullet;
+
+	automatic = new Automatic;
+	automatic->Initialize(entities);
+	automatic->bulletPrefab = longBullet;
+
+	shotgun = new Shotgun;
+	shotgun->Initialize(entities);
+	shotgun->bulletPrefab = longBullet;
+
+	sniper = new Sniper;
+	sniper->Initialize(entities);
+	sniper->bulletPrefab = longBullet;
+
+	grenadeLauncher = new GrenadeLauncher;
+	grenadeLauncher->Initialize(entities);
+	grenadeLauncher->bulletPrefab = explosiveBullet;
+
+	laser = new Laser;
+	laser->Initialize(entities);
+	laser->bulletPrefab = laserPath;
 
 	basicEnemy = new BasicEnemy;
 	basicEnemy->Initialize(entities);
@@ -122,7 +155,7 @@ void MainGame::Create() {
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
-	camera->cullingMask = DEFAULT | PLAYER | ENEMY | EFFECT_AREA | BULLET | BONUS_BULLET;
+	camera->cullingMask = DEFAULT | PLAYER | ENEMY | WEAPON | EFFECT_AREA | BULLET | BONUS_BULLET;
 	camera->clearColor = BG;
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
@@ -363,19 +396,11 @@ void MainGame::Create() {
 	}
 
 	// gun 
+	WeaponBase* demoGun = nullptr;
 	{
-		const unsigned entity = entities->Create();
-
-		Transform* const gunTransform = entities->GetComponent<Transform>(entity);
-		gunTransform->SetParent(weaponHolderTransform);
-		gunTransform->translation = vec3f(2.f, -0.5f, 0.5f);
-		gunTransform->scale.xy = vec2f(6.f, 3.f);
-
-		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		render->SetActive(true);
-		render->SetSprite(ukGunSheet);
-		render->SetTilemapSize(4, 2);
-		render->SetCellRect(2, 1, 1, 1);
+		Transform* const transform = laser->CreateIn(weaponHolderTransform);
+		demoGun = entities->GetComponent<LaserScript>(transform->entity);
+		transform->translation = demoGun->HoldOffset();
 	}
 
 	// player
@@ -483,8 +508,8 @@ void MainGame::Destroy() {
 	
 	delete explosionArea;
 	delete basicBullet;
+	delete longBullet;
 	delete explosiveBullet;
-	delete demoGun;
 
 	delete basicEnemy;
 	delete batEnemy;

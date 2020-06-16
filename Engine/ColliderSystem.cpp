@@ -4,12 +4,15 @@
 
 #include <Helpers/VectorHelpers.h>
 #include <Events/EventsManager.h>
+#include <Math/Mat4Transform.hpp>
 
 void ColliderSystem::Initialize() {
 	checks[SPHERE_COLLIDER][SPHERE_COLLIDER].Bind(&ColliderSystem::SphereSphere, this);
+	checks[SPHERE_COLLIDER][LINE_COLLIDER].Bind(&ColliderSystem::SphereLine, this);
 
 	EventsManager::Get()->Subscribe("BOX_COLLIDER_ACTIVE", &ColliderSystem::BoxActiveHandler, this);
 	EventsManager::Get()->Subscribe("SPHERE_COLLIDER_ACTIVE", &ColliderSystem::SphereActiveHandler, this);
+	EventsManager::Get()->Subscribe("LINE_COLLIDER_ACTIVE", &ColliderSystem::LineActiveHandler, this);
 	EventsManager::Get()->Subscribe("RAY_CAST", &ColliderSystem::RayCastHandler, this);
 }
 
@@ -17,12 +20,12 @@ void ColliderSystem::Update(float const & dt) {}
 
 void ColliderSystem::FixedUpdate(float const & dt) {
 	for (unsigned i = 0; i < COLLIDER_TYPE_COUNT; ++i) {
-		auto& group = colliders[i];
+		auto& group1 = colliders[i];
 		
 		auto& allChecks = checks[i];
 		if (allChecks.empty()) continue;
 
-		for (auto it1 = group.begin(); it1 != group.end(); ++it1) {
+		for (auto it1 = group1.begin(); it1 != group1.end(); ++it1) {
 			Collider* const c1 = *it1;
 			const unsigned e1 = c1->entity;
 			const unsigned l1 = entities->GetLayer(e1);
@@ -30,13 +33,29 @@ void ColliderSystem::FixedUpdate(float const & dt) {
 			if (allChecks.find(i) != allChecks.end()) {
 				auto& detection = allChecks[i];
 
-				for (auto it2 = it1 + 1; it2 != group.end(); ++it2) {
+				for (auto it2 = it1 + 1; it2 != group1.end(); ++it2) {
 					Collider* const c2 = *it2;
 					const unsigned e2 = c2->entity;
 					const unsigned l2 = entities->GetLayer(e2);
 
 					if (c1->ignoreMask == l2 || c2->ignoreMask == l1) continue;
 					detection(c1, c2);
+				}
+			}
+
+			for (unsigned j = i + 1; j < COLLIDER_TYPE_COUNT; ++j) {
+				auto& group2 = colliders[j];
+
+				if (allChecks.find(j) != allChecks.end()) {
+					auto& detection = allChecks[j];
+
+					for (auto& c2 : group2) {
+						const unsigned e2 = c2->entity;
+						const unsigned l2 = entities->GetLayer(e2);
+
+						if (c1->ignoreMask == l2 || c2->ignoreMask == l1) continue;
+						detection(c1, c2);
+					}
 				}
 			}
 		}
@@ -63,7 +82,25 @@ void ColliderSystem::SphereActiveHandler(Events::Event * event) {
 	if (c->IsActive()) {
 		Helpers::Insert(colliders[SPHERE_COLLIDER], c);
 	} else {
-		Helpers::Remove(colliders[SPHERE_COLLIDER], c);
+		if (Helpers::Remove(colliders[SPHERE_COLLIDER], c)) {
+			for (auto& pair : history[c]) {
+				pair.second = false;
+			}
+		}
+	}
+}
+
+void ColliderSystem::LineActiveHandler(Events::Event * event) {
+	Collider* const c = static_cast<Events::AnyType<LineCollider*>*>(event)->data;
+
+	if (c->IsActive()) {
+		Helpers::Insert(colliders[LINE_COLLIDER], c);
+	} else {
+		if (Helpers::Remove(colliders[LINE_COLLIDER], c)) {
+			for (auto& pair : history[c]) {
+				pair.second = false;
+			}
+		}
 	}
 }
 
@@ -137,7 +174,27 @@ CollisionData ColliderSystem::RayBox(Ray const & ray, BoxCollider * const box) {
 	return result;
 }
 
-void ColliderSystem::PerformAction(unsigned const & action, Collider * const a, Collider * const b) {	
+void ColliderSystem::HandleCollision(Collider * const a, Collider * const b, bool const & intersecting) {
+	bool& wasIntersecting = history[a][b];
+	
+	if (intersecting) {
+		// inside
+		if (wasIntersecting) {
+			PerformAction(COLLISION_STAY, a, b);
+		} else {
+			wasIntersecting = true;
+			PerformAction(COLLISION_ENTER, a, b);
+		}
+	} else {
+		// outside
+		if (wasIntersecting) {
+			wasIntersecting = false;
+			PerformAction(COLLISION_EXIT, a, b);
+		}
+	}
+}
+
+void ColliderSystem::PerformAction(unsigned const & action, Collider * const a, Collider * const b) {
 	a->handlers[action](b->entity);
 	b->handlers[action](a->entity);
 }
@@ -158,21 +215,46 @@ void ColliderSystem::SphereSphere(Collider * const a, Collider * const b) {
 	const float distSq = Math::LengthSquared((t2->GetWorldTranslation() + c2->offset) - (t1->GetWorldTranslation() + c1->offset));
 	const float minDist = r1 + r2;
 
-	bool& wasInside = history[a][b];
-	
-	if (distSq < minDist * minDist) {
-		// inside
-		if (wasInside) {
-			PerformAction(COLLISION_STAY, a, b);
-		} else {
-			wasInside = true;
-			PerformAction(COLLISION_ENTER, a, b);
-		}
-	} else {
-		// outside
-		if (wasInside) {
-			wasInside = false;
-			PerformAction(COLLISION_EXIT, a, b);
-		}
+	HandleCollision(a, b, distSq < minDist * minDist);
+}
+
+void ColliderSystem::SphereLine(Collider * const a, Collider * const b) {
+	SphereCollider* const c1 = static_cast<SphereCollider*>(a);
+	LineCollider* const c2 = static_cast<LineCollider*>(b);
+
+	Transform* const t1 = entities->GetComponent<Transform>(c1->entity);
+	Transform* const t2 = entities->GetComponent<Transform>(c2->entity);
+
+	const vec3f s1 = t1->scale * c1->scale;
+	const vec3f s2 = t2->scale * c2->scale;
+
+	const vec3f p1 = t1->GetWorldTranslation() + c1->offset;
+	const vec3f p2 = t2->GetWorldTranslation() + c2->offset;
+
+	const float r = max(s1.x, max(s1.y, s1.z)) * 0.5f;
+
+	vec3f half = c2->direction * s2 * (c2->length * 0.5f);
+	Math::Rotate(half, t2->GetWorldRotation());
+	const vec3f E = p2 + half;
+	const vec3f L = p2 - half;
+
+	const vec3f d = L - E;
+	const vec3f f = E - p1;
+
+	float A = Math::Dot(d, d) * 2.f;
+	const float B = 2.f * Math::Dot(f, d);
+	const float C = Math::Dot(f, f) - r * r;
+
+	bool isIntersecting = false;
+
+	float discriminant = B * B - 2.f * A * C;
+	if (discriminant >= 0) {
+		discriminant = sqrt(discriminant);
+		const float t1 = (-B - discriminant) / A;
+		const float t2 = (-B + discriminant) / A;
+
+		isIntersecting = (t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1);
 	}
+	
+	HandleCollision(a, b, isIntersecting);
 }

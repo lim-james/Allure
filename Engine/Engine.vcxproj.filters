@@ -193,6 +193,9 @@
     <Filter Include="Assets\Prefabs\SoundBar">
       <UniqueIdentifier>{6ac3eeec-c24e-4878-ab3a-95f24a3b7f6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Prefabs\Guns">
+      <UniqueIdentifier>{25902886-48a8-4046-809c-d9db625f8241}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -465,9 +468,6 @@
     <ClCompile Include="PlayerCombat.cpp">
       <Filter>Assets\Scripts\Main\Player</Filter>
     </ClCompile>
-    <ClCompile Include="DemoGun.cpp">
-      <Filter>Assets\Scripts\Main\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="ScreenShake.cpp">
       <Filter>Assets\Scripts\Main\Camera</Filter>
     </ClCompile>
@@ -563,6 +563,54 @@
     </ClCompile>
     <ClCompile Include="SoundBar.cpp">
       <Filter>Assets\Prefabs\SoundBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Sniper.cpp">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClCompile>
+    <ClCompile Include="LongBullet.cpp">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="PistolScript.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="SniperScript.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Pistol.cpp">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClCompile>
+    <ClCompile Include="Automatic.cpp">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClCompile>
+    <ClCompile Include="AutomaticScript.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="GrenadeLauncherScript.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="GrenadeLauncher.cpp">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClCompile>
+    <ClCompile Include="Shotgun.cpp">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClCompile>
+    <ClCompile Include="ShotgunScript.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserPath.cpp">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserScript.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="LineCollider.cpp">
+      <Filter>Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletHandler.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -866,9 +914,6 @@
     <ClInclude Include="WeaponBase.h">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="DemoGun.h">
-      <Filter>Assets\Scripts\Main\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="ScreenShake.h">
       <Filter>Assets\Scripts\Main\Camera</Filter>
     </ClInclude>
@@ -970,6 +1015,54 @@
     </ClInclude>
     <ClInclude Include="SoundBar.h">
       <Filter>Assets\Prefabs\SoundBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Sniper.h">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClInclude>
+    <ClInclude Include="LongBullet.h">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="PistolScript.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="SniperScript.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Pistol.h">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClInclude>
+    <ClInclude Include="Automatic.h">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomaticScript.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="GrenadeLauncherScript.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="GrenadeLauncher.h">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClInclude>
+    <ClInclude Include="Shotgun.h">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClInclude>
+    <ClInclude Include="ShotgunScript.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserPath.h">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser.h">
+      <Filter>Assets\Prefabs\Guns</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserScript.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="LineCollider.h">
+      <Filter>Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletHandler.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

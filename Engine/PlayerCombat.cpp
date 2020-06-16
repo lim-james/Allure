@@ -31,7 +31,7 @@ void PlayerCombat::Awake() {
 }
 
 void PlayerCombat::Update() {
-	if (isTriggering) weapon->Hold(time->dt);
+	if (weapon && isTriggering) weapon->Hold(time->dt);
 
 	const vec2f diff = crosshair->GetWorldTranslation() - transform->GetWorldTranslation();
 
@@ -49,10 +49,10 @@ void PlayerCombat::MouseButtonHandler(Events::Event * event) {
 	if (input->button == GLFW_MOUSE_BUTTON_LEFT) {
 		if (input->action == GLFW_PRESS) {
 			isTriggering = true;
-			weapon->Trigger();
+			if (weapon) weapon->Trigger();
 		} else {
 			isTriggering = false;
-			weapon->Release();
+			if (weapon) weapon->Release();
 		}
 	}
 }

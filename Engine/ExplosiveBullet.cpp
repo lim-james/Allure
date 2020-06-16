@@ -4,6 +4,7 @@
 #include "Physics.h"
 #include "SphereCollider.h"
 #include "SelfDestruct.h"
+#include "BulletHandler.h"
 #include "ExplosiveScript.h"
 
 #include "LoadTexture.h"
@@ -38,6 +39,10 @@ Transform * ExplosiveBullet::Create() {
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);
 	destruct->lifetime = 2.f;
+
+	BulletHandler* const bullet = entities->AddComponent<BulletHandler>(entity);
+	bullet->SetActive(true);
+	collider->handlers[COLLISION_ENTER].Bind(&BulletHandler::OnHit, bullet);
 
 	ExplosiveScript* const explosive = entities->AddComponent<ExplosiveScript>(entity);
 	explosive->explosionPrefab = explosionPrefab;

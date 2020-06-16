@@ -56,9 +56,9 @@ void Transform::Pack(AENotation& data) {
 }
 
 void Transform::UpdateAxes() {
-	const float yawRad = rotation.y * Math::toRad;
-	const float pitchRad = -rotation.x * Math::toRad;
-	const float rollRad = rotation.z * Math::toRad;
+	float yawRad = rotation.y * Math::toRad;
+	float pitchRad = -rotation.x * Math::toRad;
+	float rollRad = rotation.z * Math::toRad;
 
 	localAxes.z.z = -cos(yawRad) * cos(pitchRad);
 	localAxes.z.y = sin(pitchRad);
@@ -70,9 +70,9 @@ void Transform::UpdateAxes() {
 	localAxes.y = Math::Normalized(Math::Cross(localAxes.x, localAxes.z));
 
 	if (parent) {
-		const float yawRad = worldRotation.y * Math::toRad;
-		const float pitchRad = -worldRotation.x * Math::toRad;
-		const float rollRad = worldRotation.z * Math::toRad;
+		yawRad = worldRotation.y * Math::toRad;
+		pitchRad = -worldRotation.x * Math::toRad;
+		rollRad = worldRotation.z * Math::toRad;
 
 		worldAxes.z.z = -cos(yawRad) * cos(pitchRad);
 		worldAxes.z.y = sin(pitchRad);

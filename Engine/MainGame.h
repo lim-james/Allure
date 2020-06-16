@@ -7,25 +7,41 @@
 #include "BackgroundMaterial.h"
 // prefabs
 #include "IndicatorLabel.h"
+// bullets
 #include "ExplosionArea.h"
 #include "BasicBullet.h"
+#include "LongBullet.h"
 #include "ExplosiveBullet.h"
+#include "LaserPath.h"
+// guns
+#include "Pistol.h"
+#include "Automatic.h"
+#include "Sniper.h"
+#include "Shotgun.h"
+#include "GrenadeLauncher.h"
+#include "Laser.h"
 // enemy prefabs
 #include "BasicEnemy.h"
 #include "BatEnemy.h"
-// weapons
-#include "DemoGun.h"
 
 class MainGame : public Scene {
 
 	Material::Background* background;
 
 	IndicatorLabel* indicatorLabel;
+	// projectiles
 	ExplosionArea* explosionArea;
 	BasicBullet* basicBullet;
+	LongBullet* longBullet;
 	ExplosiveBullet* explosiveBullet;
-	DemoGun* demoGun;
-
+	LaserPath* laserPath;
+	// guns
+	Pistol* pistol;
+	Automatic* automatic;
+	Shotgun* shotgun;
+	Sniper* sniper;
+	GrenadeLauncher* grenadeLauncher;
+	Laser* laser;
 	// enemies
 	BasicEnemy* basicEnemy;
 	BatEnemy* batEnemy;
