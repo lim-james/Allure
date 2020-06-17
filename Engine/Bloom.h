@@ -10,6 +10,9 @@
 
 struct Bloom : PostProcess {
 
+	float unit;
+	unsigned amount;
+
 	Bloom();
 	~Bloom();
 

@@ -3,6 +3,9 @@
 #include <Events/EventsManager.h>
 
 Bloom::Bloom() {
+	unit = 1.f;
+	amount = 10;
+
 	blurShader = new Shader("Files/Shaders/fb.vert", "Files/Shaders/blur.frag"); 
 	blurShader->Use();
 	blurShader->SetInt("tex", 0);
@@ -87,9 +90,10 @@ void Bloom::PostRender() {
 	Framebuffer* fb[2] = { blurPass, finalBloomPass };
 
 	bool horizontal = true, firstIteration = true;
-	unsigned amount = 10;
 
 	blurShader->Use();
+	blurShader->SetFloat("unit", unit);
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(VAO);
 

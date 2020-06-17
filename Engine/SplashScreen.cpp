@@ -8,6 +8,8 @@
 
 #include "LoadFNT.h"
 
+#include <Helpers./ColorHelpers.h>
+
 void SplashScren::Awake() {
 	Scene::Awake();
 	systems->Subscribe<AnimationSystem>(1);
@@ -21,7 +23,10 @@ void SplashScren::Create() {
 	// post processing volume
 	{
 		const unsigned volume = entities->Create();
-		entities->AddComponent<Bloom>(volume)->SetActive(true);
+		Bloom* bloom = entities->AddComponent<Bloom>(volume);
+		bloom->SetActive(true);
+		bloom->unit = 1.f;
+		//bloom->size = 5;
 	}
 
 	{
@@ -31,13 +36,19 @@ void SplashScren::Create() {
 		text->SetActive(true);
 		text->SetFont(vcrMono);
 		text->text = "TEMPO";
-		//text->color = vec4f(2.f, 2.f, 2.f, 0.f);
+		text->color = vec4f(1.f, 1.f, 1.f, 0.f);
 		text->color.a = 0.f;
 		text->characterSpacing = 3.f;
 		text->scale = 0.75f;
 
+		//SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		//render->SetActive(true);
+		////render->tint = vec4f(1.5f);
+		//render->tint = Helpers::GetColor("FF073A");
+		//render->tint.a = 5.f;
+
 		Animation* const animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
-		animation->Queue(AnimationBase(false, 1.f, 1.f), &text->color.a, 1.f);
+		animation->Queue(AnimationBase(false, 1.f, 1.f), &text->color.a, 2.f);
 	}
 }
