@@ -21,6 +21,7 @@
 #include "ScreenShake.h"
 #include "PlayerMovement.h"
 #include "PlayerCombat.h"
+#include "PlayerLife.h"
 #include "BeatController.h"
 #include "CrosshairController.h"
 #include "EnemyLife.h"
@@ -304,6 +305,67 @@ void MainGame::Create() {
 		scoreController->multiplierLabel = text;
 	}
 
+	// health bar holder
+	Transform* healthBarHolder = nullptr;
+	Text* healthText = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		healthBarHolder = entities->GetComponent<Transform>(entity);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
+		layout->AddConstraint(Constraint(BOTTOM_ANCHOR, nullptr, BOTTOM_ANCHOR, 1.f, 1.5f, uiCamera));
+		layout->AddConstraint(Constraint(WIDTH, nullptr, NA, 1.f, 8.f, uiCamera));
+		layout->AddConstraint(Constraint(HEIGHT, nullptr, NA, 1.f, 0.1f, uiCamera));
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+
+		healthText = entities->AddComponent<Text>(entity);
+		healthText->SetActive(true);
+		healthText->SetFont(vcrMono);
+		healthText->offset = vec3f(0.f, 0.75f, 0.f);
+	}
+
+	// health bar
+	float* healthBarWidth = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(RIGHT_ANCHOR, healthBarHolder, RIGHT_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(BOTTOM_ANCHOR, healthBarHolder, TOP_ANCHOR, 1.f, 0.25f, uiCamera));
+		layout->AddConstraint(Constraint(WIDTH, healthBarHolder, WIDTH, 1.f, 0.f, uiCamera));
+		healthBarWidth = &(layout->GetConstraint(WIDTH)->multiplier);
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+	}
+
+	// flash
+	SpriteRender* flashOverlay = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(CENTER_X_ANCHOR, nullptr, CENTER_X_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, nullptr, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(WIDTH, nullptr, WIDTH, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(HEIGHT, nullptr, HEIGHT, 1.f, 0.f, uiCamera));
+
+		flashOverlay = entities->AddComponent<SpriteRender>(entity);
+		flashOverlay->SetActive(true);
+		flashOverlay->tint = vec4f(1.f, 1.f, 1.f, 0.f);
+	}
+
 	// Game manager
 	//{
 	//	const unsigned entity = entities->Create();
@@ -357,7 +419,7 @@ void MainGame::Create() {
 		audio->audioClip = "Files/Media/IceFlow.wav";
 		//audio->audioClip = "Files/Media/128C.wav";
 		audio->loop = true;
-		//audio->volume = 0.f;
+		audio->volume = 0.f;
 
 		AudioController* const controller = entities->AddComponent<AudioController>(entity);
 		controller->SetActive(true);
@@ -447,7 +509,7 @@ void MainGame::Create() {
 
 		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 		collider->SetActive(true);
-		collider->ignoreMask = BULLET;
+		collider->ignoreMask = BULLET & WEAPON;
 
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
@@ -463,6 +525,17 @@ void MainGame::Create() {
 		combat->weaponHolder = weaponHolderTransform;
 		combat->SetCrosshair(follow->crosshair);
 		combat->SetWeapon(demoGun);
+
+		PlayerLife* const life = entities->AddComponent<PlayerLife>(entity);
+		life->SetActive(true);
+		life->maxHealth = 4.f;
+		life->inviDuration = 3.f;
+		life->flashDuration = 0.1f;
+		life->barMultiplier = healthBarWidth;
+		life->healthText = healthText;
+		life->flashOverlay = flashOverlay;
+		life->indicatorLabel = indicatorLabel;
+		collider->handlers[COLLISION_ENTER].Bind(&PlayerLife::OnCollisionEnter, life);
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
@@ -488,10 +561,10 @@ void MainGame::Create() {
 		const TargetStyle avoidPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, -200.f, 20.f };
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 250.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, red, 0, 1, 5, trackPlayer, dashPlayer, RISK_LOW, 1, 0, 10, 2 });
-		manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, trackPlayer, avoidPlayer, RISK_LOW, 1, 2, 10, 2 });
-		manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
-		manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, roam, dash, RISK_LOW, 1, 4, 8, 2 });
+		manager->AddEnemy(EnemyData{ basicEnemy, red, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 0, 10, 2 });
+		manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 2, 10, 2 });
+		manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });

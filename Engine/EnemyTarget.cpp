@@ -6,7 +6,7 @@
 void EnemyTarget::Chase() {
 	const vec3f diff = Math::Normalized(target - transform->GetWorldTranslation().xy);
 	const float mag = magnitude * 10.f;
-	physics->AddForce(diff * style->speed * mag);
+	physics->AddForce(diff * style->speed);
 }
 
 void EnemyTarget::Awake() {

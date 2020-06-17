@@ -194,6 +194,7 @@
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="Pixelated.cpp" />
     <ClCompile Include="PlayerCombat.cpp" />
+    <ClCompile Include="PlayerLife.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="PostProcess.cpp" />
     <ClCompile Include="PostProcessStack.cpp" />
@@ -318,6 +319,7 @@
     <ClInclude Include="PhysicsProperties.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PlayerCombat.h" />
+    <ClInclude Include="PlayerLife.h" />
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="ScoreController.h" />

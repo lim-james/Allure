@@ -37,7 +37,7 @@ void AudioController::FixedUpdate() {
 	if (audio->IsPaused()) return;
 
 	//const auto sample = file->Spectrum(t, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
-	float result = 0.f;
+	float result = 1.f;
 	//for (unsigned i = 0; i < frequencyBands; ++i)
 		//result = max(result, sample[i]);
 	//result = sample[2];

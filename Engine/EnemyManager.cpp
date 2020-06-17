@@ -51,6 +51,7 @@ void EnemyManager::BeatHandler() {
 			life->shield = data.shield;
 			life->health = data.health;
 			life->points = data.points;
+			life->bodyDamage = data.bodyDamage;
 
 			EnemyTarget* const target = entities->GetComponent<EnemyTarget>(eTransform->entity);
 			target->player = player;

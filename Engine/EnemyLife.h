@@ -9,9 +9,10 @@
 
 struct EnemyLife : Script {
 
-	unsigned points;
 	int shield;
 	int health;
+	unsigned points;
+	bool bodyDamage;
 
 	void OnCollisionEnter(unsigned target);
 	void Kill();

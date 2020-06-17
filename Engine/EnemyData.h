@@ -35,6 +35,7 @@ struct EnemyData {
 	int shield;
 	int health;
 	unsigned points;
+	bool bodyDamage;
 
 	//target 
 
