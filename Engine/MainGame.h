@@ -46,8 +46,6 @@ class MainGame : public Scene {
 	BasicEnemy* basicEnemy;
 	BatEnemy* batEnemy;
 
-private:
-
 	void Awake() override;
 	void Create() override;
 	void Destroy() override;

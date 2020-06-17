@@ -28,6 +28,8 @@ void PlayerLife::OnCollisionEnter(unsigned target) {
 			inviT = inviDuration;
 			ft = flashDuration;
 			flashOverlay->tint.a = 1.f;
+
+			if (health <= 0) EventsManager::Get()->Trigger("END_GAME");
 		}
 		break;
 	default:

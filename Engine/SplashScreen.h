@@ -1,9 +1,9 @@
-#ifndef PAUSE_SCENE_H
-#define PAUSE_SCENE_H
+#ifndef SPLASH_SCREEN_H
+#define SPLASH_SCREEN_H
 
 #include "Scene.h"
 
-class PauseScene : public Scene {
+class SplashScren : public Scene {
 
 	void Awake() override;
 	void Create() override;

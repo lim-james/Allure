@@ -60,18 +60,20 @@ void TextRenderer::RenderTransparent(RendererData const& data) {
 			auto const& content = text->text;
 
 			for (unsigned i = 0; i <= content.size(); ++i) {
-				auto& c = content[i];
+				const char c = content[i];
 
+				const float width = size.x * text->characterSpacing * scale;
 				switch (c) {
 				case '\n':
 				case '\0':
 					++size.y;
+
 					switch (text->paragraphAlignment) {
 					case PARAGRAPH_CENTER:
-						lineOffset.push_back(size.x * scale * 0.5f);
+						lineOffset.push_back(width * 0.5f);
 						break;
 					case PARAGRAPH_RIGHT:
-						lineOffset.push_back(transform->scale.x * -0.5f - size.x * -scale);
+						lineOffset.push_back(transform->scale.x * -0.5f + width);
 						break;
 					default:
 						lineOffset.push_back(transform->scale.x * 0.5f);

@@ -209,6 +209,7 @@
     <ClCompile Include="SoundBar.cpp" />
     <ClCompile Include="SpectrumManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Stress3D.cpp" />
     <ClCompile Include="TestAudio.cpp" />
     <ClCompile Include="TextBlink.cpp" />
@@ -333,6 +334,7 @@
     <ClInclude Include="SoundBar.h" />
     <ClInclude Include="SpectrumManager.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="Stress3D.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationSystem.h" />

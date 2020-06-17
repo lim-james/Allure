@@ -100,9 +100,6 @@
     <Filter Include="Engine\Render\Post Processing">
       <UniqueIdentifier>{d5368b85-e30b-4906-a410-353ef553121e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\VFX">
-      <UniqueIdentifier>{b8b8c0a4-0687-45af-8d50-4042401f09c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Audio">
       <UniqueIdentifier>{9de552c7-be66-4f7b-aa9c-73a71de97f9e}</UniqueIdentifier>
     </Filter>
@@ -195,6 +192,9 @@
     </Filter>
     <Filter Include="Assets\Prefabs\Guns">
       <UniqueIdentifier>{25902886-48a8-4046-809c-d9db625f8241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\VFX">
+      <UniqueIdentifier>{b8b8c0a4-0687-45af-8d50-4042401f09c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -614,6 +614,9 @@
     </ClCompile>
     <ClCompile Include="PlayerLife.cpp">
       <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreen.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1069,6 +1072,9 @@
     </ClInclude>
     <ClInclude Include="PlayerLife.h">
       <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreen.h">
+      <Filter>Assets\Scenes\Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

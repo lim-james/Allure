@@ -4,6 +4,7 @@
 #include "TitleScene.h"
 #include "SampleScene.h"
 #include "Stress3D.h"
+#include "SplashScreen.h"
 #include "MainGame.h"
 #include "PauseScene.h"
 #include "AudioSpectrumScene.h"
@@ -51,7 +52,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new MainGame);
+	sceneManager->Present(new SplashScren);
 
 	context->BroadcastSize();
 	em->TriggerQueued();
