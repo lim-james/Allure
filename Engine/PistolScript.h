@@ -2,12 +2,8 @@
 #define PISTOL_SCRIPT_H
 
 #include "WeaponBase.h"
-#include "Prefab.h"
 
 struct PistolScript : WeaponBase {
-
-	Prefab* standardPrefab;
-	Prefab* explosivePrefab;
 
 	void Trigger() override;
 	void Hold(float const& dt) override;

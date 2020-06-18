@@ -25,8 +25,7 @@ Transform * Shotgun::Create() {
 
 	ShotgunScript* const gun = entities->AddComponent<ShotgunScript>(entity);
 	gun->SetActive(true);
-	gun->standardPrefab = bulletPrefab;
-	gun->explosivePrefab = bulletPrefab;
+	gun->bulletPrefab = bulletPrefab;
 
 	return transform;
 }

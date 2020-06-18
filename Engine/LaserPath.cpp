@@ -13,7 +13,7 @@ Transform* LaserPath::Create() {
 	entities->SetLayer(entity, BULLET);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale.xy = vec2f(40.f, 0.5f);
+	transform->scale.xy = vec2f(60.f, 0.5f);
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
@@ -21,7 +21,7 @@ Transform* LaserPath::Create() {
 
 	LineCollider* const collider = entities->AddComponent<LineCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = PLAYER & WEAPON;
+	collider->ignoreMask = PLAYER & WEAPON & BULLET & BONUS_BULLET;
 
 	return transform;
 }

@@ -3,10 +3,13 @@
 
 #include "Script.h"
 
+#include "Prefab.h"
 #include "Transform.h"
 #include "AudioSource.h"
 
 struct WeaponBase : Script {
+
+	Prefab* bulletPrefab;
 
 	WeaponBase();
 

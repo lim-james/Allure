@@ -10,10 +10,10 @@ void EnemyLife::OnCollisionEnter(unsigned target) {
 	switch (entities->GetLayer(target)) {
 	case EFFECT_AREA:
 	case BULLET:
-		Hit(false);
+		Hit(target, false);
 		break;
 	case BONUS_BULLET:
-		Hit(true);
+		Hit(target, true);
 		break;
 	default:
 		break;
@@ -27,6 +27,7 @@ void EnemyLife::Kill() {
 void EnemyLife::Awake() {
 	state = GetComponent<StateContainer>();
 	render = GetComponent<SpriteRender>();
+	physics = GetComponent<Physics>();
 }
 
 void EnemyLife::Start() {
@@ -40,6 +41,7 @@ void EnemyLife::Update() {
 			EventsManager::Get()->Trigger("FREEZE", new Events::AnyType<float>(0.05f));
 			hasFroze = true;
 		}
+
 		bt -= time->dt;
 		if (bt <= 0.f) {
 			render->tint.rgb = 1.f;
@@ -49,7 +51,11 @@ void EnemyLife::Update() {
 	}
 }
 
-void EnemyLife::Hit(bool const& bonus) {
+void EnemyLife::Hit(unsigned const& target, bool const& bonus) {
+	Physics* const tPhysics = entities->GetComponent<Physics>(target);
+	physics->velocity = 0.f;
+	physics->AddForce(tPhysics->velocity * 25.f);
+
 	bt = flashBt;
 	hasFroze = false;
 

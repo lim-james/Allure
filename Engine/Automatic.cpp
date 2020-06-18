@@ -25,8 +25,7 @@ Transform * Automatic::Create() {
 
 	AutomaticScript* const gun = entities->AddComponent<AutomaticScript>(entity);
 	gun->SetActive(true);
-	gun->standardPrefab = bulletPrefab;
-	gun->explosivePrefab = bulletPrefab;
+	gun->bulletPrefab = bulletPrefab;
 
 	return transform;
 }

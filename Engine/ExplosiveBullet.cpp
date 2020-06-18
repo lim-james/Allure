@@ -16,7 +16,7 @@ ExplosiveBullet::ExplosiveBullet() {
 
 Transform * ExplosiveBullet::Create() {
 	const unsigned entity = entities->Create();
-	entities->SetLayer(entity, BONUS_BULLET);
+	entities->SetLayer(entity, BULLET);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
 	transform->scale = 2.f;
@@ -34,7 +34,7 @@ Transform * ExplosiveBullet::Create() {
 
 	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = PLAYER;
+	collider->ignoreMask = PLAYER & WEAPON & BULLET & BONUS_BULLET;
 
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);

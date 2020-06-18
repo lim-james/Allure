@@ -154,7 +154,7 @@ void MainGame::Create() {
 	const unsigned ukGunSheet = Load::Texture2D("Files/Sprites/UK.png");
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
-	camera->SetSize(20.f);
+	camera->SetSize(30.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->cullingMask = DEFAULT | PLAYER | ENEMY | WEAPON | EFFECT_AREA | BULLET | BONUS_BULLET;
 	camera->clearColor = BG;
@@ -187,7 +187,7 @@ void MainGame::Create() {
 
 		uiCamera = entities->AddComponent<Camera>(entity);
 		uiCamera->SetActive(true);
-		uiCamera->SetSize(10.f);
+		uiCamera->SetSize(15.f);
 		uiCamera->SetDepth(1);
 		uiCamera->shouldClear = false;
 		uiCamera->projection = ORTHOGRAPHIC;
@@ -367,15 +367,16 @@ void MainGame::Create() {
 	}
 
 	// Game manager
-	//{
-	//	const unsigned entity = entities->Create();
+	{
+		const unsigned entity = entities->Create();
 
-	//	Transform* const transform = entities->GetComponent<Transform>(entity);
-	//	transform->SetDynamic(false);
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetDynamic(false);
 
-	//	GameManager* const manager = entities->AddComponent<GameManager>(entity);
-	//	manager->SetActive(true);
-	//}
+		GameManager* const manager = entities->AddComponent<GameManager>(entity);
+		manager->SetActive(true);
+		manager->fadeInDuration = 100.f;
+	}
 
 	// energy meter
 	float* meterHeight = nullptr;
@@ -401,7 +402,7 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.z = -10.f;
+		transform->translation.z = -5.f;
 		transform->scale = vec3f(160.0f, 90.0f, 1.0f);
 		transform->SetDynamic(false);
 
@@ -460,8 +461,8 @@ void MainGame::Create() {
 	// gun 
 	WeaponBase* demoGun = nullptr;
 	{
-		Transform* const transform = laser->CreateIn(weaponHolderTransform);
-		demoGun = entities->GetComponent<LaserScript>(transform->entity);
+		Transform* const transform = automatic->CreateIn(weaponHolderTransform);
+		demoGun = entities->GetComponent<AutomaticScript>(transform->entity);
 		transform->translation = demoGun->HoldOffset();
 	}
 
@@ -509,7 +510,7 @@ void MainGame::Create() {
 
 		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 		collider->SetActive(true);
-		collider->ignoreMask = BULLET & WEAPON;
+		collider->ignoreMask = BULLET & BONUS_BULLET & WEAPON;
 
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
@@ -539,7 +540,7 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(60);
+		beat->SetTempo(144);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
 		beat->threshold = 0.2f;
@@ -561,10 +562,10 @@ void MainGame::Create() {
 		const TargetStyle avoidPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, -200.f, 20.f };
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 250.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, red, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 0, 10, 2 });
-		manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 2, 10, 2 });
-		manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
-		manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
+		manager->AddEnemy(EnemyData{ basicEnemy, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 0, 10, 2 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 2, 10, 2 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });

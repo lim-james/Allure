@@ -24,17 +24,17 @@ Transform * BasicEnemy::Create() {
 	entities->SetLayer(entity, ENEMY);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale = 3.f;
+	transform->scale = 10.f;
 	
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
-	//render->SetSprite(spriteSheet);
+	render->SetSprite(spriteSheet);
 
-	//SpriteAnimation* const spriteAnimation = entities->AddComponent<SpriteAnimation>(entity);
-	//spriteAnimation->SetActive(true);
-	//spriteAnimation->animations = spriteData;
-	//spriteAnimation->currentAnimation = "IDLE";
-	//spriteAnimation->animations["DEAD"].loop = false;
+	SpriteAnimation* const spriteAnimation = entities->AddComponent<SpriteAnimation>(entity);
+	spriteAnimation->SetActive(true);
+	spriteAnimation->animations = spriteData;
+	spriteAnimation->currentAnimation = "IDLE";
+	spriteAnimation->animations["DEAD"].loop = false;
 	
 	//ParticleEmitter* const emitter = entities->AddComponent<ParticleEmitter>(entity);
 	//emitter->SetActive(true);

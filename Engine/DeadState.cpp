@@ -7,7 +7,6 @@
 #include "EnemyLife.h"
 
 void States::Dead::Enter(unsigned const & target, EntityManager * const entities) {
-	entities->GetComponent<Physics>(target)->SetActive(false);
 	entities->GetComponent<SphereCollider>(target)->SetActive(false);
 	//entities->GetComponent<SpriteAnimation>(target)->queued = "DEAD";
 }

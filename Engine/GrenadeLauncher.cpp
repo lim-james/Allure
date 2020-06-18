@@ -25,8 +25,7 @@ Transform * GrenadeLauncher::Create() {
 
 	GrenadeLauncherScript* const gun = entities->AddComponent<GrenadeLauncherScript>(entity);
 	gun->SetActive(true);
-	gun->standardPrefab = bulletPrefab;
-	gun->explosivePrefab = bulletPrefab;
+	gun->bulletPrefab = bulletPrefab;
 
 	return transform;
 }

@@ -33,7 +33,7 @@ Transform* BasicBullet::Create() {
 
 	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = PLAYER & WEAPON;
+	collider->ignoreMask = PLAYER & WEAPON & BULLET & BONUS_BULLET;
 
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);

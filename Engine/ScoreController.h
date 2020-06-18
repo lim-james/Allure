@@ -20,9 +20,10 @@ private:
 
 	unsigned totalScore;
 	unsigned buildScore;
-	unsigned multiplier;
-
 	unsigned hiddenScore;
+
+	unsigned multiplier;
+	unsigned mBuffer; // multiplier buffer
 
 	void Awake() override;
 	void Start() override;

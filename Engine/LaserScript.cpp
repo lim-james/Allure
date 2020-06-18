@@ -16,7 +16,16 @@ void LaserScript::Trigger() {
 
 	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
 	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
-	audio->audioClip = onBeat ? "Files/Media/base.wav" : "Files/Media/hit.wav";
+
+	if (onBeat) {
+		entities->SetLayer(laserTransform->entity, BONUS_BULLET);
+		audio->audioClip = "Files/Media/base.wav";
+	} else {
+		entities->SetLayer(laserTransform->entity, BULLET);
+		audio->audioClip = "Files/Media/hit.wav";
+	}
+
+	audio->Play();
 }
 
 void LaserScript::Hold(float const & dt) {
@@ -32,7 +41,7 @@ vec3f LaserScript::HoldOffset() const {
 }
 
 void LaserScript::Start() {
-	laserTransform = standardPrefab->CreateIn(transform);
+	laserTransform = bulletPrefab->CreateIn(transform);
 	laserTransform->translation = (laserTransform->scale * 0.5f) / transform->scale + vec3f(.25f, -.03f, 0.f);
 
 	laserRender = entities->GetComponent<SpriteRender>(laserTransform->entity);

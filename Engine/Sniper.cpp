@@ -25,8 +25,7 @@ Transform * Sniper::Create() {
 
 	SniperScript* const gun = entities->AddComponent<SniperScript>(entity);
 	gun->SetActive(true);
-	gun->standardPrefab = bulletPrefab;
-	gun->explosivePrefab = bulletPrefab;
+	gun->bulletPrefab = bulletPrefab;
 
 	return transform;
 }

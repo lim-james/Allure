@@ -7,11 +7,10 @@ Physics::Physics()
 	, angularDrag(0.5f)
 	, useGravity(true)
 	, interpolate(true)
-	, mass(1.f)
-	, invMass(1.f)
-	, speed(0.f)
 	, velocity(0.f) 
 	, angularVelocity(0.f)
+	, mass(1.f)
+	, invMass(1.f)
 	, netForce(0.f)
 	, torque(0.f) {}
 
@@ -21,11 +20,10 @@ void Physics::Initialize() {
 	useGravity = true;
 	interpolate = true;
 
-	SetMass(1.f);
-
-	speed = 0.f;
 	velocity = 0.f;
 	angularVelocity = 0.f;
+
+	SetMass(1.f);
 	
 	netForce = 0.f;
 	torque = 0.f;

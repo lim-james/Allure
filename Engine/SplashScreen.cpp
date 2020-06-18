@@ -1,14 +1,15 @@
 #include "SplashScreen.h"
 
 #include "Text.h"
-#include "SpriteRender.h"
 #include "AnimationSystem.h"
 // post vfx
 #include "Bloom.h"
-
+// utilities
+#include "MainGame.h"
 #include "LoadFNT.h"
 
 #include <Helpers./ColorHelpers.h>
+#include <Events/EventsManager.h>
 
 void SplashScren::Awake() {
 	Scene::Awake();
@@ -26,7 +27,6 @@ void SplashScren::Create() {
 		Bloom* bloom = entities->AddComponent<Bloom>(volume);
 		bloom->SetActive(true);
 		bloom->unit = 1.f;
-		//bloom->size = 5;
 	}
 
 	{
@@ -41,14 +41,11 @@ void SplashScren::Create() {
 		text->characterSpacing = 3.f;
 		text->scale = 0.75f;
 
-		//SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		//render->SetActive(true);
-		////render->tint = vec4f(1.5f);
-		//render->tint = Helpers::GetColor("FF073A");
-		//render->tint.a = 5.f;
-
 		Animation* const animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 1.f, 1.f), &text->color.a, 2.f);
+		animation->Queue(AnimationBase(false, 1.f, 1.f, Handler<void, void>([]() {
+			EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(new MainGame));
+		})), &text->color.a, 0.f);
 	}
 }

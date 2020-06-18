@@ -2,12 +2,8 @@
 #define SHOTGUN_SCRIPT_H
 
 #include "WeaponBase.h"
-#include "Prefab.h"
 
 struct ShotgunScript : WeaponBase {
-
-	Prefab* standardPrefab;
-	Prefab* explosivePrefab;
 
 	void Trigger() override;
 	void Hold(float const& dt) override;

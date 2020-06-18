@@ -26,22 +26,23 @@ vec3f ShotgunScript::HoldOffset() const {
 
 void ShotgunScript::CreateBurst(bool const& onBeat) const {
 	const vec2f facing = Math::Normalized(crosshair->translation - player->translation).xy;
-	const vec2f normal = vec2f(facing.y, -facing.x) * 0.1f;
+	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(facing));
 
-	Prefab* const bullet = onBeat ? explosivePrefab : standardPrefab;
+	const vec2f normal = vec2f(facing.y, -facing.x) * 0.1f;
 
 	for (float i = -2.f; i <= 2.f; ++i) {
 		const vec2f direction = Math::Normalized(facing + normal * i);
 
-		Transform* const transform = bullet->Create();
+		Transform* const transform = bulletPrefab->Create();
 		transform->translation = player->translation;
 		transform->rotation.z = atan2f(direction.y, direction.x) * Math::toDeg;
 
 		Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 		physics->AddForce(direction * 5000.f);
+
+		entities->SetLayer(transform->entity, onBeat ? BONUS_BULLET : BULLET);
 	}
 
-	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(facing));
 	audio->audioClip = onBeat ? "Files/Media/base.wav" : "Files/Media/hit.wav";
 	audio->Play();
 }

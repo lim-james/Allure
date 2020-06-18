@@ -26,15 +26,22 @@ vec3f SniperScript::HoldOffset() const {
 
 void SniperScript::CreateBullet(bool const& onBeat) const {
 	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
+	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 
-	Transform* const transform = (onBeat ? explosivePrefab : standardPrefab)->Create();
+	Transform* const transform = bulletPrefab->Create();
 	transform->translation = player->translation;
 	transform->rotation.z = atan2f(direction.y, direction.x) * Math::toDeg;
 
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 	physics->AddForce(direction * 5000.f);
 
-	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
-	audio->audioClip = onBeat ? "Files/Media/base.wav" : "Files/Media/hit.wav";
+	if (onBeat) {
+		entities->SetLayer(transform->entity, BONUS_BULLET);
+		audio->audioClip = "Files/Media/base.wav";
+	} else {
+		entities->SetLayer(transform->entity, BULLET);
+		audio->audioClip = "Files/Media/hit.wav";
+	}
+
 	audio->Play();
 }

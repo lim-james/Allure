@@ -187,14 +187,14 @@
     <Filter Include="Assets\Scenes\Sandbox\Spectrum">
       <UniqueIdentifier>{6a6378bd-f588-46f4-b2d6-49c83e573a6e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Prefabs\SoundBar">
-      <UniqueIdentifier>{6ac3eeec-c24e-4878-ab3a-95f24a3b7f6b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Prefabs\Guns">
       <UniqueIdentifier>{25902886-48a8-4046-809c-d9db625f8241}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets\VFX">
       <UniqueIdentifier>{b8b8c0a4-0687-45af-8d50-4042401f09c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Prefabs\Audio">
+      <UniqueIdentifier>{6ac3eeec-c24e-4878-ab3a-95f24a3b7f6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -562,7 +562,7 @@
       <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClCompile>
     <ClCompile Include="SoundBar.cpp">
-      <Filter>Assets\Prefabs\SoundBar</Filter>
+      <Filter>Assets\Prefabs\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Sniper.cpp">
       <Filter>Assets\Prefabs\Guns</Filter>
@@ -1020,7 +1020,7 @@
       <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClInclude>
     <ClInclude Include="SoundBar.h">
-      <Filter>Assets\Prefabs\SoundBar</Filter>
+      <Filter>Assets\Prefabs\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Sniper.h">
       <Filter>Assets\Prefabs\Guns</Filter>

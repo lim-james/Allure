@@ -5,9 +5,8 @@
 #include "Prefab.h"
 
 struct ExplosiveScript : Script {
-	
-	Prefab* explosionPrefab;
 
+	Prefab* explosionPrefab;
 	void OnDestroy() override;
 
 };

@@ -13,6 +13,9 @@ struct Physics : Component {
 	bool useGravity;
 	bool interpolate;
 
+	vec3f velocity;
+	vec3f angularVelocity;
+
 	Physics();
 
 	void Initialize() override;
@@ -29,10 +32,6 @@ private:
 
 	float mass;
 	float invMass;
-
-	float speed;
-	vec3f velocity;
-	vec3f angularVelocity;
 
 	vec3f netForce;
 	vec3f torque;

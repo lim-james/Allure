@@ -14,9 +14,10 @@ void ScoreController::Awake() {
 void ScoreController::Start() {
 	totalScore = 0;
 	buildScore = 0;
-	multiplier = 1;
-
 	hiddenScore = 0;
+
+	multiplier = 1;
+	mBuffer = 1;
 
 	totalScoreLabel->text = Helpers::Pad(std::to_string(totalScore), 6,'0');
 	buildScoreLabel->text = "";
@@ -38,17 +39,21 @@ void ScoreController::ScoreHandler(Events::Event * event) {
 }
 
 void ScoreController::BuildHandler() {
-	++multiplier;
-	multiplierLabel->text = "x" + std::to_string(multiplier);
+	if (--mBuffer == 0) {
+		mBuffer = ++multiplier;
+		multiplierLabel->text = "x" + std::to_string(multiplier);
 
-	vfx->multiplier = min(max(static_cast<float>(multiplier) - 10.f, 0.f) / 10.f, 1.f);
+		vfx->multiplier = min(max(static_cast<float>(multiplier) - 5.f, 0.f) / 10.f, 1.f);
+	}
 }
 
 void ScoreController::ResetHandler() {
 	totalScore += buildScore * multiplier;
 	buildScore = 0;
-	multiplier = 1;
 	hiddenScore = 0;
+
+	multiplier = 1;
+	mBuffer = 1;
 
 	totalScoreLabel->text = Helpers::Pad(std::to_string(totalScore), 6,'0');
 	buildScoreLabel->text = "";

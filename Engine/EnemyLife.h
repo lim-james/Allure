@@ -5,6 +5,7 @@
 #include "ParticleEmitter.h"
 #include "StateContainer.h"
 #include "SpriteRender.h"
+#include "Physics.h"
 #include "Prefab.h"
 
 struct EnemyLife : Script {
@@ -25,12 +26,13 @@ private:
 
 	StateContainer* state;
 	SpriteRender* render;
-	
+	Physics* physics;
+
 	void Awake() override;
 	void Start() override;
 	void Update() override;
 
-	void Hit(bool const& bonus);
+	void Hit(unsigned const& target, bool const& bonus);
 
 };
 

@@ -2,12 +2,8 @@
 #define AUTOMATIC_SCRIPT_H
 
 #include "WeaponBase.h"
-#include "Prefab.h"
 
 struct AutomaticScript : WeaponBase {
-
-	Prefab* standardPrefab;
-	Prefab* explosivePrefab;
 	
 	AutomaticScript();
 

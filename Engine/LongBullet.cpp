@@ -33,7 +33,7 @@ Transform* LongBullet::Create() {
 
 	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = PLAYER & WEAPON;
+	collider->ignoreMask = PLAYER & WEAPON & BULLET & BONUS_BULLET;
 
 	BulletHandler* const bullet = entities->AddComponent<BulletHandler>(entity);
 	bullet->SetActive(true);

@@ -54,14 +54,18 @@ void PlayerLife::Update() {
 	if (inviT > 0.0f) {
 		inviT -= time->dt;
 		render->tint.a = render->tint.a > 0.5f ? 0.f : 1.f;
-	} else {
-		render->tint.a = 1.f;
-	}
+
+		if (inviT <= 0.f) {
+			render->tint.a = 1.f;
+		}
+	} 
 
 	if (ft > 0.f) {
 		ft -= time->dt;
-	} else {
-		flashOverlay->tint.a = 0.f; 
+		
+		if (ft <= 0.f) {
+			flashOverlay->tint.a = 0.f; 
+		}
 	}
 }
 
