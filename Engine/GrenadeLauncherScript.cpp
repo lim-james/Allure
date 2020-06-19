@@ -24,11 +24,11 @@ vec3f GrenadeLauncherScript::HoldOffset() const {
 }
 
 void GrenadeLauncherScript::CreateBullet(bool const& onBeat) const {
-	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
+	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
 	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 
 	Transform* const transform = bulletPrefab->Create();
-	transform->translation = player->translation;
+	transform->translation = owner->translation;
 
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 	physics->AddForce(direction * 5000.f);

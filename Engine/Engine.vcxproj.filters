@@ -618,6 +618,9 @@
     <ClCompile Include="SplashScreen.cpp">
       <Filter>Assets\Scenes\Main</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyCombat.cpp">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1075,6 +1078,9 @@
     </ClInclude>
     <ClInclude Include="SplashScreen.h">
       <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCombat.h">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

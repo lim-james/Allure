@@ -1,8 +1,12 @@
 #include "EnemyManager.h"
 
+#include "InputEvents.h"
 #include "EnemyTarget.h"
 #include "EnemyLife.h"
-#include "InputEvents.h"
+#include "EnemyCombat.h"
+
+#include "PistolScript.h"
+#include "AutomaticScript.h"
 
 #include <Math/Random.hpp>
 #include <Events/EventsManager.h>
@@ -10,6 +14,10 @@
 
 void EnemyManager::AddEnemy(EnemyData const & data) {
 	enemies.push_back(EnemyGroup{ data, -data.beatDelay });
+}
+
+void EnemyManager::AddWeapon(Prefab * const weapon) {
+	weapons.push_back(weapon);
 }
 
 void EnemyManager::Awake() {
@@ -59,6 +67,14 @@ void EnemyManager::BeatHandler() {
 			target->farStyle = data.farStyle;
 			target->nearStyle = data.nearStyle;
 			target->style = &target->farStyle;
+
+			EnemyCombat* const combat = entities->GetComponent<EnemyCombat>(eTransform->entity);
+			if (combat) {
+				Transform* const wTransform = weapons[0]->CreateIn(combat->weaponHolder);
+				WeaponBase* const weapon = entities->GetComponent<AutomaticScript>(wTransform->entity);
+				combat->SetWeapon(weapon);
+				wTransform->translation = weapon->HoldOffset();
+			}
 		}
 	}
 }

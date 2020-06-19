@@ -9,7 +9,7 @@ Math::vec<3, T>::vec(T const& x, T const& y, T const& z) : x(x), y(y), z(z) {}
 template<typename T>
 Math::vec<3, T>::vec(T const& x, vec<2, T> const& yz) : x(x), yz(yz) {}
 template<typename T>
-Math::vec<3, T>::vec(vec<2, T> const& xy, T const& z) : xy(xy), z(z) {}
+Math::vec<3, T>::vec(vec<2, T> const& xy, T const& z) : x(xy.x), y(xy.y), z(z) {}
 
 template<typename T> 
 template<typename t>

@@ -8,6 +8,7 @@
 #include "StateContainer.h"
 #include "EnemyLife.h"
 #include "EnemyTarget.h"
+#include "EnemyCombat.h"
 
 #include "LoadTexture.h"
 #include "LoadSAD.h"
@@ -20,11 +21,19 @@ BasicEnemy::BasicEnemy() {
 
 Transform * BasicEnemy::Create() {
 
+	Transform* holder = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		holder = entities->GetComponent<Transform>(entity);
+		holder->translation.y = -0.35f;
+	}
+
 	const unsigned entity = entities->Create();
 	entities->SetLayer(entity, ENEMY);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
 	transform->scale = 10.f;
+	holder->SetParent(transform);
 	
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);
@@ -76,6 +85,10 @@ Transform * BasicEnemy::Create() {
 
 	EnemyTarget* const target = entities->AddComponent<EnemyTarget>(entity);
 	target->SetActive(true);
+
+	EnemyCombat* const combat = entities->AddComponent<EnemyCombat>(entity);
+	combat->SetActive(true);
+	combat->weaponHolder = holder;
 
 	return transform;
 }

@@ -25,7 +25,7 @@ vec3f ShotgunScript::HoldOffset() const {
 }
 
 void ShotgunScript::CreateBurst(bool const& onBeat) const {
-	const vec2f facing = Math::Normalized(crosshair->translation - player->translation).xy;
+	const vec2f facing = Math::Normalized(target->translation - owner->translation).xy;
 	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(facing));
 
 	const vec2f normal = vec2f(facing.y, -facing.x) * 0.1f;
@@ -34,7 +34,7 @@ void ShotgunScript::CreateBurst(bool const& onBeat) const {
 		const vec2f direction = Math::Normalized(facing + normal * i);
 
 		Transform* const transform = bulletPrefab->Create();
-		transform->translation = player->translation;
+		transform->translation = owner->translation;
 		transform->rotation.z = atan2f(direction.y, direction.x) * Math::toDeg;
 
 		Physics* const physics = entities->GetComponent<Physics>(transform->entity);

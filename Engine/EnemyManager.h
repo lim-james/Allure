@@ -6,13 +6,13 @@
 
 #include "EnemyData.h"
 
-
 struct EnemyManager : Script {
 
 	vec2f boundary;
 	Transform* player;
 
 	void AddEnemy(EnemyData const& data);
+	void AddWeapon(Prefab* const weapon);
 
 private:
 
@@ -24,6 +24,7 @@ private:
 	bool enabled;
 
 	std::vector<EnemyGroup> enemies;
+	std::vector<Prefab*> weapons;
 
 	void Awake() override;
 	void Start() override;

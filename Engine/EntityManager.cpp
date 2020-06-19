@@ -31,18 +31,8 @@ void EntityManager::Destroy(unsigned const& id) {
 }
 
 void EntityManager::Update() {
-	for (unsigned const& id : destroyQueue) {
-		if (Helpers::Remove(used, id)) {
-			for (auto& pair : entities[id].components) {
-				if (pair.second) {
-					pair.second->Initialize();
-					pair.second->SetActive(false);
-				}
-			}
-
-			unused.push_back(id);
-		}
-	}
+	for (unsigned const& id : destroyQueue)
+		DestroyEntity(id);
 	destroyQueue.clear();
 }
 
@@ -66,5 +56,22 @@ void EntityManager::Expand() {
 	entities.push_back(e);
 	unused.push_back(id);
 	AddComponent<Transform>(id);
+}
+
+void EntityManager::DestroyEntity(unsigned const & id) {
+	if (Helpers::Remove(used, id)) {
+		for (Transform* const transform : GetComponent<Transform>(id)->GetChildren()) {
+			DestroyEntity(transform->entity);
+		}
+
+		for (auto& pair : entities[id].components) {
+			if (pair.second) {
+				pair.second->Initialize();
+				pair.second->SetActive(false);
+			}
+		}
+
+		unused.push_back(id);
+	}
 }
 

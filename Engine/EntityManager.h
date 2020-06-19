@@ -52,6 +52,8 @@ private:
 	
 	void Expand();
 
+	void DestroyEntity(unsigned const& id);
+
 };
 
 template<typename ComponentType>

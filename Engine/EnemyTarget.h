@@ -20,6 +20,7 @@ struct EnemyTarget : Script {
 	TargetStyle* style;
 
 	void Chase();
+	vec3f GetTarget() const;
 
 private:
 

@@ -9,6 +9,10 @@ void EnemyTarget::Chase() {
 	physics->AddForce(diff * style->speed);
 }
 
+vec3f EnemyTarget::GetTarget() const {
+	return vec3f(target, 0.f);
+}
+
 void EnemyTarget::Awake() {
 	physics = GetComponent<Physics>();
 	EventsManager::Get()->Subscribe("BEAT_VALUE", &EnemyTarget::EventHandler, this);

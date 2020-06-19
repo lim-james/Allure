@@ -1,15 +1,15 @@
 #include "WeaponBase.h"
 
 WeaponBase::WeaponBase()
-	: player(nullptr)
-	, crosshair(nullptr) {}
+	: owner(nullptr)
+	, target(nullptr) {}
 
-void WeaponBase::SetPlayer(Transform* const transform) {
-	player = transform;
+void WeaponBase::SetOwner(Transform* const transform) {
+	owner = transform;
 }
 
-void WeaponBase::SetCrosshair(Transform* const transform) {
-	crosshair = transform;
+void WeaponBase::SetTarget(Transform* const transform) {
+	target = transform;
 }
 
 void WeaponBase::SetAudioSource(AudioSource * const source) {

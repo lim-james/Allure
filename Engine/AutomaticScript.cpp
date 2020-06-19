@@ -42,11 +42,11 @@ vec3f AutomaticScript::HoldOffset() const {
 }
 
 void AutomaticScript::CreateBullet(bool const& onBeat) const { 
-	const vec2f direction = Math::Normalized(crosshair->translation - player->translation).xy;
+	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
 	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 
 	Transform* const transform = bulletPrefab->Create();
-	transform->translation = player->translation;
+	transform->translation = owner->translation;
 	transform->rotation.z = atan2f(direction.y, direction.x) * Math::toDeg;
 
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);

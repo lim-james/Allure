@@ -23,6 +23,9 @@ void Transform::Initialize() {
 	rotation = vec3f(0.f);
 	scale = vec3f(1.f);
 
+	worldTranslation = vec3f(0.f);
+	worldRotation = vec3f(0.f);
+
 	UpdateAxes();
 }
 
@@ -159,9 +162,16 @@ void Transform::SetParent(Transform * const transform) {
 		translation = translation - parent->worldTranslation;
 		rotation = rotation - parent->worldRotation;
 		Helpers::Insert(parent->children, this);
+	} else {
+		worldTranslation = translation;
+		worldRotation = rotation;
 	}
 }
 
 Transform * const Transform::GetParent() const {
 	return parent;
+}
+
+std::vector<Transform*> const & Transform::GetChildren() const {
+	return children;
 }

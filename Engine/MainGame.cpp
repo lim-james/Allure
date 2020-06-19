@@ -540,7 +540,7 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(144);
+		beat->SetTempo(60);
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
 		beat->threshold = 0.2f;
@@ -569,8 +569,10 @@ void MainGame::Create() {
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
-
 		//manager->AddEnemy(EnemyData{ batEnemy, RISK_LOW, 1, 2, 1 });
+
+		manager->AddWeapon(automatic);
+		manager->AddWeapon(pistol);
 	}
 }
 

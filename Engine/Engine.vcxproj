@@ -162,6 +162,7 @@
     <ClCompile Include="Constraint.cpp" />
     <ClCompile Include="CrosshairController.cpp" />
     <ClCompile Include="DeadState.cpp" />
+    <ClCompile Include="EnemyCombat.cpp" />
     <ClCompile Include="GrenadeLauncher.cpp" />
     <ClCompile Include="GrenadeLauncherScript.cpp" />
     <ClCompile Include="Laser.cpp" />
@@ -293,6 +294,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CrosshairController.h" />
     <ClInclude Include="DeadState.h" />
+    <ClInclude Include="EnemyCombat.h" />
     <ClInclude Include="GrenadeLauncher.h" />
     <ClInclude Include="GrenadeLauncherScript.h" />
     <ClInclude Include="Laser.h" />

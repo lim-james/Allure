@@ -31,7 +31,7 @@ void Script::Stop() {
 }
 
 void Script::OnDestroy() {
-
+	//EventsManager::Get()->UnsubscribeContext(this);
 }
 
 void Script::SetActive(bool const& state) {

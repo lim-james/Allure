@@ -8,15 +8,15 @@
 
 void PlayerCombat::SetCrosshair(Transform * const transform) {
 	crosshair = transform;
-	if (weapon) weapon->SetCrosshair(crosshair);
+	if (weapon) weapon->SetTarget(crosshair);
 }
 
 void PlayerCombat::SetWeapon(WeaponBase * const ptr) {
 	weapon = ptr;
 	if (weapon) {
-		weapon->SetPlayer(transform);
+		weapon->SetOwner(transform);
 		weapon->SetAudioSource(GetComponent<AudioSource>());
-		weapon->SetCrosshair(crosshair);
+		weapon->SetTarget(crosshair);
 	}
 }
 

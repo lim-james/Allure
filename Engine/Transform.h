@@ -56,6 +56,8 @@ struct Transform : Component {
 	void SetParent(Transform * const transform);
 	Transform * const GetParent() const;
 
+	std::vector<Transform*> const& GetChildren() const;
+
 private:
 
 	Transform* parent;

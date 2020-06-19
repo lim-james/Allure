@@ -13,8 +13,8 @@ struct WeaponBase : Script {
 
 	WeaponBase();
 
-	void SetPlayer(Transform* const transform);
-	void SetCrosshair(Transform* const transform);
+	void SetOwner(Transform* const transform);
+	void SetTarget(Transform* const transform);
 	void SetAudioSource(AudioSource* const source);
 
 	virtual void Trigger() = 0;
@@ -24,8 +24,8 @@ struct WeaponBase : Script {
 
 protected:
 
-	Transform* player;
-	Transform* crosshair;
+	Transform* owner;
+	Transform* target;
 	AudioSource* audio;
 
 };
