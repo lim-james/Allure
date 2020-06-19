@@ -11,7 +11,3 @@ void WeaponBase::SetOwner(Transform* const transform) {
 void WeaponBase::SetTarget(Transform* const transform) {
 	target = transform;
 }
-
-void WeaponBase::SetAudioSource(AudioSource * const source) {
-	audio = source;
-}

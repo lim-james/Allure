@@ -17,11 +17,14 @@ void LaserScript::Trigger() {
 	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
 	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 
+	const unsigned audioSource = audioPrefab->Create()->entity;
+	AudioSource* const audio = entities->GetComponent<AudioSource>(audioSource);
+
 	if (onBeat) {
-		entities->SetLayer(laserTransform->entity, BONUS_BULLET);
+		entities->SetLayer(transform->entity, BONUS_BULLET);
 		audio->audioClip = "Files/Media/base.wav";
 	} else {
-		entities->SetLayer(laserTransform->entity, BULLET);
+		entities->SetLayer(transform->entity, BULLET);
 		audio->audioClip = "Files/Media/hit.wav";
 	}
 

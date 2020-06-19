@@ -43,6 +43,8 @@ void ShotgunScript::CreateBurst(bool const& onBeat) const {
 		entities->SetLayer(transform->entity, onBeat ? BONUS_BULLET : BULLET);
 	}
 
+	const unsigned audioSource = audioPrefab->Create()->entity;
+	AudioSource* const audio = entities->GetComponent<AudioSource>(audioSource);
 	audio->audioClip = onBeat ? "Files/Media/base.wav" : "Files/Media/hit.wav";
 	audio->Play();
 }

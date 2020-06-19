@@ -4,6 +4,8 @@
 #include <Events/EventsManager.h>
 
 void EnemyTarget::Chase() {
+	if (life->IsStunned()) return;
+
 	const vec3f diff = Math::Normalized(target - transform->GetWorldTranslation().xy);
 	const float mag = magnitude * 10.f;
 	physics->AddForce(diff * style->speed);
@@ -14,6 +16,7 @@ vec3f EnemyTarget::GetTarget() const {
 }
 
 void EnemyTarget::Awake() {
+	life = GetComponent<EnemyLife>();
 	physics = GetComponent<Physics>();
 	EventsManager::Get()->Subscribe("BEAT_VALUE", &EnemyTarget::EventHandler, this);
 }

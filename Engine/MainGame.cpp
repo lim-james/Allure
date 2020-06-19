@@ -104,6 +104,9 @@ void MainGame::Create() {
 	indicatorLabel = new IndicatorLabel;
 	indicatorLabel->Initialize(entities);
 
+	sfxEmitter = new SFXEmitter;
+	sfxEmitter->Initialize(entities);
+
 	explosionArea = new ExplosionArea;
 	explosionArea->Initialize(entities);
 
@@ -524,6 +527,7 @@ void MainGame::Create() {
 		PlayerCombat* const combat = entities->AddComponent<PlayerCombat>(entity);
 		combat->SetActive(true);
 		combat->weaponHolder = weaponHolderTransform;
+		combat->sfxPrefab = sfxEmitter;
 		combat->SetCrosshair(follow->crosshair);
 		combat->SetWeapon(demoGun);
 
@@ -555,14 +559,15 @@ void MainGame::Create() {
 		manager->SetActive(true);
 		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
+		manager->sfxPrefab = sfxEmitter;
 
 		const TargetStyle trackPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 100.f, 30.f };
-		const TargetStyle dashPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 300.f, 15.f };
+		const TargetStyle dashPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 300.f, 25.f };
 		const TargetStyle dash = { TARGET_DASH, MOVEMENT_CONSTANT, 400.f, 15.f };
 		const TargetStyle avoidPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, -200.f, 20.f };
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 250.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 0, 10, 2 });
+		manager->AddEnemy(EnemyData{ basicEnemy, 1.f, 0, 5, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 0, 10, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 2, 10, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
@@ -571,6 +576,7 @@ void MainGame::Create() {
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ batEnemy, RISK_LOW, 1, 2, 1 });
 
+		manager->AddWeapon(sniper);
 		manager->AddWeapon(automatic);
 		manager->AddWeapon(pistol);
 	}
@@ -580,12 +586,21 @@ void MainGame::Destroy() {
 	Scene::Destroy();
 
 	delete background;
+
 	delete indicatorLabel;
+	delete sfxEmitter;
 	
 	delete explosionArea;
 	delete basicBullet;
 	delete longBullet;
 	delete explosiveBullet;
+
+	delete pistol;
+	delete automatic;
+	delete shotgun;
+	delete sniper;
+	delete grenadeLauncher;
+	delete laser;
 
 	delete basicEnemy;
 	delete batEnemy;

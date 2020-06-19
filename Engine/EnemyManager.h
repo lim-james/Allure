@@ -10,6 +10,7 @@ struct EnemyManager : Script {
 
 	vec2f boundary;
 	Transform* player;
+	Prefab* sfxPrefab;
 
 	void AddEnemy(EnemyData const& data);
 	void AddWeapon(Prefab* const weapon);

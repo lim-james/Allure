@@ -32,9 +32,12 @@ struct AudioSource : Component {
 	void Pause();
 	void UnPause();
 
+	float GetDuration() const;
+
 private:
 
 	bool isPaused;
+	float duration;
 
 	friend class AudioSystem;
 

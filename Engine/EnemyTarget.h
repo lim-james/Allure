@@ -4,6 +4,7 @@
 #include "Script.h"
 
 #include "EnemyData.h"
+#include "EnemyLife.h"
 #include "Physics.h"
 
 #include <Events/Event.h>
@@ -27,6 +28,7 @@ private:
 	bool isNear;
 	vec2f target;
 
+	EnemyLife* life;
 	Physics* physics;
 
 	void Awake() override;

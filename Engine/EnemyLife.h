@@ -18,11 +18,14 @@ struct EnemyLife : Script {
 	void OnCollisionEnter(unsigned target);
 	void Kill();
 
+	bool IsStunned() const;
+
 private:
 
 	bool hasFroze;
-	float flashBt;
-	float bt;
+
+	float flashDelay, stunDelay;
+	float flashBt, stunBt;
 
 	StateContainer* state;
 	SpriteRender* render;

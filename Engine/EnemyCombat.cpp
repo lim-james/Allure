@@ -4,24 +4,40 @@
 
 void EnemyCombat::SetWeapon(WeaponBase * const ptr) {
 	weapon = ptr;
+	weapon->SetOwner(transform);
+	weapon->SetTarget(target->player);
 }
 
 void EnemyCombat::Awake() {
+	life = GetComponent<EnemyLife>();
 	target = GetComponent<EnemyTarget>();
-	//EventsManager::Get()->Subscribe("BEAT", &EnemyCombat::BeatHandler, this);
+	EventsManager::Get()->Subscribe("BEAT", &EnemyCombat::BeatHandler, this);
 }
 
 void EnemyCombat::Start() {
+	holdDuration = 0.1f;
 	bt = 0.f;
 }
 
 void EnemyCombat::Update() {
-	//if (weapon && isTriggering) weapon->Hold(time->dt);
+	if (life->IsStunned()) return;
+
+	if (weapon) {
+		if (bt > 0.f) {
+			bt -= time->dt;
+			if (bt <= 0.f) {
+				weapon->Release();
+			} else {
+				weapon->Hold(time->dt);
+			}
+		} 
+	}	
 
 	const vec2f diff = target->GetTarget() - transform->GetWorldTranslation();
 	weaponHolder->rotation.z = atanf(diff.y / fabs(diff.x)) * Math::toDeg;
 }
 
 void EnemyCombat::BeatHandler() {
-
+	if (life->IsStunned()) return;
+	weapon->Trigger();
 }

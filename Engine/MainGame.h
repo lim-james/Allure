@@ -7,6 +7,7 @@
 #include "BackgroundMaterial.h"
 // prefabs
 #include "IndicatorLabel.h"
+#include "SFXEmitter.h"
 // bullets
 #include "ExplosionArea.h"
 #include "BasicBullet.h"
@@ -29,6 +30,7 @@ class MainGame : public Scene {
 	Material::Background* background;
 
 	IndicatorLabel* indicatorLabel;
+	SFXEmitter* sfxEmitter;
 	// projectiles
 	ExplosionArea* explosionArea;
 	BasicBullet* basicBullet;

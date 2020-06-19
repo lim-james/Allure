@@ -3,6 +3,7 @@
 
 #include "Script.h"
 
+#include "EnemyLife.h"
 #include "EnemyTarget.h"
 #include "WeaponBase.h"
 
@@ -19,6 +20,7 @@ private:
 
 	float bt;
 
+	EnemyLife* life;
 	EnemyTarget* target;
 	WeaponBase* weapon;
 

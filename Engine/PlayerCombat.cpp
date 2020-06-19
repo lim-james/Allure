@@ -14,8 +14,8 @@ void PlayerCombat::SetCrosshair(Transform * const transform) {
 void PlayerCombat::SetWeapon(WeaponBase * const ptr) {
 	weapon = ptr;
 	if (weapon) {
+		weapon->audioPrefab = sfxPrefab;
 		weapon->SetOwner(transform);
-		weapon->SetAudioSource(GetComponent<AudioSource>());
 		weapon->SetTarget(crosshair);
 	}
 }

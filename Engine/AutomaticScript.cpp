@@ -52,6 +52,9 @@ void AutomaticScript::CreateBullet(bool const& onBeat) const {
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 	physics->AddForce(direction * 5000.f);
 
+	const unsigned audioSource = audioPrefab->Create()->entity;
+	AudioSource* const audio = entities->GetComponent<AudioSource>(audioSource);
+
 	if (onBeat) {
 		entities->SetLayer(transform->entity, BONUS_BULLET);
 		audio->audioClip = "Files/Media/base.wav";

@@ -167,6 +167,8 @@ void AudioSystem::PlayHandler(Events::Event * event) {
 	sound.sound2d->setPlaybackSpeed(source->speed);
 	sound.sound2d->setPan(source->stereoPan);
 
+	source->duration = static_cast<float>(sound.sound2d->getPlayLength()) / 1000.f;
+
 	if (volume3D > 0.f) {
 		Transform* const transform = entities->GetComponent<Transform>(source->entity);
 		const vec3f position = transform->GetWorldTranslation();
@@ -176,7 +178,6 @@ void AudioSystem::PlayHandler(Events::Event * event) {
 		sound.sound3d->setVolume(volume3D);
 		sound.sound3d->setPlaybackSpeed(source->speed);
 		sound.sound3d->setPan(source->stereoPan);
-		//sound.sound3d->
 		sound.sound3d->setMinDistance(source->minDistance);
 		sound.sound3d->setMaxDistance(source->maxDistance);
 	}

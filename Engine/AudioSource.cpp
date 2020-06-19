@@ -14,7 +14,10 @@ AudioSource::AudioSource()
 
 	//, dopplerLevel(1.f)
 	, minDistance(1.f)
-	, maxDistance(10.f) {
+	, maxDistance(10.f)
+
+	, isPaused(true)
+	, duration(0.f) {
 }
 
 void AudioSource::Initialize() {
@@ -30,6 +33,9 @@ void AudioSource::Initialize() {
 	//dopplerLevel = 1.f;
 	minDistance = 1.f;
 	maxDistance = 500.f;
+
+	isPaused = true;
+	duration = 0.f;
 }
 
 Component * AudioSource::Clone() const {
@@ -61,6 +67,10 @@ void AudioSource::UnPause() {
 	if (IsActive()) {
 		EventsManager::Get()->Trigger("AUDIO_SOURCE_UNPAUSE", new Events::AnyType<AudioSource*>(this));
 	}
+}
+
+float AudioSource::GetDuration() const {
+	return duration;
 }
 
 void AudioSource::Stop() {

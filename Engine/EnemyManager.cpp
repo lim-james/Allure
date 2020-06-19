@@ -5,6 +5,7 @@
 #include "EnemyLife.h"
 #include "EnemyCombat.h"
 
+#include "SniperScript.h"
 #include "PistolScript.h"
 #include "AutomaticScript.h"
 
@@ -71,7 +72,8 @@ void EnemyManager::BeatHandler() {
 			EnemyCombat* const combat = entities->GetComponent<EnemyCombat>(eTransform->entity);
 			if (combat) {
 				Transform* const wTransform = weapons[0]->CreateIn(combat->weaponHolder);
-				WeaponBase* const weapon = entities->GetComponent<AutomaticScript>(wTransform->entity);
+				WeaponBase* const weapon = entities->GetComponent<SniperScript>(wTransform->entity);
+				weapon->audioPrefab = sfxPrefab;
 				combat->SetWeapon(weapon);
 				wTransform->translation = weapon->HoldOffset();
 			}

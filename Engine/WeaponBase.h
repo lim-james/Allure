@@ -10,12 +10,12 @@
 struct WeaponBase : Script {
 
 	Prefab* bulletPrefab;
+	Prefab* audioPrefab;
 
 	WeaponBase();
 
 	void SetOwner(Transform* const transform);
 	void SetTarget(Transform* const transform);
-	void SetAudioSource(AudioSource* const source);
 
 	virtual void Trigger() = 0;
 	virtual void Hold(float const& dt) = 0;
@@ -26,7 +26,6 @@ protected:
 
 	Transform* owner;
 	Transform* target;
-	AudioSource* audio;
 
 };
 

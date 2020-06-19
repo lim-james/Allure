@@ -139,6 +139,7 @@
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AudioController.cpp" />
+    <ClCompile Include="AudioSelfDestruct.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="AudioListener.cpp" />
     <ClCompile Include="AudioSpectrumScene.cpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="ScoreController.cpp" />
     <ClCompile Include="ScreenShake.cpp" />
     <ClCompile Include="SelfDestruct.cpp" />
+    <ClCompile Include="SFXEmitter.cpp" />
     <ClCompile Include="Shotgun.cpp" />
     <ClCompile Include="ShotgunScript.cpp" />
     <ClCompile Include="Sniper.cpp" />
@@ -280,6 +282,7 @@
   <ItemGroup>
     <ClInclude Include="ApplicationProperties.h" />
     <ClInclude Include="AudioController.h" />
+    <ClInclude Include="AudioSelfDestruct.h" />
     <ClInclude Include="AudioSpectrumScene.h" />
     <ClInclude Include="Automatic.h" />
     <ClInclude Include="AutomaticScript.h" />
@@ -329,6 +332,7 @@
     <ClInclude Include="ScoreEvent.h" />
     <ClInclude Include="ScreenShake.h" />
     <ClInclude Include="SelfDestruct.h" />
+    <ClInclude Include="SFXEmitter.h" />
     <ClInclude Include="Shotgun.h" />
     <ClInclude Include="ShotgunScript.h" />
     <ClInclude Include="Sniper.h" />
