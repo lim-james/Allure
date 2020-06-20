@@ -12,7 +12,7 @@ struct SniperScript : WeaponBase {
 
 private:
 
-	void CreateBullet(bool const& onBeat) const;
+	void CreateBullet(bool const& onBeat, vec2f const& direction) const;
 
 };
 

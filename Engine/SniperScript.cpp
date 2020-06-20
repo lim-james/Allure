@@ -10,10 +10,15 @@
 #include <Math/Math.hpp>
 
 void SniperScript::Trigger() {
+	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
 	bool onBeat = false;
-	EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
 
-	CreateBullet(onBeat);
+	if (isPlayer) {
+		EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
+		EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+	}
+
+	CreateBullet(onBeat, direction);
 }
 
 void SniperScript::Hold(float const & dt) {}
@@ -24,12 +29,9 @@ vec3f SniperScript::HoldOffset() const {
 	return vec3f(2.f, -0.5f, 0.5f);
 }
 
-void SniperScript::CreateBullet(bool const& onBeat) const {
-	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
-	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
-
+void SniperScript::CreateBullet(bool const& onBeat, vec2f const& direction) const {
 	Transform* const transform = bulletPrefab->Create();
-	transform->translation = owner->translation;
+	transform->translation = owner->translation + vec3f(direction);
 	transform->rotation.z = atan2f(direction.y, direction.x) * Math::toDeg;
 
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);

@@ -9,10 +9,15 @@
 #include <Events/EventsManager.h>
 
 void PistolScript::Trigger() {
+	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
 	bool onBeat = false;
-	EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
 
-	CreateBullet(onBeat);
+	if (isPlayer) {
+		EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
+		EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+	}
+
+	CreateBullet(onBeat, direction);
 }
 
 void PistolScript::Hold(float const & dt) {}
@@ -23,12 +28,10 @@ vec3f PistolScript::HoldOffset() const {
 	return vec3f(1.5f, -0.5f, 0.5f);
 }
 
-void PistolScript::CreateBullet(bool const& onBeat) const { 
-	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
-	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+void PistolScript::CreateBullet(bool const& onBeat, vec2f const& direction) const { 
 
 	Transform* const transform = bulletPrefab->Create();
-	transform->translation = owner->translation;
+	transform->translation = owner->translation + vec3f(direction);
 
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 	physics->AddForce(direction * 5000.f);

@@ -10,10 +10,15 @@
 #include <Math/Math.hpp>
 
 void ShotgunScript::Trigger() {
+	const vec2f facing = Math::Normalized(target->translation - owner->translation).xy;
 	bool onBeat = false;
-	EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
 
-	CreateBurst(onBeat);
+	if (isPlayer) {
+		EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
+		EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(facing));
+	}
+
+	CreateBurst(onBeat, facing);
 }
 
 void ShotgunScript::Hold(float const & dt) {}
@@ -24,9 +29,7 @@ vec3f ShotgunScript::HoldOffset() const {
 	return vec3f(1.5f, -0.5f, 0.5f);
 }
 
-void ShotgunScript::CreateBurst(bool const& onBeat) const {
-	const vec2f facing = Math::Normalized(target->translation - owner->translation).xy;
-	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(facing));
+void ShotgunScript::CreateBurst(bool const& onBeat, vec2f const& facing) const {
 
 	const vec2f normal = vec2f(facing.y, -facing.x) * 0.1f;
 

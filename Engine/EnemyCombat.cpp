@@ -11,7 +11,7 @@ void EnemyCombat::SetWeapon(WeaponBase * const ptr) {
 void EnemyCombat::Awake() {
 	life = GetComponent<EnemyLife>();
 	target = GetComponent<EnemyTarget>();
-	EventsManager::Get()->Subscribe("BEAT", &EnemyCombat::BeatHandler, this);
+	//EventsManager::Get()->Subscribe("BEAT", &EnemyCombat::BeatHandler, this);
 }
 
 void EnemyCombat::Start() {

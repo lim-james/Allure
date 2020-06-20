@@ -627,6 +627,9 @@
     <ClCompile Include="AudioSelfDestruct.cpp">
       <Filter>Assets\Scripts\General</Filter>
     </ClCompile>
+    <ClCompile Include="TransformTemp.cpp">
+      <Filter>Engine\Base\Transform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">

@@ -21,7 +21,7 @@ private:
 	unsigned maxBurst;
 	unsigned fireCount;
 
-	void CreateBullet(bool const& onBeat) const;
+	void CreateBullet(bool const& onBeat, vec2f const& direction) const;
 
 };
 

@@ -119,11 +119,12 @@ void Application::Step() {
 	Scene* const current = sceneManager->GetSource();
 
 	bt += dt;
+
 	if (bt >= FIXED_TIME_STEP) {
 		do {
 			current->FixedUpdate(FIXED_TIME_STEP);
 			bt -= FIXED_TIME_STEP;
-		} while (bt > FIXED_TIME_STEP);
+		} while (bt >= FIXED_TIME_STEP);
 	}
 
 	current->Update(dt);

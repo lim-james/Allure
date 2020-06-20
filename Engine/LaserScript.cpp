@@ -9,13 +9,15 @@
 #include <Events/EventsManager.h>
 
 void LaserScript::Trigger() {
+	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
 	bool onBeat = false;
-	EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
+
+	if (isPlayer) {
+		EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
+		EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+	}
 
 	SetLaserState(true);
-
-	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
-	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 
 	const unsigned audioSource = audioPrefab->Create()->entity;
 	AudioSource* const audio = entities->GetComponent<AudioSource>(audioSource);

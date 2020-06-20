@@ -2,34 +2,28 @@
 
 #include "Layers.h"
 #include "EnemyLife.h"
+#include "Physics.h"
 #include <Events/EventsManager.h>
 
 void PlayerLife::OnCollisionEnter(unsigned target) {
 	switch (entities->GetLayer(target)) {
 	case ENEMY:
 		if (inviT <= 0.f && entities->GetComponent<EnemyLife>(target)->bodyDamage) {
-			--health;
-			UpdateBar();
-
 			const vec3f position = entities->GetComponent<Transform>(target)->GetWorldTranslation();
-
-			Transform* const iTransform = indicatorLabel->Create();
-			iTransform->translation = position;
-			iTransform->translation.z = 5.f;
-
-			Text* const text = entities->GetComponent<Text>(iTransform->entity);
-			text->text = "-1";
-			text->scale = 2.f;
-			text->color = vec4f(1.f, 0.f, 0.f, 1.f);
-
 			const vec3f direction = transform->GetWorldTranslation() - position;
-			EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+			Hit(position, direction);
+		}
+		break;
+	case BULLET:
+	case BONUS_BULLET:
+		if (inviT <= 0.f) {
+			const vec3f position = entities->GetComponent<Transform>(target)->GetWorldTranslation();
+			const vec3f direction = transform->GetWorldTranslation() - position;
+			const vec3f velocity = entities->GetComponent<Physics>(target)->velocity;
 
-			inviT = inviDuration;
-			ft = flashDuration;
-			flashOverlay->tint.a = 1.f;
-
-			if (health <= 0) EventsManager::Get()->Trigger("END_GAME");
+			if (Math::Dot(direction, velocity) >= 0) {
+				Hit(position, direction);
+			}
 		}
 		break;
 	default:
@@ -67,6 +61,28 @@ void PlayerLife::Update() {
 			flashOverlay->tint.a = 0.f; 
 		}
 	}
+}
+
+void PlayerLife::Hit(vec3f const& position, vec3f const& direction) {
+	--health;
+	UpdateBar();
+
+	Transform* const iTransform = indicatorLabel->Create();
+	iTransform->translation = position;
+	iTransform->translation.z = 5.f;
+
+	Text* const text = entities->GetComponent<Text>(iTransform->entity);
+	text->text = "-1";
+	text->scale = 2.f;
+	text->color = vec4f(1.f, 0.f, 0.f, 1.f);
+
+	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+
+	inviT = inviDuration;
+	ft = flashDuration;
+	flashOverlay->tint.a = 1.f;
+
+	if (health <= 0) EventsManager::Get()->Trigger("END_GAME");
 }
 
 void PlayerLife::UpdateBar() {

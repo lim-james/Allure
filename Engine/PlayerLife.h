@@ -33,6 +33,7 @@ private:
 	void Start() override;
 	void Update() override;
 
+	void Hit(vec3f const& position, vec3f const& direction);
 	void UpdateBar();
 
 };

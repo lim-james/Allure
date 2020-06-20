@@ -27,6 +27,8 @@ protected:
 	Transform* owner;
 	Transform* target;
 
+	bool isPlayer;
+
 };
 
 #endif

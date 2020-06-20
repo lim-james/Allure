@@ -15,16 +15,11 @@ void SystemManager::Start() {
 
 	for (auto& systemPair : systems)
 		systemPair.second->Start();
-
-	//for (System* const s : fixedSystems)
-	//	s->Start();
 }
 
 void SystemManager::Stop() {
 	for (auto& systemPair : systems)
 		systemPair.second->Stop();
-	//for (System* const s : fixedSystems)
-	//	s->Stop();
 }
 
 void SystemManager::Update(float const& dt) {

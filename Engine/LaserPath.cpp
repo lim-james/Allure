@@ -21,7 +21,7 @@ Transform* LaserPath::Create() {
 
 	LineCollider* const collider = entities->AddComponent<LineCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = PLAYER & WEAPON & BULLET & BONUS_BULLET;
+	collider->ignoreMask = WEAPON & BULLET & BONUS_BULLET & EFFECT_AREA;
 
 	return transform;
 }

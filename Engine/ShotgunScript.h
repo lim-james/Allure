@@ -12,7 +12,7 @@ struct ShotgunScript : WeaponBase {
 
 private:
 
-	void CreateBurst(bool const& onBeat) const;
+	void CreateBurst(bool const& onBeat, vec2f const& facing) const;
 
 };
 
