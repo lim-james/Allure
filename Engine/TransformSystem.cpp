@@ -57,43 +57,8 @@ void TransformSystem::DynamicHanlder(Events::Event * event) {
 
 void TransformSystem::UpdateTree(QuadTree<Transform*, TransformComparator> const * tree) {
 	for (auto& item : tree->GetRoot()->list) {
-		if (item->parent == nullptr) 
-			SetTransform(item);
-
 		item->quads.clear();
 		item->quads.push_back(tree->GetRoot());
-	}
-}
-
-void TransformSystem::SetTransform(Transform * const transform) {
-	Math::SetToTransform(
-		transform->localTransform, 
-		transform->translation, 
-		transform->rotation, 
-		transform->scale
-	);
-
-	if (transform->parent == nullptr) {
-		transform->worldRotation = transform->rotation;
-		transform->worldTranslation = transform->translation;
-
-		transform->worldTransform = transform->localTransform;
-	} else {
-		auto const& worldTransform = transform->parent->worldTransform;
-
-		transform->worldRotation = transform->rotation + transform->parent->worldRotation;
-		transform->worldTranslation = worldTransform * transform->translation;
-
-		Math::SetToTransform(
-			transform->worldTransform,
-			transform->worldTranslation,
-			transform->worldRotation,
-			transform->scale
-		);
-	}
-
-	for (auto& child : transform->children) {
-		SetTransform(child);
 	}
 }
 

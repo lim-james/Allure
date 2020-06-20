@@ -2,5 +2,5 @@
 
 void ExplosiveScript::OnDestroy() {
 	Transform* const eTransform = explosionPrefab->Create();
-	eTransform->translation = transform->GetWorldTranslation();
+	eTransform->SetLocalTranslation(transform->GetWorldTranslation());
 }

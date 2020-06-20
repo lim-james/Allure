@@ -63,7 +63,7 @@ void EnemyTarget::Update() {
 	}
 
 	const float direction = target.x - position.x;
-	transform->rotation.y = 90.f - 90.f * direction / fabs(direction);
+	transform->SetLocalRotation(vec3f(0.f, 90.f - 90.f * direction / fabs(direction), 0.f));
 }
 
 void EnemyTarget::EventHandler(Events::Event * event) {

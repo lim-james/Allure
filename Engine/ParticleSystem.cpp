@@ -104,13 +104,13 @@ void ParticleSystem::Update(float const& dt) {
 				particle->age = 0.f;
 				particle->lifetime = emitter->lifetime + Math::RandMinMax(-emitter->lifetimeRange, emitter->lifetimeRange);
 
-				transform->translation = position + emitter->offset + vec3f(
+				transform->SetLocalTranslation(position + emitter->offset + vec3f(
 					Math::RandMinMax(-emitter->positionRange.x, emitter->positionRange.x),
 					Math::RandMinMax(-emitter->positionRange.y, emitter->positionRange.y),
 					Math::RandMinMax(-emitter->positionRange.z, emitter->positionRange.z)
-				);
+				));
 
-				const vec3f vAngle = Math::toRad * (transform->rotation + emitter->angle + vec3f(
+				const vec3f vAngle = Math::toRad * (transform->GetWorldRotation() + emitter->angle + vec3f(
 					Math::RandMinMax(-emitter->angleRange.x, emitter->angleRange.x),
 					Math::RandMinMax(-emitter->angleRange.y, emitter->angleRange.y),
 					Math::RandMinMax(-emitter->angleRange.z, emitter->angleRange.z)
@@ -143,7 +143,7 @@ void ParticleSystem::Update(float const& dt) {
 					Math::RandMinMax(-emitter->endSizeRange.z, emitter->endSizeRange.z)
 				);
 
-				transform->scale = particle->startSize;
+				transform->SetScale(particle->startSize);
 
 				// color
 				particle->startColor = emitter->startColor + vec4f(
@@ -191,13 +191,16 @@ Particle* ParticleSystem::UpdateParticle(unsigned const& entity, ParticleEmitter
 	Transform* const transform = entities->GetComponent<Transform>(entity);
 	SpriteRender* const render = entities->GetComponent<SpriteRender>(entity);
 
-	transform->translation += particle->velocity * dt;
-	transform->rotation += particle->angularVelocity * dt;
-	transform->UpdateAxes();
+	vec3f translation = transform->GetLocalTranslation();
+	translation += particle->velocity * dt;
+	transform->SetLocalTranslation(translation);
+
+	const vec3f rotation = transform->GetLocalRotation();
+	transform->SetLocalRotation(rotation + particle->angularVelocity * dt);
 
 	particle->velocity += emitter->gravity * dt;
 
-	const vec3f diff = transform->translation - position;
+	const vec3f diff = translation - position;
 	const float length = Math::Length(diff);
 	if (length > 0.f) {
 		const float vAccelRad = Math::RandMinMax(-emitter->accelRadRange, emitter->accelRadRange);
@@ -210,7 +213,7 @@ Particle* ParticleSystem::UpdateParticle(unsigned const& entity, ParticleEmitter
 	const float ratio = particle->age / particle->lifetime;
 
 	const vec3f dSize = particle->endSize - particle->startSize;
-	transform->scale = dSize * ratio + particle->startSize;
+	transform->SetScale(dSize * ratio + particle->startSize);
 
 	const vec4f dColor = particle->endColor - particle->startColor;
 	render->tint = dColor * ratio + particle->startColor;

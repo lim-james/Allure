@@ -34,7 +34,7 @@ void EnemyCombat::Update() {
 	}	
 
 	const vec2f diff = target->GetTarget() - transform->GetWorldTranslation();
-	weaponHolder->rotation.z = atanf(diff.y / fabs(diff.x)) * Math::toDeg;
+	weaponHolder->SetLocalRotation(vec3f(0.f, 0.f, atanf(diff.y / fabs(diff.x)) * Math::toDeg));
 }
 
 void EnemyCombat::BeatHandler() {

@@ -36,9 +36,9 @@ void PlayerCombat::Update() {
 	const vec2f diff = crosshair->GetWorldTranslation() - transform->GetWorldTranslation();
 
 	const float direction = diff.x;
-	transform->rotation.y = 90.f - 90.f * direction / fabs(direction);
+	transform->SetLocalRotation(vec3f(0.f, 90.f - 90.f * direction / fabs(direction), 0.f));
 
-	weaponHolder->rotation.z = atanf(diff.y / fabs(diff.x)) * Math::toDeg;
+	weaponHolder->SetLocalRotation(vec3f(0.f, 0.f, atanf(diff.y / fabs(diff.x)) * Math::toDeg));;
 }
 
 void PlayerCombat::MouseButtonHandler(Events::Event * event) {

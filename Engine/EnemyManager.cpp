@@ -50,8 +50,11 @@ void EnemyManager::BeatHandler() {
 
 		for (unsigned i = 0; i < group.data.batchSize; ++i) {
 			Transform* const eTransform = group.data.prefab->Create();
-			eTransform->translation.x = Math::RandMinMax(-boundary.x, boundary.x);
-			eTransform->translation.y = Math::RandMinMax(-boundary.y, boundary.y);
+			eTransform->SetLocalTranslation(vec3f(
+				Math::RandMinMax(-boundary.x, boundary.x),
+				Math::RandMinMax(-boundary.y, boundary.y),
+				0.f
+			));
 
 			SpriteRender* const render = entities->GetComponent<SpriteRender>(eTransform->entity);
 			render->tint = data.colour;
@@ -75,7 +78,7 @@ void EnemyManager::BeatHandler() {
 				WeaponBase* const weapon = entities->GetComponent<SniperScript>(wTransform->entity);
 				weapon->audioPrefab = sfxPrefab;
 				combat->SetWeapon(weapon);
-				wTransform->translation = weapon->HoldOffset();
+				wTransform->SetLocalTranslation(weapon->HoldOffset());
 			}
 		}
 	}

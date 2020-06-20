@@ -28,17 +28,17 @@ void ButtonAnimation::OnMouseOut(unsigned target) {
 }
 
 void ButtonAnimation::OnMouseDown(unsigned target) {
-	animation->Queue(
-		AnimationBase(false, 0.2f),
-		&transform->scale,
-		vec3f(7.f, 1.5f, 0.f) * 0.9f
-	);
+	//animation->Queue(
+	//	AnimationBase(false, 0.2f),
+	//	&transform->GetScale(),
+	//	vec3f(7.f, 1.5f, 0.f) * 0.9f
+	//);
 }
 
 void ButtonAnimation::OnMouseUp(unsigned target) {
-	animation->Queue(
-		AnimationBase(false, 0.2f),
-		&transform->scale,
-		vec3f(7.f, 1.5f, 0.f)
-	);
+	//animation->Queue(
+	//	AnimationBase(false, 0.2f),
+	//	&transform->GetScale(),
+	//	vec3f(7.f, 1.5f, 0.f)
+	//);
 }

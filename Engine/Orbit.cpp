@@ -10,5 +10,5 @@ void Orbit::Update() {
 	t += time->dt;
 
 	const vec3f d = vec3f(sin(t) * 0.5f, cos(t), sin(t)) * radius;
-	transform->translation = orbit->translation + d;
+	transform->SetLocalTranslation(orbit->GetWorldTranslation() + d);
 }

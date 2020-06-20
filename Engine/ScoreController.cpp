@@ -30,9 +30,11 @@ void ScoreController::ScoreHandler(Events::Event * event) {
 	buildScore += hiddenScore;
 	buildScoreLabel->text = Helpers::Pad(std::to_string(buildScore), 6,'0');
 
+	vec3f position = score->position;
+	position += 3.f;
+
 	Transform* const iTransform = indicatorPrefab->Create();
-	iTransform->translation = score->position;
-	iTransform->translation.y += 3.f;
+	iTransform->SetLocalTranslation(position);
 
 	Text* const text = entities->GetComponent<Text>(iTransform->entity);
 	text->text = std::to_string(hiddenScore);

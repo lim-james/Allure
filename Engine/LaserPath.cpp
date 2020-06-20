@@ -13,7 +13,7 @@ Transform* LaserPath::Create() {
 	entities->SetLayer(entity, BULLET);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale.xy = vec2f(60.f, 0.5f);
+	transform->SetScale(vec3f(60.f, 0.5f, 1.f));
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);

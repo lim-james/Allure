@@ -9,7 +9,7 @@
 #include <Events/EventsManager.h>
 
 void GrenadeLauncherScript::Trigger() {
-	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
+	const vec2f direction = Math::Normalized(target->GetWorldTranslation() - owner->GetWorldTranslation()).xy;
 	bool onBeat = false;
 
 	if (isPlayer) {
@@ -30,7 +30,7 @@ vec3f GrenadeLauncherScript::HoldOffset() const {
 
 void GrenadeLauncherScript::CreateBullet(bool const& onBeat, vec2f const& direction) const {
 	Transform* const transform = bulletPrefab->Create();
-	transform->translation = owner->translation + vec3f(direction);
+	transform->SetLocalTranslation(owner->GetWorldTranslation() + vec3f(direction));
 
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 	physics->AddForce(direction * 5000.f);

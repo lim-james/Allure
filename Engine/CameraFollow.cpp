@@ -1,16 +1,20 @@
 #include "CameraFollow.h"
 
 void CameraFollow::Update() {
-	vec3f displacement = crosshair->translation - player->translation;
+	const vec3f playerPosition = player->GetWorldTranslation();
+
+	vec3f displacement = crosshair->GetWorldTranslation() - playerPosition;
 	const float d = Math::Length(displacement);
 	if (d > 0.f) displacement *= min(d, jutDistance) / d;
 
-	const vec3f position = player->translation + displacement + offset;
+	const vec3f position = playerPosition + displacement + offset;
 
 	if (stick) {
-		transform->translation = position + offset;
+		transform->SetLocalTranslation(position + offset);
 	} else {
-		const vec3f delta = position - transform->translation;
-		transform->translation += delta * time->dt * speed;
+		vec3f translation = transform->GetLocalTranslation();
+		const vec3f delta = position - translation;
+		translation += delta * time->dt * speed;
+		transform->SetLocalTranslation(translation);
 	}
 }

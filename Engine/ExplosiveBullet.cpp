@@ -19,7 +19,7 @@ Transform * ExplosiveBullet::Create() {
 	entities->SetLayer(entity, BULLET);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale = 2.f;
+	transform->SetScale(2.f);
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);

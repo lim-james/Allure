@@ -26,7 +26,6 @@ private:
 	void DynamicHanlder(Events::Event* event);
 
 	void UpdateTree(QuadTree<Transform*, TransformComparator> const* tree);
-	void SetTransform(Transform * const transform);
 
 };
 

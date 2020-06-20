@@ -9,7 +9,7 @@
 #include <Events/EventsManager.h>
 
 void LaserScript::Trigger() {
-	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
+	const vec2f direction = Math::Normalized(target->GetWorldTranslation() - owner->GetWorldTranslation()).xy;
 	bool onBeat = false;
 
 	if (isPlayer) {
@@ -33,9 +33,7 @@ void LaserScript::Trigger() {
 	audio->Play();
 }
 
-void LaserScript::Hold(float const & dt) {
-	laserTransform->UpdateAxes();
-}
+void LaserScript::Hold(float const & dt) {}
 
 void LaserScript::Release() {
 	SetLaserState(false);
@@ -47,7 +45,7 @@ vec3f LaserScript::HoldOffset() const {
 
 void LaserScript::Start() {
 	laserTransform = bulletPrefab->CreateIn(transform);
-	laserTransform->translation = (laserTransform->scale * 0.5f) / transform->scale + vec3f(.25f, -.03f, 0.f);
+	laserTransform->SetLocalTranslation((laserTransform->GetScale() * 0.5f) / transform->GetScale() + vec3f(.25f, -.03f, 0.f));
 
 	laserRender = entities->GetComponent<SpriteRender>(laserTransform->entity);
 	laserCollider = entities->GetComponent<LineCollider>(laserTransform->entity);

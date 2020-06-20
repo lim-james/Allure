@@ -18,7 +18,7 @@ Transform* BasicBullet::Create() {
 	entities->SetLayer(entity, BULLET);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale = 2.25f;
+	transform->SetScale(2.25f);
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);

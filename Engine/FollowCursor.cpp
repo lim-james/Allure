@@ -13,5 +13,5 @@ void FollowCursor::CursorPositionHandler(Events::Event * event) {
 
 	auto position = camera->ScreenToWorldPosition(input->position);
 	position.y = -position.y;
-	transform->translation = position;
+	transform->SetLocalTranslation(position);
 }

@@ -186,7 +186,7 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.z = 10.f;
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, 10.f));
 
 		uiCamera = entities->AddComponent<Camera>(entity);
 		uiCamera->SetActive(true);
@@ -405,8 +405,8 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.z = -5.f;
-		transform->scale = vec3f(160.0f, 90.0f, 1.0f);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -5.f));
+		transform->SetScale(vec3f(160.0f, 90.0f, 1.0f));
 		transform->SetDynamic(false);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -442,7 +442,7 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = 1.5f;
+		transform->SetScale(1.5f);
 		follow->crosshair = transform;
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -466,7 +466,7 @@ void MainGame::Create() {
 	{
 		Transform* const transform = automatic->CreateIn(weaponHolderTransform);
 		demoGun = entities->GetComponent<AutomaticScript>(transform->entity);
-		transform->translation = demoGun->HoldOffset();
+		transform->SetLocalTranslation(demoGun->HoldOffset());
 	}
 
 	// player
@@ -475,7 +475,7 @@ void MainGame::Create() {
 		entities->SetLayer(entity, PLAYER);
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = 4.f;
+		transform->SetScale(4.f);
 
 		follow->player = transform;
 		weaponHolderTransform->SetParent(transform);

@@ -11,10 +11,6 @@
 
 struct Transform : Component {
 
-	vec3f translation;
-	vec3f rotation;
-	vec3f scale;
-
 	std::vector<Quad<Transform*>*> quads;
 
 	Transform();
@@ -33,35 +29,57 @@ struct Transform : Component {
 
 	// transform methods
 
-	void UpdateAxes();
-
-	vec3f const& GetLocalUp() const;
-	vec3f const& GetLocalFront() const;
-	vec3f const& GetLocalRight() const;
-
-	vec3f const& GetWorldTranslation() const;
-
-	vec3f const& GetWorldUp() const;
-	vec3f const& GetWorldFront() const;
-	vec3f const& GetWorldRight() const;
-
-	vec3f const& GetWorldRotation() const;
-
-	mat4f const& GetLocalTransform() const;
-	mat4f const& GetWorldTransform() const;
-
-	mat4f GetLocalLookAt() const;
-	mat4f GetWorldLookAt() const;
-
 	void SetParent(Transform * const transform);
 	Transform * const GetParent() const;
 
 	std::vector<Transform*> const& GetChildren() const;
 
+	// local
+
+	vec3f const& GetScale() const;
+	vec3f const& GetLocalRotation() const;
+	vec3f const& GetLocalTranslation() const;
+
+	void SetScale(vec3f const& scale);
+	void SetLocalRotation(vec3f const& rotation);
+	void SetLocalTranslation(vec3f const& translation);
+
+	// world
+
+	vec3f const& GetWorldRotation();
+	vec3f const& GetWorldTranslation();
+
+	// local axes
+	
+	vec3f const& GetLocalUp();
+	vec3f const& GetLocalFront();
+	vec3f const& GetLocalRight();
+
+	// world axes
+
+	vec3f const& GetWorldUp();
+	vec3f const& GetWorldFront();
+	vec3f const& GetWorldRight();
+
+	mat4f const& GetLocalTransform();
+	mat4f const& GetWorldTransform();
+
+	// look at
+
+	mat4f GetLocalLookAt();
+	mat4f GetWorldLookAt();
+
 private:
+
+	bool shouldUpdateLocal, shouldUpdateWorld;
+	bool shouldUpdateAxes;
 
 	Transform* parent;
 	std::vector<Transform*> children;
+
+	vec3f scale;
+	vec3f localRotation;
+	vec3f localTranslation;
 
 	vec3f worldRotation;
 	vec3f worldTranslation;
@@ -71,6 +89,14 @@ private:
 		
 	mat4f localTransform;
 	mat4f worldTransform;
+
+	void LocalChanged();
+	void WorldChanged();
+	void AxesChanged();
+
+	void UpdateLocal();
+	void UpdateWorld();
+	void UpdateAxes();
 
 	friend class TransformSystem;
 

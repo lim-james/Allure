@@ -11,7 +11,11 @@ void ScreenShake::Update() {
 	if (et < duration) {
 		const float x = et * k / duration;
 		const vec2f d = displacement * sin(x) / (x * 0.5f);
-		transform->translation.xy += d;
+	
+		vec3f translation = transform->GetLocalTranslation();
+		translation.xy += d;
+
+		transform->SetLocalTranslation(translation);
 		et += time->dt;
 	}
 }

@@ -16,11 +16,11 @@ void TitleTransition::FadeOut() {
 		0.f
 	);
 
-	animation->Queue(
-		base,
-		&titleTransform->translation.y,
-		0.25f
-	);
+	//animation->Queue(
+	//	base,
+	//	&titleTransform->translation.y,
+	//	0.25f
+	//);
 
 	animation->Queue(
 		base,
@@ -28,11 +28,11 @@ void TitleTransition::FadeOut() {
 		0.f
 	);
 
-	animation->Queue(
-		base,
-		&buttonTransform->translation.y,
-		-7.25f
-	);
+	//animation->Queue(
+	//	base,
+	//	&buttonTransform->translation.y,
+	//	-7.25f
+	//);
 
 	animation->Queue(
 		base,

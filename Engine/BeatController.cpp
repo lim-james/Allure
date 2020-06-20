@@ -35,7 +35,7 @@ void BeatController::Update() {
 	if (endCycle && threshold < delay - bt) {
 		if (!isHit) {
 			Transform* const indicator = indicatorPrefab->Create();
-			indicator->translation = transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f);
+			indicator->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f));
 		
 			Text* const text = entities->GetComponent<Text>(indicator->entity);
 			text->text = "MISSED";

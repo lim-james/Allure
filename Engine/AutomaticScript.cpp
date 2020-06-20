@@ -15,7 +15,7 @@ AutomaticScript::AutomaticScript()
 	, fireCount(0) {}
 
 void AutomaticScript::Trigger() {
-	const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
+	const vec2f direction = Math::Normalized(target->GetWorldTranslation() - owner->GetWorldTranslation()).xy;
 
 	onBeat = false;
 
@@ -33,7 +33,7 @@ void AutomaticScript::Hold(float const & dt) {
 	if (fireCount >= maxBurst) return;
 
 	if (bt < 0.f) {
-		const vec2f direction = Math::Normalized(target->translation - owner->translation).xy;
+		const vec2f direction = Math::Normalized(target->GetWorldTranslation() - owner->GetWorldTranslation()).xy;
 		CreateBullet(onBeat, direction);
 		bt = firerate - bt;
 		++fireCount;
@@ -50,8 +50,8 @@ vec3f AutomaticScript::HoldOffset() const {
 
 void AutomaticScript::CreateBullet(bool const& onBeat, vec2f const& direction) const { 
 	Transform* const transform = bulletPrefab->Create();
-	transform->translation = owner->translation + vec3f(direction);
-	transform->rotation.z = atan2f(direction.y, direction.x) * Math::toDeg;
+	transform->SetLocalTranslation(owner->GetWorldTranslation() + vec3f(direction));
+	transform->SetLocalRotation(vec3f(0.f, 0.f, atan2f(direction.y, direction.x) * Math::toDeg));
 
 	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 	physics->AddForce(direction * 5000.f);

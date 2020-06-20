@@ -29,8 +29,8 @@ void SpectrumManager::Start() {
 
 		for (float i = 0; i < bands; ++i) {
 			Transform* const t = barPrefab->Create();
-			t->scale.xy = thickness;
-			t->translation.x = i / (bands - 1) * width - halfW;
+			t->SetScale(vec3f(thickness, thickness, 1.f));
+			t->SetLocalTranslation(vec3f(i / (bands - 1) * width - halfW, 0.f, 0.f));
 			bars[static_cast<unsigned>(i)] = t;
 		}
 	}
@@ -49,9 +49,13 @@ void SpectrumManager::Update() {
 	for (unsigned i = 0; i < frequencyBands; ++i) {
 		const vec2f a = sample[i];
 		const float height = dH * a.y + thickness;
-		bars[i]->translation.x = a.x * width - halfW;
-		bars[i]->translation.y = height * 0.5f;
-		bars[i]->scale.y = height;
+		bars[i]->SetLocalTranslation(vec2f(
+			a.x * width - halfW,
+			height * 0.5f
+		));
+
+		const vec3f scale = bars[i]->GetScale();
+		bars[i]->SetScale(vec3f(scale.x, height, scale.z));
 	}
 }
 

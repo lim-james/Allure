@@ -65,7 +65,7 @@ void TitleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		auto transform = entities->GetComponent<Transform>(entity);
-		transform->translation.z = 10.f;
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, 10.f));
 
 		auto camera = entities->AddComponent<Camera>(entity);
 		camera->SetActive(true);
@@ -92,7 +92,7 @@ void TitleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		auto transform = entities->GetComponent<Transform>(entity);
-		transform->scale = vec3f(80.0f, 45.0f, 0.0f);
+		transform->SetScale(vec3f(80.0f, 45.0f, 0.0f));
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
@@ -108,7 +108,7 @@ void TitleScene::Create() {
 		entities->SetLayer(entity, UI);
 
 		auto transform = entities->GetComponent<Transform>(entity);
-		transform->translation.y = -0.25f;
+		transform->SetLocalTranslation(vec3f(0.f, -0.25f, 0.f));
 		transition->titleTransform = transform;
 
 		auto text = entities->AddComponent<Text>(entity);
@@ -125,7 +125,7 @@ void TitleScene::Create() {
 		entities->SetLayer(entity, UI);
 
 		auto transform = entities->GetComponent<Transform>(entity);
-		transform->translation.y = -1.5f;
+		transform->SetLocalTranslation(vec3f(0.f, -1.5f, 0.f));
 
 		auto line = entities->AddComponent<LineRender>(entity);
 		line->SetActive(true);
@@ -155,8 +155,8 @@ void TitleScene::Create() {
 		entities->SetLayer(entity, UI);
 
 		auto transform = entities->GetComponent<Transform>(entity);
-		transform->translation.y = -7.25f;
-		transform->scale = vec3f(7.f, 1.5f, 0.f);
+		transform->SetLocalTranslation(vec3f(0.f, -7.25f, 0.f));
+		transform->SetScale(vec3f(7.f, 1.5f, 0.f));
 		transition->buttonTransform = transform;
 
 		auto render = entities->AddComponent<SpriteRender>(entity);

@@ -15,7 +15,7 @@ void CrosshairController::Start() {
 }
 
 void CrosshairController::Update() {
-	transform->translation = view->ScreenToWorldPosition(cursorPosition) + viewTransform->translation.xy;
+	transform->SetLocalTranslation(view->ScreenToWorldPosition(cursorPosition) + viewTransform->GetWorldTranslation().xy);
 }
 
 void CrosshairController::CursorPositionHandler(Events::Event * event) {

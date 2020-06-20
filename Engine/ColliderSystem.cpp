@@ -134,7 +134,7 @@ CollisionData ColliderSystem::RayBox(Ray const & ray, BoxCollider * const box) {
 
 	Transform* const boxTransform = entities->GetComponent<Transform>(box->entity);
 	const vec3f boxTranslation = boxTransform->GetWorldTranslation() + box->offset;
-	const vec3f boxScale = boxTransform->scale * box->scale * 0.5f;
+	const vec3f boxScale = boxTransform->GetScale() * box->scale * 0.5f;
 	const vec3f min = boxTranslation - boxScale;
 	const vec3f max = boxTranslation + boxScale;
 
@@ -206,8 +206,8 @@ void ColliderSystem::SphereSphere(Collider * const a, Collider * const b) {
 	Transform* const t1 = entities->GetComponent<Transform>(c1->entity);
 	Transform* const t2 = entities->GetComponent<Transform>(c2->entity);
 
-	const vec3f s1 = t1->scale * c1->scale;
-	const vec3f s2 = t2->scale * c2->scale;
+	const vec3f s1 = t1->GetScale() * c1->scale;
+	const vec3f s2 = t2->GetScale() * c2->scale;
 
 	const float r1 = max(s1.x, max(s1.y, s1.z)) * 0.5f;
 	const float r2 = max(s2.x, max(s2.y, s2.z)) * 0.5f;
@@ -225,8 +225,8 @@ void ColliderSystem::SphereLine(Collider * const a, Collider * const b) {
 	Transform* const t1 = entities->GetComponent<Transform>(c1->entity);
 	Transform* const t2 = entities->GetComponent<Transform>(c2->entity);
 
-	const vec3f s1 = t1->scale * c1->scale;
-	const vec3f s2 = t2->scale * c2->scale;
+	const vec3f s1 = t1->GetScale() * c1->scale;
+	const vec3f s2 = t2->GetScale() * c2->scale;
 
 	const vec3f p1 = t1->GetWorldTranslation() + c1->offset;
 	const vec3f p2 = t2->GetWorldTranslation() + c2->offset;

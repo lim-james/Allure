@@ -28,9 +28,11 @@ void EditorCamera::Awake() {
 
 void EditorCamera::Update() {
 	const vec3f d = direction * speed * time->dt;
-	transform->translation += transform->GetLocalFront() * d.z;
-	transform->translation += transform->GetLocalRight() * d.x;
-	transform->translation += transform->GetLocalUp() * d.y;
+	vec3f position = transform->GetLocalTranslation();
+	position += transform->GetLocalFront() * d.z;
+	position += transform->GetLocalRight() * d.x;
+	position += transform->GetLocalUp() * d.y;
+	transform->SetLocalTranslation(position);
 }
 
 void EditorCamera::KeyHandler(Events::Event * event) {
@@ -104,7 +106,7 @@ void EditorCamera::MouseButtonHandler(Events::Event * event) {
 				unsigned box = entities->Create();
 
 				Transform* const boxTransform = entities->AddComponent<Transform>(box);
-				boxTransform->translation = targetPosition + result.normal;
+				boxTransform->SetLocalTranslation(targetPosition + result.normal);
 				boxTransform->SetDynamic(false);
 
 				VoxelRender* const render = entities->AddComponent<VoxelRender>(box);
@@ -124,9 +126,10 @@ void EditorCamera::CursorPositionHandler(Events::Event * event) {
 	cursorPosition = input->position;
 
 	if (!controlling) return;
-	transform->rotation.y -= input->delta.x;
-	transform->rotation.x -= input->delta.y;
-	transform->UpdateAxes();
+	vec3f rotation = transform->GetLocalRotation();
+	rotation.y -= input->delta.x;
+	rotation.x -= input->delta.y;
+	transform->SetLocalRotation(rotation);
 }
 
 vec3f EditorCamera::ScreenToRay(vec2f const & screenPosition) {

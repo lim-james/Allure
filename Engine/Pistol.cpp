@@ -15,7 +15,7 @@ Transform * Pistol::Create() {
 	entities->SetLayer(entity, WEAPON);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale.xy = vec2f(6.f, 3.f);
+	transform->SetScale(vec3f(6.f, 3.f, 1.f));
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);

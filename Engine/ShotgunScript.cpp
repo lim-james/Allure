@@ -10,7 +10,7 @@
 #include <Math/Math.hpp>
 
 void ShotgunScript::Trigger() {
-	const vec2f facing = Math::Normalized(target->translation - owner->translation).xy;
+	const vec2f facing = Math::Normalized(target->GetWorldTranslation() - owner->GetWorldTranslation()).xy;
 	bool onBeat = false;
 
 	if (isPlayer) {
@@ -37,8 +37,8 @@ void ShotgunScript::CreateBurst(bool const& onBeat, vec2f const& facing) const {
 		const vec2f direction = Math::Normalized(facing + normal * i);
 
 		Transform* const transform = bulletPrefab->Create();
-		transform->translation = owner->translation;
-		transform->rotation.z = atan2f(direction.y, direction.x) * Math::toDeg;
+		transform->SetLocalTranslation(owner->GetWorldTranslation());
+		transform->SetLocalRotation(vec3f(0.f, 0.f, atan2f(direction.y, direction.x) * Math::toDeg));
 
 		Physics* const physics = entities->GetComponent<Physics>(transform->entity);
 		physics->AddForce(direction * 5000.f);

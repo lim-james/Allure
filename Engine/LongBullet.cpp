@@ -18,7 +18,7 @@ Transform* LongBullet::Create() {
 	entities->SetLayer(entity, BULLET);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale.xy = vec2f(4.5f, 2.25f);
+	transform->SetScale(vec3f(4.5f, 2.25f, 1.f));
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);

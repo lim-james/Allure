@@ -36,7 +36,7 @@ void Stress3D::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.z = 10.f;
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, 10.f));
 
 		Camera* const uiCamera = entities->AddComponent<Camera>(entity);
 		uiCamera->SetActive(true);
@@ -52,8 +52,7 @@ void Stress3D::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->rotation = vec3f(50.f, -30.f, 0.f);
-		transform->UpdateAxes();
+		transform->SetLocalRotation(vec3f(50.f, -30.f, 0.f));
 
 		Light* const light = entities->AddComponent<Light>(entity);
 		light->SetActive(true);
@@ -68,7 +67,7 @@ void Stress3D::Create() {
 		entities->SetLayer(entity, UI);
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation = vec3f(-14.f, 8.f, 0.f);
+		transform->SetLocalTranslation(vec3f(-14.f, 8.f, 0.f));
 
 		Text* const text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
@@ -85,7 +84,7 @@ void Stress3D::Create() {
 				const unsigned entity = entities->Create();
 
 				Transform* const transform = entities->GetComponent<Transform>(entity);
-				transform->translation = vec3f(x * 1.5f, y * 1.5f, z * 1.5f);
+				transform->SetLocalTranslation(vec3f(x * 1.5f, y * 1.5f, z * 1.5f));
 				transform->SetDynamic(false);
 
 				VoxelRender* const render = entities->AddComponent<VoxelRender>(entity);

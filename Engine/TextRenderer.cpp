@@ -53,6 +53,7 @@ void TextRenderer::RenderTransparent(RendererData const& data) {
 			auto transform = entities->GetComponent<Transform>(text->entity);
 
 			const float scale = text->scale;
+			const vec3f tScale = transform->GetScale();
 
 			std::vector<float> lineOffset;
 			vec2f size(0.f);
@@ -73,10 +74,10 @@ void TextRenderer::RenderTransparent(RendererData const& data) {
 						lineOffset.push_back(width * 0.5f);
 						break;
 					case PARAGRAPH_RIGHT:
-						lineOffset.push_back(transform->scale.x * -0.5f + width);
+						lineOffset.push_back(tScale.x * -0.5f + width);
 						break;
 					default:
-						lineOffset.push_back(transform->scale.x * 0.5f);
+						lineOffset.push_back(tScale.x * 0.5f);
 						break;
 					}
 					size.x = 0.f;
@@ -97,10 +98,10 @@ void TextRenderer::RenderTransparent(RendererData const& data) {
 				position.y = translation.y + size.y * 0.5f;
 				break;
 			case ALIGN_BOTTOM:
-				position.y = translation.y - transform->scale.y * 0.5f + size.y;
+				position.y = translation.y - tScale.y * 0.5f + size.y;
 				break;
 			default:
-				position.y = translation.y + transform->scale.y * 0.5f;
+				position.y = translation.y + tScale.y * 0.5f;
 				break;
 			}
 

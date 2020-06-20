@@ -13,6 +13,6 @@ Transform * Prefab::CreateIn(Transform * const parent) {
 Transform * Prefab::CreateIn(Transform * const parent, vec3f const & position) {
 	Transform* const self = Create();
 	self->SetParent(parent);
-	self->translation = position;
+	self->SetLocalTranslation(position);
 	return self;
 }

@@ -61,49 +61,49 @@ float LayoutSystem::GetValue(Constraint const& constraint) {
 
 float LayoutSystem::GetWidth(Constraint const& constraint) {
 	return constraint.item 
-		? constraint.item->scale.x
+		? constraint.item->GetScale().x
 		: constraint.view->GetFrameSize().x * 2.f;
 }
 
 float LayoutSystem::GetHeight(Constraint const& constraint) {
 	return constraint.item 
-		? constraint.item->scale.y
+		? constraint.item->GetScale().y
 		: constraint.view->GetFrameSize().y * 2.f;
 }
 
 float LayoutSystem::GetCenterX(Constraint const& constraint) {
 	return constraint.item
-		? constraint.item->translation.x
+		? constraint.item->GetWorldTranslation().x
 		: 0.f;
 }
 
 float LayoutSystem::GetCenterY(Constraint const& constraint) {
 	return constraint.item
-		? constraint.item->translation.y
+		? constraint.item->GetWorldTranslation().y
 		: 0.f;
 }
 
 float LayoutSystem::GetLeft(Constraint const& constraint) {
 	return constraint.item
-		? constraint.item->translation.x - constraint.item->scale.x * 0.5f
+		? constraint.item->GetWorldTranslation().x - constraint.item->GetScale().x * 0.5f
 		: -constraint.view->GetFrameSize().x;
 }
 
 float LayoutSystem::GetTop(Constraint const& constraint) {
 	return constraint.item
-		? constraint.item->translation.y + constraint.item->scale.y * 0.5f
+		? constraint.item->GetWorldTranslation().y + constraint.item->GetScale().y * 0.5f
 		: constraint.view->GetFrameSize().y;
 }
 
 float LayoutSystem::GetRight(Constraint const& constraint) {
 	return constraint.item
-		? constraint.item->translation.x + constraint.item->scale.x * 0.5f
+		? constraint.item->GetWorldTranslation().x + constraint.item->GetScale().x * 0.5f
 		: constraint.view->GetFrameSize().x;
 }
 
 float LayoutSystem::GetBottom(Constraint const& constraint) {
 	return constraint.item
-		? constraint.item->translation.y - constraint.item->scale.y * 0.5f
+		? constraint.item->GetWorldTranslation().y - constraint.item->GetScale().y * 0.5f
 		: -constraint.view->GetFrameSize().y;
 }
 
@@ -116,41 +116,77 @@ void LayoutSystem::SetValue(Transform * const transform, short const & attribute
 }
 
 void LayoutSystem::SetWidth(Transform * const transform, float const & value, bool const& warp) {
-	transform->scale.x = value;
+	vec3f scale = transform->GetScale();
+	scale.x = value;
+	transform->SetScale(scale);
 }
 
 void LayoutSystem::SetHeight(Transform * const transform, float const & value, bool const& warp) {
-	transform->scale.y = value;
+	vec3f scale = transform->GetScale();
+	scale.y = value;
+	transform->SetScale(scale);
 }
 
 void LayoutSystem::SetCenterX(Transform * const transform, float const & value, bool const& warp) {
-	transform->translation.x = value;
+	vec3f translation = transform->GetScale();
+	translation.x = value;
+	transform->SetLocalTranslation(translation);
 }
 
 void LayoutSystem::SetCenterY(Transform * const transform, float const & value, bool const& warp) {
-	transform->translation.y = value;
+	vec3f translation = transform->GetScale();
+	translation.y = value;
+	transform->SetLocalTranslation(translation);
 }
 
 void LayoutSystem::SetLeft(Transform * const transform, float const & value, bool const& warp) {
-	const float original = transform->translation.x;
-	transform->translation.x = value + transform->scale.x * 0.5f;
-	if (warp) transform->scale.x += original - transform->translation.x;
+	vec3f translation = transform->GetLocalTranslation();
+	const float original = translation.x;
+	translation.x = value + transform->GetScale().x * 0.5f;
+	transform->SetLocalTranslation(translation);
+
+	if (warp) {
+		vec3f scale = transform->GetScale();
+		scale.x += original - translation.x;
+		transform->SetScale(scale);
+	}
 }
 
 void LayoutSystem::SetTop(Transform * const transform, float const & value, bool const& warp) {
-	const float original = transform->translation.y;
-	transform->translation.y = value - transform->scale.y * 0.5f;
-	if (warp) transform->scale.y += transform->translation.y - original;
+	vec3f translation = transform->GetLocalTranslation();
+	const float original = translation.y;
+	translation.y = value - transform->GetScale().y * 0.5f;
+	transform->SetLocalTranslation(translation);
+
+	if (warp) {
+		vec3f scale = transform->GetScale();
+		scale.y += translation.y - original;
+		transform->SetScale(scale);
+	}
 }
 
 void LayoutSystem::SetRight(Transform * const transform, float const & value, bool const& warp) {
-	const float original = transform->translation.x;
-	transform->translation.x = value - transform->scale.x * 0.5f;
-	if (warp) transform->scale.x += transform->translation.x - original;
+	vec3f translation = transform->GetLocalTranslation();
+	const float original = translation.x;
+	translation.x = value - transform->GetScale().x * 0.5f;
+	transform->SetLocalTranslation(translation);
+
+	if (warp) {
+		vec3f scale = transform->GetScale();
+		scale.x += translation.x - original;
+		transform->SetScale(scale);
+	}
 }
 
 void LayoutSystem::SetBottom(Transform * const transform, float const & value, bool const& warp) {
-	const float original = transform->translation.y;
-	transform->translation.y = value + transform->scale.y * 0.5f;
-	if (warp) transform->scale.y += original - transform->translation.y;
+	vec3f translation = transform->GetLocalTranslation();
+	const float original = translation.y;
+	translation.y = value + transform->GetScale().y * 0.5f;
+	transform->SetLocalTranslation(translation);
+
+	if (warp) {
+		vec3f scale = transform->GetScale();
+		scale.y += original - translation.y;
+		transform->SetScale(scale);
+	}
 }

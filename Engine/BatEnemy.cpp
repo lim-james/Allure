@@ -23,7 +23,7 @@ Transform * BatEnemy::Create() {
 	entities->SetLayer(entity, ENEMY);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale = 4.f;
+	transform->SetScale(4.f);
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);

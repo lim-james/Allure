@@ -68,8 +68,7 @@ void PlayerLife::Hit(vec3f const& position, vec3f const& direction) {
 	UpdateBar();
 
 	Transform* const iTransform = indicatorLabel->Create();
-	iTransform->translation = position;
-	iTransform->translation.z = 5.f;
+	iTransform->SetLocalTranslation(vec3f(position.xy, 5.f));
 
 	Text* const text = entities->GetComponent<Text>(iTransform->entity);
 	text->text = "-1";

@@ -14,11 +14,14 @@ void PlayerMovement::Awake() {
 }
 
 void PlayerMovement::Update() {
-	const vec3f innerBounds = bounds - transform->scale * 0.5f;
+	const vec3f innerBounds = bounds - transform->GetScale() * 0.5f;
+	const vec3f translation = transform->GetLocalTranslation();
 
-	transform->translation.x = Math::Clamp(transform->translation.x, -innerBounds.x, innerBounds.x);
-	transform->translation.y = Math::Clamp(transform->translation.y, -innerBounds.y, innerBounds.y);
-	transform->translation.z = Math::Clamp(transform->translation.z, -innerBounds.z, innerBounds.z);
+	transform->SetLocalTranslation(vec3f(
+		Math::Clamp(translation.x, -innerBounds.x, innerBounds.x),
+		Math::Clamp(translation.y, -innerBounds.y, innerBounds.y),
+		Math::Clamp(translation.z, -innerBounds.z, innerBounds.z)
+	));
 }
 
 void PlayerMovement::FixedUpdate() {

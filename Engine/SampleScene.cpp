@@ -125,7 +125,7 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.z = 10.f;
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, 10.f));
 
 		Camera* const uiCamera = entities->AddComponent<Camera>(entity);
 		uiCamera->SetActive(true);
@@ -141,8 +141,7 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->rotation = vec3f(50.f, -30.f, 0.f);
-		transform->UpdateAxes();
+		transform->SetLocalRotation(vec3f(50.f, -30.f, 0.f));
 		
 		Light* const light = entities->AddComponent<Light>(entity);
 		light->SetActive(true);
@@ -197,10 +196,9 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation.xy = vec2f(2.f, 3.f);
-		transform->scale = 0.1f;
-		transform->rotation.x = 90.f;
-		transform->UpdateAxes();
+		transform->SetLocalTranslation(vec2f(2.f, 3.f));
+		transform->SetScale(0.1f);
+		transform->SetLocalRotation(vec3f(0.f, 90.f, 0.f));
 
 		Light* const light = entities->AddComponent<Light>(entity);
 		light->SetActive(true);
@@ -218,7 +216,7 @@ void SampleScene::Create() {
 	const unsigned pointLight = entities->Create();
 	{
 		Transform* const transform = entities->GetComponent<Transform>(pointLight);
-		transform->scale = 0.5f;
+		transform->SetScale(0.5f);
 
 		Light* const light = entities->AddComponent<Light>(pointLight);
 		light->SetActive(true);
@@ -266,8 +264,8 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = vec3f(10.0f, 1.0f, 10.0f);
-		transform->translation.y = -5.f;
+		transform->SetScale(vec3f(10.0f, 1.0f, 10.0f));
+		transform->SetLocalTranslation(vec3f(0.f, -5.f, 0.f));
 		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
@@ -281,8 +279,8 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->translation = vec3f(2.f, -2.f, 0.f);
-		transform->scale = vec3f(2.f, 2.f, 2.f);
+		transform->SetLocalTranslation(vec3f(2.f, -2.f, 0.f));
+		transform->SetScale(2.f);
 		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
@@ -299,8 +297,8 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = vec3f(10.0f, 1.0f, 10.0f);
-		transform->translation.y = 5.f;
+		transform->SetScale(vec3f(10.0f, 1.0f, 10.0f));
+		transform->SetLocalTranslation(vec3f(0.f, 5.f, 0.f));
 		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
@@ -314,8 +312,8 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = vec3f(1.0f, 10.0f, 10.0f);
-		transform->translation.x = -5.0f;
+		transform->SetScale(vec3f(1.0f, 10.0f, 10.0f));
+		transform->SetLocalTranslation(vec3f(-5.f, 0.f, 0.f));
 		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
@@ -329,8 +327,8 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = vec3f(1.0f, 10.0f, 10.0f);
-		transform->translation.x = 5.0f;
+		transform->SetScale(vec3f(1.0f, 10.0f, 10.0f));
+		transform->SetLocalTranslation(vec3f(5.f, 0.f, 0.f));
 		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);
@@ -344,8 +342,8 @@ void SampleScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->scale = vec3f(10.0f, 10.0f, 1.0f);
-		transform->translation.z = -5.0f;
+		transform->SetScale(vec3f(10.0f, 10.0f, 1.0f));
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -5.f));
 		transform->SetDynamic(false);
 
 		MeshRender* const render = entities->AddComponent<MeshRender>(entity);

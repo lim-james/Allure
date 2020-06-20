@@ -14,8 +14,11 @@ void PhysicsSystem::Update(float const & dt) {
 		Transform* const transform = deltaPair.first;
 		Delta const& delta = deltaPair.second;
 
-		transform->translation += delta.translation * step;
-		transform->rotation += delta.rotation * step;
+		const vec3f translation = transform->GetLocalTranslation();
+		transform->SetLocalTranslation(translation + delta.translation * step);
+
+		const vec3f rotation = transform->GetLocalRotation();
+		transform->SetLocalRotation(rotation + delta.rotation * step);
 	}
 }
 
@@ -40,8 +43,11 @@ void PhysicsSystem::FixedUpdate(float const & dt) {
 		if (c->interpolate) {
 			deltas[transform] = Delta{ c->velocity * dt, c->angularVelocity * dt };
 		} else {
-			transform->translation += c->velocity * dt;
-			transform->rotation += c->angularVelocity * dt;
+			const vec3f translation = transform->GetLocalTranslation();
+			transform->SetLocalTranslation(translation + c->velocity * dt);
+
+			const vec3f rotation = transform->GetLocalRotation();
+			transform->SetLocalRotation(rotation + c->angularVelocity * dt);
 		}
 	}
 }

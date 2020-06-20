@@ -3,8 +3,12 @@
 void TransformComparator::Partition(Quad<Transform*>* parent) {
 	for (auto& item : parent->list) {
 		vec2f min, max;
-		min = item->GetWorldTranslation() - item->scale * 0.5f;
-		max = item->GetWorldTranslation() + item->scale * 0.5f;
+		
+		const vec3f translation = item->GetWorldTranslation();
+		const vec3f scale = item->GetScale() * 0.5f;
+
+		min = translation - scale;
+		max = translation + scale;
 
 		if (min.x <= parent->position.x) {
 			if (min.y <= parent->position.y) {

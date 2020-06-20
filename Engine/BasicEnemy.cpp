@@ -25,14 +25,14 @@ Transform * BasicEnemy::Create() {
 	{
 		const unsigned entity = entities->Create();
 		holder = entities->GetComponent<Transform>(entity);
-		holder->translation.y = -0.35f;
+		holder->SetLocalTranslation(vec3f(0.f, -0.35f, 0.f));
 	}
 
 	const unsigned entity = entities->Create();
 	entities->SetLayer(entity, ENEMY);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->scale = 10.f;
+	transform->SetScale(10.f);
 	holder->SetParent(transform);
 	
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
