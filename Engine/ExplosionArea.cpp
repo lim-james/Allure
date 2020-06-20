@@ -18,7 +18,7 @@ Transform * ExplosionArea::Create() {
 
 	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = BULLET & BONUS_BULLET & EFFECT_AREA;
+	collider->ignoreMask = BULLET | BONUS_BULLET | EFFECT_AREA;
 
 	ExpandScript* const expand = entities->AddComponent<ExpandScript>(entity);
 	expand->SetActive(true);

@@ -216,7 +216,6 @@
     <ClCompile Include="Stress3D.cpp" />
     <ClCompile Include="TestAudio.cpp" />
     <ClCompile Include="TextBlink.cpp" />
-    <ClCompile Include="TransformTemp.cpp" />
     <ClCompile Include="Vignette.cpp" />
     <ClCompile Include="VoxelDefaultMaterial.cpp" />
     <ClCompile Include="VoxelRender.cpp" />

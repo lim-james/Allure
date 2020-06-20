@@ -513,7 +513,7 @@ void MainGame::Create() {
 
 		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 		collider->SetActive(true);
-		collider->ignoreMask = BULLET & BONUS_BULLET & WEAPON;
+		//collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON;
 
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);

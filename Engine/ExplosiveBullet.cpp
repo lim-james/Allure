@@ -34,7 +34,7 @@ Transform * ExplosiveBullet::Create() {
 
 	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = WEAPON & BULLET & BONUS_BULLET & EFFECT_AREA;
+	collider->ignoreMask = WEAPON | BULLET | BONUS_BULLET | EFFECT_AREA;
 
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);
