@@ -36,14 +36,17 @@ void ShotgunScript::CreateBurst(bool const& onBeat, vec2f const& facing) const {
 	for (float i = -2.f; i <= 2.f; ++i) {
 		const vec2f direction = Math::Normalized(facing + normal * i);
 
-		Transform* const transform = bulletPrefab->Create();
-		transform->SetLocalTranslation(owner->GetWorldTranslation());
-		transform->SetLocalRotation(vec3f(0.f, 0.f, atan2f(direction.y, direction.x) * Math::toDeg));
+		Transform* const bullet = bulletPrefab->Create();
+		bullet->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(direction));
+		bullet->SetLocalRotation(vec3f(0.f, 0.f, atan2f(direction.y, direction.x) * Math::toDeg));
 
-		Physics* const physics = entities->GetComponent<Physics>(transform->entity);
+		Physics* const physics = entities->GetComponent<Physics>(bullet->entity);
 		physics->AddForce(direction * 5000.f);
 
-		entities->SetLayer(transform->entity, onBeat ? BONUS_BULLET : BULLET);
+		SphereCollider* const collider = entities->GetComponent<SphereCollider>(bullet->entity);
+		collider->ignoreMask += bulletMask;
+
+		entities->SetLayer(bullet->entity, onBeat ? BONUS_BULLET : bulletLayer);
 	}
 
 	const unsigned audioSource = audioPrefab->Create()->entity;

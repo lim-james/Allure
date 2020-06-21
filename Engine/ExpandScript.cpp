@@ -11,5 +11,6 @@ void ExpandScript::Update() {
 	const vec3f diff = targetSize - scale;
 
 	transform->SetScale(scale + diff * time->dt / t);
+	
 	et += time->dt;
 }

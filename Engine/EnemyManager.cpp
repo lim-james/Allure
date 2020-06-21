@@ -9,6 +9,8 @@
 #include "PistolScript.h"
 #include "AutomaticScript.h"
 
+#include "Layers.h"
+
 #include <Math/Random.hpp>
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
@@ -77,6 +79,8 @@ void EnemyManager::BeatHandler() {
 				Transform* const wTransform = weapons[0]->CreateIn(combat->weaponHolder);
 				WeaponBase* const weapon = entities->GetComponent<SniperScript>(wTransform->entity);
 				weapon->audioPrefab = sfxPrefab;
+				weapon->bulletMask = ENEMY;
+				weapon->bulletLayer = ENEMY_BULLET;
 				combat->SetWeapon(weapon);
 				wTransform->SetLocalTranslation(weapon->HoldOffset());
 			}

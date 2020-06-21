@@ -4,9 +4,7 @@
 #include "Script.h"
 
 struct BulletHandler : Script {
-
 	virtual void OnHit(unsigned target);
-
 };
 
 #endif

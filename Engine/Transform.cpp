@@ -106,6 +106,7 @@ vec3f const& Transform::GetLocalTranslation() const {
 
 void Transform::SetScale(vec3f const & scale) {
 	this->scale = scale;
+	LocalChanged();
 }
 
 void Transform::SetLocalRotation(vec3f const & rotation) {

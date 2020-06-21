@@ -7,7 +7,12 @@
 #include "Transform.h"
 #include "AudioSource.h"
 
+#include <Bit/BitField.h>
+
 struct WeaponBase : Script {
+
+	BitField bulletMask;
+	unsigned bulletLayer;
 
 	Prefab* bulletPrefab;
 	Prefab* audioPrefab;

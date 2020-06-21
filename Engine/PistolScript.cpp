@@ -29,21 +29,23 @@ vec3f PistolScript::HoldOffset() const {
 }
 
 void PistolScript::CreateBullet(bool const& onBeat, vec2f const& direction) const { 
+	Transform* const bullet = bulletPrefab->Create();
+	bullet->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(direction));
 
-	Transform* const transform = bulletPrefab->Create();
-	transform->SetLocalTranslation(owner->GetWorldTranslation() + vec3f(direction));
-
-	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
+	Physics* const physics = entities->GetComponent<Physics>(bullet->entity);
 	physics->AddForce(direction * 5000.f);
+
+	SphereCollider* const collider = entities->GetComponent<SphereCollider>(bullet->entity);
+	collider->ignoreMask += bulletMask;
 
 	const unsigned audioSource = audioPrefab->Create()->entity;
 	AudioSource* const audio = entities->GetComponent<AudioSource>(audioSource);
 
 	if (onBeat) {
-		entities->SetLayer(transform->entity, BONUS_BULLET);
+		entities->SetLayer(bullet->entity, BONUS_BULLET);
 		audio->audioClip = "Files/Media/base.wav";
 	} else {
-		entities->SetLayer(transform->entity, BULLET);
+		entities->SetLayer(bullet->entity, bulletLayer);
 		audio->audioClip = "Files/Media/hit.wav";
 	}
 

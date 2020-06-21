@@ -22,9 +22,10 @@ void AutomaticScript::Trigger() {
 	if (isPlayer) {
 		EventsManager::Get()->Trigger("HIT_BEAT", new Events::AnyType<bool*>(&onBeat));
 		EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
-	}
+	} 
 
 	CreateBullet(onBeat, direction);
+
 	bt = firerate;
 	fireCount = 1;
 }
@@ -35,6 +36,7 @@ void AutomaticScript::Hold(float const & dt) {
 	if (bt < 0.f) {
 		const vec2f direction = Math::Normalized(target->GetWorldTranslation() - owner->GetWorldTranslation()).xy;
 		CreateBullet(onBeat, direction);
+
 		bt = firerate - bt;
 		++fireCount;
 	} else {
@@ -49,23 +51,27 @@ vec3f AutomaticScript::HoldOffset() const {
 }
 
 void AutomaticScript::CreateBullet(bool const& onBeat, vec2f const& direction) const { 
-	Transform* const transform = bulletPrefab->Create();
-	transform->SetLocalTranslation(owner->GetWorldTranslation() + vec3f(direction));
-	transform->SetLocalRotation(vec3f(0.f, 0.f, atan2f(direction.y, direction.x) * Math::toDeg));
+	Transform* const bullet = bulletPrefab->Create();
+	bullet->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(direction));
+	bullet->SetLocalRotation(vec3f(0.f, 0.f, atan2f(direction.y, direction.x) * Math::toDeg));
 
-	Physics* const physics = entities->GetComponent<Physics>(transform->entity);
+	Physics* const physics = entities->GetComponent<Physics>(bullet->entity);
 	physics->AddForce(direction * 5000.f);
+
+	SphereCollider* const collider = entities->GetComponent<SphereCollider>(bullet->entity);
+	collider->ignoreMask += bulletMask;
 
 	const unsigned audioSource = audioPrefab->Create()->entity;
 	AudioSource* const audio = entities->GetComponent<AudioSource>(audioSource);
 
 	if (onBeat) {
-		entities->SetLayer(transform->entity, BONUS_BULLET);
+		entities->SetLayer(bullet->entity, BONUS_BULLET);
 		audio->audioClip = "Files/Media/base.wav";
 	} else {
-		entities->SetLayer(transform->entity, BULLET);
+		entities->SetLayer(bullet->entity, bulletLayer);
 		audio->audioClip = "Files/Media/hit.wav";
 	}
 
 	audio->Play();
 }
+

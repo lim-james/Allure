@@ -2,6 +2,7 @@
 
 #include "InputEvents.h"
 #include "Text.h"
+#include "Layers.h"
 
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
@@ -15,6 +16,8 @@ void PlayerCombat::SetWeapon(WeaponBase * const ptr) {
 	weapon = ptr;
 	if (weapon) {
 		weapon->audioPrefab = sfxPrefab;
+		weapon->bulletMask = PLAYER;
+		weapon->bulletLayer = BULLET;
 		weapon->SetOwner(transform);
 		weapon->SetTarget(crosshair);
 	}

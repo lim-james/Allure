@@ -9,12 +9,20 @@
 void EnemyLife::OnCollisionEnter(unsigned target) {
 	switch (entities->GetLayer(target)) {
 	case EFFECT_AREA:
+		Hit(target, false, 0.f);
+		break;
 	case BULLET:
-		//Hit(target, false);
+	{
+		const vec3f velocity = entities->GetComponent<Physics>(target)->velocity;
+		Hit(target, false, velocity * 25.f);
 		break;
+	}
 	case BONUS_BULLET:
-		//Hit(target, true);
+	{
+		const vec3f velocity = entities->GetComponent<Physics>(target)->velocity;
+		Hit(target, true, velocity * 25.f);
 		break;
+	}
 	default:
 		break;
 	}
@@ -26,6 +34,10 @@ void EnemyLife::Kill() {
 
 bool EnemyLife::IsStunned() const {
 	return stunBt > 0.f;
+}
+
+bool EnemyLife::IsDead() const {
+	return health <= 0;
 }
 
 void EnemyLife::Awake() {
@@ -65,10 +77,9 @@ void EnemyLife::Update() {
 	}
 }
 
-void EnemyLife::Hit(unsigned const& target, bool const& bonus) {
-	Physics* const tPhysics = entities->GetComponent<Physics>(target);
+void EnemyLife::Hit(unsigned const& target, bool const& bonus, vec3f const& force) {
 	physics->velocity = 0.f;
-	physics->AddForce(tPhysics->velocity * 25.f);
+	physics->AddForce(force);
 
 	flashBt = flashDelay;
 	stunBt = stunDelay;

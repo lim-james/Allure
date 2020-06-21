@@ -19,6 +19,7 @@ struct EnemyLife : Script {
 	void Kill();
 
 	bool IsStunned() const;
+	bool IsDead() const;
 
 private:
 
@@ -35,7 +36,7 @@ private:
 	void Start() override;
 	void Update() override;
 
-	void Hit(unsigned const& target, bool const& bonus);
+	void Hit(unsigned const& target, bool const& bonus, vec3f const& force);
 
 };
 

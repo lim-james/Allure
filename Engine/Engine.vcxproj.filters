@@ -609,9 +609,6 @@
     <ClCompile Include="LineCollider.cpp">
       <Filter>Engine\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="BulletHandler.cpp">
-      <Filter>Assets\Scripts\Main\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerLife.cpp">
       <Filter>Assets\Scripts\Main\Player</Filter>
     </ClCompile>
@@ -626,6 +623,9 @@
     </ClCompile>
     <ClCompile Include="AudioSelfDestruct.cpp">
       <Filter>Assets\Scripts\General</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletHandler.cpp">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1076,9 +1076,6 @@
     <ClInclude Include="LineCollider.h">
       <Filter>Engine\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="BulletHandler.h">
-      <Filter>Assets\Scripts\Main\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerLife.h">
       <Filter>Assets\Scripts\Main\Player</Filter>
     </ClInclude>
@@ -1093,6 +1090,9 @@
     </ClInclude>
     <ClInclude Include="AudioSelfDestruct.h">
       <Filter>Assets\Scripts\General</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletHandler.h">
+      <Filter>Assets\Scripts\Main\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

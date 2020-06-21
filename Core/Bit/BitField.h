@@ -25,9 +25,11 @@ public:
 	friend BitField operator+(BitField const& field, unsigned const& flag);
 	friend BitField operator+(unsigned const& flag, BitField const& field);
 	friend BitField& operator+=(BitField& field, unsigned const& flag);
+	friend BitField& operator+=(BitField& field, BitField const& flag);
 
 	friend BitField operator-(BitField const& field, unsigned const& flag);
 	friend BitField& operator-=(BitField& field, unsigned const& flag);
+	friend BitField& operator-=(BitField& field, BitField const& flag);
 
 	friend bool operator==(BitField const& field, unsigned const& flag);
 	friend bool operator==(unsigned const& flag, BitField const& field);

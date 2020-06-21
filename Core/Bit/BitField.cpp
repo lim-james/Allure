@@ -45,12 +45,22 @@ BitField & operator+=(BitField & field, unsigned const & flag) {
 	return field;
 }
 
+BitField & operator+=(BitField & field, BitField const & flag) {
+	field = BitField(field.field | flag.field);
+	return field;
+}
+
 BitField operator-(BitField const & field, unsigned const & flag) {
 	return BitField(field.field & !flag);
 }
 
 BitField & operator-=(BitField & field, unsigned const & flag) {
 	field = BitField(field.field & ~flag);
+	return field;
+}
+
+BitField & operator-=(BitField & field, BitField const & flag) {
+	field = BitField(field.field & ~flag.field);
 	return field;
 }
 

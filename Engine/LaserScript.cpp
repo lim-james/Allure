@@ -2,6 +2,7 @@
 
 #include "SpriteRender.h"
 #include "Physics.h"
+#include "SphereCollider.h"
 #include "LineCollider.h"
 #include "SelfDestruct.h"
 #include "Layers.h"
@@ -23,10 +24,10 @@ void LaserScript::Trigger() {
 	AudioSource* const audio = entities->GetComponent<AudioSource>(audioSource);
 
 	if (onBeat) {
-		entities->SetLayer(transform->entity, BONUS_BULLET);
+		entities->SetLayer(laserTransform->entity, BONUS_BULLET);
 		audio->audioClip = "Files/Media/base.wav";
 	} else {
-		entities->SetLayer(transform->entity, BULLET);
+		entities->SetLayer(laserTransform->entity, bulletLayer);
 		audio->audioClip = "Files/Media/hit.wav";
 	}
 
@@ -46,6 +47,9 @@ vec3f LaserScript::HoldOffset() const {
 void LaserScript::Start() {
 	laserTransform = bulletPrefab->CreateIn(transform);
 	laserTransform->SetLocalTranslation((laserTransform->GetScale() * 0.5f) / transform->GetScale() + vec3f(.25f, -.03f, 0.f));
+
+	SphereCollider* const collider = entities->GetComponent<SphereCollider>(laserTransform->entity);
+	collider->ignoreMask += bulletMask;
 
 	laserRender = entities->GetComponent<SpriteRender>(laserTransform->entity);
 	laserCollider = entities->GetComponent<LineCollider>(laserTransform->entity);

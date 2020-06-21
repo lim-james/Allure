@@ -8,23 +8,12 @@
 void PlayerLife::OnCollisionEnter(unsigned target) {
 	switch (entities->GetLayer(target)) {
 	case ENEMY:
-		if (inviT <= 0.f && entities->GetComponent<EnemyLife>(target)->bodyDamage) {
-			const vec3f position = entities->GetComponent<Transform>(target)->GetWorldTranslation();
-			const vec3f direction = transform->GetWorldTranslation() - position;
-			Hit(position, direction);
-		}
+		if (inviT <= 0.f && entities->GetComponent<EnemyLife>(target)->bodyDamage) 
+			Hit(target);
 		break;
-	case BULLET:
-	case BONUS_BULLET:
-		if (inviT <= 0.f) {
-			const vec3f position = entities->GetComponent<Transform>(target)->GetWorldTranslation();
-			const vec3f direction = transform->GetWorldTranslation() - position;
-			const vec3f velocity = entities->GetComponent<Physics>(target)->velocity;
-
-			if (Math::Dot(direction, velocity) >= 0) {
-				Hit(position, direction);
-			}
-		}
+	case ENEMY_BULLET:
+		if (inviT <= 0.f) 
+			Hit(target);
 		break;
 	default:
 		break;
@@ -63,9 +52,13 @@ void PlayerLife::Update() {
 	}
 }
 
-void PlayerLife::Hit(vec3f const& position, vec3f const& direction) {
+void PlayerLife::Hit(unsigned const& target) {
 	--health;
 	UpdateBar();
+
+	const vec3f position = entities->GetComponent<Transform>(target)->GetWorldTranslation();
+	const vec3f direction = transform->GetWorldTranslation() - position;
+	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 
 	Transform* const iTransform = indicatorLabel->Create();
 	iTransform->SetLocalTranslation(vec3f(position.xy, 5.f));
@@ -74,8 +67,6 @@ void PlayerLife::Hit(vec3f const& position, vec3f const& direction) {
 	text->text = "-1";
 	text->scale = 2.f;
 	text->color = vec4f(1.f, 0.f, 0.f, 1.f);
-
-	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 
 	inviT = inviDuration;
 	ft = flashDuration;

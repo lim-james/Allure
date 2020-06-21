@@ -11,7 +11,7 @@ void EnemyCombat::SetWeapon(WeaponBase * const ptr) {
 void EnemyCombat::Awake() {
 	life = GetComponent<EnemyLife>();
 	target = GetComponent<EnemyTarget>();
-	//EventsManager::Get()->Subscribe("BEAT", &EnemyCombat::BeatHandler, this);
+	EventsManager::Get()->Subscribe("BEAT", &EnemyCombat::BeatHandler, this);
 }
 
 void EnemyCombat::Start() {
@@ -38,6 +38,6 @@ void EnemyCombat::Update() {
 }
 
 void EnemyCombat::BeatHandler() {
-	if (life->IsStunned()) return;
+	if (life->IsStunned() || life->IsDead()) return;
 	weapon->Trigger();
 }
