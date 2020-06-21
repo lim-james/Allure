@@ -22,13 +22,14 @@ private:
 		int beats;
 	};
 
-	bool enabled;
+	bool enabled, beat;
 
 	std::vector<EnemyGroup> enemies;
 	std::vector<Prefab*> weapons;
 
 	void Awake() override;
 	void Start() override;
+	void Update() override;
 
 	void KeyHandler(Events::Event* event);
 	void BeatHandler();

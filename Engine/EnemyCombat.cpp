@@ -20,7 +20,7 @@ void EnemyCombat::Start() {
 }
 
 void EnemyCombat::Update() {
-	if (life->IsStunned()) return;
+	if (life->IsStunned() || life->IsDead()) return;
 
 	if (weapon) {
 		if (bt > 0.f) {

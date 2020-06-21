@@ -29,19 +29,12 @@ void EnemyManager::Awake() {
 }
 
 void EnemyManager::Start() {
-	enabled = false;
+	enabled = beat = false;
 }
 
-void EnemyManager::KeyHandler(Events::Event* event) {
-	auto input = static_cast<Events::KeyInput*>(event);
-
-	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
-		enabled = !enabled;
-	}
-}
-
-void EnemyManager::BeatHandler() {
-	if (!enabled) return;
+void EnemyManager::Update() {
+	if (!beat) return;
+	beat = false;
 
 	for (EnemyGroup& group : enemies) {
 		EnemyData& data = group.data;	
@@ -86,4 +79,16 @@ void EnemyManager::BeatHandler() {
 			}
 		}
 	}
+}
+
+void EnemyManager::KeyHandler(Events::Event* event) {
+	auto input = static_cast<Events::KeyInput*>(event);
+
+	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
+		enabled = !enabled;
+	}
+}
+
+void EnemyManager::BeatHandler() {
+	beat = enabled;
 }

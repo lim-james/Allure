@@ -67,7 +67,8 @@ void Application::Run() {
 
 	bt = 0.f;
 	while (!context->ShouldClose()) {
-		em->Trigger("STEP");
+		//em->Trigger("STEP");
+		Step();
 	}
 }
 

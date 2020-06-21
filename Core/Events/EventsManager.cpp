@@ -73,10 +73,8 @@ void EventsManager::Trigger(std::string const& name, Events::Event* const event)
 		(*callback)();
 
 	event->name = name;
-	for (auto& callback : eventCallbacks[name]) {
-		//Debug::Warn << "Triggering " << name << '\n';
+	for (auto& callback : eventCallbacks[name])
 		(*callback)(event);
-	}
 
 	delete event;
 }
