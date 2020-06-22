@@ -7,6 +7,8 @@
 
 struct PostProcess : Component {
 
+	using base_type = PostProcess;
+
 	static unsigned VAO;
 
 	PostProcess();

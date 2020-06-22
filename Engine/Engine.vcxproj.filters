@@ -1100,4 +1100,9 @@
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="EntityManager.inl">
+      <Filter>Engine\Base</Filter>
+    </None>
+  </ItemGroup>
 </Project>

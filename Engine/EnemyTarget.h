@@ -11,6 +11,8 @@
 
 struct EnemyTarget : Script {
 
+	using base_type = EnemyTarget;
+
 	float magnitude;
 
 	Transform* player;

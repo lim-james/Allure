@@ -10,6 +10,8 @@
 
 struct SpriteRender : Component {
 
+	using base_type = SpriteRender;
+
 	// size of UV in tilemap
 	vec4f uvRect;
 	vec4f tint;

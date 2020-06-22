@@ -6,6 +6,8 @@
 
 struct FPSCounter : Script {
 
+	using base_type = FPSCounter;
+
 private:
 
 	Text* text;

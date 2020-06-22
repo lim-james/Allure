@@ -10,6 +10,8 @@
 
 struct EnemyLife : Script {
 
+	using base_type = EnemyLife;
+
 	int shield;
 	int health;
 	unsigned points;

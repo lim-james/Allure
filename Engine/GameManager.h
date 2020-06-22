@@ -7,6 +7,8 @@
 
 struct GameManager : Script {
 
+	using base_type = GameManager;
+
 	float fadeInDuration;
 
 private:

@@ -8,6 +8,8 @@
 
 struct EnemyManager : Script {
 
+	using base_type = EnemyManager;
+
 	vec2f boundary;
 	Transform* player;
 	Prefab* sfxPrefab;

@@ -10,6 +10,8 @@
 
 struct ButtonAnimation : Script {
 
+	using base_type = ButtonAnimation;
+
 private:
 
 	SpriteRender* render;

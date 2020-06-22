@@ -14,6 +14,8 @@
 
 struct Camera : Component {
 
+	using base_type = Camera;
+
 	bool isHidden;
 
 	bool shouldClear;

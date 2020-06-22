@@ -5,6 +5,8 @@
 
 struct ScriptName : Script {
 
+	using base_type = ScriptName;
+
 private:
 
 	void Awake() override {}

@@ -11,6 +11,8 @@
 
 struct Transform : Component {
 
+	using base_type = Transform;
+
 	std::vector<Quad<Transform*>*> quads;
 
 	Transform();

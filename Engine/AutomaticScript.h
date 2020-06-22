@@ -4,6 +4,8 @@
 #include "WeaponBase.h"
 
 struct AutomaticScript : WeaponBase {
+
+	using base_type = WeaponBase;
 	
 	AutomaticScript();
 

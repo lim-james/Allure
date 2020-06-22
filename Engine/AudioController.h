@@ -13,6 +13,8 @@
 
 struct AudioController : Script {
 
+	using base_type = AudioController;
+
 	Material::Background* material;
 
 	unsigned startFrequency;

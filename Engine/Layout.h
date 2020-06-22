@@ -8,6 +8,8 @@
 
 struct Layout : Component {
 
+	using base_type = Layout;
+
 	void Initialize() override;
 	Component* Clone() const override;
 	void SetActive(bool const& state) override;

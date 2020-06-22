@@ -5,6 +5,8 @@
 #include "Camera.h"
 
 struct CrosshairController : public Script {
+
+	using base_type = CrosshairController;
 	
 	Camera* view;
 

@@ -7,6 +7,8 @@
 
 struct ScreenShake : Script {
 
+	using base_type = ScreenShake;
+
 	float duration;
 	float magnitude;
 

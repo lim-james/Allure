@@ -6,6 +6,8 @@
 
 struct EditorCamera : Script {
 
+	using base_type = EditorCamera;
+
 	float speed;
 
 private:

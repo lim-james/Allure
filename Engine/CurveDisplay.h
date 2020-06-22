@@ -10,6 +10,8 @@
 
 struct CurveDisplay : PostProcess {
 
+	using base_type = PostProcess;
+
 	CurveDisplay();
 	~CurveDisplay();
 

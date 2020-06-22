@@ -7,6 +7,8 @@
 
 struct MeshRender : Component {
 
+	using base_type = MeshRender;
+
 	MeshRender();
 
 	void Initialize() override;

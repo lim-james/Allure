@@ -6,6 +6,8 @@
 
 struct TextBlink : Script {
 
+	using base_type = TextBlink;
+
 	float duration;
 
 private:

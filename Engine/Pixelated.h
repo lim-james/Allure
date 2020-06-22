@@ -10,6 +10,8 @@
 
 struct Pixelated : PostProcess {
 
+	using base_type = PostProcess;
+
 	float size;
 
 	Pixelated();

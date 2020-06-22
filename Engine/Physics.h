@@ -7,6 +7,8 @@
 
 struct Physics : Component {
 
+	using base_type = Physics;
+
 	float drag;
 	float angularDrag;
 

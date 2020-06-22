@@ -8,6 +8,8 @@
 
 struct TestAudio : Script {
 
+	using base_type = TestAudio;
+
 private:
 
 	AudioSource* source;

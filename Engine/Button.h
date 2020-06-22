@@ -14,6 +14,8 @@
 
 struct Button : Component {
 
+	using base_type = Button;
+
 	bool isEnabled;
 	Handler<void, unsigned> handlers[BUTTON_ACTION_COUNT];
 

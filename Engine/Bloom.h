@@ -10,6 +10,8 @@
 
 struct Bloom : PostProcess {
 
+	using base_type = PostProcess;
+
 	float unit;
 	unsigned amount;
 

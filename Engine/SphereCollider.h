@@ -5,6 +5,8 @@
 
 struct SphereCollider : Collider {
 
+	using base_type = Collider;
+
 	Component* Clone() const override;
 	void SetActive(bool const& state) override;
 

@@ -6,6 +6,8 @@
 
 struct ExplosiveScript : Script {
 
+	using base_type = ExplosiveScript;
+
 	Prefab* explosionPrefab;
 	void OnDestroy() override;
 

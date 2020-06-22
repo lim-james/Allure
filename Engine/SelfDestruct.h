@@ -5,6 +5,8 @@
 
 struct SelfDestruct : Script {
 
+	using base_type = SelfDestruct;
+
 	float lifetime;
 
 private:

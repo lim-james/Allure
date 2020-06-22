@@ -5,6 +5,8 @@
 
 struct AudioSource : Component {
 
+	using base_type = AudioSource;
+
 	std::string audioClip;
 
 	bool mute;

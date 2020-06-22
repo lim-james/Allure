@@ -10,6 +10,8 @@
 
 struct LineRender : Component {
 
+	using base_type = LineRender;
+
 	// size of UV in tilemap
 	vec3f offset;
 	vec3f length;

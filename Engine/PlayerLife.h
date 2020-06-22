@@ -9,6 +9,8 @@
 
 struct PlayerLife : public Script {
 
+	using base_type = PlayerLife;
+
 	float maxHealth;
 	float inviDuration;
 	float flashDuration;

@@ -7,6 +7,8 @@
 
 struct FollowCursor : Script {
 
+	using base_type = FollowCursor;
+
 	Camera* camera;
 	
 private:

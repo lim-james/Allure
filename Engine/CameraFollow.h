@@ -6,6 +6,8 @@
 #include <Math/Vectors.h>
 
 struct CameraFollow : Script {
+
+	using base_type = CameraFollow;
 	
 	Transform* player;
 	Transform* crosshair;

@@ -8,6 +8,8 @@
 
 struct LaserScript : WeaponBase {
 
+	using base_type = WeaponBase;
+
 	void Trigger() override;
 	void Hold(float const& dt) override;
 	void Release() override;

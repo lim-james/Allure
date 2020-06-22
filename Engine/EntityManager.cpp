@@ -17,13 +17,8 @@ unsigned EntityManager::Create() {
 }
 
 EntityManager::~EntityManager() {
-	for (auto& entity : entities) {
-		for (auto& component : entity.components) {
-			delete component.second;
-		}
-		entity.components.clear();
-	}
-	entities.clear();
+	for (Component* c : componentPool)
+		delete c;
 }
 
 void EntityManager::Destroy(unsigned const& id) {
@@ -65,9 +60,9 @@ void EntityManager::DestroyEntity(unsigned const & id) {
 		}
 
 		for (auto& pair : entities[id].components) {
-			if (pair.second) {
-				pair.second->Initialize();
-				pair.second->SetActive(false);
+			for (Component* c : pair.second) {
+				c->Initialize();
+				c->SetActive(false);
 			}
 		}
 

@@ -5,6 +5,8 @@
 
 struct ExpandScript : Script {
 
+	using base_type = ExpandScript;
+
 	float duration;
 	vec3f targetSize;
 

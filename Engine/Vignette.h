@@ -10,6 +10,8 @@
 
 struct Vignette : PostProcess {
 
+	using base_type = PostProcess;
+
 	float multiplier;
 	vec3f tint;
 

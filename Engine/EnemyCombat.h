@@ -11,6 +11,8 @@
 
 struct EnemyCombat : Script {
 
+	using base_type = EnemyCombat;
+
 	float holdDuration;
 	Transform* weaponHolder;
 

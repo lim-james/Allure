@@ -8,6 +8,8 @@
 
 struct VoxelRender : Component {
 
+	using base_type = VoxelRender;
+
 	// size of UV in tilemap
 	vec4f tint;
 

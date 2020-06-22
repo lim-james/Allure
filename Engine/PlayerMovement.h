@@ -11,6 +11,8 @@
 
 struct PlayerMovement : Script {
 
+	using base_type = PlayerMovement;
+
 	vec3f bounds;
 
 	float speed;

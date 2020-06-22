@@ -9,6 +9,8 @@
 
 struct SpectrumManager : Script {
 
+	using base_type = SpectrumManager;
+
 	AudioSource* source;
 
 	float width;

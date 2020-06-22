@@ -7,6 +7,8 @@
 #include <Handler/Handler.h>
 
 struct ParticleEmitter : Component {
+	
+	using base_type = ParticleEmitter;
 
 	float age;
 	float duration;

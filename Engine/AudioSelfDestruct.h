@@ -6,6 +6,8 @@
 
 struct AudioSelfDestruct : Script {
 
+	using base_type = AudioSelfDestruct;
+
 private:
 
 	float t;

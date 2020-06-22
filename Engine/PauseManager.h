@@ -5,6 +5,8 @@
 
 struct PauseManager : Script {
 
+	using base_type = PauseManager;
+
 	void Unpause();
 	void Quit();
 

@@ -12,6 +12,8 @@
 
 struct TitleTransition : Script {
 
+	using base_type = TitleTransition;
+
 	ParticleEmitter* emitter;
 	Transform* titleTransform;
 	Transform* buttonTransform;

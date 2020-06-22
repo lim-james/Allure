@@ -5,6 +5,8 @@
 
 struct Orbit : Script {
 
+	using base_type = Orbit;
+
 	float radius;
 	Transform* orbit;
 

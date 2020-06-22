@@ -11,6 +11,8 @@
 
 struct WeaponBase : Script {
 
+	using base_type = WeaponBase;
+
 	BitField bulletMask;
 	unsigned bulletLayer;
 

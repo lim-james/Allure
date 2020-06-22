@@ -7,6 +7,8 @@
 
 struct LineCollider : Collider {
 	
+	using base_type = Collider;
+
 	float length;
 	vec3f direction;
 

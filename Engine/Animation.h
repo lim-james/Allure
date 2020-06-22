@@ -80,6 +80,8 @@ public:
 
 struct Animation : Component {
 
+	using base_type = Animation;
+
 	std::map<int, std::vector<AnimationBase*>> animations;
 
 	Animation();

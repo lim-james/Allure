@@ -13,6 +13,8 @@
 
 struct Light : Component {
 
+	using base_type = Light;
+
 	short type;
 
 	float range;

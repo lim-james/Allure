@@ -7,6 +7,8 @@
 #include "Vignette.h"
 
 struct ScoreController : Script {
+
+	using base_type = ScoreController;
 	
 	Text* totalScoreLabel;
 	Text* buildScoreLabel;

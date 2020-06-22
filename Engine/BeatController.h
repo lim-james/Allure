@@ -6,6 +6,8 @@
 #include "Prefab.h"
 
 struct BeatController : Script {
+
+	using base_type = BeatController;
 	
 	Material::Background* background;
 	Prefab* indicatorPrefab;

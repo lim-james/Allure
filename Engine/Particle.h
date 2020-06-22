@@ -6,6 +6,8 @@
 #include <Math/Vectors.h>
 
 struct Particle : Component {
+	
+	using base_type = Particle;
 
 	float age;
 	float lifetime;

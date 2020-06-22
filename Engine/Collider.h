@@ -13,6 +13,8 @@
 #define COLLISION_ACTION_COUNT 3
 
 struct Collider : Component {
+	
+	using base_type = Collider;
 
 	bool isTrigger;
 	vec3f scale, offset;

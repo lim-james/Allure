@@ -7,6 +7,8 @@
 
 struct StateContainer : Component {
 
+	using base_type = StateContainer;
+
 	std::string queuedState;
 	std::string currentState;
 

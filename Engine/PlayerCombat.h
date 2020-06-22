@@ -10,6 +10,8 @@
 
 struct PlayerCombat : Script {
 
+	using base_type = PlayerCombat;
+
 	Transform* weaponHolder;
 	Prefab* sfxPrefab;
 

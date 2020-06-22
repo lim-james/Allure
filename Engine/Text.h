@@ -32,6 +32,8 @@ namespace Events {
 
 struct Text : Component {
 
+	using base_type = Text;
+
 	std::string text;
 	vec4f color;
 
