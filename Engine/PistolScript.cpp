@@ -28,6 +28,10 @@ vec3f PistolScript::HoldOffset() const {
 	return vec3f(1.5f, -0.5f, 0.5f);
 }
 
+std::string PistolScript::Name() const {
+	return "PISTOL";
+}
+
 void PistolScript::CreateBullet(bool const& onBeat, vec2f const& direction) const { 
 	Transform* const bullet = bulletPrefab->Create();
 	bullet->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(direction));

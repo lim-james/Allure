@@ -1,6 +1,7 @@
 #include "Laser.h"
 
 #include "SpriteRender.h"
+#include "SphereCollider.h"
 #include "LaserScript.h"
 
 #include "LoadTexture.h"
@@ -22,6 +23,10 @@ Transform * Laser::Create() {
 	render->SetSprite(spriteSheet);
 	render->SetTilemapSize(4, 2);
 	render->SetCellRect(0, 0, 1, 1);
+
+	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+	collider->SetActive(true);
+	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
 	LaserScript* const gun = entities->AddComponent<LaserScript>(entity);
 	gun->SetActive(true);

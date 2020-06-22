@@ -1,6 +1,7 @@
 #include "GrenadeLauncher.h"
 
 #include "SpriteRender.h"
+#include "SphereCollider.h"
 #include "GrenadeLauncherScript.h"
 
 #include "LoadTexture.h"
@@ -22,6 +23,10 @@ Transform * GrenadeLauncher::Create() {
 	render->SetSprite(spriteSheet);
 	render->SetTilemapSize(3, 6);
 	render->SetCellRect(1, 2, 1, 1);
+
+	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+	collider->SetActive(true);
+	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
 	GrenadeLauncherScript* const gun = entities->AddComponent<GrenadeLauncherScript>(entity);
 	gun->SetActive(true);

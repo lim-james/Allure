@@ -1,6 +1,7 @@
 #include "Automatic.h"
 
 #include "SpriteRender.h"
+#include "SphereCollider.h"
 #include "AutomaticScript.h"
 
 #include "LoadTexture.h"
@@ -22,6 +23,10 @@ Transform * Automatic::Create() {
 	render->SetSprite(spriteSheet);
 	render->SetTilemapSize(4, 3);
 	render->SetCellRect(2, 2, 1, 1);
+
+	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+	collider->SetActive(true);
+	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
 	AutomaticScript* const gun = entities->AddComponent<AutomaticScript>(entity);
 	gun->SetActive(true);

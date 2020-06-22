@@ -1,6 +1,7 @@
 #include "Shotgun.h"
 
 #include "SpriteRender.h"
+#include "SphereCollider.h"
 #include "ShotgunScript.h"
 
 #include "LoadTexture.h"
@@ -22,6 +23,10 @@ Transform * Shotgun::Create() {
 	render->SetSprite(spriteSheet);
 	render->SetTilemapSize(3, 6);
 	render->SetCellRect(2, 4, 1, 1);
+
+	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+	collider->SetActive(true);
+	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
 	ShotgunScript* const gun = entities->AddComponent<ShotgunScript>(entity);
 	gun->SetActive(true);

@@ -1,6 +1,7 @@
 #include "Pistol.h"
 
 #include "SpriteRender.h"
+#include "SphereCollider.h"
 #include "PistolScript.h"
 
 #include "LoadTexture.h"
@@ -22,6 +23,10 @@ Transform * Pistol::Create() {
 	render->SetSprite(spriteSheet);
 	render->SetTilemapSize(3, 6);
 	render->SetCellRect(0, 5, 1, 1);
+
+	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+	collider->SetActive(true);
+	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
 	PistolScript* const gun = entities->AddComponent<PistolScript>(entity);
 	gun->SetActive(true);

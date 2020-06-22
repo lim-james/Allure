@@ -13,6 +13,7 @@ struct AutomaticScript : WeaponBase {
 	void Hold(float const& dt) override;
 	void Release() override;
 	vec3f HoldOffset() const override;
+	std::string Name() const override;
 
 private:
 

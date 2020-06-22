@@ -29,6 +29,10 @@ vec3f SniperScript::HoldOffset() const {
 	return vec3f(2.f, -0.5f, 0.5f);
 }
 
+std::string SniperScript::Name() const {
+	return "SNIPER";
+}
+
 void SniperScript::CreateBullet(bool const& onBeat, vec2f const& direction) const {
 	Transform* const bullet = bulletPrefab->Create();
 	bullet->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(direction));

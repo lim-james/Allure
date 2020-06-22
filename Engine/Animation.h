@@ -93,10 +93,19 @@ struct Animation : Component {
 
 	template<typename T>
 	void Queue(AnimationBase const& base, T* target, T const& outcome) {
-		const int t = (int)target;
-		animations[t].push_back(new AnimationData<T>(base, target, outcome));
+		animations[(int)target].push_back(new AnimationData<T>(base, target, outcome));
 	}
 
+	template<typename T>
+	void Pop(T* target) {
+		animations[(int)target].pop_back();
+	}
+
+	template<typename T>
+	void Clear(T* target) {
+		animations[(int)target].clear();
+	}
+	
 	void Clear();
 
 };

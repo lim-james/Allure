@@ -8,9 +8,21 @@ WeaponBase::WeaponBase()
 
 void WeaponBase::SetOwner(Transform* const transform) {
 	owner = transform;
-	isPlayer = entities->GetLayer(transform->entity) == PLAYER;
+	if (owner) {
+		isPlayer = entities->GetLayer(owner->entity) == PLAYER;
+		collider->SetActive(false);
+	} else {
+		isPlayer = false;
+		collider->SetActive(true);
+	}
 }
 
 void WeaponBase::SetTarget(Transform* const transform) {
 	target = transform;
 }
+
+void WeaponBase::Awake() {
+	collider = GetComponent<SphereCollider>();
+}
+
+

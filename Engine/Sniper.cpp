@@ -1,6 +1,7 @@
 #include "Sniper.h"
 
 #include "SpriteRender.h"
+#include "SphereCollider.h"
 #include "SniperScript.h"
 
 #include "LoadTexture.h"
@@ -22,6 +23,10 @@ Transform * Sniper::Create() {
 	render->SetSprite(spriteSheet);
 	render->SetTilemapSize(4, 2);
 	render->SetCellRect(2, 1, 1, 1);
+
+	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+	collider->SetActive(true);
+	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
 	SniperScript* const gun = entities->AddComponent<SniperScript>(entity);
 	gun->SetActive(true);

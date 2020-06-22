@@ -29,6 +29,10 @@ vec3f ShotgunScript::HoldOffset() const {
 	return vec3f(1.5f, -0.5f, 0.5f);
 }
 
+std::string ShotgunScript::Name() const {
+	return "SHOTGUN";
+}
+
 void ShotgunScript::CreateBurst(bool const& onBeat, vec2f const& facing) const {
 
 	const vec2f normal = vec2f(facing.y, -facing.x) * 0.1f;

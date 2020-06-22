@@ -50,6 +50,10 @@ vec3f AutomaticScript::HoldOffset() const {
 	return vec3f(2.f, -0.5f, 0.5f);
 }
 
+std::string AutomaticScript::Name() const {
+	return "AUTOMATIC";
+}
+
 void AutomaticScript::CreateBullet(bool const& onBeat, vec2f const& direction) const { 
 	Transform* const bullet = bulletPrefab->Create();
 	bullet->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(direction));

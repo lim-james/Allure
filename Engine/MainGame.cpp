@@ -454,6 +454,21 @@ void MainGame::Create() {
 		controller->view = camera;
 	}
 
+	// pickup label
+	Text* pickupLabel = nullptr;
+	{
+		const unsigned entity = entities->Create();
+
+		pickupLabel = entities->AddComponent<Text>(entity);
+		pickupLabel->SetActive(true);
+		pickupLabel->SetFont(vcrMono);
+		pickupLabel->scale = 2.f;
+		pickupLabel->text = "";
+	}
+
+	automatic->CreateAt(vec3f(15.f, 0.f, 0.f));
+	laser->CreateAt(vec3f(-15.f, 0.f, 0.f));
+
 	// gun holder 
 	Transform* weaponHolderTransform = nullptr;
 	{
@@ -461,30 +476,9 @@ void MainGame::Create() {
 		weaponHolderTransform = entities->GetComponent<Transform>(entity);
 	}
 
-	// gun 
-	WeaponBase* demoGun = nullptr;
-	{
-		// Automatic
-		Transform* const transform = pistol->CreateIn(weaponHolderTransform);
-		demoGun = entities->GetComponent<WeaponBase>(transform->entity);
-
-		//Transform* const transform = automatic->CreateIn(weaponHolderTransform);
-		//demoGun = entities->GetComponent<AutomaticScript>(transform->entity);
-
-		//Transform* const transform = shotgun->CreateIn(weaponHolderTransform);
-		//demoGun = entities->GetComponent<ShotgunScript>(transform->entity);
-
-		//Transform* const transform = sniper->CreateIn(weaponHolderTransform);
-		//demoGun = entities->GetComponent<SniperScript>(transform->entity);
-
-		//Transform* const transform = grenadeLauncher->CreateIn(weaponHolderTransform);
-		//demoGun = entities->GetComponent<GrenadeLauncherScript>(transform->entity);
-
-		//Transform* const transform = laser->CreateIn(weaponHolderTransform);
-		//demoGun = entities->GetComponent<LaserScript>(transform->entity);
-
-		transform->SetLocalTranslation(demoGun->HoldOffset());
-	}
+	//{
+	//	transform->SetLocalTranslation(demoGun->HoldOffset());
+	//}
 
 	// player
 	{
@@ -530,7 +524,7 @@ void MainGame::Create() {
 
 		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 		collider->SetActive(true);
-		//collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON;
+		collider->ignoreMask = BULLET | BONUS_BULLET;
 
 		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 		audio->SetActive(true);
@@ -545,8 +539,12 @@ void MainGame::Create() {
 		combat->SetActive(true);
 		combat->weaponHolder = weaponHolderTransform;
 		combat->sfxPrefab = sfxEmitter;
+		combat->pickupLabel = pickupLabel;
 		combat->SetCrosshair(follow->crosshair);
-		combat->SetWeapon(demoGun);
+		combat->SetHolder(weaponHolderTransform);
+
+		collider->handlers[COLLISION_ENTER].Bind(&PlayerCombat::OnCollisionEnter, combat);
+		collider->handlers[COLLISION_EXIT].Bind(&PlayerCombat::OnCollisionExit, combat);
 
 		PlayerLife* const life = entities->AddComponent<PlayerLife>(entity);
 		life->SetActive(true);
