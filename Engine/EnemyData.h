@@ -27,6 +27,7 @@ struct TargetStyle {
 
 struct EnemyData {
 	Prefab* prefab;
+	Prefab* weaponPrefab;
 
 	vec4f colour;
 

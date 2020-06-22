@@ -13,7 +13,6 @@ struct EnemyManager : Script {
 	Prefab* sfxPrefab;
 
 	void AddEnemy(EnemyData const& data);
-	void AddWeapon(Prefab* const weapon);
 
 private:
 
@@ -25,7 +24,6 @@ private:
 	bool enabled, beat;
 
 	std::vector<EnemyGroup> enemies;
-	std::vector<Prefab*> weapons;
 
 	void Awake() override;
 	void Start() override;

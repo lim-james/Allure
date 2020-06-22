@@ -5,10 +5,6 @@
 #include "EnemyLife.h"
 #include "EnemyCombat.h"
 
-#include "SniperScript.h"
-#include "PistolScript.h"
-#include "AutomaticScript.h"
-
 #include "Layers.h"
 
 #include <Math/Random.hpp>
@@ -17,10 +13,6 @@
 
 void EnemyManager::AddEnemy(EnemyData const & data) {
 	enemies.push_back(EnemyGroup{ data, -data.beatDelay });
-}
-
-void EnemyManager::AddWeapon(Prefab * const weapon) {
-	weapons.push_back(weapon);
 }
 
 void EnemyManager::Awake() {
@@ -69,8 +61,8 @@ void EnemyManager::Update() {
 
 			EnemyCombat* const combat = entities->GetComponent<EnemyCombat>(eTransform->entity);
 			if (combat) {
-				Transform* const wTransform = weapons[0]->CreateIn(combat->weaponHolder);
-				WeaponBase* const weapon = entities->GetComponent<SniperScript>(wTransform->entity);
+				Transform* const wTransform = data.weaponPrefab->CreateIn(combat->weaponHolder);
+				WeaponBase* const weapon = entities->GetComponent<WeaponBase>(wTransform->entity);
 				weapon->audioPrefab = sfxPrefab;
 				weapon->bulletMask = ENEMY;
 				weapon->bulletLayer = ENEMY_BULLET;

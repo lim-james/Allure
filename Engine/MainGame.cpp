@@ -466,7 +466,7 @@ void MainGame::Create() {
 	{
 		// Automatic
 		Transform* const transform = pistol->CreateIn(weaponHolderTransform);
-		demoGun = entities->GetComponent<PistolScript>(transform->entity);
+		demoGun = entities->GetComponent<WeaponBase>(transform->entity);
 
 		//Transform* const transform = automatic->CreateIn(weaponHolderTransform);
 		//demoGun = entities->GetComponent<AutomaticScript>(transform->entity);
@@ -584,7 +584,7 @@ void MainGame::Create() {
 		const TargetStyle avoidPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, -200.f, 20.f };
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 250.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, 1.f, 0, 5, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 0, 10, 5 });
+		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 10, 5 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 2, 10, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
@@ -592,10 +592,6 @@ void MainGame::Create() {
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });
 		//manager->AddEnemy(EnemyData{ batEnemy, RISK_LOW, 1, 2, 1 });
-
-		manager->AddWeapon(sniper);
-		manager->AddWeapon(automatic);
-		manager->AddWeapon(pistol);
 	}
 }
 
