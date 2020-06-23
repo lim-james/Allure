@@ -1,4 +1,4 @@
-#include "BatEnemy.h"
+#include "IceElementalEnemy.h"
 
 #include "SpriteRender.h"
 #include "SpriteAnimation.h"
@@ -13,17 +13,17 @@
 #include "LoadSAD.h"
 #include "Layers.h"
 
-BatEnemy::BatEnemy() {
-	spriteSheet = Load::Texture2D("Files/Sprites/Bat_Sprite_Sheet.png");
-	spriteData = Load::SAD("Files/Sprites/bats.sad");
+IceElementalEnemy::IceElementalEnemy() {
+	spriteSheet = Load::Texture2D("Files/Sprites/Ice Elemental Sprite Sheet.png");
+	spriteData = Load::SAD("Files/Sprites/ice_elemental.sad");
 }
 
-Transform * BatEnemy::Create() {
+Transform * IceElementalEnemy::Create() {
 	const unsigned entity = entities->Create();
 	entities->SetLayer(entity, ENEMY);
 
 	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->SetScale(6.f);
+	transform->SetScale(8.f);
 
 	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	render->SetActive(true);

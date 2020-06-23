@@ -24,6 +24,8 @@
 // enemy prefabs
 #include "BasicEnemy.h"
 #include "BatEnemy.h"
+#include "FireElementalEnemy.h"
+#include "IceElementalEnemy.h"
 
 class MainGame : public Scene {
 
@@ -47,6 +49,8 @@ class MainGame : public Scene {
 	// enemies
 	BasicEnemy* basicEnemy;
 	BatEnemy* batEnemy;
+	FireElementalEnemy* fireElementalEnemy;
+	IceElementalEnemy* iceElementalEnemy;
 
 	void Awake() override;
 	void Create() override;

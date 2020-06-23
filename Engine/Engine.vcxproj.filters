@@ -492,9 +492,6 @@
     <ClCompile Include="BasicBullet.cpp">
       <Filter>Assets\Prefabs\Bullets</Filter>
     </ClCompile>
-    <ClCompile Include="AudioController.cpp">
-      <Filter>Assets\Scripts\Main\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="BackgroundMaterial.cpp">
       <Filter>Assets\Materials</Filter>
     </ClCompile>
@@ -626,6 +623,12 @@
     </ClCompile>
     <ClCompile Include="BulletHandler.cpp">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="FireElementalEnemy.cpp">
+      <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="IceElementalEnemy.cpp">
+      <Filter>Assets\Prefabs\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -950,9 +953,6 @@
     <ClInclude Include="BasicBullet.h">
       <Filter>Assets\Prefabs\Bullets</Filter>
     </ClInclude>
-    <ClInclude Include="AudioController.h">
-      <Filter>Assets\Scripts\Main\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationProperties.h">
       <Filter>Application</Filter>
     </ClInclude>
@@ -1093,6 +1093,15 @@
     </ClInclude>
     <ClInclude Include="BulletHandler.h">
       <Filter>Assets\Scripts\Main\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="FireElementalEnemy.h">
+      <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="IceElementalEnemy.h">
+      <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectDefines.h">
+      <Filter>Assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

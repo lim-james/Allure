@@ -60,7 +60,7 @@ void EnemyManager::Update() {
 			target->style = &target->farStyle;
 
 			EnemyCombat* const combat = entities->GetComponent<EnemyCombat>(eTransform->entity);
-			if (combat) {
+			if (data.weaponPrefab && combat) {
 				Transform* const wTransform = data.weaponPrefab->CreateIn(combat->weaponHolder);
 				WeaponBase* const weapon = entities->GetComponent<WeaponBase>(wTransform->entity);
 				weapon->audioPrefab = sfxPrefab;
@@ -77,7 +77,7 @@ void EnemyManager::KeyHandler(Events::Event* event) {
 	auto input = static_cast<Events::KeyInput*>(event);
 
 	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
-		enabled = !enabled;
+		enabled = true;
 	}
 }
 

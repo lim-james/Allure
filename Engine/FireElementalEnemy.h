@@ -1,14 +1,14 @@
-#ifndef BAT_ENEMY_H
-#define BAT_ENEMY_H
+#ifndef FIRE_ELEMENTAL_ENEMY_H
+#define FIRE_ELEMENTAL_ENEMY_H
 
 #include "Prefab.h"
 #include "SpriteAnimationData.h"
 
-struct BatEnemy : Prefab {
+struct FireElementalEnemy : Prefab {
 	unsigned spriteSheet;
 	std::map<std::string, SpriteAnimationData> spriteData;
 
-	BatEnemy();
+	FireElementalEnemy();
 	Transform* Create() override;
 };
 

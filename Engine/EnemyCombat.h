@@ -21,6 +21,7 @@ struct EnemyCombat : Script {
 private:
 
 	float bt;
+	bool isBeat;
 
 	EnemyLife* life;
 	EnemyTarget* target;

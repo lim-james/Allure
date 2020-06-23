@@ -13,14 +13,22 @@ void EnemyLife::OnCollisionEnter(unsigned target) {
 		break;
 	case BULLET:
 	{
-		const vec3f velocity = entities->GetComponent<Physics>(target)->velocity;
-		Hit(target, false, velocity * 25.f);
+		Physics* const physics = entities->GetComponent<Physics>(target);
+		if (physics) {
+			Hit(target, false, physics->velocity * 25.f);
+		} else {
+			Hit(target, false, 0.f);
+		}
 		break;
 	}
 	case BONUS_BULLET:
 	{
-		const vec3f velocity = entities->GetComponent<Physics>(target)->velocity;
-		Hit(target, true, velocity * 25.f);
+		Physics* const physics = entities->GetComponent<Physics>(target);
+		if (physics) {
+			Hit(target, true, physics->velocity * 25.f);
+		} else {
+			Hit(target, true, 0.f);
+		}
 		break;
 	}
 	default:

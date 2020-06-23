@@ -23,14 +23,19 @@ void EnemyCombat::Update() {
 	if (life->IsStunned() || life->IsDead()) return;
 
 	if (weapon) {
-		if (bt > 0.f) {
-			bt -= time->dt;
-			if (bt <= 0.f) {
-				weapon->Release();
-			} else {
-				weapon->Hold(time->dt);
-			}
-		} 
+		if (isBeat) {
+			weapon->Trigger();
+			isBeat = false;
+		}
+
+		//if (bt > 0.f) {
+		//	bt -= time->dt;
+		//	if (bt <= 0.f) {
+		//		weapon->Release();
+		//	} else {
+		//		weapon->Hold(time->dt);
+		//	}
+		//} 
 	}	
 
 	const vec2f diff = target->GetTarget() - transform->GetWorldTranslation();
@@ -38,6 +43,5 @@ void EnemyCombat::Update() {
 }
 
 void EnemyCombat::BeatHandler() {
-	if (life->IsStunned() || life->IsDead()) return;
-	weapon->Trigger();
+	isBeat = life->IsStunned() || life->IsDead();
 }

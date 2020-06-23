@@ -27,26 +27,16 @@
 #include "EnemyLife.h"
 #include "EnemyTarget.h"
 #include "EnemyManager.h"
-#include "AudioController.h"
 #include "ScoreController.h"
 // states
 #include "ChaseState.h"
 #include "DeadState.h"
 // Utils
+#include "ProjectDefines.h"
 #include "Layers.h"
 #include "LoadTexture.h"
 #include "LoadFNT.h"
 #include "LoadSAD.h"
-
-#include <Helpers/ColorHelpers.h>
-
-// remove
-#include "PistolScript.h"
-#include "AutomaticScript.h"
-#include "ShotgunScript.h"
-#include "SniperScript.h"
-#include "GrenadeLauncherScript.h"
-#include "LaserScript.h"
 
 void MainGame::Awake() {
 	Scene::Awake();
@@ -66,38 +56,13 @@ void MainGame::Awake() {
 	StateMachine* const stateMachine = systems->Get<StateMachine>();
 	stateMachine->AttachState<States::Chase>("CHASE");
 	stateMachine->AttachState<States::Dead>("DEAD");
-}
-
-void MainGame::Create() {
-	Scene::Create();
-
-	// color scheme
-	//const vec4f BG		= Helpers::GetColor("1E1E3E");
-	//const vec4f blue	= Helpers::GetColor("285BB5");
-	//const vec4f red		= Helpers::GetColor("C53533");
-	//const vec4f green	= Helpers::GetColor("73D540");
-	//const vec4f yellow	= Helpers::GetColor("FAE74D");
-	//const vec4f purple	= Helpers::GetColor("644AF5");
-	//const vec4f pink	= Helpers::GetColor("E84471");
-	//const vec4f cyan	= Helpers::GetColor("5EC3C6");
-	//const vec4f grey	= Helpers::GetColor("C7C7C7");
-
-	const vec4f BG		= Helpers::GetColor("000000");
-	const vec4f yellow	= Helpers::GetColor("ffd319");
-	const vec4f orange	= Helpers::GetColor("ff901f");
-	const vec4f red		= Helpers::GetColor("ff2975");
-	const vec4f pink	= Helpers::GetColor("f222ff");
-	const vec4f purple	= Helpers::GetColor("8c1eff");
-
-	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
-	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
 	background = new Material::Background;
 	background->speed = 75.f;
 	background->spread = 10.f;
 	background->viewSize = 10.f;
 	//background->spreadTint = vec3f(0.5f, 0.0f, 0.25f);
-	background->spreadTint = purple;// vec3f(1.f, 0.0f, 0.5f);
+	background->spreadTint = COLOR_PURPLE;
 	background->indicatorTint = vec3f(0.5f);
 	background->thresholdTint = vec3f(10.f, 0.2f, 0.2f);
 
@@ -119,6 +84,8 @@ void MainGame::Create() {
 	explosiveBullet = new ExplosiveBullet;
 	explosiveBullet->Initialize(entities);
 	explosiveBullet->explosionPrefab = explosionArea;
+
+	// guns
 
 	laserPath = new LaserPath;
 	laserPath->Initialize(entities);
@@ -146,12 +113,38 @@ void MainGame::Create() {
 	laser = new Laser;
 	laser->Initialize(entities);
 	laser->bulletPrefab = laserPath;
+	
+	// enemies
 
 	basicEnemy = new BasicEnemy;
 	basicEnemy->Initialize(entities);
 
 	batEnemy = new BatEnemy;
 	batEnemy->Initialize(entities);
+
+	fireElementalEnemy = new FireElementalEnemy;
+	fireElementalEnemy->Initialize(entities);
+
+	iceElementalEnemy = new IceElementalEnemy;
+	iceElementalEnemy->Initialize(entities);
+}
+
+void MainGame::Create() {
+	Scene::Create();
+
+	// color scheme
+	//const vec4f BG		= Helpers::GetColor("1E1E3E");
+	//const vec4f blue	= Helpers::GetColor("285BB5");
+	//const vec4f red		= Helpers::GetColor("C53533");
+	//const vec4f green	= Helpers::GetColor("73D540");
+	//const vec4f yellow	= Helpers::GetColor("FAE74D");
+	//const vec4f purple	= Helpers::GetColor("644AF5");
+	//const vec4f pink	= Helpers::GetColor("E84471");
+	//const vec4f cyan	= Helpers::GetColor("5EC3C6");
+	//const vec4f grey	= Helpers::GetColor("C7C7C7");
+
+	Font* const courierNew = Load::FNT("Files/Fonts/CourierNew.fnt", "Files/Fonts/CourierNew.tga");
+	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
 	const unsigned playerSheet = Load::Texture2D("Files/Sprites/NTlikeTDSSprites.png");
 	const unsigned ukGunSheet = Load::Texture2D("Files/Sprites/UK.png");
@@ -160,7 +153,7 @@ void MainGame::Create() {
 	camera->SetSize(30.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->cullingMask = DEFAULT | PLAYER | ENEMY | WEAPON | EFFECT_AREA | BULLET | BONUS_BULLET | ENEMY_BULLET;
-	camera->clearColor = BG;
+	camera->clearColor = COLOR_BACKGROUND;
 
 	CameraFollow* const follow = entities->AddComponent<CameraFollow>(mainCamera);
 	follow->SetActive(true);
@@ -215,6 +208,22 @@ void MainGame::Create() {
 		fps->SetActive(true);
 	}
 
+	// prompt label
+	Text* promptLabel = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(CENTER_X_ANCHOR, nullptr, CENTER_X_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(BOTTOM_ANCHOR, nullptr, BOTTOM_ANCHOR, 1.f, 2.f, uiCamera));
+
+		promptLabel = entities->AddComponent<Text>(entity);
+		promptLabel->SetActive(true);
+		promptLabel->SetFont(vcrMono);
+	}
+
 	// Score controller
 	ScoreController* scoreController = nullptr;
 	{
@@ -230,7 +239,7 @@ void MainGame::Create() {
 		const unsigned volume = entities->Create();
 		Vignette* const vignette = entities->AddComponent<Vignette>(volume);
 		vignette->SetActive(true);
-		vignette->tint = purple;// vec3f(0.5f, 0.f, 0.5f);
+		vignette->tint = COLOR_PURPLE;// vec3f(0.5f, 0.f, 0.5f);
 		scoreController->vfx = vignette;
 		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
 	}
@@ -301,7 +310,7 @@ void MainGame::Create() {
 		text->SetFont(vcrMono);
 		text->scale = 1.25f;
 		text->text = "x8";
-		text->color = orange;// vec4f(1.f, 0.749f, 0.f, 1.f);
+		text->color = COLOR_ORANGE;// vec4f(1.f, 0.749f, 0.f, 1.f);
 		text->paragraphAlignment = PARAGRAPH_RIGHT;
 		text->verticalAlignment = ALIGN_TOP;
 
@@ -401,6 +410,7 @@ void MainGame::Create() {
 	}
 
 	// background
+	AudioSource* backgroundAudio = nullptr;
 	{
 		const unsigned entity = entities->Create();
 
@@ -417,24 +427,13 @@ void MainGame::Create() {
 		render->SetCellRect(0, 0, 16, 9);
 		render->tint.a = 0.15f;
 
-		AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
-		audio->SetActive(true);
+		backgroundAudio = entities->AddComponent<AudioSource>(entity);
+		backgroundAudio->SetActive(true);
 		//audio->audioClip = "Files/Media/NowhereToRun.wav";
-		audio->audioClip = "Files/Media/IceFlow.wav";
+		backgroundAudio->audioClip = "Files/Media/IceFlow.wav";
 		//audio->audioClip = "Files/Media/128C.wav";
-		audio->loop = true;
-		audio->volume = 0.f;
-
-		AudioController* const controller = entities->AddComponent<AudioController>(entity);
-		controller->SetActive(true);
-		controller->material = background;
-		controller->startFrequency = 20;
-		controller->endFrequency = 2000;
-		controller->audioDuration = 1.f;
-		controller->frequencyBands = 50;
-		controller->maxHeight = 10.f;
-
-		controller->meterHeight = meterHeight;
+		backgroundAudio->loop = true;
+		backgroundAudio->volume = 0.f;
 	}
 
 	// crosshair
@@ -475,10 +474,6 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 		weaponHolderTransform = entities->GetComponent<Transform>(entity);
 	}
-
-	//{
-	//	transform->SetLocalTranslation(demoGun->HoldOffset());
-	//}
 
 	// player
 	{
@@ -559,10 +554,24 @@ void MainGame::Create() {
 
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
-		beat->SetTempo(60);
+		// audio
+		beat->source = backgroundAudio;
+		beat->startFrequency = 20;
+		beat->endFrequency = 2000;
+		beat->audioDuration = 1.f;
+		beat->frequencyBands = 50;
+		beat->maxHeight = 10.f;
+		beat->meterHeight = meterHeight;
+		// references
+		beat->promptLabel = promptLabel;
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
-		beat->threshold = 0.2f;
+		// tempo
+		//beat->threshold = 0.2f;
+		beat->goodThreshold = 0.3f;
+		beat->greatThreshold = 0.15f;
+		beat->perfectThreshold = 0.075f;
+		beat->SetTempo(60);
 	}
 
 	// enemy manager
@@ -578,12 +587,14 @@ void MainGame::Create() {
 
 		const TargetStyle trackPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 100.f, 30.f };
 		const TargetStyle dashPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 300.f, 25.f };
-		const TargetStyle dash = { TARGET_DASH, MOVEMENT_CONSTANT, 400.f, 15.f };
+		const TargetStyle dash = { TARGET_DASH, MOVEMENT_CONSTANT, 400.f, 25.f };
 		const TargetStyle avoidPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, -200.f, 20.f };
-		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 250.f, 30.f };
+		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 150.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 10, 5 });
-		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 2, 10, 2 });
+		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 10, 1 });
+		manager->AddEnemy(EnemyData{ batEnemy, nullptr, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 2, 5, 3 });
+		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 5, 3 });
+		manager->AddEnemy(EnemyData{ iceElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 5, 3 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });

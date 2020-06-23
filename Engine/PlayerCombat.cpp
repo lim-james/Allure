@@ -58,6 +58,10 @@ void PlayerCombat::Awake() {
 	EventsManager::Get()->Subscribe("MOUSE_BUTTON_INPUT", &PlayerCombat::MouseButtonHandler, this);
 }
 
+void PlayerCombat::Start() {
+	hovering = 0;
+}
+
 void PlayerCombat::Update() {
 	if (weapon && isTriggering) weapon->Hold(time->dt);
 

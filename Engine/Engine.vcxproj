@@ -138,7 +138,6 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioSelfDestruct.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="AudioListener.cpp" />
@@ -164,8 +163,10 @@
     <ClCompile Include="CrosshairController.cpp" />
     <ClCompile Include="DeadState.cpp" />
     <ClCompile Include="EnemyCombat.cpp" />
+    <ClCompile Include="FireElementalEnemy.cpp" />
     <ClCompile Include="GrenadeLauncher.cpp" />
     <ClCompile Include="GrenadeLauncherScript.cpp" />
+    <ClCompile Include="IceElementalEnemy.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LaserPath.cpp" />
     <ClCompile Include="LaserScript.cpp" />
@@ -281,7 +282,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationProperties.h" />
-    <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioSelfDestruct.h" />
     <ClInclude Include="AudioSpectrumScene.h" />
     <ClInclude Include="Automatic.h" />
@@ -297,9 +297,12 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CrosshairController.h" />
     <ClInclude Include="DeadState.h" />
+    <ClInclude Include="ProjectDefines.h" />
     <ClInclude Include="EnemyCombat.h" />
+    <ClInclude Include="FireElementalEnemy.h" />
     <ClInclude Include="GrenadeLauncher.h" />
     <ClInclude Include="GrenadeLauncherScript.h" />
+    <ClInclude Include="IceElementalEnemy.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="LaserPath.h" />
     <ClInclude Include="LaserScript.h" />

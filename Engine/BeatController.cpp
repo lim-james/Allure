@@ -1,8 +1,11 @@
 #include "BeatController.h"
 
 #include "Text.h"
+#include "InputEvents.h"
+#include "ProjectDefines.h"
 
 #include <Events/EventsManager.h>
+#include <GLFW/glfw3.h>
 
 void BeatController::SetTempo(unsigned const & tempo) {
 	delay = 60.f / static_cast<float>(tempo);
@@ -13,32 +16,47 @@ void BeatController::Awake() {
 }
 
 void BeatController::Start() {
-	bt = threshold;
+	et = 0.f;
+
+	file = new AudioFile<int16_t>;
+	file->Open(source->audioClip);
+	duration = file->GetDuration();
+
+	bt = perfectThreshold;
 	isHit = false;
 	endCycle = false;
+
+	promptLabel->text = "SHOOT TO START THE MUSIC";
 }
 
 void BeatController::Update() {
-	bt -= time->dt;
-
-	background->interval = delay;
-	background->bt = bt;
-	background->threshold = threshold;
 	background->playerPosition = transform->GetWorldTranslation();
+	background->interval = delay;
+	background->threshold = perfectThreshold;
 
+	if (source->IsPaused()) return;
+
+	const float dt = time->dt * source->speed;
+
+	// calculate et
+	et += dt;
+	while (et > duration)
+		et -= duration;
+	background->et = et;
+
+	// calculate tempo
+	bt -= dt;
 	if (bt < 0.f) {
 		bt = delay + bt;
 		endCycle = true;
 		EventsManager::Get()->Trigger("BEAT");
 	}
+	background->bt = bt;
 
-	if (endCycle && threshold < delay - bt) {
+	// check if hit
+	if (endCycle && perfectThreshold < delay - bt) {
 		if (!isHit) {
-			Transform* const indicator = indicatorPrefab->Create();
-			indicator->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f));
-		
-			Text* const text = entities->GetComponent<Text>(indicator->entity);
-			text->text = "MISSED";
+			Alert("MISSED", COLOR_RED);
 			EventsManager::Get()->Trigger("RESET_MULTIPLIER");
 		}
 		endCycle = false;
@@ -47,20 +65,67 @@ void BeatController::Update() {
 
 }
 
+void BeatController::FixedUpdate() {
+	if (source->IsPaused()) return;
+
+	//const auto sample = file->Spectrum(t, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
+	float result = 1.f;
+	//for (unsigned i = 0; i < frequencyBands; ++i)
+		//result = max(result, sample[i]);
+	//result = sample[2];
+
+	EventsManager::Get()->Trigger("BEAT_VALUE", new Events::AnyType<float>(result));
+	*meterHeight = maxHeight * result;
+}
+
+void BeatController::Stop() {
+	source->Pause();
+}
+
 void BeatController::HitHandler(Events::Event * event) {
 	bool * const state = static_cast<Events::AnyType<bool*>*>(event)->data;
-	if (!isHit && (threshold >= bt || threshold >= delay - bt)) {
-		background->et = 0.f;
+	if (source->IsPaused()) {
+		promptLabel->text = "";
+		source->Play();
+
+		et = 0.f;
 		isHit = true;
 		*state = true;
-	} else {
-		//Transform* const indicator = indicatorPrefab->Create();
-		//indicator->translation = transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f);
+		return;
+	} else if (!isHit) {
+		std::string message = "";
+		vec3f color;
+		if (perfectThreshold >= bt || perfectThreshold >= delay - bt) {
+			message = "PERFECT";
+			color = COLOR_PURPLE;
+		} else if (greatThreshold >= bt) {
+			message = "GREAT";
+			color = COLOR_ORANGE;
+		} else if (goodThreshold >= bt) {
+			message = "GOOD";
+			color = 1.f;
+		}
 
-		//Text* const text = entities->GetComponent<Text>(indicator->entity);
-		//text->text = "TOO EARLY";
-		*state = false;
-		EventsManager::Get()->Trigger("RESET_MULTIPLIER");
+		if (message != "") {
+			Alert(message, color);
+			background->spreadTint = color;
+			et = 0.f;
+			isHit = true;
+			*state = true;
+			return;
+		}
 	}
 
+	//Alert("TOO EARLY", RED);
+	*state = false;
+	EventsManager::Get()->Trigger("RESET_MULTIPLIER");
+}
+
+void BeatController::Alert(std::string const & message, vec3f const & color) {
+	Transform* const indicator = indicatorPrefab->Create();
+	indicator->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(0.f, 3.f, 0.f));
+
+	Text* const text = entities->GetComponent<Text>(indicator->entity);
+	text->text = message;
+	text->color.rgb = color;
 }
