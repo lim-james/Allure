@@ -40,6 +40,7 @@ protected:
 	bool isPlayer;
 
 	void Awake() override;
+	float GetForce() const;
 
 };
 

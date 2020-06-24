@@ -93,12 +93,16 @@ void EnemyLife::Hit(unsigned const& target, bool const& bonus, vec3f const& forc
 	stunBt = stunDelay;
 	hasFroze = false;
 
+	const int damage = bonus ? 5 : 1;
+	
 	if (shield > 0) {
-		--shield;
+		shield -= damage;
 		return;
 	}
 
-	if (--health <= 0) {
+	health -= damage;
+
+	if (health <= 0) {
 		state->queuedState = "DEAD";
 
 		EventsManager::Get()->Trigger("SCORE", new Events::Score(

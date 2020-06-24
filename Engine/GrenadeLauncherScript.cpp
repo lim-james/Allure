@@ -37,7 +37,7 @@ void GrenadeLauncherScript::CreateBullet(bool const& onBeat, vec2f const& direct
 	bullet->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(direction));
 
 	Physics* const physics = entities->GetComponent<Physics>(bullet->entity);
-	physics->AddForce(direction * 5000.f);
+	physics->AddForce(direction * GetForce());
 
 	SphereCollider* const collider = entities->GetComponent<SphereCollider>(bullet->entity);
 	collider->ignoreMask += bulletMask;

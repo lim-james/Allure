@@ -609,9 +609,6 @@
     <ClCompile Include="PlayerLife.cpp">
       <Filter>Assets\Scripts\Main\Player</Filter>
     </ClCompile>
-    <ClCompile Include="SplashScreen.cpp">
-      <Filter>Assets\Scenes\Main</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyCombat.cpp">
       <Filter>Assets\Scripts\Main\Enemy</Filter>
     </ClCompile>
@@ -629,6 +626,27 @@
     </ClCompile>
     <ClCompile Include="IceElementalEnemy.cpp">
       <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="CyclopsEnemy.cpp">
+      <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScene.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectrumBubbleMaterial.cpp">
+      <Filter>Assets\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="BubbleManager.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioPlayer.cpp">
+      <Filter>Assets\Prefabs\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioControlller.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1079,9 +1097,6 @@
     <ClInclude Include="PlayerLife.h">
       <Filter>Assets\Scripts\Main\Player</Filter>
     </ClInclude>
-    <ClInclude Include="SplashScreen.h">
-      <Filter>Assets\Scenes\Main</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyCombat.h">
       <Filter>Assets\Scripts\Main\Enemy</Filter>
     </ClInclude>
@@ -1102,6 +1117,27 @@
     </ClInclude>
     <ClInclude Include="ProjectDefines.h">
       <Filter>Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="CyclopsEnemy.h">
+      <Filter>Assets\Prefabs\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScene.h">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SpectrumBubbleMaterial.h">
+      <Filter>Assets\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleManager.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioPlayer.h">
+      <Filter>Assets\Prefabs\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioControlller.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

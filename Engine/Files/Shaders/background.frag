@@ -40,8 +40,8 @@ void main() {
 		fragColor = texture(tex, vs_out.texCoord) * vs_out.color;	
 	else
 		fragColor = vs_out.color;	
-
-	if (length(fragColor.a) < 0.01)
+	
+	if (fragColor.a < 0.01)
 		discard;
 
 	vec3 delta = vs_out.worldPosition.xyz - playerPosition;
@@ -59,7 +59,7 @@ void main() {
 
 	// threshold
 	// createIndicator(threshold * 0.75f, thresholdTint, square);
-	
+
 	float brightness = dot(fragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
     if(brightness > 1.0) {
         brightColor = vec4(fragColor.rgb, 1.0);

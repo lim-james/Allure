@@ -37,7 +37,7 @@ void PistolScript::CreateBullet(bool const& onBeat, vec2f const& direction) cons
 	bullet->SetLocalTranslation(transform->GetWorldTranslation() + vec3f(direction));
 
 	Physics* const physics = entities->GetComponent<Physics>(bullet->entity);
-	physics->AddForce(direction * 2500.f);
+	physics->AddForce(direction * 0.5f * GetForce());
 
 	SphereCollider* const collider = entities->GetComponent<SphereCollider>(bullet->entity);
 	collider->ignoreMask += bulletMask;

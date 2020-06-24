@@ -1,14 +1,14 @@
-#ifndef BASIC_ENEMY_H
-#define BASIC_ENEMY_H
+#ifndef CYCLOPS_ENEMY_H
+#define CYCLOPS_ENEMY_H
 
 #include "Prefab.h"
 #include "SpriteAnimationData.h"
 
-struct BasicEnemy : Prefab {
+struct CyclopsEnemy : Prefab {
 	unsigned spriteSheet;
 	std::map<std::string, SpriteAnimationData> spriteData;
 
-	BasicEnemy();
+	CyclopsEnemy();
 	Transform* Create() override;
 };
 

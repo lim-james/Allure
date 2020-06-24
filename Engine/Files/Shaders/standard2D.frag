@@ -17,7 +17,7 @@ void main() {
 	else
 		fragColor = vs_out.color;	
 
-	if (length(fragColor.a) < 0.01)
+	if (fragColor.a < 0.01)
 		discard;
 
 	float brightness = dot(fragColor.rgb * fragColor.a, vec3(0.2126, 0.7152, 0.0722));

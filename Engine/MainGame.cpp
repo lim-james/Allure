@@ -127,6 +127,9 @@ void MainGame::Awake() {
 
 	iceElementalEnemy = new IceElementalEnemy;
 	iceElementalEnemy->Initialize(entities);
+
+	cyclopsEnemy = new CyclopsEnemy;
+	cyclopsEnemy->Initialize(entities);
 }
 
 void MainGame::Create() {
@@ -173,7 +176,6 @@ void MainGame::Create() {
 	}
 	
 	// ui camera
-
 	Camera* uiCamera = nullptr;
 	{
 		const unsigned entity = entities->Create();
@@ -239,7 +241,7 @@ void MainGame::Create() {
 		const unsigned volume = entities->Create();
 		Vignette* const vignette = entities->AddComponent<Vignette>(volume);
 		vignette->SetActive(true);
-		vignette->tint = COLOR_PURPLE;// vec3f(0.5f, 0.f, 0.5f);
+		vignette->tint = COLOR_PURPLE; // vec3f(0.5f, 0.f, 0.5f);
 		scoreController->vfx = vignette;
 		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
 	}
@@ -310,7 +312,7 @@ void MainGame::Create() {
 		text->SetFont(vcrMono);
 		text->scale = 1.25f;
 		text->text = "x8";
-		text->color = COLOR_ORANGE;// vec4f(1.f, 0.749f, 0.f, 1.f);
+		text->color = COLOR_YELLOW; // vec4f(1.f, 0.749f, 0.f, 1.f);
 		text->paragraphAlignment = PARAGRAPH_RIGHT;
 		text->verticalAlignment = ALIGN_TOP;
 
@@ -424,7 +426,7 @@ void MainGame::Create() {
 		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
 		render->SetMaterial(background);
 		//render->SetCellRect(0, 0, 32, 18);
-		render->SetCellRect(0, 0, 16, 9);
+		render->SetCellRect(0, 0, 12, 6.75);
 		render->tint.a = 0.15f;
 
 		backgroundAudio = entities->AddComponent<AudioSource>(entity);
@@ -467,6 +469,7 @@ void MainGame::Create() {
 
 	automatic->CreateAt(vec3f(15.f, 0.f, 0.f));
 	laser->CreateAt(vec3f(-15.f, 0.f, 0.f));
+	shotgun->CreateAt(vec3f(0.f, 15.f, 0.f));
 
 	// gun holder 
 	Transform* weaponHolderTransform = nullptr;
@@ -586,15 +589,19 @@ void MainGame::Create() {
 		manager->sfxPrefab = sfxEmitter;
 
 		const TargetStyle trackPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 100.f, 30.f };
+		const TargetStyle slowTrack = { TARGET_LOCKON, MOVEMENT_CONSTANT, 50.f, 20.f };
 		const TargetStyle dashPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, 300.f, 25.f };
 		const TargetStyle dash = { TARGET_DASH, MOVEMENT_CONSTANT, 400.f, 25.f };
 		const TargetStyle avoidPlayer = { TARGET_LOCKON, MOVEMENT_CONSTANT, -200.f, 20.f };
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 150.f, 30.f };
+		const TargetStyle slowRoam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 0.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 10, 1 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 10, 1 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 10, 1 });
 		manager->AddEnemy(EnemyData{ batEnemy, nullptr, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 2, 5, 3 });
 		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 5, 3 });
 		manager->AddEnemy(EnemyData{ iceElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 5, 3 });
+		//manager->AddEnemy(EnemyData{ cyclopsEnemy, shotgun, 1.f, 0, 10, 5, true, slowRoam, slowTrack, RISK_LOW, 1, 2, 1, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });

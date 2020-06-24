@@ -5,6 +5,10 @@
 
 struct BulletHandler : Script {
 	using base_type = BulletHandler;
+
+	bool pierce;
+
+	void Awake() override;
 	virtual void OnHit(unsigned target);
 };
 

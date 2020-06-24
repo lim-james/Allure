@@ -60,7 +60,7 @@ void AutomaticScript::CreateBullet(bool const& onBeat, vec2f const& direction) c
 	bullet->SetLocalRotation(vec3f(0.f, 0.f, atan2f(direction.y, direction.x) * Math::toDeg));
 
 	Physics* const physics = entities->GetComponent<Physics>(bullet->entity);
-	physics->AddForce(direction * 5000.f);
+	physics->AddForce(direction * GetForce());
 
 	SphereCollider* const collider = entities->GetComponent<SphereCollider>(bullet->entity);
 	collider->ignoreMask += bulletMask;

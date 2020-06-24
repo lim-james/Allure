@@ -6,6 +6,7 @@
 #include "EnemyData.h"
 #include "EnemyLife.h"
 #include "Physics.h"
+#include "SpriteAnimation.h"
 
 #include <Events/Event.h>
 
@@ -32,6 +33,7 @@ private:
 
 	EnemyLife* life;
 	Physics* physics;
+	SpriteAnimation* spriteAnimation;
 
 	void Awake() override;
 	void Update() override;

@@ -26,8 +26,8 @@ struct SpriteRender : Component {
 	unsigned const& GetSprite() const;
 	void SetSprite(unsigned const& _sprite);
 
-	void SetTilemapSize(int const& width, int const& height);
-	void SetCellRect(int const& x, int const& y, int const& width, int const& height);
+	void SetTilemapSize(float const& width, float const& height);
+	void SetCellRect(float const& x, float const& y, float const& width, float const& height);
 
 	Material::Base* const GetMaterial() const;
 	void SetMaterial(Material::Base* _material);

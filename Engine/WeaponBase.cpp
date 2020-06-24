@@ -25,4 +25,8 @@ void WeaponBase::Awake() {
 	collider = GetComponent<SphereCollider>();
 }
 
+float WeaponBase::GetForce() const {
+	return isPlayer ? 5000.f : 2000.0f;
+}
+
 

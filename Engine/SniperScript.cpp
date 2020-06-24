@@ -3,7 +3,7 @@
 #include "SpriteRender.h"
 #include "Physics.h"
 #include "SphereCollider.h"
-#include "SelfDestruct.h"
+#include "BulletHandler.h"
 #include "Layers.h"
 
 #include <Events/EventsManager.h>
@@ -39,10 +39,13 @@ void SniperScript::CreateBullet(bool const& onBeat, vec2f const& direction) cons
 	bullet->SetLocalRotation(vec3f(0.f, 0.f, atan2f(direction.y, direction.x) * Math::toDeg));
 
 	Physics* const physics = entities->GetComponent<Physics>(bullet->entity);
-	physics->AddForce(direction * 5000.f);
+	physics->AddForce(direction * GetForce());
 
 	SphereCollider* const collider = entities->GetComponent<SphereCollider>(bullet->entity);
 	collider->ignoreMask += bulletMask;
+
+	BulletHandler* const bulletHandler = entities->GetComponent<BulletHandler>(bullet->entity);
+	bulletHandler->pierce = true;
 
 	const unsigned audioSource = audioPrefab->Create()->entity;
 	AudioSource* const audio = entities->GetComponent<AudioSource>(audioSource);

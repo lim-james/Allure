@@ -87,6 +87,7 @@ void BeatController::HitHandler(Events::Event * event) {
 	if (source->IsPaused()) {
 		promptLabel->text = "";
 		source->Play();
+		EventsManager::Get()->Trigger("PLAY");
 
 		et = 0.f;
 		isHit = true;
@@ -100,7 +101,7 @@ void BeatController::HitHandler(Events::Event * event) {
 			color = COLOR_PURPLE;
 		} else if (greatThreshold >= bt) {
 			message = "GREAT";
-			color = COLOR_ORANGE;
+			color = COLOR_YELLOW;
 		} else if (goodThreshold >= bt) {
 			message = "GOOD";
 			color = 1.f;

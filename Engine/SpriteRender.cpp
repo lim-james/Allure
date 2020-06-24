@@ -44,21 +44,15 @@ void SpriteRender::SetSprite(unsigned const& _sprite) {
 	EventsManager::Get()->Trigger("SPRITE_CHANGE", event);
 }
 
-void SpriteRender::SetTilemapSize(int const& width, int const& height) {
-	tilemapUnit.x = 1.f / static_cast<float>(width);
-	tilemapUnit.y = 1.f / static_cast<float>(height);
+void SpriteRender::SetTilemapSize(float const& width, float const& height) {
+	tilemapUnit.x = 1.f / width;
+	tilemapUnit.y = 1.f / height;
 
 	uvRect = cellRect * vec4f(tilemapUnit, tilemapUnit);
 }
 
-void SpriteRender::SetCellRect(int const& x, int const& y, int const& width, int const& height) {
-	cellRect = vec4f(
-		static_cast<float>(x),
-		static_cast<float>(y),
-		static_cast<float>(width),
-		static_cast<float>(height)
-	);
-
+void SpriteRender::SetCellRect(float const& x, float const& y, float const& width, float const& height) {
+	cellRect = vec4f(x, y, width, height);
 	uvRect = cellRect * vec4f(tilemapUnit, tilemapUnit);
 }
 

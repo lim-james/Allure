@@ -18,6 +18,7 @@ vec3f EnemyTarget::GetTarget() const {
 void EnemyTarget::Awake() {
 	life = GetComponent<EnemyLife>();
 	physics = GetComponent<Physics>();
+	spriteAnimation = GetComponent<SpriteAnimation>();
 	EventsManager::Get()->Subscribe("BEAT_VALUE", &EnemyTarget::EventHandler, this);
 }
 
@@ -61,6 +62,11 @@ void EnemyTarget::Update() {
 		}
 		break;
 	}
+
+	if (Math::LengthSquared(physics->velocity) > 0.1f)
+		spriteAnimation->queued = "CHASE";
+	else
+		spriteAnimation->queued = "IDLE";
 
 	const float direction = target.x - position.x;
 	transform->SetLocalRotation(vec3f(0.f, 90.f - 90.f * direction / fabs(direction), 0.f));

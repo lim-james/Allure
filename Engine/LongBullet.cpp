@@ -33,7 +33,7 @@ Transform* LongBullet::Create() {
 
 	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 	collider->SetActive(true);
-	collider->ignoreMask = WEAPON | BULLET | BONUS_BULLET | EFFECT_AREA;
+	collider->ignoreMask = WEAPON | BULLET | BONUS_BULLET | ENEMY_BULLET | EFFECT_AREA;
 
 	BulletHandler* const bullet = entities->AddComponent<BulletHandler>(entity);
 	bullet->SetActive(true);
@@ -41,7 +41,7 @@ Transform* LongBullet::Create() {
 
 	SelfDestruct* const destruct = entities->AddComponent<SelfDestruct>(entity);
 	destruct->SetActive(true);
-	destruct->lifetime = 2.f;
+	destruct->lifetime = 5.f;
 
 	return transform;
 }

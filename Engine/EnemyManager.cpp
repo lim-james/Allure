@@ -16,7 +16,7 @@ void EnemyManager::AddEnemy(EnemyData const & data) {
 }
 
 void EnemyManager::Awake() {
-	EventsManager::Get()->Subscribe("KEY_INPUT", &EnemyManager::KeyHandler, this);
+	EventsManager::Get()->Subscribe("PLAY", &EnemyManager::PlayHandler, this);
 	EventsManager::Get()->Subscribe("BEAT", &EnemyManager::BeatHandler, this);
 }
 
@@ -37,11 +37,12 @@ void EnemyManager::Update() {
 
 		for (unsigned i = 0; i < group.data.batchSize; ++i) {
 			Transform* const eTransform = group.data.prefab->Create();
-			eTransform->SetLocalTranslation(vec3f(
-				Math::RandMinMax(-boundary.x, boundary.x),
-				Math::RandMinMax(-boundary.y, boundary.y),
-				0.f
-			));
+			
+			const float radius = Math::RandMinMax(30.f, 50.f);
+			const float angle = Math::RandMinMax(0.f, 2.f * Math::PI);
+
+			const vec3f displacement = vec3f(cos(angle) * radius, sin(angle) * radius, 0.f);
+			eTransform->SetLocalTranslation(player->GetWorldTranslation() + displacement);
 
 			SpriteRender* const render = entities->GetComponent<SpriteRender>(eTransform->entity);
 			render->tint = data.colour;
@@ -73,12 +74,8 @@ void EnemyManager::Update() {
 	}
 }
 
-void EnemyManager::KeyHandler(Events::Event* event) {
-	auto input = static_cast<Events::KeyInput*>(event);
-
-	if (input->key == GLFW_KEY_SPACE && input->action == GLFW_PRESS) {
-		enabled = true;
-	}
+void EnemyManager::PlayHandler() {
+	enabled = true;
 }
 
 void EnemyManager::BeatHandler() {

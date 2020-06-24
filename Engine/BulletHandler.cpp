@@ -2,6 +2,10 @@
 
 #include "Layers.h"
 
+void BulletHandler::Awake() {
+	pierce = false;
+}
+
 void BulletHandler::OnHit(unsigned target) {
-	entities->Destroy(entity);
+	if (!pierce) entities->Destroy(entity);
 }

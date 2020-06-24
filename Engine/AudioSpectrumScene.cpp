@@ -21,7 +21,8 @@ void AudioSpectrumScene::Create() {
 
 		AudioSource* const source = entities->AddComponent<AudioSource>(entity);
 		source->SetActive(true);
-		source->audioClip = "Files/Media/128C.wav";
+		//source->audioClip = "Files/Media/128C.wav";
+		source->audioClip = "Files/Media/LOUD - Thoughts.wav";
 		//source->speed = 1.5f;
 
 		SpectrumManager* const manager = entities->AddComponent<SpectrumManager>(entity);

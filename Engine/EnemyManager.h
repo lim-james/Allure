@@ -31,7 +31,7 @@ private:
 	void Start() override;
 	void Update() override;
 
-	void KeyHandler(Events::Event* event);
+	void PlayHandler();
 	void BeatHandler();
 
 };
