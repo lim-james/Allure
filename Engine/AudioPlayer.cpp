@@ -9,6 +9,7 @@ Transform * AudioPlayer::Create() {
 	AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 	audio->SetActive(true);
 	audio->loop = true;
+	audio->volume = 0.f;
 
 	AudioController* const controller = entities->AddComponent<AudioController>(entity);
 	controller->SetActive(true);

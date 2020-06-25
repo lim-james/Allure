@@ -654,6 +654,9 @@
     <ClCompile Include="MenuManager.cpp">
       <Filter>Assets\Scripts\Scene\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="MenuCamera.cpp">
+      <Filter>Assets\Scripts\Main\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1150,6 +1153,9 @@
     </ClInclude>
     <ClInclude Include="SongData.h">
       <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuCamera.h">
+      <Filter>Assets\Scripts\Main\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

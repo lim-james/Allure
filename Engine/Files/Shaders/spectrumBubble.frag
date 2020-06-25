@@ -24,8 +24,13 @@ uniform vec3 outlineColor;
 
 uniform vec2 values[size];
 
-void main() {
+vec3 hsv2rgb(vec3 c) {
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
 
+void main() {
 	vec2 radialUV = (vs_out.texCoord - 0.5f) * 2.f;
 	float radius = length(radialUV);
 	float value = max(radius - minRadius + 0.5f, 0.f) / (1.001f - minRadius);	
@@ -50,16 +55,23 @@ void main() {
 //
 //	freq *= multiplier / (sampleSize * 2.f + 1.f);
 
-	float a = 1.f - round(value - freq.y);
-	float b = 1.f - round(value - freq.y - outlineWeight * radius * radius);
-	vec3 color = a * vs_out.color.rgb;
-	vec3 outline = (b - a) * outlineColor;
-	fragColor = vec4(color + outline, vs_out.color.a);
+	vec2 UV = vs_out.texCoord - vec2((1.f - minRadius) * 0.5f);
+	UV /= minRadius * 2.f;
 
-	if (fragColor.r < 0.01f) 
+	float a = clamp(round(1.f - value), 0, 1);
+	float b = min(1.f - round(value - freq.y), 1.f);
+	float c = min(1.f - round(value - freq.y - outlineWeight * radius * radius), 1.f);
+	vec3 ball =  a * texture(tex, UV).rgb;
+	vec3 bars =  (b - a) * vs_out.color.rgb;
+	vec3 outline = (c - b) * outlineColor;
+//	vec3 outline = (b - a) * hsv2rgb(vec3(radius, 1, 1));
+
+	fragColor = vec4(ball + bars + outline, 1);
+
+	if (a + b + c < 0.01f)  
 		discard;
 		
-	if (vs_out.color.a > 0.9f)
+	if (a < 0.001f)
 		brightColor = vec4(fragColor.rgb, 1.0);
 	else
 		brightColor = vec4(0.0, 0.0, 0.0, 1.0);

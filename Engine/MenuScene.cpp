@@ -6,11 +6,13 @@
 #include "AnimationSystem.h"
 #include "AudioSystem.h"
 // scripts
+#include "MenuCamera.h"
 #include "BubbleManager.h"
 #include "MenuManager.h"
 // post vfx
 #include "Bloom.h"
 // utilities
+#include "Layers.h"
 #include "LoadFNT.h"
 #include "LoadTexture.h"
 
@@ -39,9 +41,35 @@ void MenuScene::Create() {
 
 	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
-	Camera* camera = entities->GetComponent<Camera>(mainCamera);
-	camera->SetSize(30.f);
-	camera->projection = ORTHOGRAPHIC;
+	{
+		Transform* const transform = entities->GetComponent<Transform>(mainCamera);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, 20.f));
+
+		Camera* const camera = entities->GetComponent<Camera>(mainCamera);
+		camera->cullingMask = DEFAULT;
+	}
+
+	// ui camera
+	Camera* uiCamera = nullptr;
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, 10.f));
+
+		uiCamera = entities->AddComponent<Camera>(entity);
+		uiCamera->SetActive(true);
+		uiCamera->SetSize(15.f);
+		uiCamera->SetDepth(1);
+		uiCamera->shouldClear = false;
+		uiCamera->projection = ORTHOGRAPHIC;
+		uiCamera->cullingMask = UI;
+
+		MenuCamera* const control = entities->AddComponent<MenuCamera>(entity);
+		control->SetActive(true);
+		control->speed = 1.f;
+		control->range = 2.f;
+	}
 
 	// post processing volume
 	{
@@ -51,43 +79,42 @@ void MenuScene::Create() {
 		bloom->unit = 2.f;
 	}
 
-	BubbleManager* bubble = nullptr;
+	// grid
 	{
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, 0.f, -5.f));
+		transform->SetLocalTranslation(vec3f(0.f, -5.f, -5.f));
+		transform->SetLocalRotation(vec3f(130.f, 0.f, 0.f));
 		transform->SetScale(vec3f(160.0f, 90.0f, 1.0f));
 		transform->SetDynamic(false);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
-		//render->SetCellRect(0, 0, 32, 18);
-		render->SetCellRect(0, 0, 12, 6.75);
-		render->tint.a = 0.f;
+		render->SetCellRect(0, 0, 32, 18);
+		render->tint.a = 0.15f;
 
 		Animation* const animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 1.f, 2.f), &render->tint.a, 0.15f);
-		animation->Queue(AnimationBase(true, 10.f), &render->uvRect.xy, vec2f(1.f));
+		animation->Queue(AnimationBase(true, 10.f), &render->uvRect.y, 1.f);
 	}
 
+	// spectrum bubble
+	BubbleManager* bubble = nullptr;
 	{
 		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
 	
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetScale(60.f);
+		transform->SetScale(30.f);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(spectrumBubble);
 		render->tint.a = 0.f;
-
-		//source->audioClip = "Files/Media/128C.wav";
-		//source->audioClip = "Files/Media/LOUD - Thoughts.wav";
-		//source->audioClip = "Files/Media/IceFlow.wav";
-		//source->speed = 1.5f;
+		render->SetSprite(Load::Texture2D("Files/Textures/rustediron2_basecolor.png"));
 
 		Animation* const animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
@@ -102,8 +129,11 @@ void MenuScene::Create() {
 		bubble->audioDuration = 90.f;
 		bubble->minRadius = 0.5f;
 		bubble->maxRadius = 0.6f;
+		//bubble->minRadius = 1.f;
+		//bubble->maxRadius = 1.f;
 	}
 
+	// menu manager
 	{
 		const unsigned entity = entities->Create();
 
@@ -113,7 +143,7 @@ void MenuScene::Create() {
 		manager->AddSong(SongData{ "Files/Media/LOUD - Thoughts.wav", 150 });
 		manager->AddSong(SongData{ "Files/Media/128C.wav", 128 });
 		manager->AddSong(SongData{ "Files/Media/IceFlow.wav", 140 });
-		manager->AddSong(SongData{ "Files/Media/ass.wav", 60 });
+		manager->AddSong(SongData{ "Files/Media/Running in the 90's.wav", 118 });
 		manager->AddSong(SongData{ "Files/Media/KraftyKuts.wav", 60 });
 	}
 }
