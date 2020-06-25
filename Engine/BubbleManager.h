@@ -5,6 +5,7 @@
 #include "SpectrumBubbleMaterial.h"
 #include "Prefab.h"
 #include "AudioControlller.h"
+#include "SongData.h"
 
 #include <Audio/AudioFile.h>
 #include <Events/Event.h>
@@ -18,40 +19,32 @@ struct BubbleManager : Script {
 	unsigned endFrequency;
 	float audioDuration;
 
+	float minRadius;
+	float maxRadius;
+
 	Material::SpectrumBubble* material;
 	Prefab* audioPrefab;
 
 	BubbleManager();
-	
-	void AddSong(std::string const& path);
 
-	void NextSong();
-	void PreviousSong();
+	void FadeOut();
+	void Play(SongData const& song);
 
 private:
 
-	float t;
+	float t, bt;
 	float duration;
+	float bInv; // inverse of beat
+
+	SongData current;
 
 	AudioSource* source;
 	AudioController* controller;
 	AudioFile<int16_t>* file;
 
-	bool switched;
-	float selectionDelay;
-	float bt;
-	int selected;
-	std::vector<std::string> songPaths;
-
-	void Awake() override;
 	void Start() override;
 	void Update() override;
 	void OnDestroy() override;
-
-	void KeyHandler(Events::Event* event);
-
-	void SwitchingSong();
-	void UpdateSong();
 
 };
 

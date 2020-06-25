@@ -7,6 +7,7 @@
 #include "AudioSystem.h"
 // scripts
 #include "BubbleManager.h"
+#include "MenuManager.h"
 // post vfx
 #include "Bloom.h"
 // utilities
@@ -50,6 +51,7 @@ void MenuScene::Create() {
 		bloom->unit = 2.f;
 	}
 
+	BubbleManager* bubble = nullptr;
 	{
 		const unsigned entity = entities->Create();
 
@@ -91,20 +93,28 @@ void MenuScene::Create() {
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 1.f, 1.f), &render->tint.a, 1.f);
 
-		BubbleManager* const bubble = entities->AddComponent<BubbleManager>(entity);
+		bubble = entities->AddComponent<BubbleManager>(entity);
 		bubble->SetActive(true);
-
 		bubble->material = spectrumBubble;
+		bubble->audioPrefab = audioPlayer;
 		bubble->startFrequency = 20;
 		bubble->endFrequency = 2000;
 		bubble->audioDuration = 90.f;
+		bubble->minRadius = 0.5f;
+		bubble->maxRadius = 0.6f;
+	}
 
-		bubble->audioPrefab = audioPlayer;
-		bubble->AddSong("Files/Media/LOUD - Thoughts.wav");
-		bubble->AddSong("Files/Media/128C.wav");
-		bubble->AddSong("Files/Media/IceFlow.wav");
-		bubble->AddSong("Files/Media/ass.wav");
-		bubble->AddSong("Files/Media/KraftyKuts.wav");
+	{
+		const unsigned entity = entities->Create();
+
+		MenuManager* manager = entities->AddComponent<MenuManager>(entity);
+		manager->SetActive(true);
+		manager->bubble = bubble;
+		manager->AddSong(SongData{ "Files/Media/LOUD - Thoughts.wav", 150 });
+		manager->AddSong(SongData{ "Files/Media/128C.wav", 128 });
+		manager->AddSong(SongData{ "Files/Media/IceFlow.wav", 140 });
+		manager->AddSong(SongData{ "Files/Media/ass.wav", 60 });
+		manager->AddSong(SongData{ "Files/Media/KraftyKuts.wav", 60 });
 	}
 }
 

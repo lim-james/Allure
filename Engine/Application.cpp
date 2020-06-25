@@ -53,7 +53,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new MenuScene);
+	sceneManager->Present(new SplashScene);
 
 	context->BroadcastSize();
 	em->TriggerQueued();

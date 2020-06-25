@@ -196,6 +196,9 @@
     <Filter Include="Assets\Prefabs\Audio">
       <UniqueIdentifier>{6ac3eeec-c24e-4878-ab3a-95f24a3b7f6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Scene\Menu">
+      <UniqueIdentifier>{4bffc844-27e0-4d97-8167-2d078d347a7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -647,6 +650,9 @@
     </ClCompile>
     <ClCompile Include="AudioControlller.cpp">
       <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuManager.cpp">
+      <Filter>Assets\Scripts\Scene\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1137,6 +1143,12 @@
       <Filter>Assets\Prefabs\Audio</Filter>
     </ClInclude>
     <ClInclude Include="AudioControlller.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuManager.h">
+      <Filter>Assets\Scripts\Scene\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="SongData.h">
       <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClInclude>
   </ItemGroup>
