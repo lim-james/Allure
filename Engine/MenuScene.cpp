@@ -5,6 +5,7 @@
 #include "SpriteRender.h"
 #include "AnimationSystem.h"
 #include "AudioSystem.h"
+#include "LayoutSystem.h"
 // scripts
 #include "MenuCamera.h"
 #include "BubbleManager.h"
@@ -24,6 +25,7 @@ void MenuScene::Awake() {
 
 	systems->Subscribe<AudioSystem>(0);
 	systems->Subscribe<AnimationSystem>(1);
+	systems->Subscribe<LayoutSystem>(1);
 
 	spectrumBubble = new Material::SpectrumBubble;
 	spectrumBubble->minRadius = 0.5f;
@@ -110,6 +112,11 @@ void MenuScene::Create() {
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->SetScale(30.f);
 
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint{ RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, 0.f, uiCamera });
+		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, nullptr, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera });
+
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(spectrumBubble);
@@ -129,8 +136,6 @@ void MenuScene::Create() {
 		bubble->audioDuration = 90.f;
 		bubble->minRadius = 0.5f;
 		bubble->maxRadius = 0.6f;
-		//bubble->minRadius = 1.f;
-		//bubble->maxRadius = 1.f;
 	}
 
 	// menu manager
@@ -140,11 +145,10 @@ void MenuScene::Create() {
 		MenuManager* manager = entities->AddComponent<MenuManager>(entity);
 		manager->SetActive(true);
 		manager->bubble = bubble;
-		manager->AddSong(SongData{ "Files/Media/LOUD - Thoughts.wav", 150 });
-		manager->AddSong(SongData{ "Files/Media/128C.wav", 128 });
-		manager->AddSong(SongData{ "Files/Media/IceFlow.wav", 140 });
-		manager->AddSong(SongData{ "Files/Media/Running in the 90's.wav", 118 });
-		manager->AddSong(SongData{ "Files/Media/KraftyKuts.wav", 60 });
+		manager->AddSong(SongData{ "LOUD - Thoughts", "Files/Media/LOUD - Thoughts.wav", 150 });
+		manager->AddSong(SongData{ "128C", "Files/Media/128C.wav", 128 });
+		manager->AddSong(SongData{ "Ice Flow", "Files/Media/IceFlow.wav", 140 });
+		manager->AddSong(SongData{ "Running in the 90's", "Files/Media/Running in the 90's.wav", 118 });
 	}
 }
 

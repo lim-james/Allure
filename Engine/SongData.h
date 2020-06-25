@@ -4,6 +4,7 @@
 #include <string>
 
 struct SongData {
+	std::string title;
 	std::string path;
 	unsigned tempo;
 };

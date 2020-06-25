@@ -128,13 +128,13 @@ void LayoutSystem::SetHeight(Transform * const transform, float const & value, b
 }
 
 void LayoutSystem::SetCenterX(Transform * const transform, float const & value, bool const& warp) {
-	vec3f translation = transform->GetScale();
+	vec3f translation = transform->GetLocalTranslation();
 	translation.x = value;
 	transform->SetLocalTranslation(translation);
 }
 
 void LayoutSystem::SetCenterY(Transform * const transform, float const & value, bool const& warp) {
-	vec3f translation = transform->GetScale();
+	vec3f translation = transform->GetLocalTranslation();
 	translation.y = value;
 	transform->SetLocalTranslation(translation);
 }
