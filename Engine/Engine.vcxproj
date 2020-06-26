@@ -223,6 +223,8 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SplashScene.cpp" />
     <ClCompile Include="Stress3D.cpp" />
+    <ClCompile Include="TableViewCell.cpp" />
+    <ClCompile Include="TableViewScript.cpp" />
     <ClCompile Include="TestAudio.cpp" />
     <ClCompile Include="TextBlink.cpp" />
     <ClCompile Include="Vignette.cpp" />
@@ -300,6 +302,7 @@
     <ClInclude Include="BatEnemy.h" />
     <ClInclude Include="BeatController.h" />
     <ClInclude Include="BulletHandler.h" />
+    <ClInclude Include="CellScript.h" />
     <ClInclude Include="ChaseState.h" />
     <ClInclude Include="BasicEnemy.h" />
     <ClInclude Include="BasicBullet.h" />
@@ -390,6 +393,8 @@
     <ClInclude Include="PostProcessStack.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="RenderProperties.h" />
+    <ClInclude Include="TableViewCell.h" />
+    <ClInclude Include="TableViewScript.h" />
     <ClInclude Include="TestAudio.h" />
     <ClInclude Include="TextBlink.h" />
     <ClInclude Include="Vignette.h" />

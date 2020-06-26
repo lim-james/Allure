@@ -3,7 +3,10 @@
 
 #include "Script.h"
 #include "BubbleManager.h"
+#include "TableViewScript.h"
 #include "SongData.h"
+
+#include "TableViewScript.h"
 
 struct MenuManager : Script {
 
@@ -17,8 +20,17 @@ struct MenuManager : Script {
 	void NextSong();
 	void PreviousSong();
 
+	// tableView methods
+	unsigned NumberOfRows(TableViewScript* tableView);
+	// mutate for row
+	void CellForRow(TableViewScript* tableView, unsigned index, Transform* cell);
+	// update row
+	void UpdateRow(TableViewScript* tableView, unsigned index, Transform* cell);
+
 private:
 
+	TableViewScript* tableView;
+	
 	bool switched;
 	float selectionDelay;
 	float bt;
@@ -34,6 +46,7 @@ private:
 	void SwitchingSong();
 	void UpdateSong();
 
+	void ScrollHandler(Events::Event* event);
 
 };
 

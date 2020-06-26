@@ -91,9 +91,19 @@ void Handler<ReturnType, void>::UnbindAll() {
 }
 
 template<typename ReturnType>
-void Handler<ReturnType, void>::operator()() const {
+void Handler<ReturnType, void>::Invoke() const {
 	for (auto& callback : customCallbacks)
 		callback();
+}
+
+template<typename ReturnType>
+std::vector<ReturnType> Handler<ReturnType, void>::InvokeReturn() const {
+	std::vector<ReturnType> result;
+
+	for (auto& callback : customCallbacks)
+		result.push_back(callback());
+
+	return result;
 }
 
 template<typename ReturnType>

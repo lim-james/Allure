@@ -68,7 +68,7 @@ public:
 				et = 0.f;
 			} else {
 				*target = outcome;
-				completion();
+				completion.Invoke();
 			}
 		} else if (et > 0.f) {
 			const T interval = outcome - *(target);
@@ -104,6 +104,11 @@ struct Animation : Component {
 	template<typename T>
 	void Clear(T* target) {
 		animations[(int)target].clear();
+	}
+
+	template<typename T>
+	unsigned  Count(T* target) const {
+		return animations[(int)target].size();
 	}
 	
 	void Clear();

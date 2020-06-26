@@ -13,11 +13,11 @@ void PostProcessStack::Render() {
 	if (layers.empty()) {
 		glViewport(0, 0, windowSize.w, windowSize.h);
 		glScissor(0, 0, windowSize.w, windowSize.h);
-		rawRender();
+		rawRender.Invoke();
 	} else {
 		PostProcess* const start = layers.front();
 		start->PreRender();
-		rawRender();
+		rawRender.Invoke();
 		start->PostRender();
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);

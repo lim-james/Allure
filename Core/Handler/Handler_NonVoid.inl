@@ -154,7 +154,7 @@ void Handler<ReturnType, ParameterTypes...>::UnbindAll() {
 }
 
 template<typename ReturnType, typename ...ParameterTypes>
-void Handler<ReturnType, ParameterTypes...>::operator()(ParameterTypes ...parameters) const {
+void Handler<ReturnType, ParameterTypes...>::Invoke(ParameterTypes ...parameters) const {
 	for (auto& callback : standardCallbacks)
 		callback(parameters...);
 	for (auto& callback : customCallbacks)
@@ -162,9 +162,31 @@ void Handler<ReturnType, ParameterTypes...>::operator()(ParameterTypes ...parame
 }
 
 template<typename ReturnType, typename ...ParameterTypes>
-void Handler<ReturnType, ParameterTypes...>::operator()() const {
+void Handler<ReturnType, ParameterTypes...>::Invoke() const {
 	for (auto& callback : customCallbacks)
 		callback();
+}
+
+template<typename ReturnType, typename ...ParameterTypes>
+std::vector<ReturnType> Handler<ReturnType, ParameterTypes...>::InvokeReturn(ParameterTypes ...parameters) const {
+	std::vector<ReturnType> result;
+
+	for (auto& callback : standardCallbacks)
+		result.push_back(callback(parameters...));
+	for (auto& callback : customCallbacks)
+		result.push_back(callback());
+
+	return result;
+}
+
+template<typename ReturnType, typename ...ParameterTypes>
+std::vector<ReturnType> Handler<ReturnType, ParameterTypes...>::InvokeReturn() const {
+	std::vector<ReturnType> result;
+
+	for (auto& callback : customCallbacks)
+		result.push_back(callback());
+
+	return result;
 }
 
 template<typename ReturnType, typename ...ParameterTypes>

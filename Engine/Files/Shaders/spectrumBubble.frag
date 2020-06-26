@@ -55,8 +55,8 @@ void main() {
 //
 //	freq *= multiplier / (sampleSize * 2.f + 1.f);
 
-	vec2 UV = vs_out.texCoord - vec2((1.f - minRadius) * 0.5f);
-	UV /= minRadius * 2.f;
+	vec2 UV = vs_out.texCoord - vec2(minRadius * 0.55f);
+	UV /= minRadius * 0.5f;
 	vec4 texColor = texture(tex, UV) * vs_out.color;
 
 	float a = clamp(round(1.f - value), 0, 1);
@@ -68,7 +68,7 @@ void main() {
 	vec3 outline = (c - b) * outlineColor;
 //	vec3 outline = (b - a) * hsv2rgb(vec3(radius, 1, 1));
 
-	fragColor = vec4(ball + bars + outline, texColor.a);
+	fragColor = vec4(ball + bars + outline, vs_out.color.a);
 
 	if (a + b + c < 0.01f)  
 		discard;

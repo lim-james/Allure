@@ -199,6 +199,9 @@
     <Filter Include="Assets\Scripts\Scene\Menu">
       <UniqueIdentifier>{4bffc844-27e0-4d97-8167-2d078d347a7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Main\UI">
+      <UniqueIdentifier>{534ecfa3-f72c-4da2-bb05-1321a2a9283f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -656,6 +659,12 @@
     </ClCompile>
     <ClCompile Include="MenuCamera.cpp">
       <Filter>Assets\Scripts\Main\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="TableViewCell.cpp">
+      <Filter>Assets\Prefabs\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TableViewScript.cpp">
+      <Filter>Assets\Scripts\Main\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1156,6 +1165,15 @@
     </ClInclude>
     <ClInclude Include="MenuCamera.h">
       <Filter>Assets\Scripts\Main\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TableViewCell.h">
+      <Filter>Assets\Prefabs\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TableViewScript.h">
+      <Filter>Assets\Scripts\Main\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CellScript.h">
+      <Filter>Assets\Scripts\Main\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -54,7 +54,7 @@ void SpriteAnimationSystem::ProcessAnimation(SpriteAnimation* component, SpriteA
 			if (animation.loop) {
 				animation.currentFrame = 0;
 			} else {
-				animation.completed();
+				animation.completed.Invoke();
 				return;
 			}
 		}

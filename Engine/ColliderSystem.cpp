@@ -39,7 +39,7 @@ void ColliderSystem::FixedUpdate(float const & dt) {
 					const unsigned l2 = entities->GetLayer(e2);
 
 					if (c1->ignoreMask == l2 || c2->ignoreMask == l1) continue;
-					detection(c1, c2);
+					detection.Invoke(c1, c2);
 				}
 			}
 
@@ -54,7 +54,7 @@ void ColliderSystem::FixedUpdate(float const & dt) {
 						const unsigned l2 = entities->GetLayer(e2);
 
 						if (c1->ignoreMask == l2 || c2->ignoreMask == l1) continue;
-						detection(c1, c2);
+						detection.Invoke(c1, c2);
 					}
 				}
 			}
@@ -195,8 +195,8 @@ void ColliderSystem::HandleCollision(Collider * const a, Collider * const b, boo
 }
 
 void ColliderSystem::PerformAction(unsigned const & action, Collider * const a, Collider * const b) {
-	a->handlers[action](b->entity);
-	b->handlers[action](a->entity);
+	a->handlers[action].Invoke(b->entity);
+	b->handlers[action].Invoke(a->entity);
 }
 
 void ColliderSystem::SphereSphere(Collider * const a, Collider * const b) {

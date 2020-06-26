@@ -79,7 +79,7 @@ void ParticleSystem::Update(float const& dt) {
 					emitter->age = 0.f;
 				} else {
 					if (group.empty()) {
-						emitter->completion();
+						emitter->completion.Invoke();
 						emitter->completion.UnbindAll();
 					}
 

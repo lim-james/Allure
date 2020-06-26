@@ -1,6 +1,8 @@
 #include "MenuManager.h"
 
+#include "ProjectDefines.h"
 #include "InputEvents.h"
+#include "CellScript.h"
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
@@ -26,14 +28,78 @@ void MenuManager::PreviousSong() {
 	SwitchingSong();
 }
 
+unsigned MenuManager::NumberOfRows(TableViewScript * tableView) {
+	return songs.size();
+}
+
+void MenuManager::CellForRow(TableViewScript * tableView, unsigned index, Transform * cell) {
+	CellScript* const script = entities->GetComponent<CellScript>(cell->entity);
+	script->titleLabel->text = songs[index].title;
+
+	vec4f color(0.f, 0.f, 0.f, 0.2f);
+	if (index == selected) {
+		color = COLOR_RED;
+		color.a = 0.8f;
+
+		vec3f translation = cell->GetLocalTranslation();
+		translation.x = -0.05f;
+		cell->SetLocalTranslation(translation);
+	}
+	
+	script->background->tint = color;
+}
+
+void MenuManager::UpdateRow(TableViewScript * tableView, unsigned index, Transform * cell) {
+	CellScript* const script = entities->GetComponent<CellScript>(cell->entity);
+
+	Animation* const animator = script->animator;
+	SpriteRender* const background = script->background;
+
+	if (index == selected) {
+		if (background->tint.a != 0.8f) {
+			vec4f selectedColor = COLOR_RED;
+			selectedColor.a = 0.8f;
+			
+			animator->Clear(&background->tint);
+			animator->Queue(
+				AnimationBase(false, 0.25f),
+				&background->tint,
+				selectedColor
+			);
+	
+			vec3f translation = cell->GetLocalTranslation();
+			translation.x = -0.05f;
+			cell->SetLocalTranslation(translation);
+		}
+	} else {
+		if (background->tint.a != 0.2f) {
+			animator->Clear(&background->tint);
+			animator->Queue(
+				AnimationBase(false, 0.25f),
+				&background->tint,
+				vec4f(0.f, 0.f, 0.f, 0.2f)
+			);
+	
+			vec3f translation = cell->GetLocalTranslation();
+			translation.x = 0.f;
+			cell->SetLocalTranslation(translation);
+		}
+	}
+
+}
+
 void MenuManager::Awake() {
 	EventsManager::Get()->Subscribe("KEY_INPUT", &MenuManager::KeyHandler, this);
+	EventsManager::Get()->Subscribe("SCROLL_INPUT", &MenuManager::ScrollHandler, this);
 }
 
 void MenuManager::Start() {
 	bt = 0.f;
 	selected = 0;
 	switched = true;
+
+	tableView = GetComponent<TableViewScript>();
+	tableView->UpdateRows();
 }
 
 void MenuManager::Update() {
@@ -48,10 +114,14 @@ void MenuManager::KeyHandler(Events::Event * event) {
 	Events::KeyInput* input = static_cast<Events::KeyInput*>(event);
 
 	if (input->action != GLFW_RELEASE) {
-		if (input->key == GLFW_KEY_LEFT || input->key == GLFW_KEY_A) {
+		if (input->key == GLFW_KEY_UP || input->key == GLFW_KEY_W) {
 			PreviousSong();
-		} else if (input->key == GLFW_KEY_RIGHT || input->key == GLFW_KEY_D) {
+			tableView->scrollOffset = selected * tableView->GetRowStride();
+			tableView->UpdateRows();
+		} else if (input->key == GLFW_KEY_DOWN || input->key == GLFW_KEY_S) {
 			NextSong();
+			tableView->scrollOffset = selected * tableView->GetRowStride();
+			tableView->UpdateRows();
 		}
 	}
 }
@@ -68,3 +138,6 @@ void MenuManager::UpdateSong() {
 	bubble->Play(songs[selected]);
 }
 
+void MenuManager::ScrollHandler(Events::Event * event) {
+	Events::ScrollInput* input = static_cast<Events::ScrollInput*>(event);
+}

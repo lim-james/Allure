@@ -108,5 +108,5 @@ void ButtonSystem::MouseButtonHandler(Events::Event* event) {
 }
 
 void ButtonSystem::PerformAction(unsigned const& index, Button * const self) {
-	self->handlers[index](self->entity);
+	self->handlers[index].Invoke(self->entity);
 }

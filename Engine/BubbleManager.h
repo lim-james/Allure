@@ -22,6 +22,8 @@ struct BubbleManager : Script {
 	float minRadius;
 	float maxRadius;
 
+	float rotationSpeed;
+
 	Material::SpectrumBubble* material;
 	Prefab* audioPrefab;
 

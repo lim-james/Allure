@@ -47,6 +47,10 @@ void BubbleManager::Update() {
 	const float dt = time->dt * source->speed;
 	t += dt, bt += dt;
 
+	vec3f rotation = transform->GetLocalRotation();
+	rotation.z += dt * rotationSpeed;
+	transform->SetLocalRotation(rotation);
+
 	const float r = pow(1.f - fabs(sin(bt * bInv)), 3.f);
 	material->minRadius = minRadius + (maxRadius - minRadius) * r;
 

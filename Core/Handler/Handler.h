@@ -95,8 +95,13 @@ public:
 
 	void UnbindAll();
 
-	void operator()(ParameterTypes... parameters) const;
-	void operator()() const;
+	// invoke without return value
+	void Invoke(ParameterTypes... parameters) const;
+	void Invoke() const;
+
+	// invoke returning result
+	std::vector<ReturnType> InvokeReturn(ParameterTypes... parameters) const;
+	std::vector<ReturnType> InvokeReturn() const;
 
 	void operator=(std::nullptr_t);
 
@@ -182,7 +187,11 @@ public:
 
 	void UnbindAll();
 
-	void operator()() const;
+	// invoke without return values
+	void Invoke() const;
+
+	// invoke with return values
+	std::vector<ReturnType> InvokeReturn() const;
 
 	void operator=(std::nullptr_t);
 	void operator=(Handler<ReturnType, void> const& rhs);

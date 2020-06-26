@@ -10,6 +10,7 @@
 #include "MenuCamera.h"
 #include "BubbleManager.h"
 #include "MenuManager.h"
+#include "TableViewScript.h"
 // post vfx
 #include "Bloom.h"
 // utilities
@@ -34,8 +35,11 @@ void MenuScene::Awake() {
 	//spectrumBubble->multiplier = 1.5f;
 	spectrumBubble->multiplier = 10.f;
 
-	audioPlayer = new AudioPlayer();
+	audioPlayer = new AudioPlayer;
 	audioPlayer->Initialize(entities);
+
+	tableViewCell = new TableViewCell;
+	tableViewCell->Initialize(entities);
 }
 
 void MenuScene::Create() {
@@ -72,6 +76,9 @@ void MenuScene::Create() {
 		control->speed = 1.f;
 		control->range = 2.f;
 	}
+
+	tableViewCell->uiCamera = uiCamera;
+	tableViewCell->font = vcrMono;
 
 	// post processing volume
 	{
@@ -110,18 +117,21 @@ void MenuScene::Create() {
 		entities->SetLayer(entity, UI);
 	
 		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -2.f));
 		transform->SetScale(30.f);
 
 		Layout* const layout = entities->AddComponent<Layout>(entity);
 		layout->SetActive(true);
-		layout->AddConstraint(Constraint{ RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, 0.f, uiCamera });
-		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, nullptr, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera });
+		layout->AddConstraint(Constraint{ CENTER_X_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 5.f, uiCamera });
+		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -10.f, uiCamera });
+		layout->AddConstraint(Constraint{ HEIGHT, nullptr, HEIGHT, 4.f, 0.f, uiCamera });
+		layout->AddConstraint(Constraint{ WIDTH, transform, HEIGHT, 1.f, 0.f, uiCamera });
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(spectrumBubble);
 		render->tint.a = 0.f;
-		render->SetSprite(Load::Texture2D("Files/Textures/rustediron2_basecolor.png"));
+		//render->SetSprite(Load::Texture2D("Files/Textures/vinyl.png"));
 
 		Animation* const animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
@@ -134,21 +144,47 @@ void MenuScene::Create() {
 		bubble->startFrequency = 20;
 		bubble->endFrequency = 2000;
 		bubble->audioDuration = 90.f;
-		bubble->minRadius = 0.5f;
-		bubble->maxRadius = 0.6f;
+		bubble->minRadius = 0.55f;
+		bubble->maxRadius = 0.55f;
+		bubble->rotationSpeed = 20.f;
 	}
 
 	// menu manager
 	{
 		const unsigned entity = entities->Create();
 
-		MenuManager* manager = entities->AddComponent<MenuManager>(entity);
+		Transform * const transform = entities->GetComponent<Transform>(entity);
+		transform->SetScale(vec3f(20.f, 1.f, 1.f));
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint{ RIGHT_ANCHOR, nullptr, RIGHT_ANCHOR, 1.f, -2.5f, uiCamera });
+
+		MenuManager* const manager = entities->AddComponent<MenuManager>(entity);
 		manager->SetActive(true);
 		manager->bubble = bubble;
+		manager->AddSong(SongData{ "BLACKPINK How You Like That", "Files/Media/HowYouLikeThat.wav", 132 });
 		manager->AddSong(SongData{ "LOUD - Thoughts", "Files/Media/LOUD - Thoughts.wav", 150 });
 		manager->AddSong(SongData{ "128C", "Files/Media/128C.wav", 128 });
 		manager->AddSong(SongData{ "Ice Flow", "Files/Media/IceFlow.wav", 140 });
 		manager->AddSong(SongData{ "Running in the 90's", "Files/Media/Running in the 90's.wav", 118 });
+
+		// holder transform for tableview
+		const unsigned holder = entities->Create();
+		Transform * const holderTransform = entities->GetComponent<Transform>(holder);
+		holderTransform->SetScale(transform->GetScale());
+		holderTransform->SetParent(transform);
+
+		TableViewScript* const tableView = entities->AddComponent<TableViewScript>(entity);
+		tableView->SetActive(true);
+		tableView->cellPrefab = tableViewCell;
+		tableView->rowHeight = 3.f;
+		tableView->rowSpacing = 0.5f;
+		tableView->holder = holderTransform;
+		tableView->scrollSpeed = 10.f;
+		tableView->numberOfRows.Bind(&MenuManager::NumberOfRows, manager);
+		tableView->cellForRow.Bind(&MenuManager::CellForRow, manager);
+		tableView->updateRow.Bind(&MenuManager::UpdateRow, manager);
 	}
 }
 
@@ -157,4 +193,5 @@ void MenuScene::Destroy() {
 
 	delete spectrumBubble;
 	delete audioPlayer;
+	delete tableViewCell;
 }
