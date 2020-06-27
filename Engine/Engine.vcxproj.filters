@@ -1175,6 +1175,9 @@
     <ClInclude Include="CellScript.h">
       <Filter>Assets\Scripts\Main\UI</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreData.h">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt">

@@ -349,6 +349,7 @@
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="ScoreController.h" />
+    <ClInclude Include="ScoreData.h" />
     <ClInclude Include="ScoreEvent.h" />
     <ClInclude Include="ScreenShake.h" />
     <ClInclude Include="SelfDestruct.h" />

@@ -13,11 +13,10 @@ BubbleManager::BubbleManager()
 	, file(new AudioFile<int16_t>) {
 }
 
-void BubbleManager::FadeOut() {
-	if (source) {
-		controller->FadeOut();
+void BubbleManager::FadeOut(Handler<void, void> const& completion) {
+	if (controller) {
+		controller->FadeOut(completion);
 		controller = nullptr;
-		source = nullptr;
 	}
 }
 
@@ -50,6 +49,8 @@ void BubbleManager::Update() {
 	vec3f rotation = transform->GetLocalRotation();
 	rotation.z += dt * rotationSpeed;
 	transform->SetLocalRotation(rotation);
+
+	material->multiplier = multiplier * source->volume;
 
 	const float r = pow(1.f - fabs(sin(bt * bInv)), 3.f);
 	material->minRadius = minRadius + (maxRadius - minRadius) * r;

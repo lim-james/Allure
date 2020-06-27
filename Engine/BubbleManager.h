@@ -8,6 +8,7 @@
 #include "SongData.h"
 
 #include <Audio/AudioFile.h>
+#include <Handler/Handler.h>
 #include <Events/Event.h>
 #include <vector>
 
@@ -23,13 +24,14 @@ struct BubbleManager : Script {
 	float maxRadius;
 
 	float rotationSpeed;
+	float multiplier;
 
 	Material::SpectrumBubble* material;
 	Prefab* audioPrefab;
 
 	BubbleManager();
 
-	void FadeOut();
+	void FadeOut(Handler<void, void> const& completion = nullptr);
 	void Play(SongData const& song);
 
 private:

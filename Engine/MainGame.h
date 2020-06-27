@@ -27,6 +27,8 @@
 #include "FireElementalEnemy.h"
 #include "IceElementalEnemy.h"
 #include "CyclopsEnemy.h"
+// song
+#include "SongData.h"
 
 class MainGame : public Scene {
 
@@ -53,6 +55,12 @@ class MainGame : public Scene {
 	FireElementalEnemy* fireElementalEnemy;
 	IceElementalEnemy* iceElementalEnemy;
 	CyclopsEnemy* cyclopsEnemy;
+
+public:
+
+	SongData song;
+
+private:
 
 	void Awake() override;
 	void Create() override;

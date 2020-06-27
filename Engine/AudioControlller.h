@@ -4,6 +4,8 @@
 #include "Script.h"
 #include "AudioSource.h"
 
+#include <Handler/Handler.h>
+
 struct AudioController : Script {
 
 	using base_type = AudioController;
@@ -11,7 +13,7 @@ struct AudioController : Script {
 	float fadeSpeed;
 
 	void FadeIn(std::string const& path);
-	void FadeOut();
+	void FadeOut(Handler<void, void> const& completion = nullptr);
 
 private:
 
@@ -22,6 +24,8 @@ private:
 	//  0 - neutral
 	//  1 - fade out
 	int state;
+
+	Handler<void, void> completion;
 
 	void Awake() override;
 	void Update() override;

@@ -37,6 +37,9 @@ private:
 	int selected;
 	std::vector<SongData> songs;
 
+	float scrollBt, scrollDelay;
+	float scrollOffset, scrollMultiplier;
+
 	void Awake() override;
 	void Start() override;
 	void Update() override;

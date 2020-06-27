@@ -94,7 +94,7 @@ void MenuScene::Create() {
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->SetLocalTranslation(vec3f(0.f, -5.f, -5.f));
-		transform->SetLocalRotation(vec3f(130.f, 0.f, 0.f));
+		//transform->SetLocalRotation(vec3f(130.f, 0.f, 0.f));
 		transform->SetScale(vec3f(160.0f, 90.0f, 1.0f));
 		transform->SetDynamic(false);
 
@@ -144,9 +144,10 @@ void MenuScene::Create() {
 		bubble->startFrequency = 20;
 		bubble->endFrequency = 2000;
 		bubble->audioDuration = 90.f;
-		bubble->minRadius = 0.55f;
+		bubble->minRadius = 0.5f;
 		bubble->maxRadius = 0.55f;
 		bubble->rotationSpeed = 20.f;
+		bubble->multiplier = 10.f;
 	}
 
 	// menu manager
@@ -168,6 +169,7 @@ void MenuScene::Create() {
 		manager->AddSong(SongData{ "128C", "Files/Media/128C.wav", 128 });
 		manager->AddSong(SongData{ "Ice Flow", "Files/Media/IceFlow.wav", 140 });
 		manager->AddSong(SongData{ "Running in the 90's", "Files/Media/Running in the 90's.wav", 118 });
+		manager->AddSong(SongData{ "Ken Blast - The Top", "Files/Media/Ken Blast - The Top.wav", 160 });
 
 		// holder transform for tableview
 		const unsigned holder = entities->Create();

@@ -8,8 +8,9 @@ void AudioController::FadeIn(std::string const & path) {
 	state = -1;
 }
 
-void AudioController::FadeOut() {
+void AudioController::FadeOut(Handler<void, void> const& completion) {
 	state = 1;
+	this->completion = completion;
 }
 
 void AudioController::Awake() {
@@ -29,6 +30,7 @@ void AudioController::Update() {
 	case 1:
 		source->volume -= time->dt * fadeSpeed;
 		if (source->volume <= 0.f) {
+			completion.Invoke();
 			source->Stop();
 			entities->Destroy(entity);
 		}

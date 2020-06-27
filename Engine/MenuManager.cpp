@@ -3,6 +3,7 @@
 #include "ProjectDefines.h"
 #include "InputEvents.h"
 #include "CellScript.h"
+#include "MainGame.h"
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
@@ -89,14 +90,19 @@ void MenuManager::UpdateRow(TableViewScript * tableView, unsigned index, Transfo
 }
 
 void MenuManager::Awake() {
+	scrollDelay = 0.5f;
+	scrollMultiplier = 1.f;
+
 	EventsManager::Get()->Subscribe("KEY_INPUT", &MenuManager::KeyHandler, this);
 	EventsManager::Get()->Subscribe("SCROLL_INPUT", &MenuManager::ScrollHandler, this);
 }
 
 void MenuManager::Start() {
+	switched = true;
 	bt = 0.f;
 	selected = 0;
-	switched = true;
+
+	scrollBt = 0.f;
 
 	tableView = GetComponent<TableViewScript>();
 	tableView->UpdateRows();
@@ -108,20 +114,33 @@ void MenuManager::Update() {
 		if (bt >= selectionDelay)
 			UpdateSong();
 	}
+
+	if (scrollBt > 0.f) {
+		scrollBt -= time->dt;
+		if (scrollBt <= 0.f)
+			scrollOffset = 0.f;
+	}
 }
 
 void MenuManager::KeyHandler(Events::Event * event) {
 	Events::KeyInput* input = static_cast<Events::KeyInput*>(event);
 
+	if (input->action == GLFW_PRESS) {
+		if (input->key == GLFW_KEY_ENTER) {
+			SongData song = songs[selected];
+			bubble->FadeOut(Handler<void, void>([song]() {
+				MainGame* destination = new MainGame;
+				destination->song = song;
+				EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
+			}));
+		}
+	}
+
 	if (input->action != GLFW_RELEASE) {
 		if (input->key == GLFW_KEY_UP || input->key == GLFW_KEY_W) {
 			PreviousSong();
-			tableView->scrollOffset = selected * tableView->GetRowStride();
-			tableView->UpdateRows();
 		} else if (input->key == GLFW_KEY_DOWN || input->key == GLFW_KEY_S) {
 			NextSong();
-			tableView->scrollOffset = selected * tableView->GetRowStride();
-			tableView->UpdateRows();
 		}
 	}
 }
@@ -130,6 +149,9 @@ void MenuManager::SwitchingSong() {
 	switched = true;
 	bt = 0.f;
 	bubble->FadeOut();
+
+	tableView->scrollOffset = selected * tableView->GetRowStride();
+	tableView->UpdateRows();
 }
 
 void MenuManager::UpdateSong() {
@@ -140,4 +162,13 @@ void MenuManager::UpdateSong() {
 
 void MenuManager::ScrollHandler(Events::Event * event) {
 	Events::ScrollInput* input = static_cast<Events::ScrollInput*>(event);
+	scrollBt = scrollDelay;
+	scrollOffset += input->data.y * scrollMultiplier;
+	if (scrollOffset > 1.f) {
+		PreviousSong();
+		scrollOffset = 0.f;
+	} else if (scrollOffset < -1.f) {
+		NextSong();
+		scrollOffset = 0.f;
+	}
 }

@@ -431,11 +431,8 @@ void MainGame::Create() {
 
 		backgroundAudio = entities->AddComponent<AudioSource>(entity);
 		backgroundAudio->SetActive(true);
-		//audio->audioClip = "Files/Media/NowhereToRun.wav";
-		backgroundAudio->audioClip = "Files/Media/IceFlow.wav";
-		//audio->audioClip = "Files/Media/128C.wav";
+		backgroundAudio->audioClip = song.path;
 		backgroundAudio->loop = true;
-		backgroundAudio->volume = 0.f;
 	}
 
 	// crosshair
@@ -574,7 +571,7 @@ void MainGame::Create() {
 		beat->goodThreshold = 0.3f;
 		beat->greatThreshold = 0.15f;
 		beat->perfectThreshold = 0.075f;
-		beat->SetTempo(60);
+		beat->SetTempo(song.tempo);
 	}
 
 	// enemy manager
