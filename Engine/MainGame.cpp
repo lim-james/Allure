@@ -1,5 +1,6 @@
 #include "MainGame.h"
 
+#include "RenderSystem.h"
 #include "Camera.h"
 #include "SpriteRender.h"
 #include "SpriteAnimationSystem.h"
@@ -65,6 +66,9 @@ void MainGame::Awake() {
 	background->spreadTint = COLOR_PURPLE;
 	background->indicatorTint = vec3f(0.5f);
 	background->thresholdTint = vec3f(10.f, 0.2f, 0.2f);
+
+	transparentSprite = new Material::SpriteDefault;
+	transparentSprite->flags += TRANSPARENT;
 
 	indicatorLabel = new IndicatorLabel;
 	indicatorLabel->Initialize(entities);
@@ -169,10 +173,31 @@ void MainGame::Create() {
 		ScreenShake* const shake = entities->AddComponent<ScreenShake>(mainCamera);
 		shake->SetActive(true);
 		shake->duration = 0.25f;
-		shake->magnitude = 0.125f;
+		shake->magnitude = 0.25f;
 
 		AudioListener* const listener = entities->AddComponent<AudioListener>(mainCamera);
 		listener->SetActive(true);
+
+		TextureData tData;
+		tData.level = 0;
+		tData.internalFormat = GL_RGB16F;
+		tData.border = 0;
+		tData.format = GL_RGBA;
+		tData.type = GL_UNSIGNED_BYTE;
+		tData.attachment = GL_COLOR_ATTACHMENT0;
+		tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
+		tData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
+		tData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE });
+		tData.parameters.push_back({ GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE });
+
+		RenderBufferData rbData;
+		rbData.internalFormat = GL_DEPTH24_STENCIL8;
+		rbData.attachmentFormat = GL_DEPTH_STENCIL_ATTACHMENT;
+
+		Framebuffer* const fb = new Framebuffer(1, 1);
+		fb->Initialize(vec2u(1600, 900), { tData }, { rbData });
+
+		camera->SetFramebuffer(fb);
 	}
 	
 	// ui camera
@@ -390,7 +415,22 @@ void MainGame::Create() {
 		GameManager* const manager = entities->AddComponent<GameManager>(entity);
 		manager->SetActive(true);
 		manager->fadeInDuration = 100.f;
+		manager->endDelay = 3.f;
+		manager->sceneTexture = camera->GetFramebuffer()->GetTexture();
 	}
+
+	// raw image frame
+	//{
+	//	const unsigned entity = entities->Create();
+
+	//	auto transform = entities->GetComponent<Transform>(entity);
+	//	transform->SetLocalTranslation(vec3f(12.f, 0.f, 1.f));
+	//	transform->SetScale(vec3f(16.f, 9.f, 0.f));
+
+	//	auto render = entities->AddComponent<SpriteRender>(entity);
+	//	render->SetActive(true);
+	//	render->SetSprite(camera->GetFramebuffer()->GetTexture());
+	//}
 
 	// energy meter
 	float* meterHeight = nullptr;
@@ -593,12 +633,12 @@ void MainGame::Create() {
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 150.f, 30.f };
 		const TargetStyle slowRoam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 0.f, 30.f };
 		
-		//manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 10, 1 });
-		//manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 10, 1 });
-		manager->AddEnemy(EnemyData{ batEnemy, nullptr, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 2, 5, 3 });
-		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 5, 3 });
-		manager->AddEnemy(EnemyData{ iceElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 5, 3 });
-		//manager->AddEnemy(EnemyData{ cyclopsEnemy, shotgun, 1.f, 0, 10, 5, true, slowRoam, slowTrack, RISK_LOW, 1, 2, 1, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 60, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 40, 1 });
+		manager->AddEnemy(EnemyData{ batEnemy, nullptr, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 2, 20, 3 });
+		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 10, 3 });
+		manager->AddEnemy(EnemyData{ iceElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 15, 3 });
+		manager->AddEnemy(EnemyData{ cyclopsEnemy, shotgun, 1.f, 0, 10, 5, true, slowRoam, slowTrack, RISK_LOW, 1, 2, 80, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });

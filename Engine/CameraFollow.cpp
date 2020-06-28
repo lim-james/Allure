@@ -4,6 +4,7 @@ void CameraFollow::Update() {
 	const vec3f playerPosition = player->GetWorldTranslation();
 
 	vec3f displacement = crosshair->GetWorldTranslation() - playerPosition;
+
 	const float d = Math::Length(displacement);
 	if (d > 0.f) displacement *= min(d, jutDistance) / d;
 

@@ -5,6 +5,7 @@
 
 // materials
 #include "BackgroundMaterial.h"
+#include "SpriteDefaultMaterial.h"
 // prefabs
 #include "IndicatorLabel.h"
 #include "SFXEmitter.h"
@@ -33,6 +34,7 @@
 class MainGame : public Scene {
 
 	Material::Background* background;
+	Material::SpriteDefault* transparentSprite;
 
 	IndicatorLabel* indicatorLabel;
 	SFXEmitter* sfxEmitter;

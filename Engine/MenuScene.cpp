@@ -107,7 +107,7 @@ void MenuScene::Create() {
 		Animation* const animation = entities->AddComponent<Animation>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 1.f, 2.f), &render->tint.a, 0.15f);
-		animation->Queue(AnimationBase(true, 10.f), &render->uvRect.y, 1.f);
+		animation->Queue(AnimationBase(true, 5.f), &render->uvRect.y, 1.f);
 	}
 
 	// spectrum bubble

@@ -666,6 +666,9 @@
     <ClCompile Include="TableViewScript.cpp">
       <Filter>Assets\Scripts\Main\UI</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreScene.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1177,6 +1180,9 @@
     </ClInclude>
     <ClInclude Include="ScoreData.h">
       <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreScene.h">
+      <Filter>Assets\Scenes\Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

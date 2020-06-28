@@ -209,6 +209,7 @@
     <ClCompile Include="PostProcessStack.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="ScoreController.cpp" />
+    <ClCompile Include="ScoreScene.cpp" />
     <ClCompile Include="ScreenShake.cpp" />
     <ClCompile Include="SelfDestruct.cpp" />
     <ClCompile Include="SFXEmitter.cpp" />
@@ -351,6 +352,7 @@
     <ClInclude Include="ScoreController.h" />
     <ClInclude Include="ScoreData.h" />
     <ClInclude Include="ScoreEvent.h" />
+    <ClInclude Include="ScoreScene.h" />
     <ClInclude Include="ScreenShake.h" />
     <ClInclude Include="SelfDestruct.h" />
     <ClInclude Include="SFXEmitter.h" />

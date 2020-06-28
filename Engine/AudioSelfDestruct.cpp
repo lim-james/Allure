@@ -9,7 +9,7 @@ void AudioSelfDestruct::Start() {
 }
 
 void AudioSelfDestruct::Update() {
-	if (source->IsPaused()) {
+	if (source && source->IsPaused()) {
 		t += time->dt;
 		if (t > source->GetDuration()) {
 			entities->Destroy(entity);

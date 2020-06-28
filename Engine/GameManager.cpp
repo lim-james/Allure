@@ -1,28 +1,44 @@
 #include "GameManager.h"
 
 #include "InputEvents.h"
+// destination scene
 #include "PauseScene.h"
+#include "ScoreScene.h"
 
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
 void GameManager::Awake() {
 	//EventsManager::Get()->Subscribe("KEY_INPUT", &GameManager::KeyHanlder, this);
+	EventsManager::Get()->Subscribe("END_GAME", &GameManager::EndHanlder, this);
 }
 
 void GameManager::Start() {
 	t = 0.f;
+	endGame = false;
 }
 
 void GameManager::Update() {
-	if (t < fadeInDuration) {
+	if (endGame) {
 		t += time->dt;
-		//overlay->tint.a = 1.f - t / fadeInDuration;
 
-		if (t >= fadeInDuration) {
-			//overlay->tint.a = 0.f;
+		if (t >= endDelay) {
+			endGame = false;
+			ScoreScene* destination = new ScoreScene;
+			destination->sceneTexture = sceneTexture;
+			EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
 		}
-	} 
+	}
+
+	//if (t < fadeInDuration) {
+	//	t += time->dt;
+	//	//overlay->tint.a = 1.f - t / fadeInDuration;
+
+	//	if (t >= fadeInDuration) {
+	//		//overlay->tint.a = 0.f;
+	//		t = 0.f;
+	//	}
+	//} 
 	
 }
 
@@ -32,4 +48,9 @@ void GameManager::KeyHanlder(Events::Event * event) {
 	if (input->key == GLFW_KEY_ESCAPE && input->action == GLFW_PRESS) {
 		EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(new PauseScene));
 	}
+}
+
+void GameManager::EndHanlder() {
+	endGame = true;
+	t = 0.f;
 }
