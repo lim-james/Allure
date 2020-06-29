@@ -21,6 +21,10 @@ void SplashScene::Create() {
 
 	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
+	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
+	camera->SetSize(15.f);
+	camera->projection = ORTHOGRAPHIC;
+
 	// post processing volume
 	{
 		const unsigned volume = entities->Create();
@@ -37,7 +41,7 @@ void SplashScene::Create() {
 		text->SetFont(vcrMono);
 		text->text = "Use headphones for best experience.";
 		text->color = vec4f(1.f, 1.f, 1.f, 0.f);
-		text->scale = 0.5f;
+		text->scale = 1.f;
 		text->offset.y = -0.25f;
 
 		Animation* const animation = entities->AddComponent<Animation>(entity);
@@ -53,7 +57,7 @@ void SplashScene::Create() {
 		animation->Queue(AnimationBase(false, 1.f, 3.f, Handler<void, void>([text]() {
 			text->characterSpacing = 3.f;
 			text->text = "TEMPO";
-			text->scale = 0.75f;
+			text->scale = 1.5f;
 		})), &text->color.a, 0.f);
 		animation->Queue(AnimationBase(false, 1.f, 1.f), &text->color.a, 2.f);
 		animation->Queue(AnimationBase(false, 1.f, 1.f, Handler<void, void>([]() {

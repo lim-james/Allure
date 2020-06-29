@@ -8,6 +8,7 @@
 #include "MainGame.h"
 #include "MenuScene.h"
 #include "PauseScene.h"
+#include "ScoreScene.h"
 #include "AudioSpectrumScene.h"
 
 #include "InputEvents.h"

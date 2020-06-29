@@ -4,7 +4,7 @@
 struct ScoreData {
 	int lives, maxLives;
 	unsigned score;
-	unsigned perfect, great, good;
+	unsigned perfect, great, good, missed;
 };
 
 #endif

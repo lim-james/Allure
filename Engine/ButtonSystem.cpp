@@ -99,7 +99,7 @@ void ButtonSystem::ResizeHandler(Events::Event* event) {
 void ButtonSystem::CursorPositionHandler(Events::Event* event) {
 	Events::CursorPositionInput* input = static_cast<Events::CursorPositionInput*>(event);
 	mousePosition = input->position;
-	mousePosition.y = windowSize.h - mousePosition.y;
+	//mousePosition.y = windowSize.h - mousePosition.y;
 }
 
 void ButtonSystem::MouseButtonHandler(Events::Event* event) {
