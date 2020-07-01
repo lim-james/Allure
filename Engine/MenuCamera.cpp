@@ -1,12 +1,15 @@
 #include "MenuCamera.h"
 
 #include "InputEvents.h"
+
 #include <Math/Math.hpp>
 #include <Events/EventsManager.h>
+#include <GLFW/glfw3.h>
 
 void MenuCamera::Awake() {
 	EventsManager::Get()->Subscribe("CURSOR_POSITION_INPUT", &MenuCamera::CursorPositionHandler, this);
 	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &MenuCamera::WindowSizeHandler, this);
+	EventsManager::Get()->Trigger("INPUT_MODE_CHANGE", new Events::InputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL));
 }
 
 void MenuCamera::Start() {

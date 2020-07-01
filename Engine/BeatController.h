@@ -39,6 +39,8 @@ struct BeatController : Script {
 	float greatThreshold;
 	float perfectThreshold;
 
+	unsigned perfect, great, good, missed;
+
 	void SetTempo(unsigned const& tempo);
 
 private: 

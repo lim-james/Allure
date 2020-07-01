@@ -26,6 +26,11 @@ void GameManager::Update() {
 			endGame = false;
 			ScoreScene* destination = new ScoreScene;
 			destination->sceneTexture = sceneTexture;
+			destination->data.good = beatController->good;
+			destination->data.great = beatController->great;
+			destination->data.perfect = beatController->perfect;
+			destination->data.missed = beatController->missed;
+			destination->data.score = scoreController->GetTotalScore();
 			EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
 		}
 	}
@@ -39,7 +44,6 @@ void GameManager::Update() {
 	//		t = 0.f;
 	//	}
 	//} 
-	
 }
 
 void GameManager::KeyHanlder(Events::Event * event) {

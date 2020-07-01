@@ -7,6 +7,7 @@
 #include "AnimationSystem.h"
 #include "LayoutSystem.h"
 #include "ButtonSystem.h"
+#include "MenuCamera.h"
 // utils
 #include "LoadFNT.h"
 // destination
@@ -25,19 +26,18 @@ void ScoreScene::Awake() {
 void ScoreScene::Create() {
 	Scene::Create();
 
-	data.lives = 3;
-	data.maxLives = 4;
-	data.good = 10;
-	data.great = 15;
-	data.perfect = 30;
-	data.missed = 20;
-	data.score = 4501;
-
 	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(15.f);
 	camera->projection = ORTHOGRAPHIC;
+
+	{
+		MenuCamera* const control = entities->AddComponent<MenuCamera>(mainCamera);
+		control->SetActive(true);
+		control->speed = 1.f;
+		control->range = 1.f;
+	}
 
 	// post processing volume
 	{

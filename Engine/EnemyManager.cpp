@@ -33,7 +33,7 @@ void EnemyManager::Update() {
 
 		++group.beats;
 		if (data.beatStride > group.beats) continue;
-		group.beats = 0;
+		if (data.repeat) group.beats = 0;
 
 		for (unsigned i = 0; i < group.data.batchSize; ++i) {
 			Transform* const eTransform = group.data.prefab->Create();

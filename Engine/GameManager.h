@@ -4,6 +4,8 @@
 #include "Script.h"
 
 #include "SpriteRender.h"
+#include "BeatController.h"
+#include "ScoreController.h"
 
 struct GameManager : Script {
 
@@ -12,6 +14,9 @@ struct GameManager : Script {
 	float fadeInDuration;
 	float endDelay;
 	unsigned sceneTexture;
+
+	BeatController* beatController;
+	ScoreController* scoreController;
 
 private:
 

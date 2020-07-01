@@ -46,6 +46,7 @@ private:
 
 	void KeyHandler(Events::Event* event);
 
+	void SelectSong(unsigned index);
 	void SwitchingSong();
 	void UpdateSong();
 

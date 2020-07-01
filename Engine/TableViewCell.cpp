@@ -6,6 +6,7 @@
 #include "Text.h"
 #include "Layout.h"
 #include "Animation.h"
+#include "Button.h"
 
 Transform * TableViewCell::Create() {
 	const unsigned entity = entities->Create();
@@ -20,6 +21,10 @@ Transform * TableViewCell::Create() {
 	render->SetActive(true);
 	render->tint = vec4f(0.2f, 0.2f, 0.2f,1.f);
 	script->background = render;
+
+	Button* const button = entities->AddComponent<Button>(entity);
+	button->SetActive(true);
+	script->button = button;
 
 	{
 		const unsigned label = entities->Create();

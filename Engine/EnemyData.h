@@ -4,11 +4,6 @@
 #include "Prefab.h"
 #include <Math/Vectors.h>
 
-#define RISK_LOW	0
-#define RISK_MEDIUM 1
-#define RISK_HIGH	2
-#define BOSS_RISK	3
-
 #define TARGET_LOCKON	0
 #define TARGET_DASH		1
 #define TARGET_RANDOM	2
@@ -45,11 +40,11 @@ struct EnemyData {
 
 	// spawn
 
-	short risk;
-	unsigned spawnLevel;
+	bool repeat;
 	int beatDelay;
 	int beatStride;
 	unsigned batchSize;
+
 };
 
 #endif

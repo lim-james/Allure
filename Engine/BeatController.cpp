@@ -18,6 +18,8 @@ void BeatController::Awake() {
 void BeatController::Start() {
 	et = 0.f;
 
+	perfect = great = good = missed = 0;
+
 	file = new AudioFile<int16_t>;
 	file->Open(source->audioClip);
 	duration = file->GetDuration();
@@ -56,13 +58,13 @@ void BeatController::Update() {
 	// check if hit
 	if (endCycle && perfectThreshold < delay - bt) {
 		if (!isHit) {
+			++missed;
 			Alert("MISSED", COLOR_RED);
 			EventsManager::Get()->Trigger("RESET_MULTIPLIER");
 		}
 		endCycle = false;
 		isHit = false;
 	}
-
 }
 
 void BeatController::FixedUpdate() {
@@ -97,12 +99,15 @@ void BeatController::HitHandler(Events::Event * event) {
 		std::string message = "";
 		vec3f color;
 		if (perfectThreshold >= bt || perfectThreshold >= delay - bt) {
+			++perfect;
 			message = "PERFECT";
 			color = COLOR_PURPLE;
 		} else if (greatThreshold >= bt) {
+			++great;
 			message = "GREAT";
 			color = COLOR_YELLOW;
 		} else if (goodThreshold >= bt) {
+			++good;
 			message = "GOOD";
 			color = 1.f;
 		}

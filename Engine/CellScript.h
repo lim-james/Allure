@@ -5,10 +5,15 @@
 #include "SpriteRender.h"
 #include "Text.h"
 #include "Animation.h"
+#include "Button.h"
 
 struct CellScript : Script {
 	using base_type = CellScript;
+
+	unsigned index;
+
 	SpriteRender* background;
+	Button* button;
 	Text* titleLabel;
 	Animation* animator;
 };

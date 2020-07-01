@@ -5,6 +5,10 @@
 #include <Events/EventsManager.h>
 #include <Helpers/StringHelpers.h>
 
+unsigned ScoreController::GetTotalScore() const {
+	return totalScore + buildScore * multiplier;
+}
+
 void ScoreController::Awake() {
 	EventsManager::Get()->Subscribe("SCORE", &ScoreController::ScoreHandler, this);
 	EventsManager::Get()->Subscribe("BUILD_MULTIPLIER", &ScoreController::BuildHandler, this);

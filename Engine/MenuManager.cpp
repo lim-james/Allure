@@ -35,6 +35,10 @@ unsigned MenuManager::NumberOfRows(TableViewScript * tableView) {
 
 void MenuManager::CellForRow(TableViewScript * tableView, unsigned index, Transform * cell) {
 	CellScript* const script = entities->GetComponent<CellScript>(cell->entity);
+	script->index = index;	
+
+	script->button->handlers[MOUSE_CLICK].Bind(&MenuManager::SelectSong, this, index);
+
 	script->titleLabel->text = songs[index].title;
 
 	vec4f color(0.f, 0.f, 0.f, 0.2f);
@@ -143,6 +147,11 @@ void MenuManager::KeyHandler(Events::Event * event) {
 			NextSong();
 		}
 	}
+}
+
+void MenuManager::SelectSong(unsigned index) {
+	selected = index;
+	SwitchingSong();
 }
 
 void MenuManager::SwitchingSong() {

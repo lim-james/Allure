@@ -251,6 +251,21 @@ void MainGame::Create() {
 		promptLabel->SetFont(vcrMono);
 	}
 
+	// Game manager
+	GameManager* gameManager = nullptr;
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetDynamic(false);
+
+		gameManager = entities->AddComponent<GameManager>(entity);
+		gameManager->SetActive(true);
+		gameManager->fadeInDuration = 100.f;
+		gameManager->endDelay = 1.f;
+		gameManager->sceneTexture = camera->GetFramebuffer()->GetTexture();
+	}
+
 	// Score controller
 	ScoreController* scoreController = nullptr;
 	{
@@ -259,6 +274,8 @@ void MainGame::Create() {
 		scoreController = entities->AddComponent<ScoreController>(entity);
 		scoreController->SetActive(true);
 		scoreController->indicatorPrefab = indicatorLabel;
+
+		gameManager->scoreController = scoreController;
 	}
 
 	// post processing volume
@@ -403,20 +420,6 @@ void MainGame::Create() {
 		flashOverlay = entities->AddComponent<SpriteRender>(entity);
 		flashOverlay->SetActive(true);
 		flashOverlay->tint = vec4f(1.f, 1.f, 1.f, 0.f);
-	}
-
-	// Game manager
-	{
-		const unsigned entity = entities->Create();
-
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetDynamic(false);
-
-		GameManager* const manager = entities->AddComponent<GameManager>(entity);
-		manager->SetActive(true);
-		manager->fadeInDuration = 100.f;
-		manager->endDelay = 3.f;
-		manager->sceneTexture = camera->GetFramebuffer()->GetTexture();
 	}
 
 	// raw image frame
@@ -612,6 +615,8 @@ void MainGame::Create() {
 		beat->greatThreshold = 0.15f;
 		beat->perfectThreshold = 0.075f;
 		beat->SetTempo(song.tempo);
+
+		gameManager->beatController = beat;
 	}
 
 	// enemy manager
@@ -633,12 +638,12 @@ void MainGame::Create() {
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 150.f, 30.f };
 		const TargetStyle slowRoam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 0.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 60, 1 });
-		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, RISK_LOW, 1, 0, 40, 1 });
-		manager->AddEnemy(EnemyData{ batEnemy, nullptr, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, RISK_LOW, 1, 2, 20, 3 });
-		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 10, 3 });
-		manager->AddEnemy(EnemyData{ iceElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 2, 15, 3 });
-		manager->AddEnemy(EnemyData{ cyclopsEnemy, shotgun, 1.f, 0, 10, 5, true, slowRoam, slowTrack, RISK_LOW, 1, 2, 80, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, true, 170, 30, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, false, trackPlayer, avoidPlayer, true, 60, 20, 1 });
+		//manager->AddEnemy(EnemyData{ batEnemy, nullptr, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, true, 2, 20, 3 });
+		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, true, 5, 10, 5 });
+		//manager->AddEnemy(EnemyData{ iceElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, true, 2, 15, 3 });
+		//manager->AddEnemy(EnemyData{ cyclopsEnemy, shotgun, 1.f, 0, 10, 5, true, slowRoam, slowTrack, false, 2, 80, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });

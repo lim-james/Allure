@@ -31,6 +31,19 @@ void EnemyTarget::Update() {
 		if (fromPlayer >= farStyle.radius) {
 			isNear = false;
 			style = &farStyle;
+
+			switch (style->type) {
+			case TARGET_LOCKON:
+				target = playerPosition;
+				break;
+			case TARGET_DASH:
+				target = playerPosition;
+				break;
+			case TARGET_RANDOM:
+				target.x = Math::RandMinMax(-boundary.x, boundary.x);
+				target.y = Math::RandMinMax(-boundary.y, boundary.y);
+				break;
+			}
 		} else {
 			style = &nearStyle;
 		}
@@ -38,6 +51,19 @@ void EnemyTarget::Update() {
 		if (fromPlayer <= nearStyle.radius) {
 			isNear = true;
 			style = &nearStyle;
+
+			switch (style->type) {
+			case TARGET_LOCKON:
+				target = playerPosition;
+				break;
+			case TARGET_DASH:
+				target = playerPosition;
+				break;
+			case TARGET_RANDOM:
+				target.x = Math::RandMinMax(-boundary.x, boundary.x);
+				target.y = Math::RandMinMax(-boundary.y, boundary.y);
+				break;
+			}
 		} else {
 			style = &farStyle;
 		}

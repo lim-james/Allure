@@ -18,6 +18,8 @@ struct ScoreController : Script {
 
 	Vignette* vfx;
 
+	unsigned GetTotalScore() const;
+
 private:
 
 	unsigned totalScore;
