@@ -49,6 +49,7 @@ private:
 	void SelectSong(unsigned index);
 	void SwitchingSong();
 	void UpdateSong();
+	void Transition();
 
 	void ScrollHandler(Events::Event* event);
 

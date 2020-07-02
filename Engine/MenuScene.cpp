@@ -6,6 +6,7 @@
 #include "AnimationSystem.h"
 #include "AudioSystem.h"
 #include "LayoutSystem.h"
+#include "ButtonSystem.h"
 // scripts
 #include "MenuCamera.h"
 #include "BubbleManager.h"
@@ -27,6 +28,7 @@ void MenuScene::Awake() {
 	systems->Subscribe<AudioSystem>(0);
 	systems->Subscribe<AnimationSystem>(1);
 	systems->Subscribe<LayoutSystem>(1);
+	systems->Subscribe<ButtonSystem>(1);
 
 	spectrumBubble = new Material::SpectrumBubble;
 	spectrumBubble->minRadius = 0.5f;
@@ -164,9 +166,9 @@ void MenuScene::Create() {
 		MenuManager* const manager = entities->AddComponent<MenuManager>(entity);
 		manager->SetActive(true);
 		manager->bubble = bubble;
+		manager->AddSong(SongData{ "128C", "Files/Media/128C.wav", 128 });
 		manager->AddSong(SongData{ "BLACKPINK How You Like That", "Files/Media/HowYouLikeThat.wav", 132 });
 		manager->AddSong(SongData{ "LOUD - Thoughts", "Files/Media/LOUD - Thoughts.wav", 150 });
-		manager->AddSong(SongData{ "128C", "Files/Media/128C.wav", 128 });
 		manager->AddSong(SongData{ "Ice Flow", "Files/Media/IceFlow.wav", 140 });
 		manager->AddSong(SongData{ "Running in the 90's", "Files/Media/Running in the 90's.wav", 118 });
 		manager->AddSong(SongData{ "Ken Blast - The Top", "Files/Media/Ken Blast - The Top.wav", 160 });

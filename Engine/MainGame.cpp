@@ -510,6 +510,9 @@ void MainGame::Create() {
 	automatic->CreateAt(vec3f(15.f, 0.f, 0.f));
 	laser->CreateAt(vec3f(-15.f, 0.f, 0.f));
 	shotgun->CreateAt(vec3f(0.f, 15.f, 0.f));
+	pistol->CreateAt(vec3f(0.f, 15.f, 0.f));
+	sniper->CreateAt(vec3f(15.f, 15.f, 0.f));
+	grenadeLauncher->CreateAt(vec3f(-15.f, -15.f, 0.f));
 
 	// gun holder 
 	Transform* weaponHolderTransform = nullptr;

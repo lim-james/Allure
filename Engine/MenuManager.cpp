@@ -131,12 +131,7 @@ void MenuManager::KeyHandler(Events::Event * event) {
 
 	if (input->action == GLFW_PRESS) {
 		if (input->key == GLFW_KEY_ENTER) {
-			SongData song = songs[selected];
-			bubble->FadeOut(Handler<void, void>([song]() {
-				MainGame* destination = new MainGame;
-				destination->song = song;
-				EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
-			}));
+			Transition();
 		}
 	}
 
@@ -150,8 +145,12 @@ void MenuManager::KeyHandler(Events::Event * event) {
 }
 
 void MenuManager::SelectSong(unsigned index) {
-	selected = index;
-	SwitchingSong();
+	if (selected == index) {
+		Transition();
+	} else {
+		selected = index;
+		SwitchingSong();
+	}
 }
 
 void MenuManager::SwitchingSong() {
@@ -167,6 +166,15 @@ void MenuManager::UpdateSong() {
 	switched = false;
 	bt = 0.f;
 	bubble->Play(songs[selected]);
+}
+
+void MenuManager::Transition() {
+	SongData song = songs[selected];
+	bubble->FadeOut(Handler<void, void>([song]() {
+		MainGame* destination = new MainGame;
+		destination->song = song;
+		EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
+	}));
 }
 
 void MenuManager::ScrollHandler(Events::Event * event) {
