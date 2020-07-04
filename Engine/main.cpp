@@ -8,7 +8,7 @@ int main() {
 
 	Application app;
 
-	app.Initialize(1600, 900, "TEMPO", false);
+	app.Initialize(1600, 900, "TEMPO", true);
 	app.Run();
 	app.Exit();
 

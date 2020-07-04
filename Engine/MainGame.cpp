@@ -510,7 +510,7 @@ void MainGame::Create() {
 	automatic->CreateAt(vec3f(15.f, 0.f, 0.f));
 	laser->CreateAt(vec3f(-15.f, 0.f, 0.f));
 	shotgun->CreateAt(vec3f(0.f, 15.f, 0.f));
-	pistol->CreateAt(vec3f(0.f, 15.f, 0.f));
+	pistol->CreateAt(vec3f(0.f, -15.f, 0.f));
 	sniper->CreateAt(vec3f(15.f, 15.f, 0.f));
 	grenadeLauncher->CreateAt(vec3f(-15.f, -15.f, 0.f));
 
@@ -641,12 +641,18 @@ void MainGame::Create() {
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 150.f, 30.f };
 		const TargetStyle slowRoam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 0.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, false, trackPlayer, avoidPlayer, true, 170, 30, 1 });
-		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, false, trackPlayer, avoidPlayer, true, 60, 20, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer, true, 80, 15, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, trackPlayer, avoidPlayer, true, 30, 10, 1 });
+		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, true, 2, 5, 1 });
+		manager->AddEnemy(EnemyData{ cyclopsEnemy, nullptr, 1.f, 0, 10, 5, false, slowRoam, slowTrack, false, 100, 2, 1 });
+
+		//manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer, true, 170, 30, 1 });
+		//manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, trackPlayer, avoidPlayer, true, 60, 20, 1 });
+		//manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, true, 5, 10, 5 });
+		//manager->AddEnemy(EnemyData{ cyclopsEnemy, nullptr, 1.f, 0, 10, 5, false, slowRoam, slowTrack, false, 200, 0, 1 });
 		//manager->AddEnemy(EnemyData{ batEnemy, nullptr, 1.f, 0, 1, 5, true, trackPlayer, dashPlayer, true, 2, 20, 3 });
-		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, true, 5, 10, 5 });
 		//manager->AddEnemy(EnemyData{ iceElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, true, 2, 15, 3 });
-		//manager->AddEnemy(EnemyData{ cyclopsEnemy, shotgun, 1.f, 0, 10, 5, true, slowRoam, slowTrack, false, 2, 80, 1 });
+
 		//manager->AddEnemy(EnemyData{ basicEnemy, pink, 0, 1, 5, true, roam, dashPlayer, RISK_LOW, 1, 3, 5, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, orange, 0, 1, 5, true, roam, dash, RISK_LOW, 1, 4, 8, 2 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, yellow, 0, 1, 5, TARGET_PLAYER, MOVEMENT_CONSTANT, 200.f, 300.f, 20.f, RISK_LOW, 1, 10, 5 });

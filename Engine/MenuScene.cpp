@@ -170,8 +170,8 @@ void MenuScene::Create() {
 		manager->AddSong(SongData{ "BLACKPINK How You Like That", "Files/Media/HowYouLikeThat.wav", 132 });
 		manager->AddSong(SongData{ "LOUD - Thoughts", "Files/Media/LOUD - Thoughts.wav", 150 });
 		manager->AddSong(SongData{ "Ice Flow", "Files/Media/IceFlow.wav", 140 });
-		manager->AddSong(SongData{ "Running in the 90's", "Files/Media/Running in the 90's.wav", 118 });
 		manager->AddSong(SongData{ "Ken Blast - The Top", "Files/Media/Ken Blast - The Top.wav", 160 });
+		manager->AddSong(SongData{ "Running in the 90's", "Files/Media/Running in the 90's.wav", 118 });
 
 		// holder transform for tableview
 		const unsigned holder = entities->Create();
