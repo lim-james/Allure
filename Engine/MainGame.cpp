@@ -628,7 +628,7 @@ void MainGame::Create() {
 		entities->SetLayer(entity, ENEMY);
 
 		EnemyManager* const manager = entities->AddComponent<EnemyManager>(entity);
-		manager->SetActive(true);
+		//manager->SetActive(true);
 		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
 		manager->sfxPrefab = sfxEmitter;

@@ -95,8 +95,7 @@ void MenuScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, -5.f, -5.f));
-		//transform->SetLocalRotation(vec3f(130.f, 0.f, 0.f));
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -5.f));
 		transform->SetScale(vec3f(160.0f, 90.0f, 1.0f));
 		transform->SetDynamic(false);
 

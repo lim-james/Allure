@@ -202,6 +202,9 @@
     <Filter Include="Assets\Scripts\Main\UI">
       <UniqueIdentifier>{534ecfa3-f72c-4da2-bb05-1321a2a9283f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scenes\Sandbox\Pivot">
+      <UniqueIdentifier>{d53adebe-580a-411b-aa52-3b5869a8682b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -668,6 +671,24 @@
     </ClCompile>
     <ClCompile Include="ScoreScene.cpp">
       <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="PivotScene.cpp">
+      <Filter>Assets\Scenes\Sandbox\Pivot</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleMaterial.cpp">
+      <Filter>Assets\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="BeatBullet.cpp">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnController.cpp">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MapCreator.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="BeatMap.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1183,6 +1204,24 @@
     </ClInclude>
     <ClInclude Include="ScoreScene.h">
       <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="PivotScene.h">
+      <Filter>Assets\Scenes\Sandbox\Pivot</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleMaterial.h">
+      <Filter>Assets\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatBullet.h">
+      <Filter>Assets\Prefabs\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnController.h">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MapCreator.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatMap.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

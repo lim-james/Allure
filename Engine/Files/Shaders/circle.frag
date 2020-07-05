@@ -1,4 +1,5 @@
 #version 330 core
+#define M_PI 3.1415926535897932384626433832795
 
 layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec4 brightColor;
@@ -11,11 +12,18 @@ in VS_OUT {
 uniform bool useTex;
 uniform sampler2D tex;
 
+uniform float borderWeight;
+
 void main() {
-	if (useTex)
-		fragColor = texture(tex, vs_out.texCoord) * vs_out.color;	
-	else
-		fragColor = vs_out.color;	
+	vec2 radialUV = (vs_out.texCoord - 0.5f) * 2.f;
+	float radius = length(radialUV);
+
+	if (radius > 1.f || (1.f - radius) > borderWeight) 
+		radius = 0.f;
+	else 
+		radius = 1.f;
+
+	fragColor = radius * vs_out.color;
 
 	if (fragColor.a < 0.01)
 		discard;

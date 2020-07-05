@@ -10,6 +10,7 @@
 #include "PauseScene.h"
 #include "ScoreScene.h"
 #include "AudioSpectrumScene.h"
+#include "PivotScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -54,7 +55,7 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	//glfwSwapInterval(0);
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new SplashScene);
+	sceneManager->Present(new PivotScene);
 
 	context->BroadcastSize();
 	em->TriggerQueued();
