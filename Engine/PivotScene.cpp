@@ -6,10 +6,13 @@
 #include "ColliderSystem.h"
 // components
 #include "Camera.h"
+#include "Text.h"
 #include "SpriteRender.h"
 #include "SphereCollider.h"
 // scripts
 #include "CustomCursor.h"
+#include "FPSCounter.h"
+#include "PlayerController.h"
 #include "MapCreator.h"
 #include "SpawnController.h"
 // utils
@@ -31,6 +34,14 @@ void PivotScene::Awake() {
 
 	// materials
 
+	healthCone = new Material::Cone;
+	healthCone->borderWeight = 1.f;
+	healthCone->SetRange(145.f);
+
+	shieldCone = new Material::Cone;
+	shieldCone->borderWeight = 1.5f / (indicatorRadius * 5.f);
+	shieldCone->SetRange(30.f);
+
 	cursor = new Material::Circle;
 	cursor->borderWeight = 0.2f;
 
@@ -49,11 +60,39 @@ void PivotScene::Awake() {
 void PivotScene::Create() {
 	Scene::Create();
 
+	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
+
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
 	camera->projection = ORTHOGRAPHIC;
 	camera->clearColor = COLOR_WHITE;
 	camera->cullingMask = DEFAULT | BULLET;
+
+	// FPS counter
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 0.5f;
+
+		FPSCounter* const fps = entities->AddComponent<FPSCounter>(entity);
+		fps->SetActive(true);
+	}
+
+	// player controller
+	PlayerController* player = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		
+		player = entities->AddComponent<PlayerController>(entity);
+		player->SetActive(true);
+		player->view = camera;
+		player->healthCone = healthCone;
+	}
 
 	// cursor
 	{
@@ -78,12 +117,30 @@ void PivotScene::Create() {
 		
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
+		transform->SetLocalRotation(vec3f(0.f, 0.f, -90.f));
 		transform->SetScale(vec3f(indicatorRadius * 2.f - 1.f));
 	
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
-		render->SetSprite(Load::TGA("Files/Textures/circle.tga"));
+		//render->SetSprite(Load::TGA("Files/Textures/circle.tga"));
+		render->SetMaterial(healthCone);
 		render->tint = COLOR_BLACK;
+	}
+
+	// shield
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -3.f));
+		transform->SetScale(vec3f(indicatorRadius * 2.1f));
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetMaterial(shieldCone);
+		render->tint = COLOR_GREY;
+
+		player->SetShieldTransform(transform);
 	}
 
 	// indicator
@@ -98,6 +155,8 @@ void PivotScene::Create() {
 		render->SetActive(true);
 		render->SetMaterial(innerCircle);
 		render->tint = COLOR_LIGHT_GREY;
+
+		player->indicatorRender = render;
 	}
 
 	// border
@@ -106,7 +165,7 @@ void PivotScene::Create() {
 		const unsigned entity = entities->Create();
 
 		borderTransform = entities->GetComponent<Transform>(entity);
-		borderTransform->SetLocalTranslation(vec3f(0.f, 0.f, -5.f));
+		borderTransform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
 		borderTransform->SetScale(vec3f(borderRadius * 2.f));
 	
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -114,7 +173,6 @@ void PivotScene::Create() {
 		render->SetMaterial(outerCircle);
 		render->tint = COLOR_LIGHT_GREY;
 	}
-
 
 	//Transform* const transform = beatBullet->Create();
 	//transform->SetScale(1.f);
@@ -147,6 +205,8 @@ void PivotScene::Create() {
 void PivotScene::Destroy() {
 	Scene::Destroy();
 
+	delete healthCone;
+	delete shieldCone;
 	delete cursor;
 	delete innerCircle;
 	delete outerCircle;

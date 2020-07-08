@@ -693,6 +693,12 @@
     <ClCompile Include="CustomCursor.cpp">
       <Filter>Assets\Scripts\General\Mouse</Filter>
     </ClCompile>
+    <ClCompile Include="ConeMaterial.cpp">
+      <Filter>Assets\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1228,6 +1234,12 @@
     </ClInclude>
     <ClInclude Include="CustomCursor.h">
       <Filter>Assets\Scripts\General\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="ConeMaterial.h">
+      <Filter>Assets\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Assets\Scripts\Main\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
