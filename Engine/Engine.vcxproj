@@ -166,6 +166,7 @@
     <ClCompile Include="CollisionData.cpp" />
     <ClCompile Include="Constraint.cpp" />
     <ClCompile Include="CrosshairController.cpp" />
+    <ClCompile Include="CustomCursor.cpp" />
     <ClCompile Include="CyclopsEnemy.cpp" />
     <ClCompile Include="DeadState.cpp" />
     <ClCompile Include="EnemyCombat.cpp" />
@@ -319,6 +320,7 @@
     <ClInclude Include="CircleMaterial.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CrosshairController.h" />
+    <ClInclude Include="CustomCursor.h" />
     <ClInclude Include="CyclopsEnemy.h" />
     <ClInclude Include="DeadState.h" />
     <ClInclude Include="MapCreator.h" />

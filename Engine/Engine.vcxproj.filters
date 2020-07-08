@@ -690,6 +690,9 @@
     <ClCompile Include="BeatMap.cpp">
       <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="CustomCursor.cpp">
+      <Filter>Assets\Scripts\General\Mouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1222,6 +1225,9 @@
     </ClInclude>
     <ClInclude Include="BeatMap.h">
       <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomCursor.h">
+      <Filter>Assets\Scripts\General\Mouse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

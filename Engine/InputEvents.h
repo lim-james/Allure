@@ -6,6 +6,8 @@
 
 namespace Events {
 
+	typedef AnyType<vec2i> WindowResize;
+
 	struct KeyInput : Event {
 		const int key;
 		const int scancode;

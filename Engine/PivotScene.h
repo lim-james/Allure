@@ -13,8 +13,9 @@ class PivotScene : public Scene {
 	float borderRadius;
 	float indicatorRadius;
 
-	Material::Circle* outerCircle;
+	Material::Circle* cursor;
 	Material::Circle* innerCircle;
+	Material::Circle* outerCircle;
 
 	BeatBullet* beatBullet;
 

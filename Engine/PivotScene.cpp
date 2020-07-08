@@ -9,10 +9,12 @@
 #include "SpriteRender.h"
 #include "SphereCollider.h"
 // scripts
+#include "CustomCursor.h"
 #include "MapCreator.h"
 #include "SpawnController.h"
 // utils
 #include "Layers.h"
+#include "ProjectDefines.h"
 #include "LoadFNT.h"
 #include "LoadTexture.h"
 
@@ -24,16 +26,19 @@ void PivotScene::Awake() {
 	systems->SubscribeFixed<PhysicsSystem>();
 	systems->SubscribeFixed<ColliderSystem>();
 	
-	borderRadius = 9.f;
-	indicatorRadius = 2.5f;
+	borderRadius = 7.5f;
+	indicatorRadius = 2.f;
 
 	// materials
 
-	outerCircle = new Material::Circle;
-	outerCircle->borderWeight = 1.f / (borderRadius * 20.f);
+	cursor = new Material::Circle;
+	cursor->borderWeight = 0.2f;
 
 	innerCircle = new Material::Circle;
-	innerCircle->borderWeight = 1.f / (indicatorRadius * 20.f);
+	innerCircle->borderWeight = 1.f / (indicatorRadius * 10.f);
+
+	outerCircle = new Material::Circle;
+	outerCircle->borderWeight = 1.f / (borderRadius * 10.f);
 
 	// prefabs
 
@@ -47,8 +52,53 @@ void PivotScene::Create() {
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->SetSize(10.f);
 	camera->projection = ORTHOGRAPHIC;
-	camera->clearColor = vec4f(0.f);
+	camera->clearColor = COLOR_WHITE;
 	camera->cullingMask = DEFAULT | BULLET;
+
+	// cursor
+	{
+		const unsigned entity = entities->Create();
+		
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
+	
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetMaterial(cursor);
+		render->tint = COLOR_LIGHT_GREY;
+
+		CustomCursor* const cursor = entities->AddComponent<CustomCursor>(entity);
+		cursor->SetActive(true);
+		cursor->view = camera;
+	}
+
+	// player
+	{
+		const unsigned entity = entities->Create();
+		
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
+		transform->SetScale(vec3f(indicatorRadius * 2.f - 1.f));
+	
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetSprite(Load::TGA("Files/Textures/circle.tga"));
+		render->tint = COLOR_BLACK;
+	}
+
+	// indicator
+	{
+		const unsigned entity = entities->Create();
+		
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
+		transform->SetScale(vec3f(indicatorRadius * 2.f));
+	
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetMaterial(innerCircle);
+		render->tint = COLOR_LIGHT_GREY;
+	}
 
 	// border
 	Transform* borderTransform = nullptr;
@@ -62,20 +112,9 @@ void PivotScene::Create() {
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(outerCircle);
+		render->tint = COLOR_LIGHT_GREY;
 	}
 
-	// player
-	{
-		const unsigned entity = entities->Create();
-		
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
-		transform->SetScale(vec3f(indicatorRadius * 2.f));
-	
-		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		render->SetActive(true);
-		render->SetMaterial(innerCircle);
-	}
 
 	//Transform* const transform = beatBullet->Create();
 	//transform->SetScale(1.f);
@@ -95,7 +134,7 @@ void PivotScene::Create() {
 		//creator->savePath = "Files/Data/Maps/Ken Blast - The Top.bm";
 
 		SpawnController* const controller = entities->AddComponent<SpawnController>(entity);
-		controller->SetActive(true);
+		//controller->SetActive(true);
 		controller->source = source;
 		controller->bulletPrefab = beatBullet;
 		controller->SetOuterRadius(borderRadius);
@@ -108,8 +147,9 @@ void PivotScene::Create() {
 void PivotScene::Destroy() {
 	Scene::Destroy();
 
-	delete outerCircle;
+	delete cursor;
 	delete innerCircle;
+	delete outerCircle;
 
 	delete beatBullet;
 }
