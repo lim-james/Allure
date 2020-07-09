@@ -11,23 +11,33 @@ struct SpawnController : Script {
 
 	using base_type = SpawnController;
 
+	float directionThreshold;
+	float rotationSpeed;;
+
 	AudioSource* source;
 
 	Prefab* bulletPrefab;
 
+	void SetMapPath(std::string const& filepath);
+
+	void SetOffset(float const& t);
+
 	void SetOuterRadius(float const& value);
 	void SetInnerRadius(float const& value);
 	void SetTravelTime(float const& t);
-	void SetMapPath(std::string const& filepath);
 
 private:
+
+	BeatMap map;
+
+	float offset;
 
 	float outerRadius;
 	float innerRadius;
 	float travelTime;
 	float speed;
 
-	BeatMap map;
+	float angle;
 	
 	void Start() override;
 	void Update() override;

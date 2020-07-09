@@ -3,8 +3,11 @@
 
 #include "Prefab.h"
 
+#include "Material.h"
+
 struct BeatBullet : Prefab {
 	unsigned texture;
+	Material::Base* material;
 
 	BeatBullet();
 	Transform* Create() override;

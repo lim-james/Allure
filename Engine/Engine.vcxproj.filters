@@ -705,6 +705,18 @@
     <ClCompile Include="AnimationBase.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="BeatSpawnState.cpp">
+      <Filter>Assets\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BeatNeutralState.cpp">
+      <Filter>Assets\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BeatDestroyedState.cpp">
+      <Filter>Assets\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BeatCollisionHandler.cpp">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1252,6 +1264,18 @@
     </ClInclude>
     <ClInclude Include="TransformAnimator.h">
       <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatSpawnState.h">
+      <Filter>Assets\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatNeutralState.h">
+      <Filter>Assets\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatDestroyedState.h">
+      <Filter>Assets\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BeatCollisionHandler.h">
+      <Filter>Assets\Scripts\Main\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

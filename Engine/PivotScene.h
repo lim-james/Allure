@@ -19,6 +19,7 @@ class PivotScene : public Scene {
 	Material::Circle* cursor;
 	Material::Circle* innerCircle;
 	Material::Circle* outerCircle;
+	Material::Circle* bulletCircle;
 
 	BeatBullet* beatBullet;
 

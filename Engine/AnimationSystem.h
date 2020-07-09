@@ -29,7 +29,7 @@ private:
 
 	// transform handlers
 	void UpdateTransform(
-		std::vector<TransformAnimationData> animations, 
+		std::vector<TransformAnimationData>& animations, 
 		Transform* const transform, 
 		vec3f const& (Transform::*getter)() const, 
 		void(Transform::*setter)(vec3f const&), 

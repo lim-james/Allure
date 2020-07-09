@@ -153,8 +153,12 @@
     <ClCompile Include="BasicBullet.cpp" />
     <ClCompile Include="BatEnemy.cpp" />
     <ClCompile Include="BeatBullet.cpp" />
+    <ClCompile Include="BeatCollisionHandler.cpp" />
     <ClCompile Include="BeatController.cpp" />
+    <ClCompile Include="BeatDestroyedState.cpp" />
     <ClCompile Include="BeatMap.cpp" />
+    <ClCompile Include="BeatNeutralState.cpp" />
+    <ClCompile Include="BeatSpawnState.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="BulletHandler.cpp" />
     <ClCompile Include="ButtonAnimation.cpp" />
@@ -314,8 +318,12 @@
     <ClInclude Include="BackgroundMaterial.h" />
     <ClInclude Include="BatEnemy.h" />
     <ClInclude Include="BeatBullet.h" />
+    <ClInclude Include="BeatCollisionHandler.h" />
     <ClInclude Include="BeatController.h" />
+    <ClInclude Include="BeatDestroyedState.h" />
     <ClInclude Include="BeatMap.h" />
+    <ClInclude Include="BeatNeutralState.h" />
+    <ClInclude Include="BeatSpawnState.h" />
     <ClInclude Include="BulletHandler.h" />
     <ClInclude Include="CellScript.h" />
     <ClInclude Include="ChaseState.h" />

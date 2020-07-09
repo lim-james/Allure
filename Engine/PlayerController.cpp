@@ -117,7 +117,7 @@ void PlayerController::BeatHold() {
 }
 
 void PlayerController::BeatRelease() {
-	shieldRender->tint = COLOR_GREY;
+	shieldRender->tint = COLOR_LIGHT_GREY;
 }
 
 void PlayerController::WavePress() {

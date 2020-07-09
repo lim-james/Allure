@@ -3,6 +3,7 @@
 // systems
 #include "AudioSystem.h"
 #include "AnimationSystem.h"
+#include "StateMachine.h"
 #include "PhysicsSystem.h"
 #include "ColliderSystem.h"
 // components
@@ -17,6 +18,10 @@
 #include "PlayerController.h"
 #include "MapCreator.h"
 #include "SpawnController.h"
+// states
+#include "BeatSpawnState.h"
+#include "BeatNeutralState.h"
+#include "BeatDestroyedState.h"
 // utils
 #include "Layers.h"
 #include "ProjectDefines.h"
@@ -29,8 +34,14 @@ void PivotScene::Awake() {
 	systems->Subscribe<AudioSystem>(0);
 	systems->Subscribe<AnimationSystem>(0);
 	systems->Subscribe<PhysicsSystem>(0);
+	systems->Subscribe<StateMachine>(2);
 	systems->SubscribeFixed<PhysicsSystem>();
 	systems->SubscribeFixed<ColliderSystem>();
+
+	StateMachine* const stateMachine = systems->Get<StateMachine>();
+	stateMachine->AttachState<States::BeatSpawn>("BEAT_SPAWN");
+	stateMachine->AttachState<States::BeatNeutral>("BEAT_NEUTRAL");
+	stateMachine->AttachState<States::BeatDestroyed>("BEAT_DESTROYED");
 	
 	borderRadius = 7.5f;
 	indicatorRadius = 2.f;
@@ -54,10 +65,14 @@ void PivotScene::Awake() {
 	outerCircle = new Material::Circle;
 	outerCircle->borderWeight = 1.f / (borderRadius * 10.f);
 
+	bulletCircle = new Material::Circle;
+	bulletCircle->borderWeight = 0.25f;
+
 	// prefabs
 
 	beatBullet = new BeatBullet;
 	beatBullet->Initialize(entities);
+	beatBullet->material = bulletCircle;
 }
 
 void PivotScene::Create() {
@@ -151,7 +166,7 @@ void PivotScene::Create() {
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(shieldCone);
-		render->tint = COLOR_GREY;
+		render->tint = COLOR_LIGHT_GREY;
 
 		player->SetShieldTransform(transform);
 	}
@@ -206,12 +221,15 @@ void PivotScene::Create() {
 
 		SpawnController* const controller = entities->AddComponent<SpawnController>(entity);
 		controller->SetActive(true);
+		controller->rotationSpeed = Math::HALF_PI;
 		controller->source = source;
 		controller->bulletPrefab = beatBullet;
+
+		controller->SetMapPath("Files/Data/Maps/Ken Blast - The Top.bm");
+		controller->SetOffset(1.f);
 		controller->SetOuterRadius(borderRadius);
 		controller->SetInnerRadius(indicatorRadius);
 		controller->SetTravelTime(1.f);
-		controller->SetMapPath("Files/Data/Maps/Ken Blast - The Top.bm");
 	}
 }
 
