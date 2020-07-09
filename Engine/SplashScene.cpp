@@ -44,7 +44,7 @@ void SplashScene::Create() {
 		text->scale = 1.f;
 		text->offset.y = -0.25f;
 
-		Animation* const animation = entities->AddComponent<Animation>(entity);
+		Animator* const animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 1.f, 1.f), &text->offset.y, 0.f);
 		animation->Queue(AnimationBase(false, 1.f, 3.f, Handler<void, void>([text]() {

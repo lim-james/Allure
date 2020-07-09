@@ -2,7 +2,7 @@
 
 void ButtonAnimation::Awake() {
 	render = GetComponent<SpriteRender>();
-	animation = GetComponent<Animation>();
+	animation = GetComponent<Animator>();
 	button = GetComponent<Button>();
 
 	button->handlers[MOUSE_OVER].Bind(&ButtonAnimation::OnMouseOver, this);

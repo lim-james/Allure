@@ -2,6 +2,7 @@
 
 // systems
 #include "AudioSystem.h"
+#include "AnimationSystem.h"
 #include "PhysicsSystem.h"
 #include "ColliderSystem.h"
 // components
@@ -26,6 +27,7 @@ void PivotScene::Awake() {
 	Scene::Awake();
 	
 	systems->Subscribe<AudioSystem>(0);
+	systems->Subscribe<AnimationSystem>(0);
 	systems->Subscribe<PhysicsSystem>(0);
 	systems->SubscribeFixed<PhysicsSystem>();
 	systems->SubscribeFixed<ColliderSystem>();
@@ -114,9 +116,6 @@ void PivotScene::Create() {
 		CustomCursor* const cursor = entities->AddComponent<CustomCursor>(entity);
 		cursor->SetActive(true);
 		cursor->view = camera;
-
-		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
-		collider->SetActive(true);
 	}
 
 	// health bar
@@ -126,6 +125,9 @@ void PivotScene::Create() {
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->SetLocalRotation(vec3f(0.f, 0.f, -90.f));
 		transform->SetScale(vec3f(indicatorRadius * 2.f - 1.f));
+
+		Animator* const animation = entities->AddComponent<Animator>(entity);
+		animation->SetActive(true);
 	
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
@@ -203,7 +205,7 @@ void PivotScene::Create() {
 		//creator->savePath = "Files/Data/Maps/Ken Blast - The Top.bm";
 
 		SpawnController* const controller = entities->AddComponent<SpawnController>(entity);
-		//controller->SetActive(true);
+		controller->SetActive(true);
 		controller->source = source;
 		controller->bulletPrefab = beatBullet;
 		controller->SetOuterRadius(borderRadius);

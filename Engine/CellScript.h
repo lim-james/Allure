@@ -4,7 +4,7 @@
 #include "Script.h"
 #include "SpriteRender.h"
 #include "Text.h"
-#include "Animation.h"
+#include "Animator.h"
 #include "Button.h"
 
 struct CellScript : Script {
@@ -15,7 +15,7 @@ struct CellScript : Script {
 	SpriteRender* background;
 	Button* button;
 	Text* titleLabel;
-	Animation* animator;
+	Animator* animator;
 };
 
 #endif

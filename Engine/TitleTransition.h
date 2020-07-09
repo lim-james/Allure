@@ -4,7 +4,7 @@
 #include "Script.h"
 
 #include "ParticleEmitter.h"
-#include "Animation.h"
+#include "Animator.h"
 #include "Text.h"
 #include "SpriteRender.h"
 #include "LineRender.h"
@@ -24,7 +24,7 @@ private:
 
 	// references
 
-	Animation* animation;
+	Animator* animation;
 
 	Text* titleText;
 

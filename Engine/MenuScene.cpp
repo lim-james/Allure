@@ -105,7 +105,7 @@ void MenuScene::Create() {
 		render->SetCellRect(0, 0, 32, 18);
 		render->tint.a = 0.15f;
 
-		Animation* const animation = entities->AddComponent<Animation>(entity);
+		Animator* const animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 1.f, 2.f), &render->tint.a, 0.15f);
 		animation->Queue(AnimationBase(true, 5.f), &render->uvRect.y, 1.f);
@@ -134,7 +134,7 @@ void MenuScene::Create() {
 		render->tint.a = 0.f;
 		//render->SetSprite(Load::Texture2D("Files/Textures/vinyl.png"));
 
-		Animation* const animation = entities->AddComponent<Animation>(entity);
+		Animator* const animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 1.f, 1.f), &render->tint.a, 1.f);
 

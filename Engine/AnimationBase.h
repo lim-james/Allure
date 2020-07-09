@@ -1,12 +1,8 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
-
-#include "Component.h"
+#ifndef ANIMATION_BASE_H
+#define ANIMATION_BASE_H
 
 #include <Handler/Handler.h>
-
-#include <vector>
-#include <map>
+#include <Math/Vectors.h>
 
 class AnimationBase {
 
@@ -36,6 +32,8 @@ public:
 	float const& GetDuration() const;
 	float const& GetDelay() const;
 
+	friend class AnimationSystem;
+
 };
 
 template<typename T>
@@ -52,7 +50,7 @@ public:
 	AnimationData() {}
 	~AnimationData() override {}
 
-	AnimationData(AnimationBase base, T* target, T const& outcome)
+	AnimationData(AnimationBase const& base, T* target, T const& outcome)
 		: AnimationBase(base)
 		, target(target)
 		, outcome(outcome)
@@ -78,40 +76,17 @@ public:
 	}
 };
 
-struct Animation : Component {
+class TransformAnimationData : public AnimationBase {
 
-	using base_type = Animation;
+public:
 
-	std::map<int, std::vector<AnimationBase*>> animations;
+	vec3f original;
+	vec3f outcome;
 
-	Animation();
-	~Animation() override;
-
-	void Initialize() override;
-	Component* Clone() const override;
-	void SetActive(bool const& state) override;
-
-	template<typename T>
-	void Queue(AnimationBase const& base, T* target, T const& outcome) {
-		animations[(int)target].push_back(new AnimationData<T>(base, target, outcome));
-	}
-
-	template<typename T>
-	void Pop(T* target) {
-		animations[(int)target].pop_back();
-	}
-
-	template<typename T>
-	void Clear(T* target) {
-		animations[(int)target].clear();
-	}
-
-	template<typename T>
-	unsigned  Count(T* target) const {
-		return animations[(int)target].size();
-	}
-	
-	void Clear();
+	TransformAnimationData(AnimationBase base, vec3f const& original, vec3f const& outcome)
+		: AnimationBase(base) 
+		, original(original)
+		, outcome(outcome) {}
 
 };
 

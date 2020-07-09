@@ -5,7 +5,7 @@
 
 // components
 #include "SpriteRender.h"
-#include "Animation.h"
+#include "Animator.h"
 #include "Button.h"
 
 struct ButtonAnimation : Script {
@@ -15,7 +15,7 @@ struct ButtonAnimation : Script {
 private:
 
 	SpriteRender* render;
-	Animation* animation;
+	Animator* animation;
 	Button* button;
 
 	void Awake() override;

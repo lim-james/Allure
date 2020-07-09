@@ -2,7 +2,10 @@
 #define ANIMATION_SYSTEM_H
 
 #include "System.h"
-#include "Animation.h"
+#include "Animator.h"
+#include "TransformAnimator.h"
+
+#include "Transform.h"
 
 #include <Events/Event.h>
 
@@ -10,7 +13,8 @@
 
 class AnimationSystem : public System {
 
-	std::vector<Animation*> components;
+	std::vector<Animator*> base;
+	std::vector<TransformAnimator*> transforms;
 
 public:
 
@@ -20,7 +24,17 @@ public:
 private:
 
 	// Event handlers
-	void ActiveHandler(Events::Event* event);
+	void BaseActiveHandler(Events::Event* event);
+	void TransformActiveHandler(Events::Event* event);
+
+	// transform handlers
+	void UpdateTransform(
+		std::vector<TransformAnimationData> animations, 
+		Transform* const transform, 
+		vec3f const& (Transform::*getter)() const, 
+		void(Transform::*setter)(vec3f const&), 
+		float const& dt
+	);
 
 };
 

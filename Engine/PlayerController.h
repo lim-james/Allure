@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "ConeMaterial.h"
 #include "SpriteRender.h"
+#include "Animator.h"
 
 struct PlayerController : Script {
 
@@ -38,6 +39,7 @@ private:
 
 	SpriteRender* healthRender;
 	Material::Cone* healthCone;
+	Animator* healthAnimation;
 
 	float maxHealth;
 	float healthInv;

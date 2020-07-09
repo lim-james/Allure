@@ -14,6 +14,7 @@ void PlayerController::SetView(Camera * camera) {
 void PlayerController::SetHealthRender(SpriteRender * const r) {
 	healthRender = r;
 	healthCone = static_cast<Material::Cone*>(r->GetMaterial());
+	healthAnimation = entities->GetComponent<Animator>(r->entity);
 }
 
 void PlayerController::SetShieldTransform(Transform * const t) {
@@ -31,6 +32,12 @@ void PlayerController::OnCollisionEnter(unsigned target) {
 	const vec3f position = bTransform->GetWorldTranslation();
 	const vec3f direction = Math::Normalized(position - transform->GetWorldTranslation());
 	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+
+	vec4f& tint = healthRender->tint;
+
+	healthAnimation->Queue(AnimationBase(false, 0.15f, 0.f, Handler<void, void>([&tint]() {
+		tint = COLOR_BLACK;
+	})), &tint, COLOR_RED);
 
 	--health;
 	UpdateHealth();

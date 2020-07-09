@@ -3,7 +3,7 @@
 #include "Text.h"
 #include "Physics.h"
 #include "SphereCollider.h"
-#include "Animation.h"
+#include "Animator.h"
 #include "SelfDestruct.h"
 
 #include "Layers.h"
@@ -29,7 +29,7 @@ Transform* IndicatorLabel::Create() {
 	text->text = "INSERT TEXT HERE";
 	text->color.a = 0.f;
 
-	Animation* const animation = entities->AddComponent<Animation>(entity);
+	Animator* const animation = entities->AddComponent<Animator>(entity);
 	animation->SetActive(true);
 	animation->Queue(AnimationBase(false, 0.25f), &text->color.a, 1.f);
 	animation->Queue(AnimationBase(false, 0.25f, 0.f, Handler<void, void>([this, entity]() {

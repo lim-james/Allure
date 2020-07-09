@@ -5,7 +5,7 @@
 #include "SpriteRender.h"
 #include "Text.h"
 #include "Layout.h"
-#include "Animation.h"
+#include "Animator.h"
 #include "Button.h"
 
 Transform * TableViewCell::Create() {
@@ -45,7 +45,7 @@ Transform * TableViewCell::Create() {
 		layout->AddConstraint(Constraint(BOTTOM_ANCHOR, transform, BOTTOM_ANCHOR, 1.f, 0.f, uiCamera));
 	}
 
-	Animation* const animation = entities->AddComponent<Animation>(entity);
+	Animator* const animation = entities->AddComponent<Animator>(entity);
 	animation->SetActive(true);
 	script->animator = animation;
 

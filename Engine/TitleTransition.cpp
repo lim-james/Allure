@@ -53,7 +53,7 @@ void TitleTransition::Transition(unsigned target) {
 }
 
 void TitleTransition::Start() {
-	animation = entities->GetComponent<Animation>(entity);
+	animation = entities->GetComponent<Animator>(entity);
 
 	titleText = entities->GetComponent<Text>(titleTransform->entity);
 

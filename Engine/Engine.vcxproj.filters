@@ -270,9 +270,6 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Engine\Particles</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Engine\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="AnimationSystem.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
@@ -699,6 +696,15 @@
     <ClCompile Include="PlayerController.cpp">
       <Filter>Assets\Scripts\Main\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformAnimator.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationBase.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -766,9 +772,6 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Engine\Particles</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Engine\Animation</Filter>
     </ClInclude>
     <ClInclude Include="AnimationSystem.h">
       <Filter>Engine\Animation</Filter>
@@ -1240,6 +1243,15 @@
     </ClInclude>
     <ClInclude Include="PlayerController.h">
       <Filter>Assets\Scripts\Main\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationBase.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformAnimator.h">
+      <Filter>Engine\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -78,7 +78,7 @@ void ScoreScene::Create() {
 		text->color.a = 0.f;
 		text->offset.y = -1.f;
 
-		Animation* const animation = entities->AddComponent<Animation>(entity);
+		Animator* const animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 0.25f, 1.f), &text->offset.y, 0.f);
 		animation->Queue(AnimationBase(false, 0.25f, 1.f), &text->color.a, 1.f);
@@ -118,7 +118,7 @@ void ScoreScene::Create() {
 		//	transform->Parse(transform->ToString());
 		//});
 
-		Animation* const animation = entities->AddComponent<Animation>(entity);
+		Animator* const animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 0.01f, 5.f), &render->tint.a, 1.f);
 		animation->Queue(AnimationBase(false, 0.01f, 5.f), &text->color.a, 1.f);
@@ -142,7 +142,7 @@ void ScoreScene::CreateRow(float const& i, std::string const & label, std::strin
 		text->paragraphAlignment = PARAGRAPH_RIGHT;
 		text->color = vec4f(1.f, 1.f, 1.f, 0.f);
 
-		Animation* const animation = entities->AddComponent<Animation>(entity);
+		Animator* const animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 0.01f, delay), &text->color.a, 1.f);
 	}
@@ -161,7 +161,7 @@ void ScoreScene::CreateRow(float const& i, std::string const & label, std::strin
 		text->color = vec4f(1.f, 1.f, 1.f, 0.f);
 		text->offset.y = -1.f;
 
-		Animation* const animation = entities->AddComponent<Animation>(entity);
+		Animator* const animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 0.1f, delay), &text->offset.y, 0.f);
 		animation->Queue(AnimationBase(false, 0.01f, delay), &text->color.a, 1.f);

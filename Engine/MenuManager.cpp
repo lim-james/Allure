@@ -57,7 +57,7 @@ void MenuManager::CellForRow(TableViewScript * tableView, unsigned index, Transf
 void MenuManager::UpdateRow(TableViewScript * tableView, unsigned index, Transform * cell) {
 	CellScript* const script = entities->GetComponent<CellScript>(cell->entity);
 
-	Animation* const animator = script->animator;
+	Animator* const animator = script->animator;
 	SpriteRender* const background = script->background;
 
 	if (index == selected) {

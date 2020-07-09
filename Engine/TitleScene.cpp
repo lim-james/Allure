@@ -83,7 +83,7 @@ void TitleScene::Create() {
 	transition->SetActive(true);
 
 	{
-		auto animation = entities->AddComponent<Animation>(manager);
+		auto animation = entities->AddComponent<Animator>(manager);
 		animation->SetActive(true);
 	}
 
@@ -170,7 +170,7 @@ void TitleScene::Create() {
 		text->scale = 0.5f;
 		text->color = vec4f(0.f, 0.f, 0.f, 1.f);
 
-		auto animation = entities->AddComponent<Animation>(entity);
+		auto animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
 
 		auto button = entities->AddComponent<Button>(entity);
