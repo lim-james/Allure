@@ -6,15 +6,51 @@
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
+void PlayerController::SetView(Camera * camera) {
+	view = camera;
+	viewTransform = entities->GetComponent<Transform>(camera->entity);
+}
+
+void PlayerController::SetHealthRender(SpriteRender * const r) {
+	healthRender = r;
+	healthCone = static_cast<Material::Cone*>(r->GetMaterial());
+}
+
 void PlayerController::SetShieldTransform(Transform * const t) {
 	shieldTransform = t;
 	shieldRender = entities->GetComponent<SpriteRender>(t->entity);
+}
+
+void PlayerController::SetMaxHealth(float const & value) {
+	maxHealth = value;
+	healthInv = 180.f / value;
+}
+
+void PlayerController::OnCollisionEnter(unsigned target) {
+	Transform* const bTransform = entities->GetComponent<Transform>(target);
+	const vec3f position = bTransform->GetWorldTranslation();
+	const vec3f direction = Math::Normalized(position - transform->GetWorldTranslation());
+	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+
+	--health;
+	UpdateHealth();
 }
 
 void PlayerController::Awake() {
 	EventsManager::Get()->Subscribe("KEY_INPUT", &PlayerController::KeyHandler, this);
 	EventsManager::Get()->Subscribe("MOUSE_BUTTON_INPUT", &PlayerController::MouseButtonHandler, this);
 	EventsManager::Get()->Subscribe("CURSOR_POSITION_INPUT", &PlayerController::CursorPositionHandler, this);
+}
+
+void PlayerController::Start() {
+	health = maxHealth;
+	UpdateHealth();
+}
+
+void PlayerController::Update() {
+	const vec3f position = viewTransform->GetLocalTranslation();
+	const vec2f destination = Math::Lerp(position.xy, vec2f(0.f), time->dt * 10.f);
+	viewTransform->SetLocalTranslation(vec3f(destination, position.z));
 }
 
 void PlayerController::KeyHandler(Events::Event * event) {
@@ -87,4 +123,8 @@ void PlayerController::WaveHold() {
 
 void PlayerController::WaveRelease() {
 	indicatorRender->tint = COLOR_LIGHT_GREY;
+}
+
+void PlayerController::UpdateHealth() {
+	healthCone->SetRange(health * healthInv);
 }

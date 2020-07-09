@@ -10,8 +10,9 @@
 #include "SpriteRender.h"
 #include "SphereCollider.h"
 // scripts
-#include "CustomCursor.h"
+#include "ScreenShake.h"
 #include "FPSCounter.h"
+#include "CustomCursor.h"
 #include "PlayerController.h"
 #include "MapCreator.h"
 #include "SpawnController.h"
@@ -68,6 +69,13 @@ void PivotScene::Create() {
 	camera->clearColor = COLOR_WHITE;
 	camera->cullingMask = DEFAULT | BULLET;
 
+	{
+		ScreenShake* const shake = entities->AddComponent<ScreenShake>(mainCamera);
+		shake->SetActive(true);
+		shake->duration = 0.5f;
+		shake->magnitude = 0.025f;
+	}
+
 	// FPS counter
 	{
 		const unsigned entity = entities->Create();
@@ -90,16 +98,13 @@ void PivotScene::Create() {
 		
 		player = entities->AddComponent<PlayerController>(entity);
 		player->SetActive(true);
-		player->view = camera;
-		player->healthCone = healthCone;
+		player->SetView(camera);
+		player->SetMaxHealth(8.f);
 	}
 
 	// cursor
 	{
 		const unsigned entity = entities->Create();
-		
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
 	
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
@@ -109,22 +114,29 @@ void PivotScene::Create() {
 		CustomCursor* const cursor = entities->AddComponent<CustomCursor>(entity);
 		cursor->SetActive(true);
 		cursor->view = camera;
+
+		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+		collider->SetActive(true);
 	}
 
-	// player
+	// health bar
 	{
 		const unsigned entity = entities->Create();
 		
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
 		transform->SetLocalRotation(vec3f(0.f, 0.f, -90.f));
 		transform->SetScale(vec3f(indicatorRadius * 2.f - 1.f));
 	
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
-		//render->SetSprite(Load::TGA("Files/Textures/circle.tga"));
 		render->SetMaterial(healthCone);
 		render->tint = COLOR_BLACK;
+
+		player->SetHealthRender(render);
+
+		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+		collider->SetActive(true);
+		collider->handlers[COLLISION_ENTER].Bind(&PlayerController::OnCollisionEnter, player);
 	}
 
 	// shield
@@ -132,7 +144,6 @@ void PivotScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, 0.f, -3.f));
 		transform->SetScale(vec3f(indicatorRadius * 2.1f));
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -148,7 +159,7 @@ void PivotScene::Create() {
 		const unsigned entity = entities->Create();
 		
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -1.f));
 		transform->SetScale(vec3f(indicatorRadius * 2.f));
 	
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -165,7 +176,7 @@ void PivotScene::Create() {
 		const unsigned entity = entities->Create();
 
 		borderTransform = entities->GetComponent<Transform>(entity);
-		borderTransform->SetLocalTranslation(vec3f(0.f, 0.f, -4.f));
+		borderTransform->SetLocalTranslation(vec3f(0.f, 0.f, -1.f));
 		borderTransform->SetScale(vec3f(borderRadius * 2.f));
 	
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
