@@ -14,6 +14,7 @@ namespace Material {
 		Cone();
 
 		void SetRange(float const& deg);
+		float GetRange() const;
 
 	private:
 

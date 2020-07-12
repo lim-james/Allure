@@ -42,7 +42,6 @@ Transform * BeatBullet::Create() {
 	physics->useGravity = false;
 
 	SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
-	collider->SetActive(true);
 	//collider->ignoreMask = WEAPON | BULLET | BONUS_BULLET | ENEMY_BULLET | EFFECT_AREA;
 	collider->ignoreMask = BULLET;
 
@@ -52,7 +51,7 @@ Transform * BeatBullet::Create() {
 	handler->fadeOutDuration = 0.25f;
 	handler->material = material;
 
-	collider->handlers[COLLISION_ENTER].Bind(&BeatCollisionHandler::OnHit, handler);
+	//collider->handlers[COLLISION_ENTER].Bind(&BeatCollisionHandler::OnHit, handler);
 
 	return transform;
 }

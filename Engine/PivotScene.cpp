@@ -35,6 +35,7 @@ void PivotScene::Awake() {
 	systems->Subscribe<AnimationSystem>(0);
 	systems->Subscribe<PhysicsSystem>(0);
 	systems->Subscribe<StateMachine>(2);
+
 	systems->SubscribeFixed<PhysicsSystem>();
 	systems->SubscribeFixed<ColliderSystem>();
 
@@ -139,7 +140,7 @@ void PivotScene::Create() {
 		
 		Transform* const transform = entities->GetComponent<Transform>(entity);
 		transform->SetLocalRotation(vec3f(0.f, 0.f, -90.f));
-		transform->SetScale(vec3f(indicatorRadius * 2.f - 1.f));
+		transform->SetScale(vec3f(indicatorRadius * 2.f - 1.5f));
 
 		Animator* const animation = entities->AddComponent<Animator>(entity);
 		animation->SetActive(true);
@@ -153,7 +154,20 @@ void PivotScene::Create() {
 
 		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
 		collider->SetActive(true);
-		collider->handlers[COLLISION_ENTER].Bind(&PlayerController::OnCollisionEnter, player);
+		collider->ignoreMask = DEFAULT;
+		collider->handlers[COLLISION_ENTER].Bind(&PlayerController::OnEnterPlayer, player);
+	}
+
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetScale(vec3f(indicatorRadius * 4.f));
+
+		SphereCollider* const collider = entities->AddComponent<SphereCollider>(entity);
+		collider->SetActive(true);
+		collider->ignoreMask = DEFAULT;
+		collider->handlers[COLLISION_ENTER].Bind(&PlayerController::OnEnterRange, player);
 	}
 
 	// shield
@@ -168,7 +182,7 @@ void PivotScene::Create() {
 		render->SetMaterial(shieldCone);
 		render->tint = COLOR_LIGHT_GREY;
 
-		player->SetShieldTransform(transform);
+		player->SetShieldRender(render);
 	}
 
 	// indicator
@@ -212,7 +226,6 @@ void PivotScene::Create() {
 		AudioSource* const source = entities->AddComponent<AudioSource>(entity);
 		source->SetActive(true);
 		source->audioClip = "Files/Media/Ken Blast - The Top.wav";
-		//source->speed = 1.5f;
 
 		//MapCreator* const creator = entities->AddComponent<MapCreator>(entity);
 		//creator->SetActive(true);
@@ -229,7 +242,7 @@ void PivotScene::Create() {
 		controller->SetOffset(1.f);
 		controller->SetOuterRadius(borderRadius);
 		controller->SetInnerRadius(indicatorRadius);
-		controller->SetTravelTime(1.f);
+		controller->SetTravelTime(2.f);
 	}
 }
 

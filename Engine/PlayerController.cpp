@@ -2,6 +2,7 @@
 
 #include "InputEvents.h"
 #include "ProjectDefines.h"
+#include "Layers.h"
 
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
@@ -17,9 +18,10 @@ void PlayerController::SetHealthRender(SpriteRender * const r) {
 	healthAnimation = entities->GetComponent<Animator>(r->entity);
 }
 
-void PlayerController::SetShieldTransform(Transform * const t) {
-	shieldTransform = t;
-	shieldRender = entities->GetComponent<SpriteRender>(t->entity);
+void PlayerController::SetShieldRender(SpriteRender * const r) {
+	shieldRender = r;
+	shieldCone = static_cast<Material::Cone*>(shieldRender->GetMaterial());
+	shieldTransform = entities->GetComponent<Transform>(r->entity);
 }
 
 void PlayerController::SetMaxHealth(float const & value) {
@@ -27,20 +29,34 @@ void PlayerController::SetMaxHealth(float const & value) {
 	healthInv = 180.f / value;
 }
 
-void PlayerController::OnCollisionEnter(unsigned target) {
-	Transform* const bTransform = entities->GetComponent<Transform>(target);
-	const vec3f position = bTransform->GetWorldTranslation();
-	const vec3f direction = Math::Normalized(position - transform->GetWorldTranslation());
-	EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
+void PlayerController::OnEnterPlayer(unsigned target) {
+	if (entities->GetLayer(target) == BULLET) {
+		Transform* const bTransform = entities->GetComponent<Transform>(target);
+		const vec3f position = bTransform->GetWorldTranslation();
+		const vec3f direction = Math::Normalized(position - transform->GetWorldTranslation());
+		EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(direction));
 
-	vec4f& tint = healthRender->tint;
+		vec4f& tint = healthRender->tint;
 
-	healthAnimation->Queue(AnimationBase(false, 0.15f, 0.f, Handler<void, void>([&tint]() {
-		tint = COLOR_BLACK;
-	})), &tint, COLOR_RED);
+		healthAnimation->Queue(AnimationBase(false, 0.15f, 0.f, Handler<void, void>([&tint]() {
+			tint = COLOR_BLACK;
+		})), &tint, COLOR_RED);
 
-	--health;
-	UpdateHealth();
+		--health;
+		UpdateHealth();
+
+		BeatCollisionHandler* const handler = entities->GetComponent<BeatCollisionHandler>(target);
+		handler->OnHit(entity);
+
+		beats.erase(beats.begin());
+		//beats. entities->GetComponent<BeatCollisionHandler>(target)] = 0.f;
+	}
+}
+
+void PlayerController::OnEnterRange(unsigned target) {
+	if (entities->GetLayer(target) == BULLET) {
+		beats.push_back(entities->GetComponent<BeatCollisionHandler>(target));
+	}
 }
 
 void PlayerController::Awake() {
@@ -52,6 +68,8 @@ void PlayerController::Awake() {
 void PlayerController::Start() {
 	health = maxHealth;
 	UpdateHealth();
+
+	isShielding = false;
 }
 
 void PlayerController::Update() {
@@ -109,15 +127,30 @@ void PlayerController::CursorPositionHandler(Events::Event * event) {
 }
 
 void PlayerController::BeatPress() {
-	shieldRender->tint = COLOR_BLACK;
+	SetShieldState(true);
+	
+	const vec3f shieldPosition = shieldTransform->GetWorldTranslation();
+	const float angle = shieldTransform->GetLocalRotation().z;
+
+	for (unsigned i = 0; i < beats.size(); ++i) {
+		BeatCollisionHandler* const beat = beats[i];
+
+		const vec3f direction = beat->transform->GetWorldTranslation() - shieldPosition;
+		const float theta = fabs(atan2f(direction.y, direction.x) * Math::toDeg - angle);
+
+		if (theta <= shieldCone->GetRange()) {
+			beat->OnHit(entity);
+			SetShieldState(false);
+			beats.erase(beats.begin() + i);
+			return;
+		}
+	}
 }
 
-void PlayerController::BeatHold() {
-
-}
+void PlayerController::BeatHold() {}
 
 void PlayerController::BeatRelease() {
-	shieldRender->tint = COLOR_LIGHT_GREY;
+	SetShieldState(false);
 }
 
 void PlayerController::WavePress() {
@@ -135,3 +168,9 @@ void PlayerController::WaveRelease() {
 void PlayerController::UpdateHealth() {
 	healthCone->SetRange(health * healthInv);
 }
+
+void PlayerController::SetShieldState(bool const & state) {
+	isShielding = state;
+	shieldRender->tint = isShielding ? COLOR_BLACK : COLOR_LIGHT_GREY;
+}
+

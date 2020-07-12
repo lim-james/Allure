@@ -23,6 +23,7 @@ void MapCreator::KeyEvents(Events::Event * event) {
 		} else if (input->key == GLFW_KEY_SPACE) {
 			if (source->IsPaused()) {
 				source->Play();
+				map.Initialize();
 			} else {
 				source->Stop();
 				map.Save(savePath);

@@ -7,6 +7,9 @@
 #include "ConeMaterial.h"
 #include "SpriteRender.h"
 #include "Animator.h"
+#include "BeatCollisionHandler.h"
+
+#include <vector>
 
 struct PlayerController : Script {
 
@@ -19,7 +22,7 @@ struct PlayerController : Script {
 	void SetView(Camera* camera);
 
 	void SetHealthRender(SpriteRender* const r);
-	void SetShieldTransform(Transform* const t);
+	void SetShieldRender(SpriteRender* const r);
 
 	// player properties
 
@@ -27,23 +30,29 @@ struct PlayerController : Script {
 
 	// handlers
 
-	void OnCollisionEnter(unsigned target);
+	void OnEnterPlayer(unsigned target);
+	void OnEnterRange(unsigned target);
 
 private:
 
 	Camera* view;
 	Transform* viewTransform;
 
-	Transform* shieldTransform;
-	SpriteRender* shieldRender;
-
 	SpriteRender* healthRender;
 	Material::Cone* healthCone;
 	Animator* healthAnimation;
 
+	SpriteRender* shieldRender;
+	Material::Cone* shieldCone;
+	Transform* shieldTransform;
+
 	float maxHealth;
 	float healthInv;
 	float health;
+
+	bool isShielding;
+
+	std::vector<BeatCollisionHandler*> beats;
 
 	void Awake() override;
 	void Start() override;
@@ -68,6 +77,7 @@ private:
 	// helpers
 
 	void UpdateHealth();
+	void SetShieldState(bool const& state);
 
 };
 

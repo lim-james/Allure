@@ -10,6 +10,10 @@ void Material::Cone::SetRange(float const & deg) {
 	range = deg * Math::toRad;
 }
 
+float Material::Cone::GetRange() const {
+	return range * Math::toDeg;
+}
+
 void Material::Cone::SetAttributes() {
 	shader->SetFloat("borderWeight", borderWeight);
 	shader->SetFloat("range", range);
