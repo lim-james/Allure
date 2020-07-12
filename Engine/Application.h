@@ -1,6 +1,8 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include "ApplicationProperties.h"
+
 #include "Window.h"
 #include "InputController.h"
 #include "SceneManager.h"

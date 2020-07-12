@@ -1,7 +1,7 @@
 #ifndef RENDER_SYSTEM_H
 #define RENDER_SYSTEM_H
 
-#include "RenderProperties.h"
+#include "EngineProperties.h"
 #include "System.h"
 #include "Light.h"
 #include "Camera.h"

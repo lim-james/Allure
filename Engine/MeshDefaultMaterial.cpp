@@ -1,6 +1,6 @@
 #include "MeshDefaultMaterial.h"
 
-#include "RenderProperties.h"
+#include "EngineProperties.h"
 
 #include <GL/glew.h>
 

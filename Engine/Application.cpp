@@ -1,16 +1,4 @@
 #include "Application.h"
-#include "ApplicationProperties.h"
-
-#include "TitleScene.h"
-#include "SampleScene.h"
-#include "Stress3D.h"
-#include "SplashScene.h"
-#include "MainGame.h"
-#include "MenuScene.h"
-#include "PauseScene.h"
-#include "ScoreScene.h"
-#include "AudioSpectrumScene.h"
-#include "PivotScene.h"
 
 #include "InputEvents.h"
 #include "LoadFNT.h"
@@ -51,11 +39,12 @@ void Application::Initialize(int const& width, int const& height, const char* ti
 	em->Subscribe("STEP", &Application::Step, this);
 	em->Subscribe("FREEZE", &Application::Freeze, this);
 
-	// turn off vsync
-	//glfwSwapInterval(0);
+#ifndef VSYNC
+	glfwSwapInterval(0);
+#endif
 
 	sceneManager = new SceneManager;
-	sceneManager->Present(new PivotScene);
+	sceneManager->Present(new ENTRY_SCENE);
 
 	context->BroadcastSize();
 	em->TriggerQueued();
@@ -70,7 +59,6 @@ void Application::Run() {
 
 	bt = 0.f;
 	while (!context->ShouldClose()) {
-		//em->Trigger("STEP");
 		Step();
 	}
 }

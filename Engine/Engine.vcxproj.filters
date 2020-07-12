@@ -980,9 +980,6 @@
     <ClInclude Include="TestAudio.h">
       <Filter>Assets\Scripts\Test</Filter>
     </ClInclude>
-    <ClInclude Include="RenderProperties.h">
-      <Filter>Engine\Render</Filter>
-    </ClInclude>
     <ClInclude Include="FPSCounter.h">
       <Filter>Assets\Scripts\General\UI</Filter>
     </ClInclude>
@@ -999,9 +996,6 @@
       <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
-      <Filter>Engine\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsProperties.h">
       <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="CrosshairController.h">
@@ -1276,6 +1270,9 @@
     </ClInclude>
     <ClInclude Include="BeatCollisionHandler.h">
       <Filter>Assets\Scripts\Main\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineProperties.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

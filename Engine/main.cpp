@@ -8,7 +8,7 @@ int main() {
 
 	Application app;
 
-	app.Initialize(1600, 900, "TEMPO", false);
+	app.Initialize(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, IS_FULLSCREEN);
 	app.Run();
 	app.Exit();
 

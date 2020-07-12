@@ -1,9 +1,10 @@
 #ifndef PHYSICS_SYSTEM_H
 #define PHYSICS_SYSTEM_H
 
+#include "EngineProperties.h"
+
 #include "System.h"
 #include "Physics.h"
-#include "PhysicsProperties.h"
 #include "Transform.h"
 
 #include <vector>

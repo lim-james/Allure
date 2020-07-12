@@ -337,6 +337,7 @@
     <ClInclude Include="CustomCursor.h" />
     <ClInclude Include="CyclopsEnemy.h" />
     <ClInclude Include="DeadState.h" />
+    <ClInclude Include="EngineProperties.h" />
     <ClInclude Include="MapCreator.h" />
     <ClInclude Include="MenuCamera.h" />
     <ClInclude Include="MenuManager.h" />
@@ -371,7 +372,6 @@
     <ClInclude Include="PauseManager.h" />
     <ClInclude Include="PauseScene.h" />
     <ClInclude Include="Physics.h" />
-    <ClInclude Include="PhysicsProperties.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PlayerCombat.h" />
     <ClInclude Include="PlayerLife.h" />
@@ -424,7 +424,6 @@
     <ClInclude Include="PostProcess.h" />
     <ClInclude Include="PostProcessStack.h" />
     <ClInclude Include="RayCast.h" />
-    <ClInclude Include="RenderProperties.h" />
     <ClInclude Include="TableViewCell.h" />
     <ClInclude Include="TableViewScript.h" />
     <ClInclude Include="TestAudio.h" />
