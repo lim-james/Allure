@@ -44,7 +44,7 @@ public:
 	T Varience(float const& t, size_t const& numBlocks);
 	T C(float const& t, size_t const& numBlocks);
 
-	std::vector<vec2d> Spectrum(float const& t, float const td, unsigned const& bands, unsigned const& startF, unsigned const& endF);
+	std::vector<vec2d> Spectrum(float const& t, unsigned const& startF, unsigned const& endF);
 	
 private:
 

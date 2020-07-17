@@ -211,7 +211,7 @@ T AudioFile<T>::C(float const& t, size_t const & numBlocks) {
 }
 
 template<typename T>
-std::vector<vec2d> AudioFile<T>::Spectrum(float const& t, float const td, unsigned const& bands, unsigned const& startF, unsigned const& endF) {
+std::vector<vec2d> AudioFile<T>::Spectrum(float const& t, unsigned const& startF, unsigned const& endF) {
 	// get time scale 
 	std::vector<T> samples = SampleDuration(t, td);
 
@@ -231,7 +231,6 @@ std::vector<vec2d> AudioFile<T>::Spectrum(float const& t, float const td, unsign
 
 	fft(spectrum, startF, dF);
 	
-	const unsigned bR = N / (bands * 2); // stride 
 	//std::vector<vec2d> result(bands, 0.0);
 	std::vector<vec2d> result;
 
