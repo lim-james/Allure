@@ -56,7 +56,7 @@ void BubbleManager::Update() {
 	material->minRadius = minRadius + (maxRadius - minRadius) * r;
 
 	while (t > duration) t -= duration;
-	material->values = file->Spectrum(t, audioDuration * 0.001f, 1, startFrequency, endFrequency);
+	material->values = file->Spectrum(t, audioDuration * 0.001f, startFrequency, endFrequency);
 }
 
 void BubbleManager::OnDestroy() {

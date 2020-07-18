@@ -70,7 +70,8 @@ void BeatController::Update() {
 void BeatController::FixedUpdate() {
 	if (source->IsPaused()) return;
 
-	const auto sample = file->Spectrum(et, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
+	//const auto sample = file->Spectrum(et, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
+	const auto sample = file->Spectrum(et, audioDuration * 0.001f, startFrequency, endFrequency);
 	float result = sample[2].y * 250000.f;
 	EventsManager::Get()->Trigger("BEAT_VALUE", new Events::AnyType<float>(result));
 	*meterHeight = maxHeight * result;

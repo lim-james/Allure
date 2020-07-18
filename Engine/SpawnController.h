@@ -7,6 +7,8 @@
 #include "Prefab.h"
 #include "BeatMap.h"
 
+#include <Events/Event.h>
+
 struct SpawnController : Script {
 
 	using base_type = SpawnController;
@@ -39,10 +41,13 @@ private:
 
 	float angle;
 	
+	void Awake() override;
 	void Start() override;
 	void Update() override;
 
 	void UpdateSpeed();
+
+	void InputHandler(Events::Event* event);
 
 };
 

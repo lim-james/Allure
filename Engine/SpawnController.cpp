@@ -3,6 +3,7 @@
 #include "Physics.h"
 
 #include <Math/Random.hpp>
+#include <Events/EventsManager.h>
 
 void SpawnController::SetMapPath(std::string const & filepath) {
 	map.Load(filepath);
@@ -30,8 +31,11 @@ void SpawnController::SetTravelTime(float const & t) {
 	UpdateSpeed();
 }
 
+void SpawnController::Awake() {
+	EventsManager::Get()->Subscribe("KEY_INPUT", &SpawnController::InputHandler, this);
+}
+
 void SpawnController::Start() {
-	source->Play();
 	angle = Math::RandMinMax(0.f, Math::PI * 2.f);
 }
 
@@ -58,4 +62,8 @@ void SpawnController::UpdateSpeed() {
 	}
 
 	speed = (outerRadius - innerRadius) / travelTime;
+}
+
+void SpawnController::InputHandler(Events::Event * event) {
+	source->Play();
 }

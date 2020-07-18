@@ -41,7 +41,8 @@ void SpectrumManager::Update() {
 
 	t += time->dt * source->speed;
 
-	const auto sample = file->Spectrum(t, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
+	//const auto sample = file->Spectrum(t, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
+	const auto sample = file->Spectrum(t, audioDuration * 0.001f, startFrequency, endFrequency);
 
 	const float halfW = width * 0.5f;
 
