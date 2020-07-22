@@ -1,11 +1,11 @@
-#include "Pixelated.h"
+#include "Halftone.h"
 
 #include "SpriteRenderer.h"
 #include <Events/EventsManager.h>	
 #include "LoadModel.h"
 
-Pixelated::Pixelated() : size(100.f) {
-	shader = new Shader("Files/Shaders/fb.vert", "Files/Shaders/pixelated.frag");
+Halftone::Halftone() : size(100.f) {
+	shader = new Shader("Files/Shaders/fb.vert", "Files/Shaders/halftone.frag");
 	shader->Use();
 	shader->SetInt("tex", 0);
 
@@ -28,30 +28,30 @@ Pixelated::Pixelated() : size(100.f) {
 	fbo = new Framebuffer(1, 1);
 	fbo->Initialize(vec2u(1600, 900), { tData }, { rbData });
 
-	EventsManager::Get()->Subscribe("RESOLUTION_CHANGE", &Pixelated::ResolutionHandler, this);
+	EventsManager::Get()->Subscribe("RESOLUTION_CHANGE", &Halftone::ResolutionHandler, this);
 }
 
-Pixelated::~Pixelated() {
+Halftone::~Halftone() {
 	delete shader;
 }
 
-void Pixelated::Initialize() {
+void Halftone::Initialize() {
 	size = 100.f;
 }
 
-Component * Pixelated::Clone() const {
-	return new Pixelated(*this);
+Component * Halftone::Clone() const {
+	return new Halftone(*this);
 }
 
-void Pixelated::PreRender() {
+void Halftone::PreRender() {
 	fbo->Bind();
 }
 
-void Pixelated::PostRender() {
+void Halftone::PostRender() {
 	fbo->Unbind();
 }
 
-void Pixelated::Render() {
+void Halftone::Render() {
 	shader->Use();
 	shader->SetFloat("size", size);
 
@@ -61,7 +61,7 @@ void Pixelated::Render() {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Pixelated::Render(unsigned const & tex) {
+void Halftone::Render(unsigned const & tex) {
 	shader->Use();
 	shader->SetFloat("size", size);
 
@@ -71,6 +71,6 @@ void Pixelated::Render(unsigned const & tex) {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Pixelated::ResolutionHandler(Events::Event * event) {
+void Halftone::ResolutionHandler(Events::Event * event) {
 	fbo->Resize(static_cast<Events::AnyType<vec2u>*>(event)->data);
 }

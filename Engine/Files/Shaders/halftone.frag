@@ -31,10 +31,18 @@ vec3 hsv2rgb(vec3 c) {
 void main() {
 	ivec2 dim = textureSize(tex, 0);
 	vec2 pixelSize = vec2(size / dim.y * dim.x, size);
-	vec2 resultCoord = (vec2(ivec2(texCoord * pixelSize)) + .5f) / pixelSize;
+
+	vec2 screenPoint = texCoord * pixelSize;
+	vec2 resultPoint = vec2(ivec2(texCoord * pixelSize)) + .5f;
+	float dist = length(screenPoint - resultPoint) * 1.5f;
+
+	vec2 resultCoord = resultPoint / pixelSize;
 	vec3 result = texture(tex, resultCoord).rgb;
-	color = vec4(result, 1.0);
-//	vec3 hsvResult = rgb2hsv(result);
-//	hsvResult.z = sround(hsvResult.z, 4, 0.2f);
-//	color = vec4(hsv2rgb(hsvResult), 1.f);
+	float brightness = 1.f - length(result) * .5f;
+	brightness *= brightness;
+
+	if (dist <= brightness)
+		discard;
+
+	color = vec4(1.f);
 }

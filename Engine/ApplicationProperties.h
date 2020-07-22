@@ -11,13 +11,14 @@
 #include "ScoreScene.h"
 #include "AudioSpectrumScene.h"
 #include "PivotScene.h"
+#include "ProcessTest.h"
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 #define WINDOW_TITLE "TEMPO"
 #define IS_FULLSCREEN false
 
-#define ENTRY_SCENE PivotScene
+#define ENTRY_SCENE ProcessTest
 
 #define FIXED_TIME_STEP 0.02f
 
