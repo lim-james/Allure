@@ -70,6 +70,12 @@ void MainGame::Awake() {
 	transparentSprite = new Material::SpriteDefault;
 	transparentSprite->flags += TRANSPARENT;
 
+	transparentSprite = new Material::SpriteDefault;
+	transparentSprite->flags += TRANSPARENT;
+
+	circle = new Material::Circle;
+	circle->borderWeight = 0.25f;
+
 	indicatorLabel = new IndicatorLabel;
 	indicatorLabel->Initialize(entities);
 
@@ -483,12 +489,17 @@ void MainGame::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetScale(1.5f);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, 5.f));
+		transform->SetScale(1.25f);
 		follow->crosshair = transform;
+
+		TransformAnimator* const animator = entities->AddComponent<TransformAnimator>(entity);
+		animator->SetActive(true);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
-		render->tint = vec4f(1.f, 0.f, 0.f, 1.f);
+		render->SetMaterial(circle);
+		//render->SetSprite(Load::TGA("Files/Textures/circle.tga"));
 
 		CrosshairController* const controller = entities->AddComponent<CrosshairController>(entity);
 		controller->SetActive(true);

@@ -3,6 +3,7 @@
 
 #include "Script.h"
 #include "Camera.h"
+#include "TransformAnimator.h"
 
 struct CrosshairController : public Script {
 
@@ -13,6 +14,7 @@ struct CrosshairController : public Script {
 private:
 
 	Transform* viewTransform;
+	TransformAnimator* animator;
 
 	vec2f cursorPosition;
 
@@ -21,6 +23,7 @@ private:
 	void Update() override;
 
 	void CursorPositionHandler(Events::Event* event);
+	void MouseButtonHandler(Events::Event* event);
 
 };
 
