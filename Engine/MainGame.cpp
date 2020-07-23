@@ -60,12 +60,18 @@ void MainGame::Awake() {
 
 	background = new Material::Background;
 	background->speed = 75.f;
-	background->spread = 10.f;
+	background->spreadWeight = 10.f;
 	background->viewSize = 10.f;
 	//background->spreadTint = vec3f(0.5f, 0.0f, 0.25f);
-	background->spreadTint = COLOR_PURPLE;
-	background->indicatorTint = vec3f(0.5f);
-	background->thresholdTint = vec3f(10.f, 0.2f, 0.2f);
+	background->spreadAlpha = 0.25f;
+	background->thresholdWeight = 0.3f;
+	background->thresholdRadius = 3.f;
+	background->thresholdAlpha = 0.75f;
+	background->thresholdTint = COLOR_WHITE;
+	background->indicatorWeight = 0.1f;
+	background->indicatorRadius = 12.f;
+	background->indicatorAlpha = 0.75f;
+	background->indicatorTint = COLOR_GREY;
 
 	transparentSprite = new Material::SpriteDefault;
 	transparentSprite->flags += TRANSPARENT;
@@ -457,7 +463,7 @@ void MainGame::Create() {
 		//meterHeight = &(layout->GetConstraint(2).constant);
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		render->SetActive(true);
+		//render->SetActive(true);
 	}
 
 	// background
@@ -499,7 +505,6 @@ void MainGame::Create() {
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetMaterial(circle);
-		//render->SetSprite(Load::TGA("Files/Textures/circle.tga"));
 
 		CrosshairController* const controller = entities->AddComponent<CrosshairController>(entity);
 		controller->SetActive(true);

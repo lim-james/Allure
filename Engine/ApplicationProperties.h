@@ -18,7 +18,7 @@
 #define WINDOW_TITLE "TEMPO"
 #define IS_FULLSCREEN false
 
-#define ENTRY_SCENE SplashScene
+#define ENTRY_SCENE MenuScene
 
 #define FIXED_TIME_STEP 0.02f
 

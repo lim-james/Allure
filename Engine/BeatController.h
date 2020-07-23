@@ -50,6 +50,7 @@ private:
 	AudioFile<int16_t>* file;
 	float et;
 	float duration;
+	float beatCount;
 
 	// tempo attributes
 	

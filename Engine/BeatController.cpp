@@ -16,7 +16,7 @@ void BeatController::Awake() {
 }
 
 void BeatController::Start() {
-	et = 0.f;
+	et = beatCount = 0.f;
 
 	perfect = great = good = missed = 0;
 
@@ -46,9 +46,19 @@ void BeatController::Update() {
 		et -= duration;
 	background->et = et;
 
+	while (!background->spreads.empty()) {
+		Material::Background::Spread& first = background->spreads[0];
+		if (et - first.et > 2.f) {
+			background->spreads.erase(background->spreads.begin());
+		} else {
+			break;
+		}
+	}
+
 	// calculate tempo
 	bt -= dt;
 	if (bt < 0.f) {
+		++beatCount;
 		bt = delay + bt;
 		endCycle = true;
 		EventsManager::Get()->Trigger("BEAT");
@@ -111,8 +121,9 @@ void BeatController::HitHandler(Events::Event * event) {
 
 		if (message != "") {
 			Alert(message, color);
-			background->spreadTint = color;
-			et = 0.f;
+			background->spreads.push_back(
+				Material::Background::Spread{ et, color }
+			);
 			isHit = true;
 			*state = true;
 			return;

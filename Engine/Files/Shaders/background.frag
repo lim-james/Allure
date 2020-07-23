@@ -11,14 +11,28 @@ in VS_OUT {
 
 uniform float et;
 uniform float speed;
-uniform float spread;
-uniform vec3 spreadTint;
 
+struct Spread {
+	float et;
+	vec3 tint;
+};
+
+uniform float spreadWeight;
+uniform float spreadAlpha;
+uniform int spreadCount;
+uniform Spread spreads[4];
+
+uniform float indicatorWeight;
+uniform float indicatorRadius;
+uniform float indicatorAlpha;
 uniform vec3 indicatorTint;
 uniform float viewSize;
 uniform float interval;
 uniform float bt;
 
+uniform float thresholdWeight;
+uniform float thresholdRadius;
+uniform float thresholdAlpha;
 uniform vec3 thresholdTint;
 uniform float threshold;
 
@@ -27,12 +41,19 @@ uniform vec3 playerPosition;
 uniform bool useTex;
 uniform sampler2D tex;
 
-void createIndicator(float duration, vec3 tint, float distance) {
-	float r = distance * interval / (2.f * duration);
-	r = clamp(r, 0.0f, 1.f);
-	r = ceil(r - floor(r) - 0.95f);
-	
-	fragColor = mix(fragColor, vec4(tint, 1.f), r * 0.5f);
+const float PI = 3.14159265359;
+
+//void createIndicator(float weight, float alpha, float duration, vec3 tint, float distance) {
+//	float r = distance * interval / (2.f * duration);
+//	r = clamp(r, 0.0f, 1.f);
+//	r = ceil(r - floor(r) - 1.f + weight);
+//	
+//	fragColor = mix(fragColor, vec4(tint, 1.f), r * alpha);
+//}
+
+void createIndicator(float weight, float alpha, float radius, vec3 tint, float distance) {
+	float delta = clamp(ceil((weight - abs(distance - radius - weight)) / viewSize), 0.f, 1.f);
+	fragColor = mix(fragColor, vec4(tint, 1.f), delta * alpha);
 }
 
 void main() {
@@ -45,20 +66,25 @@ void main() {
 		discard;
 
 	vec3 delta = vs_out.worldPosition.xyz - playerPosition;
-	float radial = length(delta.xy);
+	float radius = length(delta.xy);
+	float radial = 0.5f * radius; 
 
-	float v = spread - min(abs(radial - et * speed), spread);
-	fragColor.rgb += v * spreadTint.rgb * fragColor.rgb;
-
-	float square = max(abs(delta.x), abs(delta.y)) / viewSize;
-//	float square = length(delta.xy) / viewSize;
-
-	for (float i = 0; i < 2.f; ++i) {
-		createIndicator(bt + i * interval, indicatorTint, square);
+	for (int i = 0; i < spreadCount; ++i) {
+		float v = spreadWeight - min(abs(radius - (et - spreads[i].et) * speed), spreadWeight);
+		fragColor.rgb += v * spreadAlpha * spreads[i].tint.rgb * fragColor.rgb;
 	}
 
+	float r = indicatorRadius - thresholdRadius;
+	float count = round(1.f / interval) - 1.f;	
+
+	createIndicator(indicatorWeight, indicatorAlpha, r * bt + thresholdRadius, indicatorTint, radial);
+	for (float i = 1; i < count; ++i) {
+		createIndicator(indicatorWeight, indicatorAlpha, r * (bt + interval * i) + thresholdRadius, indicatorTint, radial);
+	}
+	createIndicator(indicatorWeight, indicatorAlpha * (1.f - bt / interval), r * (bt + interval * count) + thresholdRadius, indicatorTint, radial);
+
 	// threshold
-	// createIndicator(threshold * 0.75f, thresholdTint, square);
+	createIndicator(thresholdWeight, thresholdAlpha, thresholdRadius, thresholdTint, radial);
 
 	float brightness = dot(fragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
     if(brightness > 1.0) {
