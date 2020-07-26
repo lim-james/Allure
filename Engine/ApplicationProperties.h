@@ -12,13 +12,14 @@
 #include "AudioSpectrumScene.h"
 #include "PivotScene.h"
 #include "ProcessTest.h"
+#include "PackTest.h"
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 #define WINDOW_TITLE "TEMPO"
 #define IS_FULLSCREEN false
 
-#define ENTRY_SCENE MenuScene
+#define ENTRY_SCENE PackTest
 
 #define FIXED_TIME_STEP 0.02f
 

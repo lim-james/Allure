@@ -4,8 +4,8 @@
 
 #include <fstream>
 
-std::map<std::string, SpriteAnimationData> Load::SAD(std::string const & filepath) {
-	std::map<std::string, SpriteAnimationData> result;
+SADMap Load::SAD(std::string const & filepath) {
+	SADMap result;
 
 	std::ifstream ifs(filepath);
 
@@ -22,9 +22,11 @@ std::map<std::string, SpriteAnimationData> Load::SAD(std::string const & filepat
 
 	while (!ifs.eof()) {
 		ifs >> key >> buffer.duration >> tilemapSize >> cellRect;
+		if (key == "") continue;
 		buffer.SetTilemapSize(tilemapSize.x, tilemapSize.y);
 		buffer.SetCellRect(cellRect.x, cellRect.y, cellRect.z, cellRect.w);
 		result[key].frames.push_back(buffer);
+		key = "";
 	}
 
 	return result;

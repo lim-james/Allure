@@ -3,11 +3,8 @@
 
 #include "SpriteAnimationData.h"
 
-#include <map>
-#include <string>
-
 namespace Load {
-	std::map<std::string, SpriteAnimationData> SAD(std::string const& filepath);
+	SADMap SAD(std::string const& filepath);
 }
 
 #endif

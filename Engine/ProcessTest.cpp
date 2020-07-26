@@ -30,7 +30,7 @@ void ProcessTest::Create() {
 
 		Halftone* const halftone = entities->AddComponent<Halftone>(volume);
 		halftone->SetActive(true);
-		halftone->size = 100.f;
+		halftone->size = 200.f;
 
 		//entities->AddComponent<Pixelated>(volume)->SetActive(true);
 	}

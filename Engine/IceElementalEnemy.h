@@ -6,7 +6,7 @@
 
 struct IceElementalEnemy : Prefab {
 	unsigned spriteSheet;
-	std::map<std::string, SpriteAnimationData> spriteData;
+	SADMap spriteData;
 
 	IceElementalEnemy();
 	Transform* Create() override;

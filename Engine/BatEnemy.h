@@ -6,7 +6,7 @@
 
 struct BatEnemy : Prefab {
 	unsigned spriteSheet;
-	std::map<std::string, SpriteAnimationData> spriteData;
+	SADMap spriteData;
 
 	BatEnemy();
 	Transform* Create() override;

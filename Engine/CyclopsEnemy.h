@@ -6,7 +6,7 @@
 
 struct CyclopsEnemy : Prefab {
 	unsigned spriteSheet;
-	std::map<std::string, SpriteAnimationData> spriteData;
+	SADMap spriteData;
 
 	CyclopsEnemy();
 	Transform* Create() override;

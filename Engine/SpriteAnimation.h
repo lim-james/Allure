@@ -12,7 +12,7 @@ struct SpriteAnimation : Component {
 
 	using base_type = SpriteAnimation;
 
-	std::map<std::string, SpriteAnimationData> animations;
+	SADMap animations;
 	std::string currentAnimation, queued;
 
 	SpriteAnimation();

@@ -5,6 +5,8 @@
 
 #include <Handler/Handler.h>
 #include <vector>
+#include <map>
+#include <string>
 
 struct SpriteAnimationData {
 
@@ -19,5 +21,7 @@ struct SpriteAnimationData {
 	SpriteAnimationData();
 
 };
+
+typedef std::map<std::string, SpriteAnimationData> SADMap;
 
 #endif

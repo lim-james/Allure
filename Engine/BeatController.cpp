@@ -82,7 +82,7 @@ void BeatController::FixedUpdate() {
 
 	//const auto sample = file->Spectrum(et, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
 	const auto sample = file->Spectrum(et, audioDuration * 0.001f, startFrequency, endFrequency);
-	float result = sample[2].y * 250000.f;
+	const float result = static_cast<float>(sample[2].y) * 250000.f;
 	EventsManager::Get()->Trigger("BEAT_VALUE", new Events::AnyType<float>(result));
 	*meterHeight = maxHeight * result;
 }

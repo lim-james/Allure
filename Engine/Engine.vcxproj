@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AltarCandlePrefab.cpp" />
     <ClCompile Include="AnimationBase.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
@@ -164,8 +165,14 @@
     <ClCompile Include="ButtonAnimation.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraFollow.cpp" />
+    <ClCompile Include="Candle1Prefab.cpp" />
+    <ClCompile Include="Candle2Prefab.cpp" />
+    <ClCompile Include="CastingCirclePrefab.cpp" />
     <ClCompile Include="ChaseState.cpp" />
+    <ClCompile Include="ChestPrefab.cpp" />
     <ClCompile Include="CircleMaterial.cpp" />
+    <ClCompile Include="CoinHandler.cpp" />
+    <ClCompile Include="CoinPrefab.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="CollisionData.cpp" />
@@ -178,6 +185,13 @@
     <ClCompile Include="DotVFX.cpp" />
     <ClCompile Include="EnemyCombat.cpp" />
     <ClCompile Include="FireElementalEnemy.cpp" />
+    <ClCompile Include="FlyingEnemyPrefab.cpp" />
+    <ClCompile Include="GolemLittlePrefab.cpp" />
+    <ClCompile Include="GolemMidPrefab.cpp" />
+    <ClCompile Include="MagePrefab.cpp" />
+    <ClCompile Include="SpikesPrefab.cpp" />
+    <ClCompile Include="StoneShieldPrefab.cpp" />
+    <ClCompile Include="SpawnerPrefab.cpp" />
     <ClCompile Include="GrenadeLauncher.cpp" />
     <ClCompile Include="GrenadeLauncherScript.cpp" />
     <ClCompile Include="Halftone.cpp" />
@@ -190,6 +204,7 @@
     <ClCompile Include="MenuCamera.cpp" />
     <ClCompile Include="MenuManager.cpp" />
     <ClCompile Include="MenuScene.cpp" />
+    <ClCompile Include="PackTest.cpp" />
     <ClCompile Include="PaintVFX.cpp" />
     <ClCompile Include="Pistol.cpp" />
     <ClCompile Include="PistolScript.cpp" />
@@ -233,6 +248,8 @@
     <ClCompile Include="SFXEmitter.cpp" />
     <ClCompile Include="Shotgun.cpp" />
     <ClCompile Include="ShotgunScript.cpp" />
+    <ClCompile Include="SkeletonArcherPrefab.cpp" />
+    <ClCompile Include="SlimePrefab.cpp" />
     <ClCompile Include="Sniper.cpp" />
     <ClCompile Include="SniperScript.cpp" />
     <ClCompile Include="SoundBar.cpp" />
@@ -312,6 +329,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AltarCandlePrefab.h" />
     <ClInclude Include="AnimationBase.h" />
     <ClInclude Include="ApplicationProperties.h" />
     <ClInclude Include="AudioControlller.h" />
@@ -330,12 +348,18 @@
     <ClInclude Include="BeatNeutralState.h" />
     <ClInclude Include="BeatSpawnState.h" />
     <ClInclude Include="BulletHandler.h" />
+    <ClInclude Include="Candle1Prefab.h" />
+    <ClInclude Include="Candle2Prefab.h" />
+    <ClInclude Include="CastingCirclePrefab.h" />
     <ClInclude Include="CellScript.h" />
     <ClInclude Include="ChaseState.h" />
     <ClInclude Include="BasicEnemy.h" />
     <ClInclude Include="BasicBullet.h" />
     <ClInclude Include="CameraFollow.h" />
+    <ClInclude Include="ChestPrefab.h" />
     <ClInclude Include="CircleMaterial.h" />
+    <ClInclude Include="CoinHandler.h" />
+    <ClInclude Include="CoinPrefab.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ConeMaterial.h" />
     <ClInclude Include="CrosshairController.h" />
@@ -344,11 +368,19 @@
     <ClInclude Include="DeadState.h" />
     <ClInclude Include="DotVFX.h" />
     <ClInclude Include="EngineProperties.h" />
+    <ClInclude Include="FlyingEnemyPrefab.h" />
+    <ClInclude Include="GolemLittlePrefab.h" />
+    <ClInclude Include="GolemMidPrefab.h" />
+    <ClInclude Include="MagePrefab.h" />
+    <ClInclude Include="SpikesPrefab.h" />
+    <ClInclude Include="StoneShieldPrefab.h" />
+    <ClInclude Include="SpawnerPrefab.h" />
     <ClInclude Include="Halftone.h" />
     <ClInclude Include="MapCreator.h" />
     <ClInclude Include="MenuCamera.h" />
     <ClInclude Include="MenuManager.h" />
     <ClInclude Include="MenuScene.h" />
+    <ClInclude Include="PackTest.h" />
     <ClInclude Include="PaintVFX.h" />
     <ClInclude Include="PivotScene.h" />
     <ClInclude Include="PlayerController.h" />
@@ -396,6 +428,8 @@
     <ClInclude Include="SFXEmitter.h" />
     <ClInclude Include="Shotgun.h" />
     <ClInclude Include="ShotgunScript.h" />
+    <ClInclude Include="SkeletonArcherPrefab.h" />
+    <ClInclude Include="SlimePrefab.h" />
     <ClInclude Include="Sniper.h" />
     <ClInclude Include="SniperScript.h" />
     <ClInclude Include="SongData.h" />
