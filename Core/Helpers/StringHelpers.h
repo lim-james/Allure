@@ -9,7 +9,17 @@
 namespace Helpers {
 
 	template<typename T>
-	T Parse(std::string const& content);
+	T Parse(std::string const& content) {
+		std::istringstream iss(content);
+		T result;
+		iss >> result;
+		return result;
+	}
+	template<>
+	inline std::string Parse(std::string const& content) {
+		return content;
+	}
+
 	template<typename T>
 	std::string ToString(T const& content);
 

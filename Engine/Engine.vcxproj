@@ -188,6 +188,7 @@
     <ClCompile Include="FlyingEnemyPrefab.cpp" />
     <ClCompile Include="GolemLittlePrefab.cpp" />
     <ClCompile Include="GolemMidPrefab.cpp" />
+    <ClCompile Include="LoadTilemap.cpp" />
     <ClCompile Include="MagePrefab.cpp" />
     <ClCompile Include="SpikesPrefab.cpp" />
     <ClCompile Include="StoneShieldPrefab.cpp" />
@@ -264,6 +265,10 @@
     <ClCompile Include="TableViewScript.cpp" />
     <ClCompile Include="TestAudio.cpp" />
     <ClCompile Include="TextBlink.cpp" />
+    <ClCompile Include="TilemapDefaultMaterial.cpp" />
+    <ClCompile Include="TilemapRender.cpp" />
+    <ClCompile Include="TilemapRenderer.cpp" />
+    <ClCompile Include="TilemapResource.cpp" />
     <ClCompile Include="TransformAnimator.cpp" />
     <ClCompile Include="Vignette.cpp" />
     <ClCompile Include="VoxelDefaultMaterial.cpp" />
@@ -371,6 +376,7 @@
     <ClInclude Include="FlyingEnemyPrefab.h" />
     <ClInclude Include="GolemLittlePrefab.h" />
     <ClInclude Include="GolemMidPrefab.h" />
+    <ClInclude Include="LoadTilemap.h" />
     <ClInclude Include="MagePrefab.h" />
     <ClInclude Include="SpikesPrefab.h" />
     <ClInclude Include="StoneShieldPrefab.h" />
@@ -472,6 +478,10 @@
     <ClInclude Include="TableViewScript.h" />
     <ClInclude Include="TestAudio.h" />
     <ClInclude Include="TextBlink.h" />
+    <ClInclude Include="TilemapDefaultMaterial.h" />
+    <ClInclude Include="TilemapResource.h" />
+    <ClInclude Include="TilemapRender.h" />
+    <ClInclude Include="TilemapRenderer.h" />
     <ClInclude Include="TransformAnimator.h" />
     <ClInclude Include="Vignette.h" />
     <ClInclude Include="VoxelDefaultMaterial.h" />

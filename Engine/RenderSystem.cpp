@@ -6,6 +6,7 @@
 // renderers
 #include "MeshRenderer.h"
 #include "VoxelRenderer.h"
+#include "TilemapRenderer.h"
 #include "SpriteRenderer.h"
 #include "LineRenderer.h"
 #include "TextRenderer.h"
@@ -58,6 +59,7 @@ void RenderSystem::Initialize() {
 
 	renderers.push_back(new MeshRenderer);
 	renderers.push_back(new VoxelRenderer);
+	renderers.push_back(new TilemapRenderer);
 	renderers.push_back(new SpriteRenderer);
 	renderers.push_back(new LineRenderer);
 	renderers.push_back(new TextRenderer);

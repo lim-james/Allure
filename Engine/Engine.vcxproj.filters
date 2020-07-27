@@ -217,6 +217,9 @@
     <Filter Include="Assets\Scripts\Pack">
       <UniqueIdentifier>{fb8c0ee0-d325-4b86-b90a-234fa60c64c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Render\Tilemap">
+      <UniqueIdentifier>{00d6ed28-fd62-4b19-9303-edb0990b014a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -794,6 +797,21 @@
     </ClCompile>
     <ClCompile Include="Candle2Prefab.cpp">
       <Filter>Assets\Prefabs\Pack</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapRender.cpp">
+      <Filter>Engine\Render\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapRenderer.cpp">
+      <Filter>Engine\Render\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadTilemap.cpp">
+      <Filter>Engine\Render\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapDefaultMaterial.cpp">
+      <Filter>Engine\Render\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapResource.cpp">
+      <Filter>Engine\Render\Tilemap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1417,6 +1435,21 @@
     </ClInclude>
     <ClInclude Include="Candle2Prefab.h">
       <Filter>Assets\Prefabs\Pack</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapRender.h">
+      <Filter>Engine\Render\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapRenderer.h">
+      <Filter>Engine\Render\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadTilemap.h">
+      <Filter>Engine\Render\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapResource.h">
+      <Filter>Engine\Render\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapDefaultMaterial.h">
+      <Filter>Engine\Render\Tilemap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

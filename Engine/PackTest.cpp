@@ -1,9 +1,11 @@
 #include "PackTest.h"
 
 #include "Camera.h"
-#include "SpriteRenderer.h"
+#include "TilemapRender.h"
+#include "SpriteRender.h"
 #include "SpriteAnimationSystem.h"
 // utilities
+#include "LoadTilemap.h"
 #include "LoadTexture.h"
 
 void PackTest::Awake() {
@@ -62,26 +64,35 @@ void PackTest::Create() {
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
 	camera->clearColor = 1.f;
+
+	{
+		const unsigned entity = entities->Create();
+
+		TilemapRender* const render = entities->AddComponent<TilemapRender>(entity);
+		render->palette = Load::TMP("Files/SpritePack/Environment/world.tmp");
+		render->layout = Load::TML("Files/SpritePack/Environment/level.csv");
+		render->SetActive(true);
+	}
 	
-	coinPrefab->Create();
+	//coinPrefab->Create();
 
-	slimePrefab->CreateAt(vec3f(1.f, 0.f, 0.f));
-	flyingEnemyPrefab->CreateAt(vec3f(2.f, 0.f, 0.f));
-	skeletonArcherPrefab->CreateAt(vec3f(3.f, 0.f, 0.f));
-	golemMidPrefab->CreateAt(vec3f(-1.f, 0.f, 0.f));
-	golemLittlePrefab->CreateAt(vec3f(-2.f, 0.f, 0.f));
-	magePrefab->CreateAt(vec3f(-3.f, 0.f, 0.f));
+	//slimePrefab->CreateAt(vec3f(1.f, 0.f, 0.f));
+	//flyingEnemyPrefab->CreateAt(vec3f(2.f, 0.f, 0.f));
+	//skeletonArcherPrefab->CreateAt(vec3f(3.f, 0.f, 0.f));
+	//golemMidPrefab->CreateAt(vec3f(-1.f, 0.f, 0.f));
+	//golemLittlePrefab->CreateAt(vec3f(-2.f, 0.f, 0.f));
+	//magePrefab->CreateAt(vec3f(-3.f, 0.f, 0.f));
 
-	spawnerPrefab->CreateAt(vec3f(0.f, -1.f, 0.f));
-	stoneShieldPrefab->CreateAt(vec3f(-1.f, -1.f, 0.f));
-	castingCirclePrefab->CreateAt(vec3f(-3.f, -1.f, 0.f));
+	//spawnerPrefab->CreateAt(vec3f(0.f, -1.f, 0.f));
+	//stoneShieldPrefab->CreateAt(vec3f(-1.f, -1.f, 0.f));
+	//castingCirclePrefab->CreateAt(vec3f(-3.f, -1.f, 0.f));
 
-	spikesPrefab->CreateAt(vec3f(0.f, -2.f, 0.f));
-	chestPrefab->CreateAt(vec3f(1.f, -2.f, 0.f));
+	//spikesPrefab->CreateAt(vec3f(0.f, -2.f, 0.f));
+	//chestPrefab->CreateAt(vec3f(1.f, -2.f, 0.f));
 
-	altarCandlePrefab->CreateAt(vec3f(0.f, -3.f, 0.f));
-	candle1Prefab->CreateAt(vec3f(1.f, -3.f, 0.f));
-	candle2Prefab->CreateAt(vec3f(2.f, -3.f, 0.f));
+	//altarCandlePrefab->CreateAt(vec3f(0.f, -3.f, 0.f));
+	//candle1Prefab->CreateAt(vec3f(1.f, -3.f, 0.f));
+	//candle2Prefab->CreateAt(vec3f(2.f, -3.f, 0.f));
 }
 
 void PackTest::Destroy() {

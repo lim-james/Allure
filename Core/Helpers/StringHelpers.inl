@@ -1,12 +1,17 @@
 #include "StringHelpers.h"
 
-template<typename T>
-T Helpers::Parse(std::string const& content) {
-	std::istringstream iss(content);
-	T result;
-	iss >> result;
-	return result;
-}
+//template<typename T>
+//T Helpers::Parse(std::string const& content) {
+//	std::istringstream iss(content);
+//	T result;
+//	iss >> result;
+//	return result;
+//}
+
+//template
+//std::string Helpers::Parse(std::string const& content) {
+//	return content;
+//}
 
 template<typename T>
 std::string Helpers::ToString(T const& content) {
