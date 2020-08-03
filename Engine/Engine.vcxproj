@@ -183,6 +183,9 @@
     <ClCompile Include="CyclopsEnemy.cpp" />
     <ClCompile Include="DeadState.cpp" />
     <ClCompile Include="DotVFX.cpp" />
+    <ClCompile Include="EditorCamera2D.cpp" />
+    <ClCompile Include="EditorManager.cpp" />
+    <ClCompile Include="EditorScene.cpp" />
     <ClCompile Include="EnemyCombat.cpp" />
     <ClCompile Include="FireElementalEnemy.cpp" />
     <ClCompile Include="FlyingEnemyPrefab.cpp" />
@@ -372,6 +375,9 @@
     <ClInclude Include="CyclopsEnemy.h" />
     <ClInclude Include="DeadState.h" />
     <ClInclude Include="DotVFX.h" />
+    <ClInclude Include="EditorCamera2D.h" />
+    <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="EditorScene.h" />
     <ClInclude Include="EngineProperties.h" />
     <ClInclude Include="FlyingEnemyPrefab.h" />
     <ClInclude Include="GolemLittlePrefab.h" />

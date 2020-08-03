@@ -220,6 +220,9 @@
     <Filter Include="Engine\Render\Tilemap">
       <UniqueIdentifier>{00d6ed28-fd62-4b19-9303-edb0990b014a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Scene\Editor">
+      <UniqueIdentifier>{cd3feb72-5997-4172-b485-e210d99af8f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -812,6 +815,15 @@
     </ClCompile>
     <ClCompile Include="TilemapResource.cpp">
       <Filter>Engine\Render\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorScene.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorManager.cpp">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorCamera2D.cpp">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1450,6 +1462,15 @@
     </ClInclude>
     <ClInclude Include="TilemapDefaultMaterial.h">
       <Filter>Engine\Render\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorScene.h">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorCamera2D.h">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

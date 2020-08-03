@@ -13,13 +13,14 @@
 #include "PivotScene.h"
 #include "ProcessTest.h"
 #include "PackTest.h"
+#include "EditorScene.h"
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 #define WINDOW_TITLE "TEMPO"
 #define IS_FULLSCREEN false
 
-#define ENTRY_SCENE PackTest
+#define ENTRY_SCENE EditorScene
 
 #define FIXED_TIME_STEP 0.02f
 
