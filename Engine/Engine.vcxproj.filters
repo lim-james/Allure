@@ -825,6 +825,12 @@
     <ClCompile Include="EditorCamera2D.cpp">
       <Filter>Assets\Scripts\Scene\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Light2D.cpp">
+      <Filter>Engine\Render\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteLitMaterial.cpp">
+      <Filter>Engine\Render\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1471,6 +1477,12 @@
     </ClInclude>
     <ClInclude Include="EditorCamera2D.h">
       <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Light2D.h">
+      <Filter>Engine\Render\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteLitMaterial.h">
+      <Filter>Engine\Render\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

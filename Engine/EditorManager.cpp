@@ -58,7 +58,7 @@ void EditorManager::DropEvent(Events::Event * event) {
 	palette = Load::TMP(input->paths[0]);
 	UpdateIndex();
 
-	tilemap->palette = palette;
+	tilemap->SetPalette(palette);
 	tilemap->SetActive(false);
 	tilemap->SetActive(true);
 }
@@ -82,6 +82,8 @@ void EditorManager::KeyEvent(Events::Event * event) {
 				++index;
 			}
 			UpdateIndex();
+		} else if (input->key == GLFW_KEY_DELETE) {
+
 		}
 	}
 }
@@ -111,9 +113,6 @@ void EditorManager::MouseButtonHandler(Events::Event * event) {
 				roundf(screenPositions.y)
 			)
 		});
-
-		tilemap->SetActive(false);
-		tilemap->SetActive(true);
 	}
 }
 

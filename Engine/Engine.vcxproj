@@ -191,9 +191,11 @@
     <ClCompile Include="FlyingEnemyPrefab.cpp" />
     <ClCompile Include="GolemLittlePrefab.cpp" />
     <ClCompile Include="GolemMidPrefab.cpp" />
+    <ClCompile Include="Light2D.cpp" />
     <ClCompile Include="LoadTilemap.cpp" />
     <ClCompile Include="MagePrefab.cpp" />
     <ClCompile Include="SpikesPrefab.cpp" />
+    <ClCompile Include="SpriteLitMaterial.cpp" />
     <ClCompile Include="StoneShieldPrefab.cpp" />
     <ClCompile Include="SpawnerPrefab.cpp" />
     <ClCompile Include="GrenadeLauncher.cpp" />
@@ -382,9 +384,11 @@
     <ClInclude Include="FlyingEnemyPrefab.h" />
     <ClInclude Include="GolemLittlePrefab.h" />
     <ClInclude Include="GolemMidPrefab.h" />
+    <ClInclude Include="Light2D.h" />
     <ClInclude Include="LoadTilemap.h" />
     <ClInclude Include="MagePrefab.h" />
     <ClInclude Include="SpikesPrefab.h" />
+    <ClInclude Include="SpriteLitMaterial.h" />
     <ClInclude Include="StoneShieldPrefab.h" />
     <ClInclude Include="SpawnerPrefab.h" />
     <ClInclude Include="Halftone.h" />

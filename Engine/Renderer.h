@@ -3,6 +3,7 @@
 
 #include "EntityManager.h"	
 #include "Light.h"
+#include "Light2D.h"
 #include "Camera.h"
 
 struct RendererData {
@@ -14,6 +15,7 @@ struct RendererData {
 	BitField cullingMask;
 
 	std::vector<Light*>* lights;
+	std::vector<Light2D*>* lights2D;
 	mat4f* lightSpaceMatrices;
 };
 

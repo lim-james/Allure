@@ -106,6 +106,8 @@ void RenderSystem::Initialize() {
 	EventsManager* const em = EventsManager::Get();
 	em->Subscribe("LIGHT_ACTIVE", &RenderSystem::LightActiveHandler, this);
 	em->Subscribe("LIGHT_CAST_SHADOWS", &RenderSystem::LightShadowHanlder, this);
+	em->Subscribe("LIGHT_2D_ACTIVE", &RenderSystem::Light2DActiveHandler, this);
+	em->Subscribe("LIGHT_2D_CAST_SHADOWS", &RenderSystem::Light2DShadowHanlder, this);
 	em->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
 	em->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
 	em->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
@@ -142,11 +144,13 @@ void RenderSystem::LightActiveHandler(Events::Event * event) {
 
 	if (c->IsActive()) {
 		if (Helpers::Insert(lights, c)) {
-			casters.push_back(c);
+			if (c->CastShadows())
+				Helpers::Insert(casters, c);
 		}
 	} else {
 		if (Helpers::Remove(lights, c)) {
-			Helpers::Remove(casters, c);
+			if (c->CastShadows()) 
+				Helpers::Remove(casters, c);
 		}
 	}
 }
@@ -160,6 +164,34 @@ void RenderSystem::LightShadowHanlder(Events::Event * event) {
 		Helpers::Insert(casters, c);
 	} else {
 		Helpers::Remove(casters, c);
+	}
+}
+
+void RenderSystem::Light2DActiveHandler(Events::Event * event) {
+	Light2D* c = static_cast<Events::AnyType<Light2D*>*>(event)->data;
+
+	if (c->IsActive()) {
+		if (Helpers::Insert(lights2D, c)) {
+			if (c->CastShadows()) 
+				Helpers::Insert(casters2D, c);
+		}
+	} else {
+		if (Helpers::Remove(lights2D, c)) {
+			if (c->CastShadows()) 
+				Helpers::Remove(casters2D, c);
+		}
+	}
+}
+
+void RenderSystem::Light2DShadowHanlder(Events::Event * event) {
+	Light2D* const c = static_cast<Events::AnyType<Light2D*>*>(event)->data;
+
+	if (!c->IsActive()) return;
+
+	if (c->CastShadows()) {
+		Helpers::Insert(casters2D, c);
+	} else {
+		Helpers::Remove(casters2D, c);
 	}
 }
 
@@ -237,6 +269,7 @@ void RenderSystem::DepthRender() {
 		data.view = transform->GetWorldLookAt();
 		data.cullingMask = light->cullingMask;
 		data.lights = nullptr;
+		data.lights2D = nullptr;
 
 		fb->Bind();
 
@@ -325,6 +358,7 @@ void RenderSystem::RenderLowRes() {
 		data.viewPosition = transform->GetWorldTranslation();
 		data.cullingMask = cam->cullingMask;
 		data.lights = &lights;
+		data.lights2D = &lights2D;
 		data.lightSpaceMatrices = lightSpaceMatrices;
 
 		const vec4i viewport = cam->GetViewport() * scaleFactor;

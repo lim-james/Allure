@@ -28,7 +28,7 @@ void TilemapRenderer::Initialize(EntityManager * const manager) {
 
 	EventsManager::Get()->Subscribe("TILEMAP_RENDER_ACTIVE", &TilemapRenderer::ActiveHandler, this);
 	EventsManager::Get()->Subscribe("TILEMAP_RENDER_DYNAMIC", &TilemapRenderer::DynamicHandler, this);
-	//EventsManager::Get()->Subscribe("TILEMAP_CHANGE", &TilemapRenderer::TilemapChangeHandler, this);
+	EventsManager::Get()->Subscribe("PALETTE_CHANGE", &TilemapRenderer::PaletteChangeHandler, this);
 	EventsManager::Get()->Subscribe("TILEMAP_MATERIAL", &TilemapRenderer::MaterialHandler, this);
 	EventsManager::Get()->Subscribe("MATERIAL_SHADER", &TilemapRenderer::ShaderHandler, this);
 }
@@ -202,8 +202,8 @@ void TilemapRenderer::RenderDynamic(RendererData const& data, unsigned const& te
 		Transform* const transform = entities->GetComponent<Transform>(c->entity);
 		const mat4f worldTransform = transform->GetWorldTransform();
 
-		for (unsigned const& group : c->palette.GetTextureIndexes(texture)) {
-			const TilemapTexture tmTex = c->palette.GetTexture(group);
+		for (unsigned const& group : c->GetPalette().GetTextureIndexes(texture)) {
+			const TilemapTexture tmTex = c->GetPalette().GetTexture(group);
 			if (c->layout.grids.size() <= group) continue;
 
 			for (Tile const& tile : c->layout.grids[group]) {
@@ -243,7 +243,7 @@ void TilemapRenderer::ActiveHandler(Events::Event * event) {
 	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	TilemapBatches& tmBatches = batches[shader][material];
 
-	for (TilemapTexture& palette : c->palette.GetTextures()) {
+	for (TilemapTexture& palette : c->GetPalette().GetTextures()) {
 		Batch& batch = tmBatches[palette.texture];
 		auto& list = c->IsDynamic() ? batch.dynamicList : batch.staticList;
 
@@ -265,7 +265,7 @@ void TilemapRenderer::DynamicHandler(Events::Event * event) {
 	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
 	TilemapBatches& tmBatches = batches[shader][material];
 
-	for (TilemapTexture& palette : c->palette.GetTextures()) {
+	for (TilemapTexture& palette : c->GetPalette().GetTextures()) {
 		Batch& batch = tmBatches[palette.texture];
 		auto& previousList = c->IsDynamic() ? batch.staticList : batch.dynamicList;
 		auto& currentList = c->IsDynamic() ? batch.dynamicList : batch.staticList;
@@ -277,32 +277,32 @@ void TilemapRenderer::DynamicHandler(Events::Event * event) {
 	}
 }
 
-//void TilemapRenderer::TilemapChangeHandler(Events::Event* event) {
-//	const auto changeEvent = static_cast<Events::TilemapChange*>(event);
-//	TilemapRender* const c = changeEvent->component;
-//
-//	if (!c->IsActive()) return;
-//
-//	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
-//	Shader* const shader = material->GetShader();
-//
-//	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
-//	TilemapBatches& batch = batches[shader][material];
-//
-//	Batch& previous = batch[changeEvent->previous];
-//	Batch& current = batch[c->GetTilemap()];
-//
-//	if (c->IsDynamic()) {
-//		if (Helpers::Remove(previous.dynamicList, c)) {
-//			current.dynamicList.push_back(c);
-//		}
-//	} else {
-//		if (Helpers::Remove(previous.staticList, c)) {
-//			current.staticList.push_back(c);
-//			updateStatic = true;
-//		}
-//	}
-//}
+void TilemapRenderer::PaletteChangeHandler(Events::Event* event) {
+	const auto changeEvent = static_cast<Events::PaletteChange*>(event);
+	TilemapRender* const c = changeEvent->component;
+
+	if (!c->IsActive()) return;
+
+	Material::Base* const material = c->GetMaterial() ? c->GetMaterial() : defaultMaterial;
+	Shader* const shader = material->GetShader();
+
+	Batches& batches = material->GetFlags() == SURFACE_TRANSPARENT ? transparentBatches : opaqueBatches;
+	TilemapBatches& batch = batches[shader][material];
+
+	//Batch& previous = batch[changeEvent->previous];
+	//Batch& current = batch[c->GetTilemap()];
+
+	//if (c->IsDynamic()) {
+	//	if (Helpers::Remove(previous.dynamicList, c)) {
+	//		current.dynamicList.push_back(c);
+	//	}
+	//} else {
+	//	if (Helpers::Remove(previous.staticList, c)) {
+	//		current.staticList.push_back(c);
+	//		updateStatic = true;
+	//	}
+	//}
+}
 
 void TilemapRenderer::MaterialHandler(Events::Event * event) {
 	const auto changeEvent = static_cast<Events::MaterialChange*>(event);
@@ -320,7 +320,7 @@ void TilemapRenderer::MaterialHandler(Events::Event * event) {
 	TilemapBatches& tmPrevious = previousBatches[previousMaterial->GetShader()][previousMaterial];
 	TilemapBatches& tmCurrent = currentBatches[shader][material];
 	
-	for (TilemapTexture& palette : c->palette.GetTextures()) {
+	for (TilemapTexture& palette : c->GetPalette().GetTextures()) {
 		Batch& previous = tmPrevious[palette.texture];
 		Batch& current = tmCurrent[palette.texture];
 

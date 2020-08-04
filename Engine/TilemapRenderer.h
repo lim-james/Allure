@@ -65,7 +65,7 @@ private:
 
 	void ActiveHandler(Events::Event* event);
 	void DynamicHandler(Events::Event* event);
-	//void TilemapChangeHandler(Events::Event* event);
+	void PaletteChangeHandler(Events::Event* event);
 	void MaterialHandler(Events::Event* event);
 	void ShaderHandler(Events::Event* event);
 

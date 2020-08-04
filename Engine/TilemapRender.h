@@ -14,7 +14,6 @@ struct TilemapRender : Component {
 	using base_type = TilemapRender;
 
 	vec4f tint;
-	TilemapPalette palette;
 	TilemapLayout layout;
 
 	TilemapRender();
@@ -27,21 +26,25 @@ struct TilemapRender : Component {
 	Material::Base* const GetMaterial() const;
 	void SetMaterial(Material::Base* _material);
 
+	TilemapPalette GetPalette() const;
+	void SetPalette(TilemapPalette const& newPalette);
+
 private:
 
 	Material::Base* material;
+	TilemapPalette palette;
 
 };
 
-//namespace Events {
-//	struct SpriteChange : Event {
-//		const unsigned previous;
-//		SpriteRender * const component;
-//
-//		SpriteChange(unsigned const& previous, SpriteRender * const component)
-//			: previous(previous)
-//			, component(component) {}
-//	};
-//}
+namespace Events {
+	struct PaletteChange : Event {
+		const TilemapPalette previous;
+		TilemapRender * const component;
+
+		PaletteChange(TilemapPalette const& previous, TilemapRender * const component)
+			: previous(previous)
+			, component(component) {}
+	};
+}
 
 #endif

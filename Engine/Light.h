@@ -31,17 +31,17 @@ struct Light : Component {
 
 	Light();
 
-	void Initialize() override;
-	Component* Clone() const override;
+	virtual void Initialize();
+	virtual Component* Clone() const;
 
-	void SetActive(bool const& state) override;
+	virtual void SetActive(bool const& state);
 
-	mat4f GetProjectionMatrix() const;
+	virtual mat4f GetProjectionMatrix() const;
 
-	bool const& CastShadows() const;
-	void SetCastShadows(bool const& state);
+	virtual bool const& CastShadows() const;
+	virtual void SetCastShadows(bool const& state);
 
-private:
+protected:
 
 	bool castShadows;
 

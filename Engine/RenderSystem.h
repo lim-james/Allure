@@ -4,6 +4,7 @@
 #include "EngineProperties.h"
 #include "System.h"
 #include "Light.h"
+#include "Light2D.h"
 #include "Camera.h"
 #include "Framebuffer.h"
 #include "Renderer.h"
@@ -19,6 +20,9 @@ class RenderSystem : public System {
 
 	std::vector<Light*> lights;
 	std::vector<Light*> casters;
+
+	std::vector<Light2D*> lights2D;
+	std::vector<Light2D*> casters2D;
 
 	Framebuffer* depthFBO[MAX_LIGHTS];
 	mat4f lightSpaceMatrices[MAX_LIGHTS];
@@ -50,6 +54,9 @@ private:
 
 	void LightActiveHandler(Events::Event* event);
 	void LightShadowHanlder(Events::Event* event);
+
+	void Light2DActiveHandler(Events::Event* event);
+	void Light2DShadowHanlder(Events::Event* event);
 
 	void CameraActiveHandler(Events::Event* event);
 	void CameraDepthHandler(Events::Event* event);

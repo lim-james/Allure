@@ -69,7 +69,7 @@ void PackTest::Create() {
 		const unsigned entity = entities->Create();
 
 		TilemapRender* const render = entities->AddComponent<TilemapRender>(entity);
-		render->palette = Load::TMP("Files/Data/Palettes/world.tmp");
+		render->SetPalette(Load::TMP("Files/Data/Palettes/world.tmp"));
 		render->layout = Load::TML("Files/Data/Levels/level-walls.csv");
 		render->SetActive(true);
 	}

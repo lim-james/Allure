@@ -35,3 +35,13 @@ void TilemapRender::SetMaterial(Material::Base * _material) {
 	material = _material;
 	EventsManager::Get()->Trigger("TILEMAP_MATERIAL", event);
 }
+
+TilemapPalette TilemapRender::GetPalette() const {
+	return palette;
+}
+
+void TilemapRender::SetPalette(TilemapPalette const & newPalette) {
+	Events::PaletteChange* event = new Events::PaletteChange(palette, this);
+	palette = newPalette;
+	EventsManager::Get()->Trigger("PALETTE_CHANGE", event);
+}

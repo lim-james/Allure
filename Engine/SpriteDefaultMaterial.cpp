@@ -7,5 +7,4 @@ Material::SpriteDefault::SpriteDefault() {
 	shader->SetInt("tex", 0);
 }
 
-void Material::SpriteDefault::SetAttributes() {
-}
+void Material::SpriteDefault::SetAttributes() {}
