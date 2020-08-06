@@ -39,21 +39,20 @@ void RenderSystem::Initialize() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	{
-		TextureData tData;
-		tData.level = 0;
-		tData.internalFormat = GL_DEPTH_COMPONENT;
-		tData.border = 0;
-		tData.format = GL_DEPTH_COMPONENT;
-		tData.type = GL_FLOAT;
-		tData.attachment = GL_DEPTH_ATTACHMENT;
-		tData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
-		tData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
-		tData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER });
-		tData.parameters.push_back({ GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER });
+		depthTextureData.level = 0;
+		depthTextureData.internalFormat = GL_DEPTH_COMPONENT;
+		depthTextureData.border = 0;
+		depthTextureData.format = GL_DEPTH_COMPONENT;
+		depthTextureData.type = GL_FLOAT;
+		depthTextureData.attachment = GL_DEPTH_ATTACHMENT;
+		depthTextureData.parameters.push_back({ GL_TEXTURE_MIN_FILTER, GL_LINEAR });
+		depthTextureData.parameters.push_back({ GL_TEXTURE_MAG_FILTER, GL_LINEAR });
+		depthTextureData.parameters.push_back({ GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER });
+		depthTextureData.parameters.push_back({ GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER });
 
 		for (unsigned i = 0; i < MAX_LIGHTS; ++i) {
 			depthFBO[i] = new Framebuffer(1, 0);
-			depthFBO[i]->Initialize(vec2u(1000, 1000), { tData }, { });
+			depthFBO[i]->Initialize(vec2u(1000, 1000), { depthTextureData }, { });
 		}
 	}
 
@@ -199,6 +198,12 @@ void RenderSystem::CameraActiveHandler(Events::Event* event) {
 	Camera* const c = static_cast<Events::AnyType<Camera*>*>(event)->data;
 
 	if (c->IsActive()) {
+		if (c->GetDepthBuffer() == nullptr) {
+			Framebuffer* fb = new Framebuffer(1, 0);
+			fb->Initialize(vec2u(1000, 1000), { depthTextureData }, { });
+			c->SetDepthBuffer(fb);
+		}
+
 		for (unsigned i = 0; i < cameras.size(); ++i) {
 			if (cameras[i] == c) {
 				return;
@@ -284,6 +289,46 @@ void RenderSystem::DepthRender() {
 		lightSpaceMatrices[i] = data.projection * data.view;
 	}
 	glCullFace(GL_BACK);
+
+	for (Camera* const cam : cameras) {
+		if (!cam->captureDepth) continue;
+		
+		Framebuffer* const fb = cam->GetDepthBuffer();
+		fb->Bind();
+
+		vec4f const& viewport = cam->GetViewport();
+
+		const Math::vec<2, GLint> origin(
+			static_cast<GLint>(viewport.origin.x),
+			static_cast<GLint>(viewport.origin.y)
+		);
+
+		const Math::vec<2, GLint> size(
+			static_cast<GLsizei>(viewport.size.w),
+			static_cast<GLsizei>(viewport.size.h)
+		);
+
+		glViewport(origin.x, origin.y, size.x, size.y);
+		glScissor(origin.x, origin.y, size.x, size.y);
+
+		Transform* const transform = entities->GetComponent<Transform>(cam->entity);
+
+		RendererData data;
+		data.projection = cam->GetProjectionMatrix();
+		data.view = transform->GetWorldLookAt();
+		data.object = (void*)cam;
+		data.viewPosition = transform->GetWorldTranslation();
+		data.cullingMask = cam->cullingMask;
+		data.lights = nullptr;
+		data.lights2D = nullptr;
+
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+		for (Renderer* const r : renderers)
+			r->RenderDepth(data);
+
+		fb->Unbind();
+	}
 }
 
 void RenderSystem::FBRender() {

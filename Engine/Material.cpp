@@ -3,7 +3,7 @@
 #include <Events/EventsManager.h>
 #include <GL/glew.h>
 
-Material::Base::Base() : flags(CULL_FACE), shader(nullptr) {}
+Material::Base::Base() : flags(CULL_FACE | RENDER_DEPTH), shader(nullptr) {}
 
 Material::Base::~Base() {
 	delete shader;

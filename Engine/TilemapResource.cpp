@@ -42,12 +42,3 @@ std::vector<unsigned> TilemapPalette::GetTextureIndexes(unsigned const & tex) co
 	return textureIndex.at(tex);
 }
 
-//vec4f TilemapPalette::GetUVRect(unsigned const& paletteIndex, unsigned const& tileIndex) const {
-//	TilemapTexture const& texture = textures[paletteIndex];
-//	const vec2f unit = texture.GetUnit();
-//
-//	return vec4f(
-//		texture.GetOffset(tileIndex) * unit, 
-//		unit
-//	);
-//}

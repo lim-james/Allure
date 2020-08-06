@@ -24,6 +24,9 @@ void TilemapRenderer::Initialize(EntityManager * const manager) {
 	InitializeInstanceBuffer(dynamicVAO, dynamicBuffer);
 
 	depthShader = new Shader("Files/Shaders/depth2D.vert", "Files/Shaders/depth2D.frag");
+	depthShader->Use();
+	depthShader->SetInt("tex", 0);
+
 	defaultMaterial = new Material::TilemapDefault;
 
 	EventsManager::Get()->Subscribe("TILEMAP_RENDER_ACTIVE", &TilemapRenderer::ActiveHandler, this);
@@ -112,7 +115,15 @@ void TilemapRenderer::RenderDepthBatches(RendererData const & data, Batches & ba
 
 	for (auto& shaderPair : batches) {
 		for (auto& materialPair : shaderPair.second) {
+			if (!materialPair.first->flags.Is(RENDER_DEPTH)) 
+				continue;
+
 			for (auto& batchPair : materialPair.second) {
+				auto const& tex = batchPair.first;
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, tex);
+				depthShader->SetInt("useTex", tex);
+
 				RenderStatic(data, batchPair.first, batchPair.second);
 				RenderDynamic(data, batchPair.first, batchPair.second);
 			}
@@ -121,12 +132,47 @@ void TilemapRenderer::RenderDepthBatches(RendererData const & data, Batches & ba
 }
 
 void TilemapRenderer::RenderBatches(RendererData const& data, Batches& batches) {
+	const unsigned lightCount = data.lights2D ? data.lights2D->size() : 0;
+
 	for (auto& shaderPair : batches) {
 		Shader* const shader = shaderPair.first;
 
 		shader->Use();
 		shader->SetMatrix4("projection", data.projection);
 		shader->SetMatrix4("view", data.view);
+
+		shader->SetInt("lightCount", lightCount);
+
+		for (unsigned i = 0; i < lightCount; ++i) {
+			Light* const light = data.lights2D->at(i);
+			const std::string id = std::to_string(i);
+			const std::string tag = "lights[" + id + "].";
+
+			shader->SetInt(tag + "type", light->type);
+			shader->SetFloat(tag + "range", light->range);
+			shader->SetFloat(tag + "innerCutOff", cos(light->innerCutOff * Math::toRad));
+			shader->SetFloat(tag + "outerCutOff", cos(light->outerCutOff * Math::toRad));
+			shader->SetVector3(tag + "color", light->color);
+			shader->SetFloat(tag + "intensity", light->intensity);
+			shader->SetFloat(tag + "strength", light->strength);
+
+			shader->SetInt(tag + "castShadows", light->CastShadows());
+
+			Transform* const transform = entities->GetComponent<Transform>(light->entity);
+			const vec3f lightPos = transform->GetWorldTranslation();
+
+			shader->SetVector3(tag + "direction", transform->GetLocalFront());
+			shader->SetVector3(tag + "position", lightPos);
+			shader->SetVector3("lightPositions[" + id + "]", lightPos);
+		}
+
+		Component* const component = (Component*)data.object;
+		Camera* const camera = dynamic_cast<Camera*>(component);
+
+		if (camera) {
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, camera->GetDepthBuffer()->GetTexture());
+		}
 
 		for (auto& materialPair : shaderPair.second) {
 
@@ -206,7 +252,11 @@ void TilemapRenderer::RenderDynamic(RendererData const& data, unsigned const& te
 			const TilemapTexture tmTex = c->GetPalette().GetTexture(group);
 			if (c->layout.grids.size() <= group) continue;
 
-			for (Tile const& tile : c->layout.grids[group]) {
+			auto& grid = c->layout.grids[group];
+
+			for (auto it = grid.rbegin(); it != grid.rend(); ++it) {
+				Tile const& tile = *it;
+
 				mat4f translation;
 				Math::SetToTranslation(translation, vec3f(tile.position));
 
@@ -217,7 +267,7 @@ void TilemapRenderer::RenderDynamic(RendererData const& data, unsigned const& te
 				Instance instance;
 				instance.uvRect = vec4f(offset, unit);
 				instance.tint = c->tint;
-				instance.model = translation * worldTransform;
+				instance.model = worldTransform * translation;
 				instances.push_back(instance);
 			}
 		}

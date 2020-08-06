@@ -24,6 +24,8 @@ class RenderSystem : public System {
 	std::vector<Light2D*> lights2D;
 	std::vector<Light2D*> casters2D;
 
+	TextureData depthTextureData;
+
 	Framebuffer* depthFBO[MAX_LIGHTS];
 	mat4f lightSpaceMatrices[MAX_LIGHTS];
 

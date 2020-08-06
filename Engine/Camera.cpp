@@ -34,7 +34,10 @@ Camera::Camera()
 	, viewport(vec2f(0.f), vec2f(1.f))
 
 	, windowSize(1.f)
-	, framebuffer(nullptr) {
+	, framebuffer(nullptr) 
+	, depthBuffer(nullptr)
+
+	, captureDepth(false) {
 
 	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &Camera::WindowResizeHandler, this);
 }
@@ -68,6 +71,9 @@ void Camera::Initialize() {
 	EventsManager::Get()->Trigger("GET_WINDOW_SIZE", new Events::AnyType<vec2i*>(&size));
 	windowSize = size;
 	framebuffer = nullptr;
+	depthBuffer = nullptr;
+
+	captureDepth = false;
 
 	UpdateViewport();
 }
@@ -138,6 +144,14 @@ Framebuffer * const Camera::GetFramebuffer() const {
 	return framebuffer;
 }
 
+void Camera::SetDepthBuffer(Framebuffer * const fb) {
+	depthBuffer = fb;
+}
+
+Framebuffer * const Camera::GetDepthBuffer() const {
+	return depthBuffer;
+}
+
 vec2f Camera::ScreenToWorldPosition(vec2f const& mousePosition) const {
 	const vec2f viewportPosition = mousePosition - viewport.origin;
 
@@ -169,4 +183,5 @@ void Camera::UpdateViewport() {
 	frameSize = vec2f(w, h);
 
 	if (framebuffer) framebuffer->Resize(viewport.size);
+	if (depthBuffer) depthBuffer->Resize(viewport.size);
 }

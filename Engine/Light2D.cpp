@@ -11,10 +11,6 @@ void Light2D::SetActive(bool const & state) {
 	EventsManager::Get()->Trigger("LIGHT_2D_ACTIVE", new Events::AnyType<Light2D*>(this));
 }
 
-bool const & Light2D::CastShadows() const {
-	return castShadows;
-}
-
 void Light2D::SetCastShadows(bool const & state) {
 	castShadows = state;
 	EventsManager::Get()->Trigger("LIGHT_2D_CAST_SHADOWS", new Events::AnyType<Light*>(this));

@@ -831,6 +831,9 @@
     <ClCompile Include="SpriteLitMaterial.cpp">
       <Filter>Engine\Render\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="TilemapLitMaterial.cpp">
+      <Filter>Engine\Render\Tilemap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1483,6 +1486,9 @@
     </ClInclude>
     <ClInclude Include="SpriteLitMaterial.h">
       <Filter>Engine\Render\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapLitMaterial.h">
+      <Filter>Engine\Render\Tilemap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@
 
 Light::Light() 
 	: type(LIGHT_DIRECTIONAL)
+	, range(1.f)
 	, innerCutOff(12.5f)
 	, outerCutOff(17.5f)
 	, color(1.f) 
@@ -19,6 +20,7 @@ Light::Light()
 
 void Light::Initialize() {
 	type = LIGHT_DIRECTIONAL;
+	range = 1.f;
 	innerCutOff = 12.5f;
 	outerCutOff = 17.5f;
 	color = 1.f;

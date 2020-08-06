@@ -7,5 +7,4 @@ Material::TilemapDefault::TilemapDefault() {
 	shader->SetInt("tex", 0);
 }
 
-void Material::TilemapDefault::SetAttributes() {
-}
+void Material::TilemapDefault::SetAttributes() {}

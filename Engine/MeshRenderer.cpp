@@ -77,6 +77,9 @@ void MeshRenderer::RenderDepthBatches(RendererData const & data, Batches & batch
 
 	for (auto& shaderPair : batches) {
 		for (auto& materialPair : shaderPair.second) {
+			if (!materialPair.first->flags.Is(RENDER_DEPTH)) 
+				continue;
+
 			for (auto& batchPair : materialPair.second) {
 				Mesh* const mesh = batchPair.first;
 				depthShader->SetMatrix4("model", mesh->modelTransform);

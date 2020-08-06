@@ -3,10 +3,11 @@
 #include "LayoutSystem.h"
 #include "Camera.h"
 #include "Text.h"
+#include "Light2D.h"
 #include "SpriteRender.h"
 #include "TilemapRender.h"
 #include "ButtonSystem.h"
-
+// scripts
 #include "EditorCamera2D.h"
 #include "EditorManager.h"
 
@@ -19,6 +20,9 @@ void EditorScene::Awake() {
 
 	systems->Subscribe<LayoutSystem>(0);
 	systems->Subscribe<ButtonSystem>(0);
+
+	spriteLit = new Material::SpriteLit;
+	tilemapLit = new Material::TilemapLit;
 }
 
 void EditorScene::Create() {
@@ -32,6 +36,7 @@ void EditorScene::Create() {
 		camera->clearColor = vec4f(1.f);
 		camera->projection = ORTHOGRAPHIC;
 		camera->cullingMask -= UI;
+		camera->captureDepth = true;
 
 		editorCamera = entities->AddComponent<EditorCamera2D>(mainCamera);
 		editorCamera->SetActive(true);
@@ -64,6 +69,7 @@ void EditorScene::Create() {
 		editorManager->SetActive(true);
 		editorManager->editorCamera = editorCamera;
 		editorManager->uiCamera = uiCamera;
+		editorManager->tilemapLit = tilemapLit;
 	}
 
 	// layer label
@@ -82,6 +88,8 @@ void EditorScene::Create() {
 		text->SetFont(font);
 		text->text = "MAIN LAYER";
 		text->color = vec4f(0.f, 0.f, 0.f, 1.f);
+
+		editorManager->layerLabel = text;
 	}
 
 	// size label
@@ -152,7 +160,7 @@ void EditorScene::Create() {
 		render->tint = vec4f(0.f, 0.f, 0.f, 1.f);
 	}
 
-	// grid
+	// selection grid
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, UI);
@@ -184,6 +192,12 @@ void EditorScene::Create() {
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->tint = vec4f(0.f, 0.f, 0.f, 1.f);
+
+		Light2D* const light = entities->AddComponent<Light2D>(entity);
+		light->SetActive(true);
+		light->type = LIGHT_POINT;
+		light->intensity = 100.f;
+		light->strength = 0.5f;
 	}
 
 	// background
@@ -191,7 +205,7 @@ void EditorScene::Create() {
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.5f, 0.5f, -5.f));
+		transform->SetLocalTranslation(vec3f(0.5f, 0.5f, -1.f));
 		transform->SetScale(vec3f(100.f));
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -200,14 +214,11 @@ void EditorScene::Create() {
 		render->SetCellRect(0.f, 0.f, 50.f, 50.f);
 		render->tint = vec4f(0.f, 0.f, 0.f, 0.25f);
 	}
+}
 
-	// tilemap
-	{
-		const unsigned entity = entities->Create();
+void EditorScene::Destroy() {
+	Scene::Destroy();
 
-		TilemapRender* const render = entities->AddComponent<TilemapRender>(entity);
-		render->SetActive(true);
-
-		editorManager->tilemap = render;
-	}
+	delete spriteLit;
+	delete tilemapLit;
 }

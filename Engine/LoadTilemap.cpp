@@ -62,3 +62,55 @@ TilemapLayout Load::TML(std::string const & filepath) {
 
 	return result;
 }
+
+void Write::TML(TilemapLayout const & layout, std::string const & filepath) {
+	std::vector<std::vector<std::string>> data;
+
+	vec2i min = 0;
+	vec2i max = 0;
+
+	for (auto& grid : layout.grids) {
+		for (auto& tile : grid) {
+			const int x = static_cast<int>(tile.position.x);
+			const int y = static_cast<int>(tile.position.y);
+
+			if (x < min.x) min.x = x;
+			else if (x > max.x) max.x = x;
+
+			if (y < min.y) min.y = y;
+			else if (y > max.y) max.y = y;
+		}
+	}
+
+	for (int i = 0; i <= max.y - min.y; ++i) {
+		data.push_back({});
+		for (int j = 0; j <= max.x - min.x; ++j) {
+			data[i].push_back("");
+		}
+	}
+
+	for (unsigned i = 0; i < layout.grids.size(); ++i) {
+		auto& grid = layout.grids[i];
+		const std::string id = std::to_string(i) + ' ';
+
+		for (auto& tile : grid) {
+			const int x = static_cast<int>(tile.position.x) - min.x;
+			const int y = static_cast<int>(tile.position.y) - min.y;
+
+			const int u = static_cast<int>(tile.uvOffset.x);
+			const int v = static_cast<int>(tile.uvOffset.y);
+
+			data[y][x] = id + std::to_string(u) + ' ' + std::to_string(v);
+		}
+	}
+
+	std::ofstream ofs(filepath);
+	for (auto& row : data) {
+		for (auto& item : row)
+			ofs << item << ',';
+
+		ofs << '\n';
+	}
+
+	ofs.close();
+}

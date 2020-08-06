@@ -19,6 +19,7 @@ void EditorCamera2D::Start() {
 
 void EditorCamera2D::Update() {
 	const vec3f position = cursor->GetLocalTranslation();
+	cursorPosition.z = position.z;
 	cursor->SetLocalTranslation(Math::Lerp(position, cursorPosition, time->dt * 20.f));
 }
 

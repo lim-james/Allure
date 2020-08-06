@@ -3,6 +3,11 @@
 
 #include "Scene.h"
 
+// materials
+#include "SpriteLitMaterial.h"
+#include "TilemapLitMaterial.h"
+#include "CircleMaterial.h"
+
 // Prefabs
 #include "CoinPrefab.h"
 #include "FlyingEnemyPrefab.h"
@@ -24,6 +29,14 @@
 #include "Candle2Prefab.h"
 
 class PackTest : public Scene {
+
+	// materials
+
+	Material::SpriteLit* spriteLit;
+	Material::TilemapLit* tilemapLit;
+	Material::Circle* circle;
+
+	// prefabs
 
 	CoinPrefab* coinPrefab;
 	FlyingEnemyPrefab* flyingEnemyPrefab;

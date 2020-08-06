@@ -8,4 +8,8 @@ namespace Load {
 	TilemapLayout TML(std::string const& filepath);
 }
 
+namespace Write {
+	void TML(TilemapLayout const& layout, std::string const& filepath);
+}
+
 #endif

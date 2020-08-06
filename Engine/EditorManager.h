@@ -8,17 +8,20 @@
 #include "SpriteRender.h"
 #include "Text.h"
 
+#include "TilemapLitMaterial.h"
+
 #include "TilemapResource.h"
 
 struct EditorManager : Script {
 
 	using base_type = EditorManager;
 
-	TilemapRender* tilemap;
+	Material::Base* tilemapLit;
 
 	EditorCamera2D* editorCamera;
 	Camera* uiCamera;
 
+	Text* layerLabel;
 	Text* sizeLabel;
 
 	SpriteRender* grid;
@@ -29,6 +32,9 @@ struct EditorManager : Script {
 	void PreviewClick();
 
 private:
+
+	int layerHeight;
+	std::map<int, TilemapRender*> tilemaps;
 
 	vec2f cursorPosition;
 	vec2f cursorSelection;
@@ -49,6 +55,8 @@ private:
 	void MouseButtonHandler(Events::Event* event);
 
 	void UpdateIndex();
+
+	void CreateLayer(int const& z);
 
 };
 

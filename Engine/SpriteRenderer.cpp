@@ -25,13 +25,17 @@ void SpriteRenderer::Initialize(EntityManager * const manager) {
 	InitializeInstanceBuffer(dynamicVAO, dynamicBuffer);
 
 	depthShader = new Shader("Files/Shaders/depth2D.vert", "Files/Shaders/depth2D.frag");
+	depthShader->Use();
+	depthShader->SetInt("tex", 0);
+
 	defaultMaterial = new Material::SpriteDefault;
 
-	EventsManager::Get()->Subscribe("SPRITE_RENDER_ACTIVE", &SpriteRenderer::ActiveHandler, this);
-	EventsManager::Get()->Subscribe("SPRITE_RENDER_DYNAMIC", &SpriteRenderer::DynamicHandler, this);
-	EventsManager::Get()->Subscribe("SPRITE_CHANGE", &SpriteRenderer::SpriteChangeHandler, this);
-	EventsManager::Get()->Subscribe("SPRITE_MATERIAL", &SpriteRenderer::MaterialHandler, this);
-	EventsManager::Get()->Subscribe("MATERIAL_SHADER", &SpriteRenderer::ShaderHandler, this);
+	EventsManager* const em = EventsManager::Get();
+	em->Subscribe("SPRITE_RENDER_ACTIVE", &SpriteRenderer::ActiveHandler, this);
+	em->Subscribe("SPRITE_RENDER_DYNAMIC", &SpriteRenderer::DynamicHandler, this);
+	em->Subscribe("SPRITE_CHANGE", &SpriteRenderer::SpriteChangeHandler, this);
+	em->Subscribe("SPRITE_MATERIAL", &SpriteRenderer::MaterialHandler, this);
+	em->Subscribe("MATERIAL_SHADER", &SpriteRenderer::ShaderHandler, this);
 }
 
 void SpriteRenderer::RenderDepth(RendererData const& data) {
@@ -113,6 +117,9 @@ void SpriteRenderer::RenderDepthBatches(RendererData const & data, Batches & bat
 
 	for (auto& shaderPair : batches) {
 		for (auto& materialPair : shaderPair.second) {
+			if (!materialPair.first->flags.Is(RENDER_DEPTH)) 
+				continue;
+
 			for (auto& batchPair : materialPair.second) {
 				RenderStatic(data, batchPair.second);
 				RenderDynamic(data, batchPair.second);
@@ -122,12 +129,38 @@ void SpriteRenderer::RenderDepthBatches(RendererData const & data, Batches & bat
 }
 
 void SpriteRenderer::RenderBatches(RendererData const& data, Batches& batches) {
+	const unsigned lightCount = data.lights2D ? data.lights2D->size() : 0;
+
 	for (auto& shaderPair : batches) {
 		Shader* const shader = shaderPair.first;
 
 		shader->Use();
 		shader->SetMatrix4("projection", data.projection);
 		shader->SetMatrix4("view", data.view);
+
+		shader->SetInt("lightCount", lightCount);
+
+		for (unsigned i = 0; i < lightCount; ++i) {
+			Light* const light = data.lights2D->at(i);
+			const std::string tag = "lights[" + std::to_string(i) + "].";
+
+			shader->SetInt(tag + "type", light->type);
+			shader->SetFloat(tag + "range", light->range);
+			shader->SetFloat(tag + "innerCutOff", cos(light->innerCutOff * Math::toRad));
+			shader->SetFloat(tag + "outerCutOff", cos(light->outerCutOff * Math::toRad));
+			shader->SetVector3(tag + "color", light->color);
+			shader->SetFloat(tag + "intensity", light->intensity);
+			shader->SetFloat(tag + "strength", light->strength);
+
+			shader->SetInt(tag + "castShadows", light->CastShadows());
+
+			//glActiveTexture(GL_TEXTURE0 + i);
+			//glBindTexture(GL_TEXTURE_2D, light->shadowMap);
+
+			Transform* const transform = entities->GetComponent<Transform>(light->entity);
+			shader->SetVector3(tag + "position", transform->GetWorldTranslation());
+			shader->SetVector3(tag + "direction", transform->GetLocalFront());
+		}
 
 		for (auto& materialPair : shaderPair.second) {
 			

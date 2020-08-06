@@ -4,6 +4,7 @@
 #include "LoadTilemap.h"
 
 #include <Events/EventsManager.h>
+#include <Helpers/FileHelpers.h>
 #include <GLFW/glfw3.h>
 
 void EditorManager::SetPreview(SpriteRender * const render) {
@@ -50,25 +51,43 @@ void EditorManager::Awake() {
 }
 
 void EditorManager::Start() {
-	index = size = 0;
+	layerHeight = index = size = 0;
+	layerLabel->text = "LAYER 0";
 }
 
 void EditorManager::DropEvent(Events::Event * event) {
 	Events::DropInput* const input = static_cast<Events::DropInput*>(event);
-	palette = Load::TMP(input->paths[0]);
-	UpdateIndex();
 
-	tilemap->SetPalette(palette);
-	tilemap->SetActive(false);
-	tilemap->SetActive(true);
+	const std::string path = input->paths[0];
+	const std::string ext = Helpers::GetFileExt(path);
+	
+	if (ext == "tmp") {
+		palette = Load::TMP(path);
+		size = palette.GetTextures().size();
+		UpdateIndex();
+
+		for (auto& pair : tilemaps) {
+			pair.second->SetPalette(palette);
+			pair.second->SetActive(false);
+			pair.second->SetActive(true);
+		}
+	} else if (ext == "csv") {
+		if (tilemaps[layerHeight] == nullptr)
+				CreateLayer(layerHeight);
+		TilemapRender* const tilemap = tilemaps[layerHeight];
+		tilemap->layout = Load::TML(path);
+	} else {
+		Debug::Error << "File type not recognised.\n";
+	}
+
 }
 
 void EditorManager::KeyEvent(Events::Event * event) {
-	if (size == 0) return;
-
 	Events::KeyInput* const input = static_cast<Events::KeyInput*>(event);
+
 	if (input->action == GLFW_PRESS) {
 		if (input->key == GLFW_KEY_LEFT) {
+			if (size == 0) return;
 			if (index == 0) {
 				index = size - 1;
 			} else {
@@ -76,14 +95,35 @@ void EditorManager::KeyEvent(Events::Event * event) {
 			}
 			UpdateIndex();
 		} else if (input->key == GLFW_KEY_RIGHT) {
+			if (size == 0) return;
 			if (index == size - 1) {
 				index = 0;
 			} else {
 				++index;
 			}
 			UpdateIndex();
-		} else if (input->key == GLFW_KEY_DELETE) {
+		} else if (input->key == GLFW_KEY_UP) {
+			++layerHeight;
+			layerLabel->text = "LAYER " + std::to_string(layerHeight);
 
+			Transform* const cursor = editorCamera->cursor;
+			vec3f position = cursor->GetLocalTranslation();
+			position.z = static_cast<float>(layerHeight);
+			cursor->SetLocalTranslation(position);
+		} else if (input->key == GLFW_KEY_DOWN) {
+			--layerHeight;
+			layerLabel->text = "LAYER " + std::to_string(layerHeight);
+
+			Transform* const cursor = editorCamera->cursor;
+			vec3f position = cursor->GetLocalTranslation();
+			position.z = static_cast<float>(layerHeight);
+			cursor->SetLocalTranslation(position);
+		} else if (input->key == GLFW_KEY_ENTER) {
+			const std::string prefix = "Files/Data/Levels/levels-(";
+			const std::string sufix = ").csv";
+			for (auto& tm : tilemaps) {
+				Write::TML(tm.second->layout, prefix + std::to_string(tm.first) + sufix);
+			}
 		}
 	}
 }
@@ -99,6 +139,10 @@ void EditorManager::MouseButtonHandler(Events::Event * event) {
 	Events::MouseButtonInput* const input = static_cast<Events::MouseButtonInput*>(event);
 
 	if (input->button == GLFW_MOUSE_BUTTON_LEFT && input->action == GLFW_PRESS) {
+		if (tilemaps[layerHeight] == nullptr)
+			CreateLayer(layerHeight);
+		TilemapRender* const tilemap = tilemaps[layerHeight];
+
 		while (tilemap->layout.grids.size() <= index)
 			tilemap->layout.grids.push_back({});
 
@@ -125,4 +169,18 @@ void EditorManager::UpdateIndex() {
 	previewTransform->SetScale(dims);
 	sizeLabel->text = std::to_string(dimensions.x) + " x " + std::to_string(dimensions.y);
 	grid->SetCellRect(0.f, 0.f, dims.x * 0.5f, dims.y * 0.5f);
+}
+
+void EditorManager::CreateLayer(int const & z) {
+	const unsigned entity = entities->Create();
+
+	Transform* const transform = entities->GetComponent<Transform>(entity);
+	transform->SetLocalTranslation(vec3f(0.f, 0.f, static_cast<float>(z)));
+
+	TilemapRender* const render = entities->AddComponent<TilemapRender>(entity);
+	render->SetPalette(palette);
+	render->SetActive(true);
+	render->SetMaterial(tilemapLit);
+
+	tilemaps[z] = render;
 }

@@ -271,6 +271,7 @@
     <ClCompile Include="TestAudio.cpp" />
     <ClCompile Include="TextBlink.cpp" />
     <ClCompile Include="TilemapDefaultMaterial.cpp" />
+    <ClCompile Include="TilemapLitMaterial.cpp" />
     <ClCompile Include="TilemapRender.cpp" />
     <ClCompile Include="TilemapRenderer.cpp" />
     <ClCompile Include="TilemapResource.cpp" />
@@ -489,6 +490,7 @@
     <ClInclude Include="TestAudio.h" />
     <ClInclude Include="TextBlink.h" />
     <ClInclude Include="TilemapDefaultMaterial.h" />
+    <ClInclude Include="TilemapLitMaterial.h" />
     <ClInclude Include="TilemapResource.h" />
     <ClInclude Include="TilemapRender.h" />
     <ClInclude Include="TilemapRenderer.h" />

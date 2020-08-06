@@ -85,6 +85,9 @@ void VoxelRenderer::RenderDepthBatches(RendererData const & data, Batches & batc
 
 	for (auto& shaderPair : batches) {
 		for (auto& materialPair : shaderPair.second) {
+			if (!materialPair.first->flags.Is(RENDER_DEPTH)) 
+				continue;
+
 			RenderStatic(data, materialPair.second);
 			RenderDynamic(data, materialPair.second);
 		}

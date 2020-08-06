@@ -1,11 +1,11 @@
-#include "SpriteLitMaterial.h"
+#include "TilemapLitMaterial.h"
 
-Material::SpriteLit::SpriteLit() {
-	flags = 0;
+Material::TilemapLit::TilemapLit() {
+	flags = RENDER_DEPTH;
 	shader = new Shader("Files/Shaders/lit2D.vert", "Files/Shaders/lit2D.frag");
 	shader->Use();
 	shader->SetInt("tex", 0);
 	shader->SetInt("shadowMap", 1);
 }
 
-void Material::SpriteLit::SetAttributes() {}
+void Material::TilemapLit::SetAttributes() {}

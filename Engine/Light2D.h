@@ -13,7 +13,6 @@ struct Light2D : Light {
 
 	void SetActive(bool const& state) override;
 
-	bool const& CastShadows() const override;
 	void SetCastShadows(bool const& state) override;
 
 private:

@@ -8,6 +8,7 @@ namespace Helpers {
 
 	struct stat GetFileInfo(std::string const& filepath);
 	std::string GetFileName(std::string const& filepath);
+	std::string GetFileExt(std::string const& filepath);
 	std::string ReadFile(std::string const& filepath);
 	void WriteFile(std::string const& filepath, std::string const& content, int const& mode = std::ios::binary);
 

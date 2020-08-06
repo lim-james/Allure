@@ -2,6 +2,15 @@
 
 out vec4 color;
 
+in vec2 texCoord;
+
+uniform bool useTex;
+uniform sampler2D tex;
+
 void main() {
-	color = vec4(1.f);
+	if (useTex) {
+		color = texture(tex, texCoord);	
+		if (color.a < 0.01)
+			discard;
+	}
 }

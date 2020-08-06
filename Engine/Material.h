@@ -11,6 +11,7 @@
 #define SURFACE_TRANSPARENT 0b1
 #define CULL_FACE			0b10
 #define FRONT_FACE			0b100
+#define RENDER_DEPTH		0b1000
 
 namespace Material {
 
@@ -55,7 +56,6 @@ namespace Events {
 			: previous(previous)
 			, component(component) {}
 	};
-
 }
 
 #endif

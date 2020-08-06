@@ -16,6 +16,10 @@ std::string Helpers::GetFileName(std::string const& filepath) {
 	return Helpers::Split(filepath, '\\').back();
 }
 
+std::string Helpers::GetFileExt(std::string const & filepath) {
+	return filepath.substr(filepath.find_last_of(".") + 1);
+}
+
 std::string Helpers::ReadFile(std::string const& filepath) {
 	std::ifstream ifs(filepath);
 

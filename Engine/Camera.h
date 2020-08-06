@@ -28,6 +28,8 @@ struct Camera : Component {
 	float nearPlane;
 	float farPlane;
 
+	bool captureDepth;
+
 	BitField cullingMask;
 
 	Camera();
@@ -55,6 +57,9 @@ struct Camera : Component {
 	void SetFramebuffer(Framebuffer* const fb);
 	Framebuffer* const GetFramebuffer() const;
 
+	void SetDepthBuffer(Framebuffer* const fb);
+	Framebuffer* const GetDepthBuffer() const;
+
 	vec2f ScreenToWorldPosition(vec2f const& mousePosition) const;
 
 private:
@@ -72,6 +77,7 @@ private:
 
 	vec2f windowSize;
 	Framebuffer* framebuffer;
+	Framebuffer* depthBuffer;
 
 	void WindowResizeHandler(Events::Event* event);
 
