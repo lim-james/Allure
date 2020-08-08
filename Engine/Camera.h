@@ -62,6 +62,9 @@ struct Camera : Component {
 
 	vec2f ScreenToWorldPosition(vec2f const& mousePosition) const;
 
+	bool UseProcess() const;
+	void SetUseProcess(bool const& state);
+
 private:
 
 	float size;
@@ -78,6 +81,8 @@ private:
 	vec2f windowSize;
 	Framebuffer* framebuffer;
 	Framebuffer* depthBuffer;
+
+	bool useProcess;
 
 	void WindowResizeHandler(Events::Event* event);
 

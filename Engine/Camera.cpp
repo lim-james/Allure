@@ -37,7 +37,8 @@ Camera::Camera()
 	, framebuffer(nullptr) 
 	, depthBuffer(nullptr)
 
-	, captureDepth(false) {
+	, captureDepth(false)
+	, useProcess(true) {
 
 	EventsManager::Get()->Subscribe("WINDOW_RESIZE", &Camera::WindowResizeHandler, this);
 }
@@ -74,6 +75,7 @@ void Camera::Initialize() {
 	depthBuffer = nullptr;
 
 	captureDepth = false;
+	useProcess = true;
 
 	UpdateViewport();
 }
@@ -162,6 +164,15 @@ vec2f Camera::ScreenToWorldPosition(vec2f const& mousePosition) const {
 	result.y = -result.y;
 
 	return result;
+}
+
+bool Camera::UseProcess() const {
+	return useProcess;
+}
+
+void Camera::SetUseProcess(bool const & state) {
+	useProcess = state;
+	EventsManager::Get()->Trigger("CAMERA_USE_PROCESS", new Events::AnyType<Camera*>(this));
 }
 
 void Camera::WindowResizeHandler(Events::Event* event) {

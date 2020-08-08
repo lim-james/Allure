@@ -15,6 +15,7 @@
 #include "Bloom.h"
 #include "CurveDisplay.h"
 #include "Vignette.h"
+#include "Pixelated.h"
 // scripts
 #include "GameManager.h"
 #include "FPSCounter.h"
@@ -227,6 +228,7 @@ void MainGame::Create() {
 		uiCamera->shouldClear = false;
 		uiCamera->projection = ORTHOGRAPHIC;
 		uiCamera->cullingMask = UI;
+		uiCamera->SetUseProcess(false);
 	}
 
 	// FPS counter
@@ -275,7 +277,6 @@ void MainGame::Create() {
 		gameManager->SetActive(true);
 		gameManager->fadeInDuration = 100.f;
 		gameManager->endDelay = 1.f;
-		gameManager->sceneTexture = camera->GetFramebuffer()->GetTexture();
 	}
 
 	// Score controller
@@ -297,7 +298,12 @@ void MainGame::Create() {
 		vignette->SetActive(true);
 		vignette->tint = COLOR_PURPLE; // vec3f(0.5f, 0.f, 0.5f);
 		scoreController->vfx = vignette;
-		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
+		gameManager->vignetteFX = vignette;	
+
+		Pixelated* const pixelated = entities->AddComponent<Pixelated>(volume);
+		pixelated->SetActive(true);
+		pixelated->size = RESOLUTION;
+		gameManager->pixelFX = pixelated;	
 	}
 
 	// Total score label
@@ -438,13 +444,19 @@ void MainGame::Create() {
 	//{
 	//	const unsigned entity = entities->Create();
 
-	//	auto transform = entities->GetComponent<Transform>(entity);
-	//	transform->SetLocalTranslation(vec3f(12.f, 0.f, 1.f));
-	//	transform->SetScale(vec3f(16.f, 9.f, 0.f));
+	//	Transform* const transform = entities->GetComponent<Transform>(entity);
+	//	transform->SetLocalTranslation(vec3f(0.f, 0.f, 4.f));
 
-	//	auto render = entities->AddComponent<SpriteRender>(entity);
-	//	render->SetActive(true);
+	//	Transform* const camTransform = entities->GetComponent<Transform>(mainCamera);
+
+	//	Layout* const layout = entities->AddComponent<Layout>(entity);
+	//	layout->SetActive(true);
+	//	layout->AddConstraint(Constraint(WIDTH, nullptr, WIDTH, 1.f, 0.f, camera));
+	//	layout->AddConstraint(Constraint(HEIGHT, nullptr, HEIGHT, 1.f, 0.f, camera));
+
+	//	SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 	//	render->SetSprite(camera->GetFramebuffer()->GetTexture());
+	//	gameManager->stillFrame = render;
 	//}
 
 	// energy meter
@@ -589,7 +601,7 @@ void MainGame::Create() {
 		PlayerMovement* const movement = entities->AddComponent<PlayerMovement>(entity);
 		movement->SetActive(true);
 		movement->speed = 400.f;
-		movement->dash = 30.f;
+		movement->dash = 10.f;
 		movement->bounds = vec3f(80.f, 45.f, 1.f);
 
 		PlayerCombat* const combat = entities->AddComponent<PlayerCombat>(entity);

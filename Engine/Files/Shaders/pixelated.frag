@@ -30,7 +30,7 @@ vec3 hsv2rgb(vec3 c) {
 
 void main() {
 	ivec2 dim = textureSize(tex, 0);
-	vec2 pixelSize = vec2(size / dim.y * dim.x, size);
+	vec2 pixelSize = vec2(size * dim.x / dim.y, size);
 	vec2 resultCoord = (vec2(ivec2(texCoord * pixelSize)) + .5f) / pixelSize;
 	vec3 result = texture(tex, resultCoord).rgb;
 	color = vec4(result, 1.0);

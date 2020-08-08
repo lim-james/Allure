@@ -6,6 +6,8 @@
 
 int main() { 
 
+	FreeConsole();
+
 	Application app;
 
 	app.Initialize(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, IS_FULLSCREEN);

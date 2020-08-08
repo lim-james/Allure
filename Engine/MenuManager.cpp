@@ -181,10 +181,10 @@ void MenuManager::ScrollHandler(Events::Event * event) {
 	Events::ScrollInput* input = static_cast<Events::ScrollInput*>(event);
 	scrollBt = scrollDelay;
 	scrollOffset += input->data.y * scrollMultiplier;
-	if (scrollOffset > 1.f) {
+	if (scrollOffset >= 1.f) {
 		PreviousSong();
 		scrollOffset = 0.f;
-	} else if (scrollOffset < -1.f) {
+	} else if (scrollOffset <= -1.f) {
 		NextSong();
 		scrollOffset = 0.f;
 	}

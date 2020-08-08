@@ -3,9 +3,12 @@
 
 #include "Script.h"
 
+#include "Camera.h"
 #include "SpriteRender.h"
 #include "BeatController.h"
 #include "ScoreController.h"
+#include "Pixelated.h"
+#include "Vignette.h"
 
 struct GameManager : Script {
 
@@ -13,10 +16,12 @@ struct GameManager : Script {
 
 	float fadeInDuration;
 	float endDelay;
-	unsigned sceneTexture;
 
 	BeatController* beatController;
 	ScoreController* scoreController;
+
+	Pixelated* pixelFX;
+	Vignette* vignetteFX;
 
 private:
 

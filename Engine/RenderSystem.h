@@ -30,6 +30,7 @@ class RenderSystem : public System {
 	mat4f lightSpaceMatrices[MAX_LIGHTS];
 
 	std::vector<Camera*> cameras;
+	std::vector<Camera*> rawCameras;
 	std::vector<Camera*> fbCameras;
 
 	std::vector<Renderer*> renderers;
@@ -63,6 +64,7 @@ private:
 	void CameraActiveHandler(Events::Event* event);
 	void CameraDepthHandler(Events::Event* event);
 	void CameraFramebufferHandler(Events::Event* event);
+	void CameraUseProcessHandler(Events::Event* event);
 
 	void ResizeHandler(Events::Event* event);
 
@@ -71,6 +73,7 @@ private:
 	void Render();
 	void RenderLowRes();
 	void Render(RendererData const& data);
+	void RawRender();
 	
 };
 

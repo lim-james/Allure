@@ -26,9 +26,13 @@ void ScoreController::Start() {
 	totalScoreLabel->text = Helpers::Pad(std::to_string(totalScore), 6,'0');
 	buildScoreLabel->text = "";
 	multiplierLabel->text = "";
+
+	enabled = true;
 }
 
 void ScoreController::ScoreHandler(Events::Event * event) {
+	if (!enabled) return;
+
 	const auto score = static_cast<Events::Score*>(event);
 	hiddenScore += score->points;
 	buildScore += hiddenScore;
@@ -45,6 +49,8 @@ void ScoreController::ScoreHandler(Events::Event * event) {
 }
 
 void ScoreController::BuildHandler() {
+	if (!enabled) return;
+
 	if (--mBuffer == 0) {
 		mBuffer = ++multiplier;
 		multiplierLabel->text = "x" + std::to_string(multiplier);
@@ -54,6 +60,8 @@ void ScoreController::BuildHandler() {
 }
 
 void ScoreController::ResetHandler() {
+	if (!enabled) return;
+
 	totalScore += buildScore * multiplier;
 	buildScore = 0;
 	hiddenScore = 0;

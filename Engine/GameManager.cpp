@@ -5,6 +5,8 @@
 #include "PauseScene.h"
 #include "ScoreScene.h"
 
+#include "EngineProperties.h"
+
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
@@ -22,10 +24,13 @@ void GameManager::Update() {
 	if (endGame) {
 		t += time->dt;
 
+		pixelFX->size = RESOLUTION * (endDelay - t) / (endDelay * 0.5f);
+
+		//gameManager->sceneTexture = camera->GetFramebuffer()->GetTexture();
 		if (t >= endDelay) {
 			endGame = false;
 			ScoreScene* destination = new ScoreScene;
-			destination->sceneTexture = sceneTexture;
+			//destination->sceneTexture = sceneTexture;
 			destination->data.good = beatController->good;
 			destination->data.great = beatController->great;
 			destination->data.perfect = beatController->perfect;
@@ -55,6 +60,9 @@ void GameManager::KeyHanlder(Events::Event * event) {
 }
 
 void GameManager::EndHanlder() {
-	endGame = true;
-	t = 0.f;
+	if (!endGame) {
+		t = 0.f;
+		endGame = true;
+		scoreController->enabled = false;
+	}
 }

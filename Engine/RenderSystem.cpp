@@ -110,6 +110,7 @@ void RenderSystem::Initialize() {
 	em->Subscribe("CAMERA_ACTIVE", &RenderSystem::CameraActiveHandler, this);
 	em->Subscribe("CAMERA_DEPTH", &RenderSystem::CameraDepthHandler, this);
 	em->Subscribe("CAMERA_FRAMEBUFFER", &RenderSystem::CameraFramebufferHandler, this);
+	em->Subscribe("CAMERA_USE_PROCESS", &RenderSystem::CameraUseProcessHandler, this);
 	em->Subscribe("WINDOW_RESIZE", &RenderSystem::ResizeHandler, this);
 }
 
@@ -118,6 +119,7 @@ void RenderSystem::Update(float const& dt) {
 	FBRender();
 	RenderLowRes();
 	postProccessing->Render();
+	RawRender();
 }
 
 void RenderSystem::Start() {
@@ -197,6 +199,8 @@ void RenderSystem::Light2DShadowHanlder(Events::Event * event) {
 void RenderSystem::CameraActiveHandler(Events::Event* event) {
 	Camera* const c = static_cast<Events::AnyType<Camera*>*>(event)->data;
 
+	auto& list = c->UseProcess() ? cameras : rawCameras;
+
 	if (c->IsActive()) {
 		if (c->GetDepthBuffer() == nullptr) {
 			Framebuffer* fb = new Framebuffer(1, 0);
@@ -204,33 +208,35 @@ void RenderSystem::CameraActiveHandler(Events::Event* event) {
 			c->SetDepthBuffer(fb);
 		}
 
-		for (unsigned i = 0; i < cameras.size(); ++i) {
-			if (cameras[i] == c) {
+		for (unsigned i = 0; i < list.size(); ++i) {
+			if (list[i] == c) {
 				return;
-			} else if (cameras[i]->GetDepth() >= c->GetDepth()) {
-				cameras.insert(cameras.begin() + i, c);
+			} else if (list[i]->GetDepth() >= c->GetDepth()) {
+				list.insert(list.begin() + i, c);
 				return;
 			}
 		}
-		cameras.push_back(c);
+		list.push_back(c);
 	} else {
-		Helpers::Remove(cameras, c);
+		Helpers::Remove(list, c);
 	}
 }
 
 void RenderSystem::CameraDepthHandler(Events::Event* event) {
 	Camera* const c = static_cast<Events::AnyType<Camera*>*>(event)->data;
 
-	if (c->IsActive()) {
-		Helpers::Remove(cameras, c);
-		for (unsigned i = 0; i < cameras.size(); ++i) {
-			if (cameras[i]->GetDepth() >= c->GetDepth()) {
-				cameras.insert(cameras.begin() + i, c);
-				return;
-			}
+	if (!c->IsActive()) return;
+
+	auto& list = c->UseProcess() ? cameras : rawCameras;
+
+	Helpers::Remove(list, c);
+	for (unsigned i = 0; i < list.size(); ++i) {
+		if (list[i]->GetDepth() >= c->GetDepth()) {
+			list.insert(list.begin() + i, c);
+			return;
 		}
-		cameras.push_back(c);
 	}
+	list.push_back(c);
 }
 
 void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
@@ -242,6 +248,22 @@ void RenderSystem::CameraFramebufferHandler(Events::Event * event) {
 		Helpers::Insert(fbCameras, c);
 	} else {
 		Helpers::Remove(fbCameras, c);
+	}
+}
+
+void RenderSystem::CameraUseProcessHandler(Events::Event * event) {
+	Camera* const c = static_cast<Events::AnyType<Camera*>*>(event)->data;
+
+	if (!c->IsActive()) return;
+
+	if (c->UseProcess()) {
+		if (Helpers::Remove(rawCameras, c)) {
+			Helpers::Insert(cameras, c);
+		}
+	} else {
+		if (Helpers::Remove(cameras, c)) {
+			Helpers::Insert(rawCameras, c);
+		}
 	}
 }
 
@@ -357,6 +379,7 @@ void RenderSystem::FBRender() {
 		data.viewPosition = transform->GetWorldTranslation();
 		data.cullingMask = cam->cullingMask;
 		data.lights = &lights;
+		data.lights2D = &lights2D;
 		data.lightSpaceMatrices = lightSpaceMatrices;
 
 		glViewport(origin.x, origin.y, size.x, size.y);
@@ -433,4 +456,43 @@ void RenderSystem::Render(RendererData const & data) {
 
 	for (Renderer* const r : renderers)
 		r->RenderTransparent(data);
+}
+
+void RenderSystem::RawRender() {
+	for (Renderer* const r : renderers) {
+		r->PreRender();
+	}
+
+	for (Camera* const cam : rawCameras) {
+		if (cam->isHidden) continue;
+
+		Transform* const transform = entities->GetComponent<Transform>(cam->entity);
+
+		RendererData data;
+		data.projection = cam->GetProjectionMatrix();
+		data.view = transform->GetWorldLookAt();
+		data.object = (void*)cam;
+		data.viewPosition = transform->GetWorldTranslation();
+		data.cullingMask = cam->cullingMask;
+		data.lights = &lights;
+		data.lights2D = &lights2D;
+		data.lightSpaceMatrices = lightSpaceMatrices;
+
+		const vec4i viewport = cam->GetViewport();
+		glViewport(viewport.origin.x, viewport.origin.y, viewport.size.x, viewport.size.y);
+		glScissor(viewport.origin.x, viewport.origin.y, viewport.size.x, viewport.size.y);
+
+		if (cam->shouldClear) {
+			glClearColor(cam->clearColor.r, cam->clearColor.g, cam->clearColor.b, cam->clearColor.a);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		} else {
+			glClear(GL_DEPTH_BUFFER_BIT);
+		}
+
+		Render(data);
+	}
+
+	for (Renderer* const r : renderers) {
+		r->PostRender();
+	}
 }
