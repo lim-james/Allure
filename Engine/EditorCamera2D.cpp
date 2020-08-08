@@ -2,6 +2,7 @@
 
 #include "InputEvents.h"
 
+#include <Math/Math.hpp>
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
 
@@ -12,15 +13,8 @@ void EditorCamera2D::Awake() {
 }
 
 void EditorCamera2D::Start() {
-	enabled = true;
-	cursorPosition = vec3f(0.f);
-	StopPanning();
-}
-
-void EditorCamera2D::Update() {
-	const vec3f position = cursor->GetLocalTranslation();
-	cursorPosition.z = position.z;
-	cursor->SetLocalTranslation(Math::Lerp(position, cursorPosition, time->dt * 20.f));
+	isPanning = false;
+	camera = GetComponent<Camera>();
 }
 
 void EditorCamera2D::CursorPositionHandler(Events::Event * event) {
@@ -28,11 +22,9 @@ void EditorCamera2D::CursorPositionHandler(Events::Event * event) {
 
 	const vec3f position = transform->GetLocalTranslation();
 	if (isPanning) {
-		transform->SetLocalTranslation(position + vec3f(input->delta.x * 0.1f, -input->delta.y * 0.1f, 0.f));
-	} else if (enabled) {
-		cursorPosition = camera->ScreenToWorldPosition(input->position) + position.xy;
-		cursorPosition.x = roundf(cursorPosition.x);
-		cursorPosition.y = roundf(cursorPosition.y);
+		vec3f delta = vec3f(input->delta.x, -input->delta.y, 0.f);
+		delta *= camera->GetSize() * 0.01f;
+		transform->SetLocalTranslation(position + delta);
 	}
 }
 
@@ -45,12 +37,12 @@ void EditorCamera2D::MouseButtonHandler(Events::Event * event) {
 		} else if (input->action == GLFW_RELEASE) {
 			StopPanning();
 		}
-	} 
+	}
 }
 
 void EditorCamera2D::ScrollHandler(Events::Event * event) {
 	Events::ScrollInput* const input = static_cast<Events::ScrollInput*>(event);
-	camera->SetSize(max(camera->GetSize() - input->data.y, 5.f));
+	camera->SetSize(Math::Clamp(camera->GetSize() - input->data.y, minZoom, maxZoom));
 }
 
 void EditorCamera2D::StartPanning() {

@@ -3,6 +3,7 @@
 
 #include "Component.h"
 
+#include <Math/Vectors.h>
 #include <Handler/Handler.h>
 
 #define MOUSE_CLICK	0
@@ -15,6 +16,9 @@
 struct Button : Component {
 
 	using base_type = Button;
+
+	vec2f offset;
+	vec2f scale;
 
 	bool isEnabled;
 	Handler<void, unsigned> handlers[BUTTON_ACTION_COUNT];

@@ -220,11 +220,14 @@
     <Filter Include="Engine\Render\Tilemap">
       <UniqueIdentifier>{00d6ed28-fd62-4b19-9303-edb0990b014a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scripts\Scene\Editor">
-      <UniqueIdentifier>{cd3feb72-5997-4172-b485-e210d99af8f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Scripts\Scene\ScoreScene">
       <UniqueIdentifier>{6224820d-834a-4bc4-9021-24c669023b29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Scene\TilemapEditor">
+      <UniqueIdentifier>{cd3feb72-5997-4172-b485-e210d99af8f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scripts\Scene\Editor">
+      <UniqueIdentifier>{4363ac17-2ac1-40cb-b3ca-9e61a92368a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -819,15 +822,6 @@
     <ClCompile Include="TilemapResource.cpp">
       <Filter>Engine\Render\Tilemap</Filter>
     </ClCompile>
-    <ClCompile Include="EditorScene.cpp">
-      <Filter>Assets\Scenes\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorManager.cpp">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorCamera2D.cpp">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="Light2D.cpp">
       <Filter>Engine\Render\Light</Filter>
     </ClCompile>
@@ -842,6 +836,33 @@
     </ClCompile>
     <ClCompile Include="ScoreManager.cpp">
       <Filter>Assets\Scripts\Scene\ScoreScene</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapEditorScene.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorScene.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapEditorManager.cpp">
+      <Filter>Assets\Scripts\Scene\TilemapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorManager.cpp">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapCamera.cpp">
+      <Filter>Assets\Scripts\Scene\TilemapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorCamera2D.cpp">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="AVButtonHandler.cpp">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="AVButton.cpp">
+      <Filter>Assets\Prefabs\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AVController.cpp">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1481,15 +1502,6 @@
     <ClInclude Include="TilemapDefaultMaterial.h">
       <Filter>Engine\Render\Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="EditorScene.h">
-      <Filter>Assets\Scenes\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorManager.h">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorCamera2D.h">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Light2D.h">
       <Filter>Engine\Render\Light</Filter>
     </ClInclude>
@@ -1504,6 +1516,36 @@
     </ClInclude>
     <ClInclude Include="ScoreManager.h">
       <Filter>Assets\Scripts\Scene\ScoreScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnGroup.h">
+      <Filter>Assets\Scripts\Main\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapEditorScene.h">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorScene.h">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapEditorManager.h">
+      <Filter>Assets\Scripts\Scene\TilemapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapCamera.h">
+      <Filter>Assets\Scripts\Scene\TilemapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorCamera2D.h">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="AVButtonHandler.h">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="AVButton.h">
+      <Filter>Assets\Prefabs\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AVController.h">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

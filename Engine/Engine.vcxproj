@@ -149,6 +149,8 @@
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="Automatic.cpp" />
     <ClCompile Include="AutomaticScript.cpp" />
+    <ClCompile Include="AVButton.cpp" />
+    <ClCompile Include="AVController.cpp" />
     <ClCompile Include="BackgroundMaterial.cpp" />
     <ClCompile Include="BasicEnemy.cpp" />
     <ClCompile Include="BasicBullet.cpp" />
@@ -184,8 +186,12 @@
     <ClCompile Include="DeadState.cpp" />
     <ClCompile Include="DotVFX.cpp" />
     <ClCompile Include="EditorCamera2D.cpp" />
+    <ClCompile Include="AVButtonHandler.cpp" />
+    <ClCompile Include="TilemapCamera.cpp" />
     <ClCompile Include="EditorManager.cpp" />
+    <ClCompile Include="TilemapEditorManager.cpp" />
     <ClCompile Include="EditorScene.cpp" />
+    <ClCompile Include="TilemapEditorScene.cpp" />
     <ClCompile Include="EnemyCombat.cpp" />
     <ClCompile Include="FireElementalEnemy.cpp" />
     <ClCompile Include="FlyingEnemyPrefab.cpp" />
@@ -351,6 +357,8 @@
     <ClInclude Include="AudioSpectrumScene.h" />
     <ClInclude Include="Automatic.h" />
     <ClInclude Include="AutomaticScript.h" />
+    <ClInclude Include="AVButton.h" />
+    <ClInclude Include="AVController.h" />
     <ClInclude Include="BackgroundMaterial.h" />
     <ClInclude Include="BatEnemy.h" />
     <ClInclude Include="BeatBullet.h" />
@@ -381,8 +389,12 @@
     <ClInclude Include="DeadState.h" />
     <ClInclude Include="DotVFX.h" />
     <ClInclude Include="EditorCamera2D.h" />
+    <ClInclude Include="AVButtonHandler.h" />
+    <ClInclude Include="TilemapCamera.h" />
     <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="TilemapEditorManager.h" />
     <ClInclude Include="EditorScene.h" />
+    <ClInclude Include="TilemapEditorScene.h" />
     <ClInclude Include="EngineProperties.h" />
     <ClInclude Include="FlyingEnemyPrefab.h" />
     <ClInclude Include="GolemLittlePrefab.h" />
@@ -392,6 +404,7 @@
     <ClInclude Include="MagePrefab.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SettingsScene.h" />
+    <ClInclude Include="SpawnGroup.h" />
     <ClInclude Include="SpikesPrefab.h" />
     <ClInclude Include="SpriteLitMaterial.h" />
     <ClInclude Include="StoneShieldPrefab.h" />

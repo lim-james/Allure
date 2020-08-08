@@ -19,20 +19,20 @@ void TransformAnimator::SetActive(bool const & state) {
 	EventsManager::Get()->Trigger("TRANSFORM_ANIMATOR_ACTIVE", new Events::AnyType<TransformAnimator*>(this));
 }
 
-void TransformAnimator::Queue(AnimationBase const & base, short const & target, vec3f const & outcome) {
-	animations[target].push_back(TransformAnimationData(base, 0.f, outcome));
+void TransformAnimator::Queue(AnimationBase const & base, Transform* const target, short const& attribute, vec3f const & outcome) {
+	animations[attribute][target].push_back(TransformAnimationData(base, 0.f, outcome));
 }
 
-unsigned TransformAnimator::Count(short const & target) const {
-	return animations[target].size();
+unsigned TransformAnimator::Count(Transform* const target, short const & attribute) const {
+	return animations[attribute].at(target).size();
 }
 
-void TransformAnimator::Pop(short const & target) {
-	animations[target].pop_back();
+void TransformAnimator::Pop(Transform* const target, short const & attribute) {
+	animations[attribute][target].pop_back();
 }
 
-void TransformAnimator::Clear(short const & target) {
-	animations[target].clear();
+void TransformAnimator::Clear(Transform* const target, short const & attribute) {
+	animations[attribute][target].clear();
 }
 
 void TransformAnimator::Clear() {

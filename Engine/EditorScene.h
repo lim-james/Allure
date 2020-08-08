@@ -3,13 +3,18 @@
 
 #include "Scene.h"
 
-#include "SpriteLitMaterial.h"
-#include "TilemapLitMaterial.h"
+// materials
+#include "CircleMaterial.h"
+// prefabs
+#include "AVButton.h"
 
 class EditorScene : public Scene {
-	
-	Material::SpriteLit* spriteLit;
-	Material::TilemapLit* tilemapLit;
+
+	// materials
+	Material::Circle* circle;
+
+	// prefabs
+	AVButton* avButton;
 
 	void Awake() override;
 	void Create() override;

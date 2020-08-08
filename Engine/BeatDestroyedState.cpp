@@ -14,7 +14,7 @@ void States::BeatDestroyed::Enter(unsigned const & target, EntityManager * const
 	const vec3f targetScale = transform->GetScale() * 10.f;
 
 	TransformAnimator* const tAnimator = entities->GetComponent<TransformAnimator>(target);
-	tAnimator->Queue(AnimationBase(false, handler->fadeOutDuration), ANIMATE_SCALE, targetScale);
+	tAnimator->Queue(AnimationBase(false, handler->fadeOutDuration), transform, ANIMATE_SCALE, targetScale);
 
 	SpriteRender* const render = entities->GetComponent<SpriteRender>(target);
 	render->SetMaterial(handler->material);

@@ -120,7 +120,7 @@ void ScoreScene::Create() {
 
 		TransformAnimator* const tAnimator = entities->AddComponent<TransformAnimator>(entity);
 		tAnimator->SetActive(true);
-		tAnimator->Queue(AnimationBase(false, 0.1f, 4.5f), ANIMATE_SCALE, vec3f(7.5f, 7.5f, 1.f));
+		tAnimator->Queue(AnimationBase(false, 0.1f, 4.5f), transform, ANIMATE_SCALE, vec3f(7.5f, 7.5f, 1.f));
 
 		Animator* const animator = entities->AddComponent<Animator>(entity);
 		animator->SetActive(true);

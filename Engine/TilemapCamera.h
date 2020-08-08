@@ -1,24 +1,27 @@
-#ifndef EDITOR_CAMERA_2D_H
-#define EDITOR_CAMERA_2D_H
+#ifndef	TILEMAP_CAMERA_H
+#define TILEMAP_CAMERA_H
 
 #include "Script.h"
 #include "Camera.h"
+#include "TilemapRender.h"
 
-struct EditorCamera2D : Script {
+struct TilemapCamera : Script {
 
-	using base_type = EditorCamera2D;
+	using base_type = TilemapCamera;
 
-	float minZoom;
-	float maxZoom;
+	Camera* camera;
+	Transform* cursor;
+
+	bool enabled;
 
 private:
 
 	bool isPanning;
-
-	Camera* camera;
+	vec3f cursorPosition;
 
 	void Awake() override;
 	void Start() override;
+	void Update() override;
 
 	void CursorPositionHandler(Events::Event* event);
 	void MouseButtonHandler(Events::Event* event);
@@ -28,5 +31,5 @@ private:
 	void StopPanning();
 
 };
-	
+
 #endif

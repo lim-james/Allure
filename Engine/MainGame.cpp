@@ -276,6 +276,7 @@ void MainGame::Create() {
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
+		render->tint.a = 0.5f;
 	}
 
 	Transform* progressIndicator = nullptr;
@@ -292,6 +293,7 @@ void MainGame::Create() {
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
+		render->tint.a = 0.5f;
 	}
 
 	// prompt label
@@ -720,10 +722,10 @@ void MainGame::Create() {
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 150.f, 30.f };
 		const TargetStyle slowRoam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 0.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer, true, 80, 15, 1 });
-		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, trackPlayer, avoidPlayer, true, 30, 10, 1 });
-		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash, true, 2, 5, 1 });
-		manager->AddEnemy(EnemyData{ cyclopsEnemy, nullptr, 1.f, 0, 10, 5, false, slowRoam, slowTrack, false, 100, 2, 1 });
+		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer });
+		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, trackPlayer, avoidPlayer });
+		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash });
+		manager->AddEnemy(EnemyData{ cyclopsEnemy, nullptr, 1.f, 0, 10, 5, false, slowRoam, slowTrack });
 
 		//manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer, true, 170, 30, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, trackPlayer, avoidPlayer, true, 60, 20, 1 });

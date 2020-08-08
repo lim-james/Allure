@@ -18,6 +18,7 @@
 #include "Layers.h"
 #include "LoadFNT.h"
 #include "LoadTexture.h"
+#include "ProjectDefines.h"
 
 #include <Helpers./ColorHelpers.h>
 #include <Events/EventsManager.h>
@@ -36,6 +37,9 @@ void MenuScene::Awake() {
 	spectrumBubble->unit = 1.f;
 	//spectrumBubble->multiplier = 1.5f;
 	spectrumBubble->multiplier = 10.f;
+
+	circle = new Material::Circle;
+	circle->borderWeight = 0.1f;
 
 	audioPlayer = new AudioPlayer;
 	audioPlayer->Initialize(entities);
@@ -109,6 +113,98 @@ void MenuScene::Create() {
 		animation->SetActive(true);
 		animation->Queue(AnimationBase(false, 1.f, 2.f), &render->tint.a, 0.15f);
 		animation->Queue(AnimationBase(true, 5.f), &render->uvRect.y, 1.f);
+	}
+
+	Transform* titleTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		titleTransform = entities->GetComponent<Transform>(entity);
+		titleTransform->SetLocalTranslation(vec3f(0.f, 0.f, 5.f));
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint{ LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 2.f, uiCamera });
+		layout->AddConstraint(Constraint{ TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera });
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->paragraphAlignment = PARAGRAPH_LEFT;
+		text->verticalAlignment = ALIGN_TOP;
+		text->scale = 3.f;
+		text->text = "TEMPO";
+	}
+
+	Transform* gradeTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		gradeTransform = entities->GetComponent<Transform>(entity);
+		gradeTransform->SetLocalTranslation(vec3f(0.f, 0.f, 5.f));
+		gradeTransform->SetScale(4.f);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint{ LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 2.f, uiCamera });
+		layout->AddConstraint(Constraint{ TOP_ANCHOR, titleTransform, BOTTOM_ANCHOR, 1.f, -5.0f, uiCamera });
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetMaterial(circle);
+		render->tint = COLOR_RED;
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 1.5f;
+		text->text = "S+";
+	}
+
+	Transform* songTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		songTransform = entities->GetComponent<Transform>(entity);
+		songTransform->SetLocalTranslation(vec3f(0.f, 0.f, 5.f));
+		songTransform->SetScale(0.f);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint{ LEFT_ANCHOR, gradeTransform, RIGHT_ANCHOR, 1.f, 1.f, uiCamera });
+		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, gradeTransform, CENTER_Y_ANCHOR, 1.f, 0.25f, uiCamera });
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->paragraphAlignment = PARAGRAPH_LEFT;
+		text->verticalAlignment = ALIGN_BOTTOM;
+		text->text = "LENGTH: 30s";
+	}
+
+	Transform* scoreTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		scoreTransform = entities->GetComponent<Transform>(entity);
+		scoreTransform->SetLocalTranslation(vec3f(0.f, 0.f, 5.f));
+		scoreTransform->SetScale(0.f);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint{ LEFT_ANCHOR, gradeTransform, RIGHT_ANCHOR, 1.f, 1.f, uiCamera });
+		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, gradeTransform, CENTER_Y_ANCHOR, 1.f, -0.22f, uiCamera });
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->paragraphAlignment = PARAGRAPH_LEFT;
+		text->verticalAlignment = ALIGN_TOP;
+		text->text = "BEST: 9020";
 	}
 
 	// spectrum bubble

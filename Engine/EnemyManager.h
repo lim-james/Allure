@@ -5,6 +5,7 @@
 #include "Prefab.h"
 
 #include "EnemyData.h"
+#include "SpawnGroup.h"
 
 struct EnemyManager : Script {
 
@@ -16,16 +17,16 @@ struct EnemyManager : Script {
 
 	void AddEnemy(EnemyData const& data);
 
-private:
+	void SetSchedule(SpawnSchedule const& newSchedule);
 
-	struct EnemyGroup {
-		EnemyData data;
-		int beats;
-	};
+private:
 
 	bool enabled, beat;
 
-	std::vector<EnemyGroup> enemies;
+	std::vector<EnemyData> enemies;
+
+	int index, beatCount;
+	SpawnSchedule schedule;
 
 	void Awake() override;
 	void Start() override;
@@ -33,6 +34,8 @@ private:
 
 	void PlayHandler();
 	void BeatHandler();
+
+	void CreateEnemy(EnemyData const& data, vec3f const& position);
 
 };
 

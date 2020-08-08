@@ -13,7 +13,7 @@ void CrosshairController::Awake() {
 
 void CrosshairController::Start() {
 	viewTransform = entities->GetComponent<Transform>(view->entity);
-	animator = entities->GetComponent<TransformAnimator>(entity);
+	animator = GetComponent<TransformAnimator>();
 }
 
 void CrosshairController::Update() {
@@ -29,7 +29,7 @@ void CrosshairController::MouseButtonHandler(Events::Event * event) {
 	const auto input = static_cast<Events::MouseButtonInput*>(event);
 	if (input->button == GLFW_MOUSE_BUTTON_LEFT && input->action == GLFW_PRESS) {
 		animator->Clear();
-		animator->Queue(AnimationBase(false, 0.1f), ANIMATE_SCALE, vec3f(2.f));
-		animator->Queue(AnimationBase(false, 0.1f), ANIMATE_SCALE, vec3f(1.25f));
+		animator->Queue(AnimationBase(false, 0.1f), transform, ANIMATE_SCALE, vec3f(2.f));
+		animator->Queue(AnimationBase(false, 0.1f), transform, ANIMATE_SCALE, vec3f(1.25f));
 	}
 }

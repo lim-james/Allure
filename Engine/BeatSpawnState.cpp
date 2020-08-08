@@ -15,7 +15,7 @@ void States::BeatSpawn::Enter(unsigned const & target, EntityManager * const ent
 	transform->SetScale(targetScale * 5.f);
 
 	TransformAnimator* const tAnimator = entities->GetComponent<TransformAnimator>(target);
-	tAnimator->Queue(AnimationBase(false, handler->fadeInDuration), ANIMATE_SCALE, targetScale);
+	tAnimator->Queue(AnimationBase(false, handler->fadeInDuration), transform, ANIMATE_SCALE, targetScale);
 
 	StateContainer* const container = entities->GetComponent<StateContainer>(target);
 	SpriteRender* const render = entities->GetComponent<SpriteRender>(target);

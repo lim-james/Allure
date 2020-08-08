@@ -1,186 +1,51 @@
 #include "EditorManager.h"
 
 #include "InputEvents.h"
-#include "LoadTilemap.h"
+#include "ProjectDefines.h"
 
-#include <Events/EventsManager.h>
+#include <Math/Math.hpp>
+#include <Math/Random.hpp>
 #include <Helpers/FileHelpers.h>
-#include <GLFW/glfw3.h>
-
-void EditorManager::SetPreview(SpriteRender * const render) {
-	previewRender = render;
-	previewTransform = entities->GetComponent<Transform>(render->entity);
-}
-
-void EditorManager::PreviewMouseOver() {
-	editorCamera->enabled = false;
-}
-
-void EditorManager::PreviewMouseOut() {
-	editorCamera->enabled = true;
-}
-
-void EditorManager::PreviewClick() {
-	const TilemapTexture tmt = palette.GetTexture(index);
-	const vec2f size = tmt.GetDimensions();
-
-	const vec2f previewOffset = previewTransform->GetWorldTranslation().xy;
-	const vec2f previewSize = previewTransform->GetScale().xy;
-
-	const vec2f screenPosition = uiCamera->ScreenToWorldPosition(cursorPosition);
-	const vec2f offset = (screenPosition - previewOffset + previewSize * 0.5f) / previewSize;
-	cursorSelection = offset * size;
-	cursorSelection.x = floorf(cursorSelection.x);
-	cursorSelection.y = floorf(cursorSelection.y);
-
-	SpriteRender* const cursor = entities->GetComponent<SpriteRender>(editorCamera->cursor->entity);
-	cursor->tint = 1.f;
-
-	cursor->SetSprite(tmt.texture);
-	cursor->SetTilemapSize(size.x, size.y);
-	cursor->SetCellRect(cursorSelection.x, cursorSelection.y, 1.f, 1.f);
-
-	cursorSelection.y = size.y - cursorSelection.y - 1.f;
-}
+#include <Events/EventsManager.h>
 
 void EditorManager::Awake() {
-	EventsManager::Get()->Subscribe("DROP_INPUT", &EditorManager::DropEvent, this);
-	EventsManager::Get()->Subscribe("KEY_INPUT", &EditorManager::KeyEvent, this);
-	EventsManager::Get()->Subscribe("CURSOR_POSITION_INPUT", &EditorManager::CursorPositionHandler, this);
-	EventsManager::Get()->Subscribe("MOUSE_BUTTON_INPUT", &EditorManager::MouseButtonHandler, this);
+	EventsManager::Get()->Subscribe("DROP_INPUT", &EditorManager::DropHandler, this);
 }
 
 void EditorManager::Start() {
-	layerHeight = index = size = 0;
-	layerLabel->text = "LAYER 0";
+	alertBt = 0.f;
 }
 
-void EditorManager::DropEvent(Events::Event * event) {
+void EditorManager::Update() {
+	if (alertBt > 0.f) {
+		alertBt -= time->dt;
+		background->tint = Math::Lerp(vec4f(1.f, 1.f, 1.f, 0.15f), COLOR_RED, alertBt);
+		if (alertBt <= 0.f) {
+			promptLabel->text = "DRAG IN YOUR WAV FILE.";
+		}
+	}
+}
+
+void EditorManager::DropHandler(Events::Event * event) {
 	Events::DropInput* const input = static_cast<Events::DropInput*>(event);
 
 	const std::string path = input->paths[0];
-	const std::string ext = Helpers::GetFileExt(path);
-	
-	if (ext == "tmp") {
-		palette = Load::TMP(path);
-		size = palette.GetTextures().size();
-		UpdateIndex();
+	if (Helpers::GetFileExt(path) != "wav") {
+		EventsManager::Get()->Trigger("SCREEN_SHAKE", new Events::AnyType<vec2f>(vec2f(
+			2.f * Math::RandValue() * static_cast<float>(Math::RandSign()),
+			2.f * Math::RandValue() * static_cast<float>(Math::RandSign())
+		)));
 
-		for (auto& pair : tilemaps) {
-			pair.second->SetPalette(palette);
-			pair.second->SetActive(false);
-			pair.second->SetActive(true);
-		}
-	} else if (ext == "csv") {
-		if (tilemaps[layerHeight] == nullptr)
-				CreateLayer(layerHeight);
-		TilemapRender* const tilemap = tilemaps[layerHeight];
-		tilemap->layout = Load::TML(path);
-	} else {
-		Debug::Error << "File type not recognised.\n";
+		promptLabel->text = "INVALID FILE TYPE.";
+		background->tint = COLOR_RED;
+		alertBt = 1.f;
+		return;
 	}
 
-}
+	animator->Queue(AnimationBase(false, 0.25f), &promptLabel->color.a, 0.f);
+	animator->Queue(AnimationBase(false, 0.25f), &avLayout->GetConstraint(BOTTOM_ANCHOR)->constant, 0.f);
+	Transform* const pTransform = entities->GetComponent<Transform>(promptLabel->entity);
+	tAnimator->Queue(AnimationBase(false, 0.5f), pTransform, ANIMATE_TRANSLATION, vec3f(0.f, -0.25f, 0.f));
 
-void EditorManager::KeyEvent(Events::Event * event) {
-	Events::KeyInput* const input = static_cast<Events::KeyInput*>(event);
-
-	if (input->action == GLFW_PRESS) {
-		if (input->key == GLFW_KEY_LEFT) {
-			if (size == 0) return;
-			if (index == 0) {
-				index = size - 1;
-			} else {
-				--index;
-			}
-			UpdateIndex();
-		} else if (input->key == GLFW_KEY_RIGHT) {
-			if (size == 0) return;
-			if (index == size - 1) {
-				index = 0;
-			} else {
-				++index;
-			}
-			UpdateIndex();
-		} else if (input->key == GLFW_KEY_UP) {
-			++layerHeight;
-			layerLabel->text = "LAYER " + std::to_string(layerHeight);
-
-			Transform* const cursor = editorCamera->cursor;
-			vec3f position = cursor->GetLocalTranslation();
-			position.z = static_cast<float>(layerHeight);
-			cursor->SetLocalTranslation(position);
-		} else if (input->key == GLFW_KEY_DOWN) {
-			--layerHeight;
-			layerLabel->text = "LAYER " + std::to_string(layerHeight);
-
-			Transform* const cursor = editorCamera->cursor;
-			vec3f position = cursor->GetLocalTranslation();
-			position.z = static_cast<float>(layerHeight);
-			cursor->SetLocalTranslation(position);
-		} else if (input->key == GLFW_KEY_ENTER) {
-			const std::string prefix = "Files/Data/Levels/levels-(";
-			const std::string sufix = ").csv";
-			for (auto& tm : tilemaps) {
-				Write::TML(tm.second->layout, prefix + std::to_string(tm.first) + sufix);
-			}
-		}
-	}
-}
-
-void EditorManager::CursorPositionHandler(Events::Event * event) {
-	Events::CursorPositionInput* const input = static_cast<Events::CursorPositionInput*>(event);
-	cursorPosition = input->position;
-}
-
-void EditorManager::MouseButtonHandler(Events::Event * event) {
-	if (!editorCamera->enabled) return;
-
-	Events::MouseButtonInput* const input = static_cast<Events::MouseButtonInput*>(event);
-
-	if (input->button == GLFW_MOUSE_BUTTON_LEFT && input->action == GLFW_PRESS) {
-		if (tilemaps[layerHeight] == nullptr)
-			CreateLayer(layerHeight);
-		TilemapRender* const tilemap = tilemaps[layerHeight];
-
-		while (tilemap->layout.grids.size() <= index)
-			tilemap->layout.grids.push_back({});
-
-		Transform* const camTransform = entities->GetComponent<Transform>(editorCamera->camera->entity);
-		vec2f screenPositions = editorCamera->camera->ScreenToWorldPosition(cursorPosition);
-		screenPositions += camTransform->GetWorldTranslation().xy;
-
-		tilemap->layout.grids[index].push_back(Tile {
-			cursorSelection,
-			vec2f(
-				roundf(screenPositions.x),
-				roundf(screenPositions.y)
-			)
-		});
-	}
-}
-
-void EditorManager::UpdateIndex() {
-	TilemapTexture texture = palette.GetTexture(index);
-	previewRender->SetSprite(texture.texture);
-
-	const vec2u dimensions = texture.GetDimensions();
-	const vec2f dims = vec2f(dimensions);
-	previewTransform->SetScale(dims);
-	sizeLabel->text = std::to_string(dimensions.x) + " x " + std::to_string(dimensions.y);
-	grid->SetCellRect(0.f, 0.f, dims.x * 0.5f, dims.y * 0.5f);
-}
-
-void EditorManager::CreateLayer(int const & z) {
-	const unsigned entity = entities->Create();
-
-	Transform* const transform = entities->GetComponent<Transform>(entity);
-	transform->SetLocalTranslation(vec3f(0.f, 0.f, static_cast<float>(z)));
-
-	TilemapRender* const render = entities->AddComponent<TilemapRender>(entity);
-	render->SetPalette(palette);
-	render->SetActive(true);
-	render->SetMaterial(tilemapLit);
-
-	tilemaps[z] = render;
+	controller->SetTrack(path);
 }

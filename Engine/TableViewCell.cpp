@@ -45,6 +45,23 @@ Transform * TableViewCell::Create() {
 		layout->AddConstraint(Constraint(BOTTOM_ANCHOR, transform, BOTTOM_ANCHOR, 1.f, 0.f, uiCamera));
 	}
 
+	//{
+	//	const unsigned entity = entities->Create();
+	//	entities->SetLayer(entity, UI);
+
+	//	Transform* const transform = entities->GetComponent<Transform>(entity);
+
+	//	Layout* const layout = entities->AddComponent<Layout>(entity);
+	//	layout->SetActive(true);
+	//	layout->AddConstraint(Constraint{ RIGHT_ANCHOR, transform, LEFT_ANCHOR, 1.f, 2.f, uiCamera });
+	//	layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, transform, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera });
+
+	//	Text* const text = entities->AddComponent<Text>(entity);
+	//	text->SetActive(true);
+	//	text->SetFont(font);
+	//	text->text = "S+";
+	//}
+
 	Animator* const animation = entities->AddComponent<Animator>(entity);
 	animation->SetActive(true);
 	script->animator = animation;

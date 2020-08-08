@@ -37,8 +37,8 @@ void ButtonSystem::Update(float const& dt) {
 			auto& prev = states[button][cam->entity];
 
 			auto transform = entities->GetComponent<Transform>(button->entity);
-			const vec2f position = transform->GetWorldTranslation();
-			const vec2f size = transform->GetScale() * 0.5f;
+			const vec2f position = transform->GetWorldTranslation().xy + button->offset;
+			const vec2f size = transform->GetScale().xy * button->scale * 0.5f;
 
 			const vec2f offset = Math::Abs(position - wsp);
 

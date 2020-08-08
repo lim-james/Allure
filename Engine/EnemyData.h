@@ -21,6 +21,7 @@ struct TargetStyle {
 };
 
 struct EnemyData {
+
 	Prefab* prefab;
 	Prefab* weaponPrefab;
 
@@ -37,13 +38,6 @@ struct EnemyData {
 
 	TargetStyle farStyle;
 	TargetStyle nearStyle;
-
-	// spawn
-
-	bool repeat;
-	int beatDelay;
-	int beatStride;
-	unsigned batchSize;
 
 };
 

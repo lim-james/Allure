@@ -2,61 +2,41 @@
 #define EDITOR_MANAGER_H
 
 #include "Script.h"
-
-#include "TilemapRender.h"
-#include "EditorCamera2D.h"
-#include "SpriteRender.h"
 #include "Text.h"
-
-#include "TilemapLitMaterial.h"
-
-#include "TilemapResource.h"
+#include "SpriteRender.h"
+#include "AudioSource.h"
+#include "Animator.h"
+#include "TransformAnimator.h"
+#include "Layout.h"
+#include "AVController.h"
 
 struct EditorManager : Script {
 
 	using base_type = EditorManager;
 
-	Material::Base* tilemapLit;
+	Text* promptLabel;
 
-	EditorCamera2D* editorCamera;
-	Camera* uiCamera;
-
-	Text* layerLabel;
-	Text* sizeLabel;
-
-	SpriteRender* grid;
-	void SetPreview(SpriteRender* const render);
-
-	void PreviewMouseOver();
-	void PreviewMouseOut();
-	void PreviewClick();
-
-private:
-
-	int layerHeight;
-	std::map<int, TilemapRender*> tilemaps;
-
-	vec2f cursorPosition;
-	vec2f cursorSelection;
-
-	SpriteRender* previewRender;
-	Transform* previewTransform;
-
-	unsigned index, size;
-
-	TilemapPalette palette;
+	SpriteRender* background;
 	
+	// animators
+
+	Animator* animator;
+	TransformAnimator* tAnimator;
+	
+	// av stuff
+
+	Layout* avLayout;
+	AVController* controller;
+
+private: 
+
+	float alertBt;
+
 	void Awake() override;
 	void Start() override;
+	void Update() override;
 
-	void DropEvent(Events::Event* event);
-	void KeyEvent(Events::Event* event);
-	void CursorPositionHandler(Events::Event* event);
-	void MouseButtonHandler(Events::Event* event);
-
-	void UpdateIndex();
-
-	void CreateLayer(int const& z);
+	void DropHandler(Events::Event* event);
 
 };
 

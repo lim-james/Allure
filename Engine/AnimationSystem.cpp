@@ -37,11 +37,14 @@ void AnimationSystem::Update(float const& dt) {
 	}
 
 	for (TransformAnimator* const c : transforms) {
-		Transform* const transform = entities->GetComponent<Transform>(c->entity);
+		for (auto& pair : c->animations[ANIMATE_SCALE])
+			UpdateTransform(pair.second, pair.first, &Transform::GetScale, &Transform::SetScale, dt);
 
-		UpdateTransform(c->animations[ANIMATE_SCALE], transform, &Transform::GetScale, &Transform::SetScale, dt);
-		UpdateTransform(c->animations[ANIMATE_ROTATION], transform, &Transform::GetLocalRotation, &Transform::SetLocalRotation, dt);
-		UpdateTransform(c->animations[ANIMATE_TRANSLATION], transform, &Transform::GetLocalTranslation, &Transform::SetLocalTranslation, dt);
+		for (auto& pair : c->animations[ANIMATE_ROTATION])
+			UpdateTransform(pair.second, pair.first, &Transform::GetLocalRotation, &Transform::SetLocalRotation, dt);
+
+		for (auto& pair : c->animations[ANIMATE_TRANSLATION])
+			UpdateTransform(pair.second, pair.first, &Transform::GetLocalTranslation, &Transform::SetLocalTranslation, dt);
 	}
 }
 

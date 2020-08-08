@@ -3,6 +3,9 @@
 #include <Events/EventsManager.h>
 
 Button::Button() {
+	offset = 0.f;
+	scale = 1.f;
+
 	isEnabled = true;
 	for (auto& h : handlers) {
 		h.UnbindAll();
