@@ -72,7 +72,7 @@ void PlayerLife::Hit(unsigned const& target) {
 	ft = flashDuration;
 	flashOverlay->tint.a = 1.f;
 
-	if (health <= 0) EventsManager::Get()->Trigger("END_GAME");
+	if (health <= 0) EventsManager::Get()->Trigger("END_GAME_D");
 }
 
 void PlayerLife::UpdateBar() {

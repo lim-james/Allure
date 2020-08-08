@@ -42,9 +42,9 @@ void BeatController::Update() {
 
 	// calculate et
 	et += dt;
-	if (et > 1.f) {
+	if (et >= duration) {
 		// end game
-		EventsManager::Get()->Trigger("END_GAME");
+		EventsManager::Get()->Trigger("END_GAME_F");
 	}
 	background->et = et;
 

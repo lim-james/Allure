@@ -4,7 +4,7 @@
 #include "Script.h"
 
 #include "Camera.h"
-#include "SpriteRender.h"
+#include "Text.h"
 #include "BeatController.h"
 #include "ScoreController.h"
 #include "Pixelated.h"
@@ -16,6 +16,9 @@ struct GameManager : Script {
 
 	float fadeInDuration;
 	float endDelay;
+
+	Camera* uiCamera;
+	Text* endLabel;
 
 	BeatController* beatController;
 	ScoreController* scoreController;
@@ -34,6 +37,7 @@ private:
 
 	void KeyHanlder(Events::Event* event);
 	void EndHanlder();
+	void DeadHanlder();
 
 };
 

@@ -12,7 +12,8 @@
 
 void GameManager::Awake() {
 	//EventsManager::Get()->Subscribe("KEY_INPUT", &GameManager::KeyHanlder, this);
-	EventsManager::Get()->Subscribe("END_GAME", &GameManager::EndHanlder, this);
+	EventsManager::Get()->Subscribe("END_GAME_F", &GameManager::EndHanlder, this);
+	EventsManager::Get()->Subscribe("END_GAME_D", &GameManager::DeadHanlder, this);
 }
 
 void GameManager::Start() {
@@ -24,7 +25,7 @@ void GameManager::Update() {
 	if (endGame) {
 		t += time->dt;
 
-		pixelFX->size = RESOLUTION * (endDelay - t) / (endDelay * 0.5f);
+		pixelFX->size = min(RESOLUTION * 0.5f * (endDelay - t) / endDelay, RESOLUTION * 0.1f);
 
 		//gameManager->sceneTexture = camera->GetFramebuffer()->GetTexture();
 		if (t >= endDelay) {
@@ -64,5 +65,17 @@ void GameManager::EndHanlder() {
 		t = 0.f;
 		endGame = true;
 		scoreController->enabled = false;
+		uiCamera->isHidden = true;
+		endLabel->text = "COMPLETE";
+	}
+}
+
+void GameManager::DeadHanlder() {
+	if (!endGame) {
+		t = 0.f;
+		endGame = true;
+		scoreController->enabled = false;
+		uiCamera->isHidden = true;
+		endLabel->text = "DEAD";
 	}
 }

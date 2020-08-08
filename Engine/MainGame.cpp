@@ -212,7 +212,24 @@ void MainGame::Create() {
 
 		camera->SetFramebuffer(fb);
 	}
-	
+
+	Camera* fuiCamera = nullptr;
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, 10.f));
+
+		fuiCamera = entities->AddComponent<Camera>(entity);
+		fuiCamera->SetActive(true);
+		fuiCamera->SetSize(3.f);
+		fuiCamera->SetDepth(1);
+		fuiCamera->shouldClear = false;
+		fuiCamera->projection = ORTHOGRAPHIC;
+		fuiCamera->cullingMask = FX_UI;
+		fuiCamera->SetUseProcess(false);
+	}
+
 	// ui camera
 	Camera* uiCamera = nullptr;
 	{
@@ -229,6 +246,17 @@ void MainGame::Create() {
 		uiCamera->projection = ORTHOGRAPHIC;
 		uiCamera->cullingMask = UI;
 		uiCamera->SetUseProcess(false);
+	}
+
+	// End label
+	Text* endLabel = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, FX_UI);
+
+		endLabel = entities->AddComponent<Text>(entity);
+		endLabel->SetActive(true);
+		endLabel->SetFont(vcrMono);
 	}
 
 	// FPS counter
@@ -276,7 +304,9 @@ void MainGame::Create() {
 		gameManager = entities->AddComponent<GameManager>(entity);
 		gameManager->SetActive(true);
 		gameManager->fadeInDuration = 100.f;
-		gameManager->endDelay = 1.f;
+		gameManager->endDelay = 2.f;
+		gameManager->endLabel = endLabel;
+		gameManager->uiCamera = uiCamera;
 	}
 
 	// Score controller
