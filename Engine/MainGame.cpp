@@ -259,22 +259,39 @@ void MainGame::Create() {
 		endLabel->SetFont(vcrMono);
 	}
 
-	// FPS counter
+	// Progress bar
+	Transform* progressBar = nullptr;
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, UI);
 
+		progressBar = entities->GetComponent<Transform>(entity);
+		progressBar->SetScale(0.2f);
+
 		Layout* const layout = entities->AddComponent<Layout>(entity);
 		layout->SetActive(true);
 		layout->AddConstraint(Constraint(CENTER_X_ANCHOR, nullptr, CENTER_X_ANCHOR, 1.f, 0.f, uiCamera));
-		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.f, uiCamera));
+		layout->AddConstraint(Constraint(TOP_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -2.3f, uiCamera));
+		layout->AddConstraint(Constraint(WIDTH, nullptr, WIDTH, 0.5f, 0.f, uiCamera));
 
-		Text* const text = entities->AddComponent<Text>(entity);
-		text->SetActive(true);
-		text->SetFont(vcrMono);
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+	}
 
-		FPSCounter* const fps = entities->AddComponent<FPSCounter>(entity);
-		fps->SetActive(true);
+	Transform* progressIndicator = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		progressIndicator = entities->GetComponent<Transform>(entity);
+		progressIndicator->SetScale(vec3f(0.2f, 1.f, 1.f));
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, progressBar, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera));
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
 	}
 
 	// prompt label
@@ -656,13 +673,15 @@ void MainGame::Create() {
 		life->indicatorLabel = indicatorLabel;
 		collider->handlers[COLLISION_ENTER].Bind(&PlayerLife::OnCollisionEnter, life);
 
+		gameManager->playerLife = life;
+
 		BeatController* const beat = entities->AddComponent<BeatController>(entity);
 		beat->SetActive(true);
 		// audio
 		beat->source = backgroundAudio;
 		beat->startFrequency = 20;
 		beat->endFrequency = 2000;
-		beat->audioDuration = 1.f;
+		beat->sampleDuration = 1.f;
 		beat->frequencyBands = 50;
 		beat->maxHeight = 10.f;
 		beat->meterHeight = meterHeight;
@@ -670,6 +689,8 @@ void MainGame::Create() {
 		beat->promptLabel = promptLabel;
 		beat->indicatorPrefab = indicatorLabel;
 		beat->background = background;
+		beat->progressBar = progressBar;
+		beat->progressIndicator = progressIndicator;
 		// tempo
 		//beat->threshold = 0.2f;
 		beat->goodThreshold = 0.3f;

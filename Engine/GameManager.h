@@ -7,8 +7,10 @@
 #include "Text.h"
 #include "BeatController.h"
 #include "ScoreController.h"
+#include "PlayerLife.h"
 #include "Pixelated.h"
 #include "Vignette.h"
+#include "ScoreData.h"
 
 struct GameManager : Script {
 
@@ -22,14 +24,18 @@ struct GameManager : Script {
 
 	BeatController* beatController;
 	ScoreController* scoreController;
+	PlayerLife* playerLife;
 
 	Pixelated* pixelFX;
 	Vignette* vignetteFX;
+
 
 private:
 
 	float t; 
 	bool endGame;
+
+	ScoreData data;
 
 	void Awake() override;
 	void Start() override;
@@ -38,6 +44,8 @@ private:
 	void KeyHanlder(Events::Event* event);
 	void EndHanlder();
 	void DeadHanlder();
+
+	void EndGame();
 
 };
 

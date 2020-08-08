@@ -6,6 +6,8 @@
 #include "ScoreData.h"
 #include "LoadFNT.h"
 
+#include "CircleMaterial.h"
+
 class ScoreScene : public Scene {
 
 public:
@@ -14,9 +16,12 @@ public:
 	ScoreData data;
 
 private:
-	
+
+	Material::Circle* circle;
+
 	void Awake() override;
 	void Create() override;
+	void Destroy() override;
 
 	void CreateRow(float const& i, std::string const& label, std::string const& content, Font* font);
 

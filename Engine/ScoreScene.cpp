@@ -8,6 +8,7 @@
 #include "LayoutSystem.h"
 #include "ButtonSystem.h"
 #include "MenuCamera.h"
+#include "ScoreManager.h"
 // utils
 #include "LoadFNT.h"
 // destination
@@ -21,6 +22,9 @@ void ScoreScene::Awake() {
 	systems->Subscribe<AnimationSystem>(1);
 	systems->Subscribe<LayoutSystem>(1);
 	systems->Subscribe<ButtonSystem>(1);
+
+	circle = new Material::Circle;
+	circle->borderWeight = 0.1f;
 }
 
 void ScoreScene::Create() {
@@ -39,13 +43,13 @@ void ScoreScene::Create() {
 		control->range = 1.f;
 	}
 
-	// post processing volume
+	ScoreManager* manager = nullptr;
 	{
-		const unsigned volume = entities->Create();
-		Vignette* const vignette = entities->AddComponent<Vignette>(volume);
-		vignette->SetActive(true);
-		vignette->tint = COLOR_PURPLE; // vec3f(0.5f, 0.f, 0.5f);
-		//entities->AddComponent<CurveDisplay>(volume)->SetActive(true);
+		const unsigned entity = entities->Create();
+	
+		manager = entities->AddComponent<ScoreManager>(entity);
+		manager->SetActive(true);
+		manager->data = data;
 	}
 
 	{
@@ -90,12 +94,45 @@ void ScoreScene::Create() {
 	CreateRow(3.f, "MISSED", std::to_string(data.missed), vcrMono);
 	CreateRow(4.f, "SCORE", std::to_string(data.score), vcrMono);
 
-	// open button
+	const int completion = static_cast<int>(roundf((data.lifetime / data.duration) * 100.f));
+	CreateRow(5.f, "COMPLETION", std::to_string(completion) + "%", vcrMono);
+
 	{
 		const unsigned entity = entities->Create();
 
 		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, -9.f, 0.f));
+		transform->SetLocalTranslation(vec3f(11.f, -2.5f, 0.f));
+		transform->SetLocalRotation(vec3f(0.f, 0.f, 30.f));
+		transform->SetScale(0.f);
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetMaterial(circle);
+		render->tint = COLOR_RED;
+		
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->scale = 0.f;
+		text->color = WHITE;	
+
+		manager->gradeLabel = text;
+
+		TransformAnimator* const tAnimator = entities->AddComponent<TransformAnimator>(entity);
+		tAnimator->SetActive(true);
+		tAnimator->Queue(AnimationBase(false, 0.1f, 4.5f), ANIMATE_SCALE, vec3f(7.5f, 7.5f, 1.f));
+
+		Animator* const animator = entities->AddComponent<Animator>(entity);
+		animator->SetActive(true);
+		animator->Queue(AnimationBase(false, 0.1f, 4.5f), &text->scale, 4.f);
+	}
+
+	// retry button
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, -10.5f, 0.f));
 		transform->SetScale(vec3f(7.f, 2.f, 0.f));
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
@@ -123,6 +160,11 @@ void ScoreScene::Create() {
 		animation->Queue(AnimationBase(false, 0.01f, 5.f), &render->tint.a, 1.f);
 		animation->Queue(AnimationBase(false, 0.01f, 5.f), &text->color.a, 1.f);
 	}
+}
+
+void ScoreScene::Destroy() {
+	Scene::Destroy();
+	delete circle;
 }
 
 void ScoreScene::CreateRow(float const& i, std::string const & label, std::string const & content, Font* font) {

@@ -194,6 +194,8 @@
     <ClCompile Include="Light2D.cpp" />
     <ClCompile Include="LoadTilemap.cpp" />
     <ClCompile Include="MagePrefab.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
+    <ClCompile Include="SettingsScene.cpp" />
     <ClCompile Include="SpikesPrefab.cpp" />
     <ClCompile Include="SpriteLitMaterial.cpp" />
     <ClCompile Include="StoneShieldPrefab.cpp" />
@@ -388,6 +390,8 @@
     <ClInclude Include="Light2D.h" />
     <ClInclude Include="LoadTilemap.h" />
     <ClInclude Include="MagePrefab.h" />
+    <ClInclude Include="ScoreManager.h" />
+    <ClInclude Include="SettingsScene.h" />
     <ClInclude Include="SpikesPrefab.h" />
     <ClInclude Include="SpriteLitMaterial.h" />
     <ClInclude Include="StoneShieldPrefab.h" />

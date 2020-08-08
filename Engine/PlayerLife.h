@@ -23,6 +23,8 @@ struct PlayerLife : public Script {
 
 	void OnCollisionEnter(unsigned target);
 
+	float GetHealth() const;
+
 private:
 
 	float health;

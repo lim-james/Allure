@@ -2,9 +2,10 @@
 #define SCORE_DATA_H
 
 struct ScoreData {
-	int lives, maxLives;
+	int health, maxHealth;
 	unsigned score;
 	unsigned perfect, great, good, missed;
+	float duration, lifetime;
 };
 
 #endif

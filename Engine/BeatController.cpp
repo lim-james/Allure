@@ -36,6 +36,10 @@ void BeatController::Update() {
 	background->interval = delay;
 	background->threshold = perfectThreshold;
 
+	vec3f position = progressIndicator->GetLocalTranslation();
+	position.x = progressBar->GetScale().x * (-0.5f + et / duration);
+	progressIndicator->SetLocalTranslation(position);
+
 	if (source->IsPaused()) return;
 
 	const float dt = time->dt * source->speed;
@@ -83,7 +87,7 @@ void BeatController::FixedUpdate() {
 	if (source->IsPaused()) return;
 
 	//const auto sample = file->Spectrum(et, audioDuration * 0.001f, frequencyBands, startFrequency, endFrequency);
-	const auto sample = file->Spectrum(et, audioDuration * 0.001f, startFrequency, endFrequency);
+	const auto sample = file->Spectrum(et, sampleDuration * 0.001f, startFrequency, endFrequency);
 	const float result = static_cast<float>(sample[2].y) * 250000.f;
 	EventsManager::Get()->Trigger("BEAT_VALUE", new Events::AnyType<float>(result));
 	*meterHeight = maxHeight * result;

@@ -32,11 +32,7 @@ void GameManager::Update() {
 			endGame = false;
 			ScoreScene* destination = new ScoreScene;
 			//destination->sceneTexture = sceneTexture;
-			destination->data.good = beatController->good;
-			destination->data.great = beatController->great;
-			destination->data.perfect = beatController->perfect;
-			destination->data.missed = beatController->missed;
-			destination->data.score = scoreController->GetTotalScore();
+			destination->data = data;
 			EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
 		}
 	}
@@ -62,20 +58,33 @@ void GameManager::KeyHanlder(Events::Event * event) {
 
 void GameManager::EndHanlder() {
 	if (!endGame) {
-		t = 0.f;
-		endGame = true;
-		scoreController->enabled = false;
-		uiCamera->isHidden = true;
 		endLabel->text = "COMPLETE";
+		EndGame();
 	}
 }
 
 void GameManager::DeadHanlder() {
 	if (!endGame) {
-		t = 0.f;
-		endGame = true;
-		scoreController->enabled = false;
-		uiCamera->isHidden = true;
 		endLabel->text = "DEAD";
+		EndGame();
 	}
+}
+
+void GameManager::EndGame() {
+	t = 0.f;
+	endGame = true;
+	scoreController->enabled = false;
+	uiCamera->isHidden = true;
+
+	data.health = static_cast<int>(playerLife->GetHealth());
+	data.maxHealth = static_cast<int>(playerLife->maxHealth);
+	data.great = beatController->great;
+	data.good = beatController->good;
+	data.great = beatController->great;
+	data.perfect = beatController->perfect;
+	data.missed = beatController->missed;
+	data.score = scoreController->GetTotalScore();
+	data.duration = beatController->duration;
+	data.lifetime = min(beatController->et, beatController->duration);
+
 }

@@ -22,7 +22,7 @@ struct BeatController : Script {
 	unsigned endFrequency;
 	unsigned frequencyBands;
 
-	float audioDuration;
+	float sampleDuration;
 
 	float maxHeight;
 	float* meterHeight;
@@ -33,6 +33,9 @@ struct BeatController : Script {
 	Material::Background* background;
 	Prefab* indicatorPrefab;
 
+	Transform* progressBar;
+	Transform* progressIndicator;
+
 	// tempo attributes
 
 	float goodThreshold;
@@ -41,6 +44,9 @@ struct BeatController : Script {
 
 	unsigned perfect, great, good, missed;
 
+	float et;
+	float duration;
+
 	void SetTempo(unsigned const& tempo);
 
 private: 
@@ -48,8 +54,6 @@ private:
 	// audio attributes
 
 	AudioFile<int16_t>* file;
-	float et;
-	float duration;
 	float beatCount;
 
 	// tempo attributes

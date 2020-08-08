@@ -20,6 +20,10 @@ void PlayerLife::OnCollisionEnter(unsigned target) {
 	}
 }
 
+float PlayerLife::GetHealth() const {
+	return health;
+}
+
 void PlayerLife::Awake() {
 	render = GetComponent<SpriteRender>();
 }

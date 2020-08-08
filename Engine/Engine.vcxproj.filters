@@ -223,6 +223,9 @@
     <Filter Include="Assets\Scripts\Scene\Editor">
       <UniqueIdentifier>{cd3feb72-5997-4172-b485-e210d99af8f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Scene\ScoreScene">
+      <UniqueIdentifier>{6224820d-834a-4bc4-9021-24c669023b29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -833,6 +836,12 @@
     </ClCompile>
     <ClCompile Include="TilemapLitMaterial.cpp">
       <Filter>Engine\Render\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsScene.cpp">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreManager.cpp">
+      <Filter>Assets\Scripts\Scene\ScoreScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1489,6 +1498,12 @@
     </ClInclude>
     <ClInclude Include="TilemapLitMaterial.h">
       <Filter>Engine\Render\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsScene.h">
+      <Filter>Assets\Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreManager.h">
+      <Filter>Assets\Scripts\Scene\ScoreScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
