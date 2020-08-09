@@ -102,10 +102,10 @@ void MainGame::Awake() {
 	explosiveBullet->Initialize(entities);
 	explosiveBullet->explosionPrefab = explosionArea;
 
-	// guns
-
 	laserPath = new LaserPath;
 	laserPath->Initialize(entities);
+
+	// guns
 
 	pistol = new Pistol;
 	pistol->Initialize(entities);

@@ -229,6 +229,12 @@
     <Filter Include="Assets\Scripts\Scene\Editor">
       <UniqueIdentifier>{4363ac17-2ac1-40cb-b3ca-9e61a92368a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Prefabs\Enemies\Preview">
+      <UniqueIdentifier>{1eee0828-c581-42b7-8d0f-4454c76d51ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Prefabs\Guns\Preview">
+      <UniqueIdentifier>{3639cd8c-be24-414a-91c2-60a1bfa46e7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -863,6 +869,42 @@
     </ClCompile>
     <ClCompile Include="AVController.cpp">
       <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="ScheduleController.cpp">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="IceElementalPreview.cpp">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="FireElementalPreview.cpp">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="CyclopsPreview.cpp">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="BatPreview.cpp">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicPreview.cpp">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="AutomaticPreview.cpp">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="GrenadeLauncherPreview.cpp">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserPreview.cpp">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="PistolPreview.cpp">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="ShotgunPreview.cpp">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClCompile>
+    <ClCompile Include="SniperPreview.cpp">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1546,6 +1588,42 @@
     </ClInclude>
     <ClInclude Include="AVController.h">
       <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="ScheduleController.h">
+      <Filter>Assets\Scripts\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="IceElementalPreview.h">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="FireElementalPreview.h">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="CyclopsPreview.h">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="BatPreview.h">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicPreview.h">
+      <Filter>Assets\Prefabs\Enemies\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomaticPreview.h">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="GrenadeLauncherPreview.h">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserPreview.h">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="PistolPreview.h">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="ShotgunPreview.h">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="SniperPreview.h">
+      <Filter>Assets\Prefabs\Guns\Preview</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

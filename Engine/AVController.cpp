@@ -28,11 +28,13 @@ void AVController::ToggleAudio() {
 
 void AVController::NextBeat() {
 	beatIndex = min(beatIndex + 1, static_cast<int>(roundf(duration * bps)));
+	indexChangeHandler.Invoke(beatIndex);
 	ScrubTrack();
 }
 
 void AVController::PreviousBeat() {
 	beatIndex = max(beatIndex - 1, 0);
+	indexChangeHandler.Invoke(beatIndex);
 	ScrubTrack();
 }
 
@@ -46,6 +48,10 @@ void AVController::SetTrack(std::string const & path) {
 	durationLabel->text = GetTimeString(duration);
 
 	UpdateProgress();
+}
+
+bool AVController::IsEditingBPM() const {
+	return editingBPM;
 }
 
 void AVController::Awake() {
@@ -63,7 +69,11 @@ void AVController::Start() {
 
 void AVController::Update() {
 	if (!source->IsPaused()) {
+		const int prevIndex = beatIndex;	
 		UpdateProgress();
+
+		if (prevIndex != beatIndex)
+			indexChangeHandler.Invoke(beatIndex);
 	} else {
 		playButton->SetSprite(Load::Texture2D("Files/Textures/play.png"));
 	}
@@ -160,7 +170,7 @@ std::string AVController::GetTimeString(float const & t) const {
 }
 
 void AVController::UpdateProgress() {
-	const float et = source->GetTime();
+	const float et = max(source->GetTime(), 0.f);
 
 	beatIndex = static_cast<int>(roundf(et * bps));
 

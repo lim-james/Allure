@@ -7,12 +7,14 @@
 #include "LayoutSystem.h"
 #include "AnimationSystem.h"
 #include "ButtonSystem.h"
+#include "SpriteAnimationSystem.h"
 // scripts
 #include "ScreenShake.h"
 #include "EditorCamera2D.h"
 #include "EditorManager.h"
 #include "AVController.h"
 #include "AVButtonHandler.h"
+#include "ScheduleController.h"
 // utilities
 #include "ProjectDefines.h"
 #include "LoadFNT.h"
@@ -26,6 +28,7 @@ void EditorScene::Awake() {
 	systems->Subscribe<LayoutSystem>(1);
 	systems->Subscribe<AnimationSystem>(1);
 	systems->Subscribe<ButtonSystem>(1);
+	systems->Subscribe<SpriteAnimationSystem>(2);
 
 	circle = new Material::Circle;
 	circle->borderWeight = 0.1f;
@@ -33,6 +36,44 @@ void EditorScene::Awake() {
 	avButton = new AVButton;
 	avButton->Initialize(entities);
 	avButton->material = circle;
+
+	// guns
+
+	pistol = new PistolPreview;
+	pistol->Initialize(entities);
+
+	automatic = new AutomaticPreview;
+	automatic->Initialize(entities);
+
+	shotgun = new ShotgunPreview;
+	shotgun->Initialize(entities);
+
+	sniper = new SniperPreview;
+	sniper->Initialize(entities);
+
+	grenadeLauncher = new GrenadeLauncherPreview;
+	grenadeLauncher->Initialize(entities);
+
+	laser = new LaserPreview;
+	laser->Initialize(entities);
+
+	// enemies
+
+	basicPreview = new BasicPreview;
+	basicPreview->Initialize(entities);
+
+	batPreview = new BatPreview;
+	batPreview->Initialize(entities);
+
+	fireElementalPreview = new FireElementalPreview;
+	fireElementalPreview->Initialize(entities);
+
+	iceElementalPreview = new IceElementalPreview;
+	iceElementalPreview->Initialize(entities);
+
+	cyclopsPreview = new CyclopsPreview;
+	cyclopsPreview->Initialize(entities);
+
 }
 
 void EditorScene::Create() {
@@ -70,7 +111,7 @@ void EditorScene::Create() {
 
 		uiCamera = entities->AddComponent<Camera>(entity);
 		uiCamera->SetActive(true);
-		uiCamera->SetSize(15.f);
+		uiCamera->SetSize(20.f);
 		uiCamera->SetDepth(1);
 		uiCamera->shouldClear = false;
 		uiCamera->projection = ORTHOGRAPHIC;
@@ -80,6 +121,7 @@ void EditorScene::Create() {
 
 	EditorManager* editorManager = nullptr;
 	AVController* avController = nullptr;
+	ScheduleController* scheduleController = nullptr;
 	{
 		const unsigned entity = entities->Create();
 
@@ -103,6 +145,17 @@ void EditorScene::Create() {
 		avController->source = audio;
 
 		editorManager->controller = avController;	
+
+		scheduleController = entities->AddComponent<ScheduleController>(entity);
+		scheduleController->SetActive(true);
+		scheduleController->avController = avController;
+		scheduleController->animator = animator;
+		scheduleController->AddEnemy(EnemyPreviewData{ basicPreview, shotgun });
+		scheduleController->AddEnemy(EnemyPreviewData{ basicPreview, pistol });
+		scheduleController->AddEnemy(EnemyPreviewData{ fireElementalPreview, nullptr });
+		scheduleController->AddEnemy(EnemyPreviewData{ cyclopsPreview, nullptr });
+
+		avController->indexChangeHandler.Bind(&ScheduleController::IndexChangeHandler, scheduleController);
 	}
 
 	{
@@ -126,6 +179,8 @@ void EditorScene::Create() {
 		transform->SetScale(vec3f(160.0f, 90.0f, 1.0f));
 		transform->SetDynamic(false);
 
+		scheduleController->backgroundTransform = transform;
+
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
 		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
@@ -136,7 +191,7 @@ void EditorScene::Create() {
 		editorManager->background = render;
 	}
 
-	// player holder
+	// av holder
 	Transform* avHolder = nullptr;
 	{
 		const unsigned entity = entities->Create();
@@ -365,10 +420,41 @@ void EditorScene::Create() {
 		avHandler->animator = editorManager->animator;
 		avHandler->tAnimator = editorManager->tAnimator;
 	}
+
+	// belt holder
+	Transform* beltTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		beltTransform = entities->GetComponent<Transform>(entity);
+		scheduleController->beltTransform = beltTransform;
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, nullptr, TOP_ANCHOR, 1.f, 6.f, uiCamera));
+
+		editorManager->beltLayout = layout;
+	}
 }
 
 void EditorScene::Destroy() {
 	Scene::Destroy();
+
 	delete circle;
+
 	delete avButton;
+
+	delete pistol;
+	delete automatic;
+	delete shotgun;
+	delete sniper;
+	delete grenadeLauncher;
+	delete laser;
+
+	delete basicPreview;
+	delete batPreview;
+	delete fireElementalPreview;
+	delete iceElementalPreview;
+	delete cyclopsPreview;
 }

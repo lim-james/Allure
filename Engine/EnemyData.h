@@ -20,6 +20,11 @@ struct TargetStyle {
 	float radius;
 };
 
+struct EnemyPreviewData {
+	Prefab* prefab;
+	Prefab* weaponPrefab;
+};
+
 struct EnemyData {
 
 	Prefab* prefab;

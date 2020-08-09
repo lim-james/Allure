@@ -44,6 +44,7 @@ void EditorManager::DropHandler(Events::Event * event) {
 
 	animator->Queue(AnimationBase(false, 0.25f), &promptLabel->color.a, 0.f);
 	animator->Queue(AnimationBase(false, 0.25f), &avLayout->GetConstraint(BOTTOM_ANCHOR)->constant, 0.f);
+	animator->Queue(AnimationBase(false, 0.25f), &beltLayout->GetConstraint(CENTER_Y_ANCHOR)->constant, -4.f);
 	Transform* const pTransform = entities->GetComponent<Transform>(promptLabel->entity);
 	tAnimator->Queue(AnimationBase(false, 0.5f), pTransform, ANIMATE_TRANSLATION, vec3f(0.f, -0.25f, 0.f));
 

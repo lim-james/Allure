@@ -8,6 +8,8 @@
 #include "Layout.h"
 #include "SpriteRender.h"
 
+#include <Handler/Handler.h>
+
 struct AVController : Script {
 
 	using base_type = AVController;
@@ -33,7 +35,11 @@ struct AVController : Script {
 	void NextBeat();
 	void PreviousBeat();
 
+	Handler<void, int> indexChangeHandler;
+
 	void SetTrack(std::string const& path);
+
+	bool IsEditingBPM() const;
 
 private:
 

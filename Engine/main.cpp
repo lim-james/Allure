@@ -6,7 +6,9 @@
 
 int main() { 
 
+#ifndef _DEBUG
 	FreeConsole();
+#endif
 
 	Application app;
 

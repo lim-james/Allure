@@ -28,6 +28,10 @@ struct EditorManager : Script {
 	Layout* avLayout;
 	AVController* controller;
 
+	// scheduler
+
+	Layout* beltLayout;
+
 private: 
 
 	float alertBt;
