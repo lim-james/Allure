@@ -235,6 +235,9 @@
     <Filter Include="Assets\Prefabs\Guns\Preview">
       <UniqueIdentifier>{3639cd8c-be24-414a-91c2-60a1bfa46e7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Main\MapData">
+      <UniqueIdentifier>{e02b2a8d-f453-4afe-9d8f-df547849e0ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -906,6 +909,9 @@
     <ClCompile Include="SniperPreview.cpp">
       <Filter>Assets\Prefabs\Guns\Preview</Filter>
     </ClCompile>
+    <ClCompile Include="MapData.cpp">
+      <Filter>Assets\Scripts\Main\MapData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -1559,9 +1565,6 @@
     <ClInclude Include="ScoreManager.h">
       <Filter>Assets\Scripts\Scene\ScoreScene</Filter>
     </ClInclude>
-    <ClInclude Include="SpawnGroup.h">
-      <Filter>Assets\Scripts\Main\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="TilemapEditorScene.h">
       <Filter>Assets\Scenes\Main</Filter>
     </ClInclude>
@@ -1624,6 +1627,12 @@
     </ClInclude>
     <ClInclude Include="SniperPreview.h">
       <Filter>Assets\Prefabs\Guns\Preview</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnGroup.h">
+      <Filter>Assets\Scripts\Main\MapData</Filter>
+    </ClInclude>
+    <ClInclude Include="MapData.h">
+      <Filter>Assets\Scripts\Main\MapData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

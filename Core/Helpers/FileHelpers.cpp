@@ -12,6 +12,11 @@ struct stat Helpers::GetFileInfo(std::string const& filepath) {
 	return fileInfo;
 }
 
+std::string Helpers::GetFileRoot(std::string const & filepath) {
+	const std::string name = Helpers::GetFileName(filepath);
+	return name.substr(0, name.find_last_of("."));
+}
+
 std::string Helpers::GetFileName(std::string const& filepath) {
 	return Helpers::Split(filepath, '\\').back();
 }

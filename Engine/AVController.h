@@ -42,11 +42,12 @@ struct AVController : Script {
 	void SetTrack(std::string const& path);
 
 	bool IsEditingBPM() const;
+	unsigned GetBPM() const;
 
 private:
 
 	bool editingBPM;
-	int bpm;
+	unsigned bpm;
 	float bps;
 
 	int beatIndex;

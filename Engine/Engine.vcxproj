@@ -197,6 +197,7 @@
     <ClCompile Include="LaserPreview.cpp" />
     <ClCompile Include="PistolPreview.cpp" />
     <ClCompile Include="ScheduleController.cpp" />
+    <ClCompile Include="MapData.cpp" />
     <ClCompile Include="ShotgunPreview.cpp" />
     <ClCompile Include="SniperPreview.cpp" />
     <ClCompile Include="TilemapCamera.cpp" />
@@ -412,6 +413,7 @@
     <ClInclude Include="LaserPreview.h" />
     <ClInclude Include="PistolPreview.h" />
     <ClInclude Include="ScheduleController.h" />
+    <ClInclude Include="MapData.h" />
     <ClInclude Include="ShotgunPreview.h" />
     <ClInclude Include="SniperPreview.h" />
     <ClInclude Include="TilemapCamera.h" />

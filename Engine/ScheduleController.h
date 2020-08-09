@@ -12,6 +12,8 @@
 #include "SpriteRender.h"
 // scripts
 #include "AVController.h"
+// utils
+#include "MapData.h"
 
 #include <Math/Vectors.h>
 #include <vector>
@@ -35,6 +37,8 @@ struct ScheduleController : Script {
 	void OnEnemyClicked(unsigned target);
 
 	void OnCanvasClick(unsigned target);
+
+	SpawnSchedule GetSchedule() const;
 
 private:
 

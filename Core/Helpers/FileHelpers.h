@@ -7,6 +7,7 @@
 namespace Helpers {
 
 	struct stat GetFileInfo(std::string const& filepath);
+	std::string GetFileRoot(std::string const& filepath);
 	std::string GetFileName(std::string const& filepath);
 	std::string GetFileExt(std::string const& filepath);
 	std::string ReadFile(std::string const& filepath);

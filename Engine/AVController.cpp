@@ -58,6 +58,10 @@ bool AVController::IsEditingBPM() const {
 	return editingBPM;
 }
 
+unsigned AVController::GetBPM() const {
+	return bpm;
+}
+
 void AVController::Awake() {
 	EventsManager::Get()->Subscribe("KEY_INPUT", &AVController::KeyHandler, this);
 	EventsManager::Get()->Subscribe("TEXT_INPUT", &AVController::TextHandler, this);
@@ -78,8 +82,6 @@ void AVController::Update() {
 
 		if (prevIndex != beatIndex)
 			indexChangeHandler.Invoke(beatIndex);
-	} else {
-		playButton->SetSprite(Load::Texture2D("Files/Textures/play.png"));
 	}
 
 	if (editingBPM) {

@@ -9,6 +9,7 @@
 #include "TransformAnimator.h"
 #include "Layout.h"
 #include "AVController.h"
+#include "ScheduleController.h"
 
 struct EditorManager : Script {
 
@@ -26,11 +27,15 @@ struct EditorManager : Script {
 	// av stuff
 
 	Layout* avLayout;
-	AVController* controller;
+	AVController* avController;
 
 	// scheduler
 
 	Layout* beltLayout;
+	ScheduleController* scheduleController;
+
+	void OnCloseClick();
+	void OnSaveClick();
 
 private: 
 

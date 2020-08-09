@@ -145,7 +145,7 @@ void EditorScene::Create() {
 		avController->SetActive(true);
 		avController->source = audio;
 
-		editorManager->controller = avController;	
+		editorManager->avController = avController;	
 
 		scheduleController = entities->AddComponent<ScheduleController>(entity);
 		scheduleController->SetActive(true);
@@ -156,6 +156,8 @@ void EditorScene::Create() {
 		scheduleController->AddEnemy(EnemyPreviewData{ basicPreview, pistol });
 		scheduleController->AddEnemy(EnemyPreviewData{ fireElementalPreview, nullptr });
 		scheduleController->AddEnemy(EnemyPreviewData{ cyclopsPreview, nullptr });
+
+		editorManager->scheduleController = scheduleController;	
 
 		avController->indexChangeHandler.Bind(&ScheduleController::IndexChangeHandler, scheduleController);
 	}
@@ -440,6 +442,51 @@ void EditorScene::Create() {
 		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, nullptr, TOP_ANCHOR, 1.f, 6.f, uiCamera));
 
 		editorManager->beltLayout = layout;
+	}
+
+	// close button
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(LEFT_ANCHOR, avHolder, LEFT_ANCHOR, 1.f, 2.f, uiCamera));
+		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, beltTransform, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(WIDTH, nullptr, NA, 1.f, 1.5f, uiCamera));
+		layout->AddConstraint(Constraint(HEIGHT, nullptr, NA, 1.f, 1.5f, uiCamera));
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetSprite(Load::Texture2D("Files/Textures/close.png"));
+
+		Button* const button = entities->AddComponent<Button>(entity);
+		button->SetActive(true);
+		button->scale = 1.5f;
+		button->handlers[MOUSE_CLICK].Bind(&EditorManager::OnCloseClick, editorManager);
+	}
+
+	// save label
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(RIGHT_ANCHOR, avHolder, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
+		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, beltTransform, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(WIDTH, nullptr, NA, 1.f, 1.5f, uiCamera));
+		layout->AddConstraint(Constraint(HEIGHT, nullptr, NA, 1.f, 1.5f, uiCamera));
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetSprite(Load::Texture2D("Files/Textures/save.png"));
+
+		Button* const button = entities->AddComponent<Button>(entity);
+		button->SetActive(true);
+		button->scale = 1.5f;
+		button->handlers[MOUSE_CLICK].Bind(&EditorManager::OnSaveClick, editorManager);
 	}
 }
 

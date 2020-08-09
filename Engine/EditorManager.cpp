@@ -3,10 +3,26 @@
 #include "InputEvents.h"
 #include "ProjectDefines.h"
 
+#include "MapData.h"
+
 #include <Math/Math.hpp>
 #include <Math/Random.hpp>
 #include <Helpers/FileHelpers.h>
 #include <Events/EventsManager.h>
+
+void EditorManager::OnCloseClick() {
+	EventsManager::Get()->Trigger("DISMISS_SCENE");
+}
+
+void EditorManager::OnSaveClick() {
+	MapData mapData;
+	mapData.audioPath = avController->source->audioClip;
+	mapData.bpm = avController->GetBPM();
+	mapData.schedule = scheduleController->GetSchedule();
+
+	const std::string path = Helpers::GetFileRoot(mapData.audioPath) + "-" + std::to_string(mapData.bpm) + "BPM.emd";
+	Write::Map("Files/Data/Maps/" + path, mapData);
+}
 
 void EditorManager::Awake() {
 	EventsManager::Get()->Subscribe("DROP_INPUT", &EditorManager::DropHandler, this);
@@ -48,5 +64,5 @@ void EditorManager::DropHandler(Events::Event * event) {
 	Transform* const pTransform = entities->GetComponent<Transform>(promptLabel->entity);
 	tAnimator->Queue(AnimationBase(false, 0.5f), pTransform, ANIMATE_TRANSLATION, vec3f(0.f, -0.25f, 0.f));
 
-	controller->SetTrack(path);
+	avController->SetTrack(path);
 }

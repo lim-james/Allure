@@ -52,6 +52,31 @@ void ScheduleController::OnCanvasClick(unsigned target) {
 	}
 }
 
+SpawnSchedule ScheduleController::GetSchedule() const {
+	SpawnSchedule result;
+	
+	unsigned stride = 0;
+	for (auto& beat : schedule) {
+		if (beat.second.empty()) {
+			++stride;
+			continue;
+		} else {
+			unsigned count = 0;
+			for (auto& list : beat.second) 
+				count += list.second.size();
+
+			if (count == 0) {
+				++stride;
+				continue;
+			}
+
+			result.push_back(SpawnGroup{ stride, beat.second });
+		}
+	}
+
+	return result;
+}
+
 void ScheduleController::Awake() {
 	EventsManager::Get()->Subscribe("TEXT_INPUT", &ScheduleController::TextHandler, this);
 	EventsManager::Get()->Subscribe("CURSOR_POSITION_INPUT", &ScheduleController::CursorPositionHandler, this);
