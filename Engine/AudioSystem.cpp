@@ -44,10 +44,12 @@ void AudioSystem::Initialize() {
 	EventsManager* const em = EventsManager::Get();
 	em->Subscribe("AUDIO_LISTENER_ACTIVE", &AudioSystem::ListenerActiveHandler, this);
 	em->Subscribe("AUDIO_SOURCE_ACTIVE", &AudioSystem::SourceActiveHandler, this);
+	em->Subscribe("AUDIO_SOURCE_QUEUE", &AudioSystem::QueueHandler, this);
 	em->Subscribe("AUDIO_SOURCE_PLAY", &AudioSystem::PlayHandler, this);
+	em->Subscribe("AUDIO_SOURCE_STOP", &AudioSystem::StopHandler, this);
 	em->Subscribe("AUDIO_SOURCE_PAUSE", &AudioSystem::PauseHandler, this);
 	em->Subscribe("AUDIO_SOURCE_UNPAUSE", &AudioSystem::UnPauseHandler, this);
-	em->Subscribe("AUDIO_SOURCE_STOP", &AudioSystem::StopHandler, this);
+	em->Subscribe("AUDIO_SOURCE_SCRUB", &AudioSystem::ScrubHandler, this);
 }
 
 void AudioSystem::Update(float const & dt) {
@@ -56,14 +58,18 @@ void AudioSystem::Update(float const & dt) {
 		const Sound sound = i->second;
 
 		if (sound.sound2d->isFinished()) {
+			source->isPaused = true;
 			playing.erase(i++);
 		} else {
+			source->t = static_cast<float>(sound.sound2d->getPlayPosition()) * 0.001f;
 			++i;
 		}
 	}
 
 	for (auto& soundPair : queued) {
 		AudioSource* const source = soundPair.first;
+
+		if (source->isPaused) continue;
 
 		// check if anything is playing for source
 		if (playing.find(source) == playing.end()) {
@@ -75,7 +81,7 @@ void AudioSystem::Update(float const & dt) {
 			playing[source] = sounds[0];
 			// play sounds
 			sounds[0].sound2d->setIsPaused(false);
-			if (sounds[0].sound3d) 
+			if (sounds[0].sound3d)
 				sounds[0].sound3d->setIsPaused(false);
 			// remove from queue
 			sounds.erase(sounds.begin());
@@ -143,18 +149,8 @@ void AudioSystem::SourceActiveHandler(Events::Event * event) {
 	}
 }
 
-void AudioSystem::PlayHandler(Events::Event * event) {
+void AudioSystem::QueueHandler(Events::Event * event) {
 	AudioSource* const source = static_cast<Events::AnyType<AudioSource*>*>(event)->data;
-
-	if (playing.find(source) != playing.end()) {
-		Sound& sound = playing[source];
-		if (sound.sound2d->getIsPaused()) {
-			source->isPaused = false;
-			sound.sound2d->setIsPaused(false);
-			if (sound.sound3d) sound.sound3d->setIsPaused(false);
-			return;
-		}
-	}
 
 	source->isPaused = true;
 	const float volume2D = source->volume * (1.f - source->spatialBlend);
@@ -167,7 +163,60 @@ void AudioSystem::PlayHandler(Events::Event * event) {
 	sound.sound2d->setPlaybackSpeed(source->speed);
 	sound.sound2d->setPan(source->stereoPan);
 
-	source->duration = static_cast<float>(sound.sound2d->getPlayLength()) / 1000.f;
+	source->duration = static_cast<float>(sound.sound2d->getPlayLength()) * 0.001f;
+
+	if (volume3D > 0.f) {
+		Transform* const transform = entities->GetComponent<Transform>(source->entity);
+		const vec3f position = transform->GetWorldTranslation();
+		const irrklang::vec3df iSoundPosition = irrklang::vec3df(position.x, position.y, position.z);
+		sound.sound3d = engine->play3D(source->audioClip.c_str(), iSoundPosition, source->loop, true, true);
+
+		sound.sound3d->setVolume(volume3D);
+		sound.sound3d->setPlaybackSpeed(source->speed);
+		sound.sound3d->setPan(source->stereoPan);
+		sound.sound3d->setMinDistance(source->minDistance);
+		sound.sound3d->setMaxDistance(source->maxDistance);
+	}
+
+	queued[source].push_back(sound);
+}
+
+void AudioSystem::PlayHandler(Events::Event * event) {
+	AudioSource* const source = static_cast<Events::AnyType<AudioSource*>*>(event)->data;
+
+	if (playing.find(source) != playing.end()) {
+		Sound& sound = playing[source];
+		if (sound.sound2d->getIsPaused()) {
+			source->isPaused = false;
+			sound.sound2d->setIsPaused(false);
+			if (sound.sound3d) sound.sound3d->setIsPaused(false);
+			return;
+		}
+	} else if (!queued[source].empty()) {
+		auto& sounds = queued[source];
+		// assign first queued
+		playing[source] = sounds[0];
+		// play sounds
+		sounds[0].sound2d->setIsPaused(false);
+		if (sounds[0].sound3d)
+			sounds[0].sound3d->setIsPaused(false);
+		// remove from queue
+		sounds.erase(sounds.begin());
+		return;
+	}
+
+	source->isPaused = false;
+	const float volume2D = source->volume * (1.f - source->spatialBlend);
+	const float volume3D = source->volume * source->spatialBlend;
+
+	Sound sound;
+
+	sound.sound2d = engine->play2D(source->audioClip.c_str(), source->loop, true, true);
+	sound.sound2d->setVolume(volume2D);
+	sound.sound2d->setPlaybackSpeed(source->speed);
+	sound.sound2d->setPan(source->stereoPan);
+
+	source->duration = static_cast<float>(sound.sound2d->getPlayLength()) * 0.001f;
 
 	if (volume3D > 0.f) {
 		Transform* const transform = entities->GetComponent<Transform>(source->entity);
@@ -223,6 +272,29 @@ void AudioSystem::UnPauseHandler(Events::Event * event) {
 		source->isPaused = false;
 		sound.sound2d->setIsPaused(false);
 		if (sound.sound3d) sound.sound3d->setIsPaused(false);
+	}
+}
+
+void AudioSystem::ScrubHandler(Events::Event * event) {
+	AudioSource* const source = static_cast<Events::AnyType<AudioSource*>*>(event)->data;
+	
+	const unsigned t = static_cast<unsigned>(roundf(source->t * 1000.f));
+	Sound* current = nullptr;
+
+	if (playing.find(source) != playing.end()) {
+		current = &playing[source];
+	} else if (!queued[source].empty()) {
+		current = &queued[source][0];
+	} else {
+		source->t = 0.f;
+		return;
+	}
+
+	if (current->sound2d->setPlayPosition(t)) {
+		if (current->sound3d) 
+			current->sound3d->setPlayPosition(t);
+	} else {
+		source->t = 0.f;
 	}
 }
 

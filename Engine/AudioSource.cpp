@@ -47,9 +47,21 @@ void AudioSource::SetActive(bool const & state) {
 	EventsManager::Get()->Trigger("AUDIO_SOURCE_ACTIVE", new Events::AnyType<AudioSource*>(this));
 }
 
+void AudioSource::Queue() {
+	if (IsActive()) {
+		EventsManager::Get()->Trigger("AUDIO_SOURCE_QUEUE", new Events::AnyType<AudioSource*>(this));
+	}
+}
+
 void AudioSource::Play() {
 	if (IsActive()) {
 		EventsManager::Get()->Trigger("AUDIO_SOURCE_PLAY", new Events::AnyType<AudioSource*>(this));
+	}
+}
+
+void AudioSource::Stop() {
+	if (IsActive()) {
+		EventsManager::Get()->Trigger("AUDIO_SOURCE_STOP", new Events::AnyType<AudioSource*>(this));
 	}
 }
 
@@ -73,9 +85,12 @@ float AudioSource::GetDuration() const {
 	return duration;
 }
 
-void AudioSource::Stop() {
-	if (IsActive()) {
-		EventsManager::Get()->Trigger("AUDIO_SOURCE_STOP", new Events::AnyType<AudioSource*>(this));
-	}
+float AudioSource::GetTime() const {
+	return t;
+}
+
+void AudioSource::SetTime(float const & time) {
+	t = time;
+	EventsManager::Get()->Trigger("AUDIO_SOURCE_SCRUB", new Events::AnyType<AudioSource*>(this));
 }
 

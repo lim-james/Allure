@@ -39,9 +39,11 @@ unsigned const& SpriteRender::GetSprite() const {
 }
 
 void SpriteRender::SetSprite(unsigned const& _sprite) {
-	Events::SpriteChange* event = new Events::SpriteChange(sprite, this);
-	sprite = _sprite;
-	EventsManager::Get()->Trigger("SPRITE_CHANGE", event);
+	if (sprite != _sprite) {
+		Events::SpriteChange* event = new Events::SpriteChange(sprite, this);
+		sprite = _sprite;
+		EventsManager::Get()->Trigger("SPRITE_CHANGE", event);
+	}
 }
 
 void SpriteRender::SetTilemapSize(float const& width, float const& height) {

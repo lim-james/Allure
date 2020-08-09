@@ -18,6 +18,7 @@ struct AVController : Script {
 
 	Text* timeLabel;
 	Text* durationLabel;
+	Text* beatLabel;
 	
 	Layout* progressIndicator;
 
@@ -29,21 +30,35 @@ struct AVController : Script {
 
 	void OnClickBPM();
 	void ToggleAudio();
+	void NextBeat();
+	void PreviousBeat();
 
 	void SetTrack(std::string const& path);
 
 private:
 
-	float et, duration;
+	bool editingBPM;
+	int bpm;
+	float bps;
+
+	int beatIndex;
+
+	float duration;
+	float bt;
 
 	void Awake() override;
 	void Start() override;
 	void Update() override;
 
 	void KeyHandler(Events::Event* event);
+	void TextHandler(Events::Event* event);
+
+	void ScrubTrack();
 
 	std::string GetTimeString(float const& t) const;
 	void UpdateProgress();
+
+	void UpdateBPM();
 
 };
 

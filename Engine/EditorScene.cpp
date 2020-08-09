@@ -180,6 +180,7 @@ void EditorScene::Create() {
 		layout->SetActive(true);
 		layout->AddConstraint(Constraint(RIGHT_ANCHOR, avHolder, RIGHT_ANCHOR, 1.f, -2.f, uiCamera));
 		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, avHolder, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(WIDTH, nullptr, NA, 1.f, 5.f, uiCamera));
 
 		Text* const text = entities->AddComponent<Text>(entity);
 		text->SetActive(true);
@@ -188,6 +189,10 @@ void EditorScene::Create() {
 		text->text = "60 BPM";
 
 		avController->bpmLabel = text;
+
+		Button* const button = entities->AddComponent<Button>(entity);
+		button->SetActive(true);
+		button->handlers[MOUSE_CLICK].Bind(&AVController::OnClickBPM, avController);
 	}
 
 	// time label
@@ -259,12 +264,13 @@ void EditorScene::Create() {
 	}
 
 	// Progress indicator
+	Transform* progressIndicator = nullptr;
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, UI);
 
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, 0.f, 1.f));
+		progressIndicator = entities->GetComponent<Transform>(entity);
+		progressIndicator->SetLocalTranslation(vec3f(0.f, 0.f, 1.f));
 
 		Layout* const layout = entities->AddComponent<Layout>(entity);
 		layout->SetActive(true);
@@ -277,6 +283,24 @@ void EditorScene::Create() {
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
+	}
+
+	// Beat label
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint(BOTTOM_ANCHOR, progressIndicator, TOP_ANCHOR, 1.f, 1.f, uiCamera));
+		layout->AddConstraint(Constraint(CENTER_X_ANCHOR, progressIndicator, RIGHT_ANCHOR, 1.f, 0.f, uiCamera));
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->verticalAlignment = ALIGN_BOTTOM;
+
+		avController->beatLabel = text;
 	}
 
 	// center
@@ -313,6 +337,9 @@ void EditorScene::Create() {
 		SpriteRender* const render = entities->GetComponent<SpriteRender>(entity);
 		render->SetSprite(Load::Texture2D("Files/Textures/previous.png"));
 
+		Button* const button = entities->GetComponent<Button>(entity);
+		button->handlers[MOUSE_CLICK].Bind(&AVController::PreviousBeat, avController);
+
 		AVButtonHandler* const avHandler = entities->GetComponent<AVButtonHandler>(entity);
 		avHandler->SetActive(true);
 		avHandler->animator = editorManager->animator;
@@ -329,6 +356,9 @@ void EditorScene::Create() {
 
 		SpriteRender* const render = entities->GetComponent<SpriteRender>(entity);
 		render->SetSprite(Load::Texture2D("Files/Textures/next.png"));
+
+		Button* const button = entities->GetComponent<Button>(entity);
+		button->handlers[MOUSE_CLICK].Bind(&AVController::NextBeat, avController);
 
 		AVButtonHandler* const avHandler = entities->GetComponent<AVButtonHandler>(entity);
 		avHandler->SetActive(true);

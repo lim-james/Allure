@@ -27,6 +27,8 @@ struct AudioSource : Component {
 	Component* Clone() const override;
 	void SetActive(bool const& state) override;
 
+	void Queue();
+
 	void Play();
 	void Stop();
 
@@ -36,10 +38,15 @@ struct AudioSource : Component {
 
 	float GetDuration() const;
 
+	float GetTime() const;
+	void SetTime(float const& time);
+
 private:
 
 	bool isPaused;
 	float duration;
+
+	float t;
 
 	friend class AudioSystem;
 

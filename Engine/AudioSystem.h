@@ -41,10 +41,12 @@ private:
 	void ListenerActiveHandler(Events::Event* event);
 	void SourceActiveHandler(Events::Event* event);
 
+	void QueueHandler(Events::Event* event);
 	void PlayHandler(Events::Event* event);
+	void StopHandler(Events::Event* event);
 	void PauseHandler(Events::Event* event);
 	void UnPauseHandler(Events::Event* event);
-	void StopHandler(Events::Event* event);
+	void ScrubHandler(Events::Event* event);
 
 };
 
