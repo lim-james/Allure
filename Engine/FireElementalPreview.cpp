@@ -2,6 +2,7 @@
 
 #include "SpriteRender.h"
 #include "SpriteAnimation.h"
+#include "Button.h"
 
 #include "LoadTexture.h"
 #include "LoadSAD.h"
@@ -28,6 +29,9 @@ Transform * FireElementalPreview::Create() {
 	spriteAnimation->animations = spriteData;
 	spriteAnimation->currentAnimation = "IDLE";
 	spriteAnimation->animations["DEAD"].loop = false;
+
+	Button* const button = entities->AddComponent<Button>(entity);
+	button->SetActive(true);
 
 	return transform;
 }

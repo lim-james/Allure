@@ -2,6 +2,7 @@
 
 #include "SpriteRender.h"
 #include "SpriteAnimation.h"
+#include "Button.h"
 #include "EnemyCombat.h"
 
 #include "LoadTexture.h"
@@ -37,6 +38,9 @@ Transform * CyclopsPreview::Create() {
 	spriteAnimation->animations = spriteData;
 	spriteAnimation->currentAnimation = "IDLE";
 	spriteAnimation->animations["DEAD"].loop = false;
+
+	Button* const button = entities->AddComponent<Button>(entity);
+	button->SetActive(true);
 
 	EnemyCombat* const combat = entities->AddComponent<EnemyCombat>(entity);
 	combat->weaponHolder = holder;

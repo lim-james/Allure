@@ -4,6 +4,7 @@
 #include "SpriteRender.h"
 #include "Text.h"
 #include "Layout.h"
+#include "Button.h"
 
 #include "WeaponBase.h"
 #include "Layers.h"
@@ -23,8 +24,28 @@ void ScheduleController::IndexChangeHandler(int index) {
 	UpdateBoard();
 }
 
+void ScheduleController::OnEnemySelected(unsigned target) {
+	const int index = buttonIndex.at(target);
+	if (index < static_cast<int>(enemies.size())) {
+		Select(index);
+	}
+}
+
+void ScheduleController::OnCanvasClick(unsigned target) {
+	if (avController->IsInvalid()) return;
+
+	if (selected >= 0) {
+		const vec3f range = backgroundTransform->GetScale() * 0.5f;
+		if (cursorPosition.x < range.x && cursorPosition.x > -range.x &&
+			cursorPosition.y < range.y && cursorPosition.y > -range.y) {
+			queue.push_back(std::make_pair(selected, cursorPosition));
+		}
+	}
+}
+
 void ScheduleController::Awake() {
 	EventsManager::Get()->Subscribe("TEXT_INPUT", &ScheduleController::TextHandler, this);
+	EventsManager::Get()->Subscribe("CURSOR_POSITION_INPUT", &ScheduleController::CursorPositionHandler, this);
 }
 
 void ScheduleController::Start() {
@@ -44,6 +65,12 @@ void ScheduleController::Start() {
 
 		const vec3f ratio = 2.f / eTransform->GetScale();
 		eTransform->SetScale(4.f);
+
+		Button* const button = entities->GetComponent<Button>(eTransform->entity);
+		button->scale = 5.f / 4.f;
+		button->handlers[MOUSE_CLICK].Bind(&ScheduleController::OnEnemySelected, this);
+
+		buttonIndex[eTransform->entity] = i;
 
 		EnemyCombat* const combat = entities->GetComponent<EnemyCombat>(eTransform->entity);
 		if (data.weaponPrefab && combat) {
@@ -89,6 +116,15 @@ void ScheduleController::Start() {
 	}
 
 	selected = -1;
+	beatIndex = 0;
+
+	cursorPosition = 0.f;
+}
+
+void ScheduleController::Update() {
+	for (auto const& pair : queue)
+		Spawn(pair.first, pair.second);
+	queue.clear();
 }
 
 void ScheduleController::TextHandler(Events::Event * event) {
@@ -98,14 +134,21 @@ void ScheduleController::TextHandler(Events::Event * event) {
 
 	if (isdigit(input->data)) {
 		const int index = (input->data - '0') - 1;
-		if (index < enemies.size())
+		if (index < static_cast<int>(enemies.size()))
 			Select(index);
 	}
 }
 
+void ScheduleController::CursorPositionHandler(Events::Event * event) {
+	Events::CursorPositionInput* const input = static_cast<Events::CursorPositionInput*>(event);
+
+	const vec3f offset = entities->GetComponent<Transform>(mainCamera->entity)->GetWorldTranslation();
+	cursorPosition = mainCamera->ScreenToWorldPosition(input->position) + offset.xy;
+}
+
 void ScheduleController::Select(int const & index) {
 	if (index == selected) {
-		Spawn(index);
+		queue.push_back(std::make_pair(index, RandomPosition()));
 	} else {
 		if (selected >= 0) {
 			animator->Queue(AnimationBase(false, 0.15f), &backs[selected]->tint.a, 0.15f);
@@ -116,10 +159,19 @@ void ScheduleController::Select(int const & index) {
 	}
 }
 
+vec3f ScheduleController::RandomPosition() const {
+	const vec3f range = backgroundTransform->GetScale() * 0.5f;
+	return vec3f(
+		Math::RandMinMax(-range.x, range.x),
+		Math::RandMinMax(-range.y, range.y),
+		0.f
+	);
+}
+
 Transform * ScheduleController::Create(int const & index, unsigned const & layer, vec3f const & position) {
 	EnemyPreviewData& data = enemies[index];
 
-	Transform* const eTransform = data.prefab->CreateIn(beltTransform);
+	Transform* const eTransform = data.prefab->Create();
 	entities->SetLayer(eTransform->entity, layer);
 
 	eTransform->SetLocalTranslation(position);
@@ -136,20 +188,6 @@ Transform * ScheduleController::Create(int const & index, unsigned const & layer
 	return eTransform;
 }
 
-void ScheduleController::Spawn(int const & index) {
-	const vec3f range = backgroundTransform->GetScale() * 0.5f;
-
-	const vec3f position = vec3f(
-		Math::RandMinMax(-range.x, range.x),
-		Math::RandMinMax(-range.y, range.y),
-		0.f
-	);
-
-	Transform* const eTransform = Create(index, DEFAULT, position);
-	currentBoard.push_back(eTransform->entity);
-	schedule[beatIndex][static_cast<unsigned>(index)].push_back(position);
-}
-
 void ScheduleController::Spawn(int const & index, vec3f const & position) {
 	Transform* const eTransform = Create(index, DEFAULT, position);
 	currentBoard.push_back(eTransform->entity);
@@ -159,8 +197,13 @@ void ScheduleController::Spawn(int const & index, vec3f const & position) {
 void ScheduleController::UpdateBoard() {
 	for (unsigned& entity : currentBoard)
 		entities->Destroy(entity);
+	currentBoard.clear();
 
-	for (auto const& pair : schedule[beatIndex]) 
-		for (vec3f const& position : pair.second) 
-			Create(pair.first, DEFAULT, position);
+	for (auto const& pair : schedule[beatIndex]) {
+		for (vec3f const& position : pair.second) {
+			Transform* const t = Create(pair.first, DEFAULT, position);
+			currentBoard.push_back(t->entity);
+		}
+
+	}
 }

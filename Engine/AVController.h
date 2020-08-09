@@ -37,6 +37,8 @@ struct AVController : Script {
 
 	Handler<void, int> indexChangeHandler;
 
+	bool IsInvalid() const;
+
 	void SetTrack(std::string const& path);
 
 	bool IsEditingBPM() const;

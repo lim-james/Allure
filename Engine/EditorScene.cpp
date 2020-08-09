@@ -81,8 +81,9 @@ void EditorScene::Create() {
 
 	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
+	Camera* camera = nullptr;
 	{
-		Camera* const camera = entities->GetComponent<Camera>(mainCamera);
+		camera = entities->GetComponent<Camera>(mainCamera);
 		camera->SetSize(30.f);
 		camera->projection = ORTHOGRAPHIC;
 		camera->clearColor = vec4f(0.f);
@@ -149,6 +150,7 @@ void EditorScene::Create() {
 		scheduleController = entities->AddComponent<ScheduleController>(entity);
 		scheduleController->SetActive(true);
 		scheduleController->avController = avController;
+		scheduleController->mainCamera = camera;
 		scheduleController->animator = animator;
 		scheduleController->AddEnemy(EnemyPreviewData{ basicPreview, shotgun });
 		scheduleController->AddEnemy(EnemyPreviewData{ basicPreview, pistol });
@@ -186,9 +188,12 @@ void EditorScene::Create() {
 		render->SetSprite(Load::TGA("Files/Textures/tile.tga"));
 		render->SetCellRect(0, 0, 12, 6.75);
 		render->tint.a = 0.15f;
-		//render->tint = COLOR_RED;
 
 		editorManager->background = render;
+
+		Button* const button = entities->AddComponent<Button>(entity);
+		button->SetActive(true);
+		button->handlers[MOUSE_CLICK].Bind(&ScheduleController::OnCanvasClick, scheduleController);
 	}
 
 	// av holder

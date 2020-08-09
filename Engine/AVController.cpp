@@ -38,6 +38,10 @@ void AVController::PreviousBeat() {
 	ScrubTrack();
 }
 
+bool AVController::IsInvalid() const {
+	return source->audioClip == "";
+}
+
 void AVController::SetTrack(std::string const & path) {
 	source->audioClip = path;
 	source->Queue();
