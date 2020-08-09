@@ -24,11 +24,20 @@ void ScheduleController::IndexChangeHandler(int index) {
 	UpdateBoard();
 }
 
-void ScheduleController::OnEnemySelected(unsigned target) {
+void ScheduleController::OnPreviewClicked(unsigned target) {
 	const int index = buttonIndex.at(target);
 	if (index < static_cast<int>(enemies.size())) {
 		Select(index);
 	}
+}
+
+void ScheduleController::OnEnemyClicked(unsigned target) {
+	const unsigned index = entityIndex[target];
+	const vec3f position = entities->GetComponent<Transform>(target)->GetWorldTranslation();
+
+	Helpers::Remove(schedule[beatIndex][index], position);
+	Helpers::Remove(currentBoard, target);
+	entities->Destroy(target);
 }
 
 void ScheduleController::OnCanvasClick(unsigned target) {
@@ -68,7 +77,7 @@ void ScheduleController::Start() {
 
 		Button* const button = entities->GetComponent<Button>(eTransform->entity);
 		button->scale = 5.f / 4.f;
-		button->handlers[MOUSE_CLICK].Bind(&ScheduleController::OnEnemySelected, this);
+		button->handlers[MOUSE_CLICK].Bind(&ScheduleController::OnPreviewClicked, this);
 
 		buttonIndex[eTransform->entity] = i;
 
@@ -122,8 +131,9 @@ void ScheduleController::Start() {
 }
 
 void ScheduleController::Update() {
-	for (auto const& pair : queue)
-		Spawn(pair.first, pair.second);
+	for (auto const& pair : queue) {
+		entityIndex[Spawn(pair.first, pair.second)] = pair.first;
+	}
 	queue.clear();
 }
 
@@ -176,6 +186,10 @@ Transform * ScheduleController::Create(int const & index, unsigned const & layer
 
 	eTransform->SetLocalTranslation(position);
 
+	Button* const button = entities->GetComponent<Button>(eTransform->entity);
+	button->scale = 1.5f;
+	button->handlers[MOUSE_CLICK].Bind(&ScheduleController::OnEnemyClicked, this);
+
 	EnemyCombat* const combat = entities->GetComponent<EnemyCombat>(eTransform->entity);
 	if (data.weaponPrefab && combat) {
 		Transform* const wTransform = data.weaponPrefab->CreateIn(combat->weaponHolder);
@@ -188,10 +202,11 @@ Transform * ScheduleController::Create(int const & index, unsigned const & layer
 	return eTransform;
 }
 
-void ScheduleController::Spawn(int const & index, vec3f const & position) {
+unsigned ScheduleController::Spawn(int const & index, vec3f const & position) {
 	Transform* const eTransform = Create(index, DEFAULT, position);
 	currentBoard.push_back(eTransform->entity);
 	schedule[beatIndex][static_cast<unsigned>(index)].push_back(position);
+	return eTransform->entity;
 }
 
 void ScheduleController::UpdateBoard() {
@@ -203,6 +218,7 @@ void ScheduleController::UpdateBoard() {
 		for (vec3f const& position : pair.second) {
 			Transform* const t = Create(pair.first, DEFAULT, position);
 			currentBoard.push_back(t->entity);
+			entityIndex[t->entity] = pair.first;
 		}
 
 	}

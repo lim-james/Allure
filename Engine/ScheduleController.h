@@ -31,7 +31,8 @@ struct ScheduleController : Script {
 	void AddEnemy(EnemyPreviewData const& data);
 
 	void IndexChangeHandler(int index);
-	void OnEnemySelected(unsigned target);
+	void OnPreviewClicked(unsigned target);
+	void OnEnemyClicked(unsigned target);
 
 	void OnCanvasClick(unsigned target);
 
@@ -43,6 +44,7 @@ private:
 	std::vector<SpriteRender*> backs;
 	std::map<unsigned, unsigned> buttonIndex;
 	std::vector<unsigned> currentBoard;
+	std::map<unsigned, unsigned> entityIndex;
 
 	std::vector<std::pair<int, vec3f>> queue;
 
@@ -61,9 +63,7 @@ private:
 	
 	vec3f RandomPosition() const;
 	Transform* Create(int const& index, unsigned const& layer, vec3f const& position);
-
-	//void Spawn(int const& index);
-	void Spawn(int const& index, vec3f const& position);
+	unsigned Spawn(int const& index, vec3f const& position);
 
 	void UpdateBoard();
 
