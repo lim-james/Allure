@@ -23,6 +23,10 @@ void ButtonSystem::Initialize() {
 }
 
 void ButtonSystem::Update(float const& dt) {
+	std::vector<ButtonRaycast> raycast;
+
+	int count = 0;
+
 	for (auto& cam : cameras) {
 		// world space position
 		const vec2f wsp = cam->ScreenToWorldPosition(mousePosition);
@@ -34,30 +38,39 @@ void ButtonSystem::Update(float const& dt) {
 				continue;
 			}
 
-			auto& prev = states[button][cam->entity];
+			bool& prev = states[button][cam->entity];
 
-			auto transform = entities->GetComponent<Transform>(button->entity);
-			const vec2f position = transform->GetWorldTranslation().xy + button->offset;
+			Transform* const transform = entities->GetComponent<Transform>(button->entity);
+			const vec3f worldTranslation = transform->GetWorldTranslation();
+			const vec2f position = worldTranslation.xy + button->offset;
 			const vec2f size = transform->GetScale().xy * button->scale * 0.5f;
 
 			const vec2f offset = Math::Abs(position - wsp);
 
 			if (offset.x <= size.x && offset.y <= size.y) {
+				++count;
+				InsertRaycast(ButtonRaycast{
+					cam,
+					button,
+					worldTranslation.z,
+					&prev
+				}, raycast);
 				if (!prev) {
-					PerformAction(MOUSE_OVER, button);
-					prev = true;
+
+					//PerformAction(MOUSE_OVER, button);
+					//prev = true;
 				}
 
-				if (mouseActions[GLFW_MOUSE_BUTTON_LEFT] != GLFW_RELEASE) {
-					if (prevMouseActions[GLFW_MOUSE_BUTTON_LEFT] == GLFW_RELEASE) {
-						PerformAction(MOUSE_DOWN, button);
-					}
-				} else {
-					if (prevMouseActions[GLFW_MOUSE_BUTTON_LEFT] != GLFW_RELEASE) {
-						PerformAction(MOUSE_UP, button);
-						PerformAction(MOUSE_CLICK, button);
-					}
-				}
+				//if (mouseActions[GLFW_MOUSE_BUTTON_LEFT] != GLFW_RELEASE) {
+				//	if (prevMouseActions[GLFW_MOUSE_BUTTON_LEFT] == GLFW_RELEASE) {
+				//		PerformAction(MOUSE_DOWN, button);
+				//	}
+				//} else {
+				//	if (prevMouseActions[GLFW_MOUSE_BUTTON_LEFT] != GLFW_RELEASE) {
+				//		PerformAction(MOUSE_UP, button);
+				//		PerformAction(MOUSE_CLICK, button);
+				//	}
+				//}
 			} else {
 				if (prev) {
 					PerformAction(MOUSE_OUT, button);
@@ -65,6 +78,47 @@ void ButtonSystem::Update(float const& dt) {
 				}
 			}
 		}
+	}
+
+	if (count != raycast.size()) {
+		Debug::Warn << "conflict\n";
+	}
+
+	auto it = raycast.begin();
+
+	while (it != raycast.end()) {
+		if (!(*it->prev)) {
+			PerformAction(MOUSE_OVER, it->button);
+			*it->prev = true;
+		}
+
+		if (mouseActions[GLFW_MOUSE_BUTTON_LEFT] != GLFW_RELEASE) {
+			if (prevMouseActions[GLFW_MOUSE_BUTTON_LEFT] == GLFW_RELEASE) {
+				PerformAction(MOUSE_DOWN, it->button);
+			}
+		} else {
+			if (prevMouseActions[GLFW_MOUSE_BUTTON_LEFT] != GLFW_RELEASE) {
+				PerformAction(MOUSE_UP, it->button);
+				PerformAction(MOUSE_CLICK, it->button);
+			}
+		}
+
+		// prevent pass through if raycast not allowed
+		if (it->button->blockRaycast) {
+			++it;
+			break;
+		} 
+
+		++it;
+	}
+
+	while (it != raycast.end()) {
+		if (*it->prev) {
+			PerformAction(MOUSE_OUT, it->button);
+			*it->prev = false;
+		}
+
+		++it;
 	}
 
 	for (auto& action : mouseActions) {
@@ -105,6 +159,30 @@ void ButtonSystem::CursorPositionHandler(Events::Event* event) {
 void ButtonSystem::MouseButtonHandler(Events::Event* event) {
 	Events::MouseButtonInput* input = static_cast<Events::MouseButtonInput*>(event);
 	mouseActions[input->button] = input->action;
+}
+
+void ButtonSystem::InsertRaycast(ButtonRaycast const & info, std::vector<ButtonRaycast>& list) {
+	const float camDepth = info.camera->GetDepth();
+
+	for (auto it = list.begin(); it != list.end(); ++it) {
+		const float itemCamDepth = it->camera->GetDepth();
+
+		// check if camera layer is behind
+		if (camDepth < itemCamDepth) {
+			continue;
+		} else if (camDepth == itemCamDepth) {
+			if (info.zValue > it->zValue || // check if it is higher up
+				(info.zValue == it->zValue && info.button->entity < it->button->entity)) {
+				list.insert(it, info);
+				return;
+			} 		
+		} else {
+			list.insert(it, info);
+			return;
+		}
+	}
+
+	list.push_back(info);
 }
 
 void ButtonSystem::PerformAction(unsigned const& index, Button * const self) {

@@ -20,7 +20,7 @@ struct Button : Component {
 	vec2f offset;
 	vec2f scale;
 
-	bool isEnabled;
+	bool isEnabled, blockRaycast;
 	Handler<void, unsigned> handlers[BUTTON_ACTION_COUNT];
 
 	Button();

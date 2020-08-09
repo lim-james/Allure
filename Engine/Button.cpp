@@ -7,6 +7,7 @@ Button::Button() {
 	scale = 1.f;
 
 	isEnabled = true;
+	blockRaycast = true;
 	for (auto& h : handlers) {
 		h.UnbindAll();
 	}
@@ -14,6 +15,7 @@ Button::Button() {
 
 void Button::Initialize() {
 	isEnabled = true;
+	blockRaycast = true;
 	for (auto& h : handlers) {
 		h.UnbindAll();
 	}

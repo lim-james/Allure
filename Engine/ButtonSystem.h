@@ -13,6 +13,14 @@
 
 class ButtonSystem : public System {
 
+	struct ButtonRaycast {
+		Camera* camera;
+		Button* button;
+		float zValue;
+
+		bool* prev;
+	};
+
 	std::map<Button*, std::map<int, bool>> states;
 	std::vector<Button*> buttons;
 	std::vector<Camera*> cameras;
@@ -38,6 +46,8 @@ private:
 
 	void CursorPositionHandler(Events::Event* event);
 	void MouseButtonHandler(Events::Event* event);
+
+	void InsertRaycast(ButtonRaycast const& info, std::vector<ButtonRaycast>& list);
 
 	void PerformAction(unsigned const& index, Button* const self);
 
