@@ -87,12 +87,19 @@ void AVController::KeyHandler(Events::Event * event) {
 	Events::KeyInput* const input = static_cast<Events::KeyInput*>(event);
 
 	if (input->action == GLFW_PRESS) {
-
 		switch (input->key) 
 		{
 		case GLFW_KEY_SPACE:
 			if (source->audioClip == "") return;
 			ToggleAudio();
+			break;
+		case GLFW_KEY_LEFT:
+			if (source->audioClip == "") return;
+			PreviousBeat();
+			break;
+		case GLFW_KEY_RIGHT:
+			if (source->audioClip == "") return;
+			NextBeat();
 			break;
 		case GLFW_KEY_ESCAPE:
 		case GLFW_KEY_ENTER:
@@ -104,6 +111,20 @@ void AVController::KeyHandler(Events::Event * event) {
 				bpm /= 10;
 				UpdateBPM();
 			}
+			break;
+		default:
+			break;
+		}
+	} else if (input->action == GLFW_REPEAT) {
+		switch (input->key)
+		{
+		case GLFW_KEY_LEFT:
+			if (source->audioClip == "") return;
+			PreviousBeat();
+			break;
+		case GLFW_KEY_RIGHT:
+			if (source->audioClip == "") return;
+			NextBeat();
 			break;
 		default:
 			break;
