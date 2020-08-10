@@ -19,13 +19,13 @@
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 #define WINDOW_TITLE "TEMPO"
-#define IS_FULLSCREEN false
+#define IS_FULLSCREEN true
 
 #define ENTRY_SCENE SplashScene
 
 #define FIXED_TIME_STEP 0.02f
 
 // turn on and off vsync
-#define VSYNC
+//#define VSYNC
 
 #endif

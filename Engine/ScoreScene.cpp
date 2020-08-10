@@ -33,7 +33,7 @@ void ScoreScene::Create() {
 	Font* const vcrMono = Load::FNT("Files/Fonts/vcr_ocd_mono.fnt", "Files/Fonts/vcr_ocd_mono.png");
 
 	Camera* const camera = entities->GetComponent<Camera>(mainCamera);
-	camera->SetSize(15.f);
+	camera->SetSize(20.f);
 	camera->projection = ORTHOGRAPHIC;
 
 	{

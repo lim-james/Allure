@@ -18,7 +18,11 @@ void MenuCamera::Start() {
 
 void MenuCamera::Update() {
 	const vec3f position = transform->GetLocalTranslation();
-	transform->SetLocalTranslation(vec3f(Math::Lerp(position.xy, target, time->dt * speed), position.z));
+	vec2f targetPosition = Math::Lerp(position.xy, target, time->dt * speed);
+	if (isinf(targetPosition.x) || isinf(targetPosition.y)) {
+		targetPosition = 0.f;
+	}
+	transform->SetLocalTranslation(vec3f(targetPosition, position.z));
 }
 
 void MenuCamera::CursorPositionHandler(Events::Event * event) {

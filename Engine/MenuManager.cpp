@@ -236,10 +236,7 @@ void MenuManager::UpdateSong() {
 	switched = false;
 	bt = 0.f;
 
-	if (maps.size() <= selected) {
-		bpmLabel->text = "";
-		return;
-	}
+	if (maps.size() <= selected) return;
 
 	const std::string path = maps[selected].first;
 	MapData& map = maps[selected].second;

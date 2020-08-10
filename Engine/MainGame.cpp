@@ -240,7 +240,7 @@ void MainGame::Create() {
 
 		uiCamera = entities->AddComponent<Camera>(entity);
 		uiCamera->SetActive(true);
-		uiCamera->SetSize(15.f);
+		uiCamera->SetSize(20.f);
 		uiCamera->SetDepth(1);
 		uiCamera->shouldClear = false;
 		uiCamera->projection = ORTHOGRAPHIC;

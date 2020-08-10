@@ -9,14 +9,23 @@ Window::Window()
 	, window(nullptr) {}
 
 Window::Window(int const& width, int const& height, const char* title, bool const& fullscreen) : resizeDelay(0.2f) {
-	size = vec2i(width, height);
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = glfwCreateWindow(width, height, title, fullscreen ? glfwGetPrimaryMonitor() : nullptr, nullptr);
+	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+
+	if (fullscreen) {
+		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+		size = vec2i(mode->width, mode->height);
+		window = glfwCreateWindow(mode->width, mode->height, title, nullptr, nullptr);
+	} else {
+		size = vec2i(width, height);
+		window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	}
 
 	if (!window) {
 		fprintf(stderr, "Failed to open GLFW window.\n");

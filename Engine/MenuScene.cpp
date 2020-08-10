@@ -74,7 +74,7 @@ void MenuScene::Create() {
 
 		uiCamera = entities->AddComponent<Camera>(entity);
 		uiCamera->SetActive(true);
-		uiCamera->SetSize(15.f);
+		uiCamera->SetSize(20.f);
 		uiCamera->SetDepth(1);
 		uiCamera->shouldClear = false;
 		uiCamera->projection = ORTHOGRAPHIC;
@@ -118,6 +118,48 @@ void MenuScene::Create() {
 		animation->Queue(AnimationBase(true, 5.f), &render->uvRect.y, 1.f);
 	}
 
+	// spectrum bubble
+	BubbleManager* bubble = nullptr;
+	Transform* bubleTransform = nullptr;
+	{
+		const unsigned entity = entities->Create();
+		entities->SetLayer(entity, UI);
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 0.f, -2.f));
+		transform->SetScale(30.f);
+		bubleTransform = transform;
+
+		Layout* const layout = entities->AddComponent<Layout>(entity);
+		layout->SetActive(true);
+		layout->AddConstraint(Constraint{ CENTER_X_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 5.f, uiCamera });
+		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -10.f, uiCamera });
+		layout->AddConstraint(Constraint{ HEIGHT, nullptr, HEIGHT, 4.f, 0.f, uiCamera });
+		layout->AddConstraint(Constraint{ WIDTH, transform, HEIGHT, 1.f, 0.f, uiCamera });
+
+		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
+		render->SetActive(true);
+		render->SetMaterial(spectrumBubble);
+		render->tint.a = 0.f;
+		//render->SetSprite(Load::Texture2D("Files/Textures/vinyl.png"));
+
+		Animator* const animation = entities->AddComponent<Animator>(entity);
+		animation->SetActive(true);
+		animation->Queue(AnimationBase(false, 1.f, 1.f), &render->tint.a, 1.f);
+
+		bubble = entities->AddComponent<BubbleManager>(entity);
+		bubble->SetActive(true);
+		bubble->material = spectrumBubble;
+		bubble->audioPrefab = audioPlayer;
+		bubble->startFrequency = 20;
+		bubble->endFrequency = 2000;
+		bubble->audioDuration = 90.f;
+		bubble->minRadius = 0.5f;
+		bubble->maxRadius = 0.55f;
+		bubble->rotationSpeed = 20.f;
+		bubble->multiplier = 10.f;
+	}
+
 	Transform* titleTransform = nullptr;
 	{
 		const unsigned entity = entities->Create();
@@ -154,7 +196,8 @@ void MenuScene::Create() {
 		Layout* const layout = entities->AddComponent<Layout>(entity);
 		layout->SetActive(true);
 		layout->AddConstraint(Constraint{ LEFT_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 2.f, uiCamera });
-		layout->AddConstraint(Constraint{ TOP_ANCHOR, titleTransform, BOTTOM_ANCHOR, 1.f, -5.0f, uiCamera });
+		//layout->AddConstraint(Constraint{ TOP_ANCHOR, titleTransform, BOTTOM_ANCHOR, 1.f, -5.0f, uiCamera });
+		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, bubleTransform, CENTER_Y_ANCHOR, 1.f, 0.0f, uiCamera });
 
 		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
 		render->SetActive(true);
@@ -214,46 +257,6 @@ void MenuScene::Create() {
 		text->verticalAlignment = ALIGN_TOP;
 		text->text = "BEST: 9020";
 		scoreLabel = text;
-	}
-
-	// spectrum bubble
-	BubbleManager* bubble = nullptr;
-	{
-		const unsigned entity = entities->Create();
-		entities->SetLayer(entity, UI);
-	
-		Transform* const transform = entities->GetComponent<Transform>(entity);
-		transform->SetLocalTranslation(vec3f(0.f, 0.f, -2.f));
-		transform->SetScale(30.f);
-
-		Layout* const layout = entities->AddComponent<Layout>(entity);
-		layout->SetActive(true);
-		layout->AddConstraint(Constraint{ CENTER_X_ANCHOR, nullptr, LEFT_ANCHOR, 1.f, 5.f, uiCamera });
-		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -10.f, uiCamera });
-		layout->AddConstraint(Constraint{ HEIGHT, nullptr, HEIGHT, 4.f, 0.f, uiCamera });
-		layout->AddConstraint(Constraint{ WIDTH, transform, HEIGHT, 1.f, 0.f, uiCamera });
-
-		SpriteRender* const render = entities->AddComponent<SpriteRender>(entity);
-		render->SetActive(true);
-		render->SetMaterial(spectrumBubble);
-		render->tint.a = 0.f;
-		//render->SetSprite(Load::Texture2D("Files/Textures/vinyl.png"));
-
-		Animator* const animation = entities->AddComponent<Animator>(entity);
-		animation->SetActive(true);
-		animation->Queue(AnimationBase(false, 1.f, 1.f), &render->tint.a, 1.f);
-
-		bubble = entities->AddComponent<BubbleManager>(entity);
-		bubble->SetActive(true);
-		bubble->material = spectrumBubble;
-		bubble->audioPrefab = audioPlayer;
-		bubble->startFrequency = 20;
-		bubble->endFrequency = 2000;
-		bubble->audioDuration = 90.f;
-		bubble->minRadius = 0.5f;
-		bubble->maxRadius = 0.55f;
-		bubble->rotationSpeed = 20.f;
-		bubble->multiplier = 10.f;
 	}
 
 	// menu manager
