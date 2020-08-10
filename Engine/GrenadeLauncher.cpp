@@ -28,6 +28,8 @@ Transform * GrenadeLauncher::Create() {
 	collider->SetActive(true);
 	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
+	entities->RemoveComponents<WeaponBase>(entity);
+
 	GrenadeLauncherScript* const gun = entities->AddComponent<GrenadeLauncherScript>(entity);
 	gun->SetActive(true);
 	gun->bulletPrefab = bulletPrefab;

@@ -696,9 +696,9 @@ void MainGame::Create() {
 		beat->progressIndicator = progressIndicator;
 		// tempo
 		//beat->threshold = 0.2f;
-		beat->goodThreshold = 0.3f;
-		beat->greatThreshold = 0.15f;
-		beat->perfectThreshold = 0.075f;
+		beat->goodThreshold = 0.45f;
+		beat->greatThreshold = 0.3f;
+		beat->perfectThreshold = 0.15f;
 		beat->SetTempo(mapData.bpm);
 
 		gameManager->beatController = beat;

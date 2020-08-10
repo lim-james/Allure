@@ -84,7 +84,7 @@ void EnemyManager::CreateEnemy(EnemyData const & data, vec3f const& position) {
 	target->style = &target->farStyle;
 
 	EnemyCombat* const combat = entities->GetComponent<EnemyCombat>(eTransform->entity);
-	if (data.weaponPrefab && combat) {
+	if (data.weaponPrefab && combat && combat->IsActive()) {
 		Transform* const wTransform = data.weaponPrefab->CreateIn(combat->weaponHolder);
 		WeaponBase* const weapon = entities->GetComponent<WeaponBase>(wTransform->entity);
 		weapon->audioPrefab = sfxPrefab;

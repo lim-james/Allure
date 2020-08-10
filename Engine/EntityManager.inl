@@ -59,3 +59,20 @@ std::vector<ComponentType*> EntityManager::GetComponents(unsigned const & id) {
 	return result;
 }
 
+template<typename ComponentType>
+void EntityManager::RemoveComponents(unsigned const & id) {
+	if (id >= entities.size() && !HasComponent<ComponentType>(id))
+		return;
+
+	const unsigned hash = hashof(ComponentType);
+	auto& components = entities[id].components;
+
+	components.erase(hash);
+
+	for (auto it = components.rbegin(); it != components.rend(); ++it) {
+		if (dynamic_cast<ComponentType*>(it->second[0])) {
+			components.erase(it->first);
+		}
+	}
+}
+

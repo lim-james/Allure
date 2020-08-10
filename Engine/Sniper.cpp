@@ -28,6 +28,8 @@ Transform * Sniper::Create() {
 	collider->SetActive(true);
 	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
+	entities->RemoveComponents<WeaponBase>(entity);
+
 	SniperScript* const gun = entities->AddComponent<SniperScript>(entity);
 	gun->SetActive(true);
 	gun->bulletPrefab = bulletPrefab;

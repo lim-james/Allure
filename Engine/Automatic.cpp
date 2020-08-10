@@ -28,6 +28,8 @@ Transform * Automatic::Create() {
 	collider->SetActive(true);
 	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
+	entities->RemoveComponents<WeaponBase>(entity);
+
 	AutomaticScript* const gun = entities->AddComponent<AutomaticScript>(entity);
 	gun->SetActive(true);
 	gun->bulletPrefab = bulletPrefab;

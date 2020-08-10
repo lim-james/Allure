@@ -49,6 +49,8 @@ public:
 	ComponentType* GetComponent(unsigned const& id);
 	template<typename ComponentType>
 	std::vector<ComponentType*> GetComponents(unsigned const& id);
+	template<typename ComponentType>
+	void RemoveComponents(unsigned const& id);
 
 	unsigned PoolCount() const;
 

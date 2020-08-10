@@ -28,6 +28,8 @@ Transform * Shotgun::Create() {
 	collider->SetActive(true);
 	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
+	entities->RemoveComponents<WeaponBase>(entity);
+
 	ShotgunScript* const gun = entities->AddComponent<ShotgunScript>(entity);
 	gun->SetActive(true);
 	gun->bulletPrefab = bulletPrefab;

@@ -28,6 +28,8 @@ Transform * Laser::Create() {
 	collider->SetActive(true);
 	collider->ignoreMask = BULLET | BONUS_BULLET | WEAPON | ENEMY;
 
+	entities->RemoveComponents<WeaponBase>(entity);
+
 	LaserScript* const gun = entities->AddComponent<LaserScript>(entity);
 	gun->SetActive(true);
 	gun->bulletPrefab = bulletPrefab;
