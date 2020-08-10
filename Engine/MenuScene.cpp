@@ -135,6 +135,7 @@ void MenuScene::Create() {
 		text->verticalAlignment = ALIGN_TOP;
 		text->scale = 3.f;
 		text->text = "TEMPO";
+		text->color = COLOR_RED;
 	}
 
 	Transform* gradeTransform = nullptr;
@@ -164,6 +165,7 @@ void MenuScene::Create() {
 	}
 
 	Transform* songTransform = nullptr;
+	Text* bpmLabel = nullptr;
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, UI);
@@ -177,12 +179,12 @@ void MenuScene::Create() {
 		layout->AddConstraint(Constraint{ LEFT_ANCHOR, gradeTransform, RIGHT_ANCHOR, 1.f, 1.f, uiCamera });
 		layout->AddConstraint(Constraint{ CENTER_Y_ANCHOR, gradeTransform, CENTER_Y_ANCHOR, 1.f, 0.25f, uiCamera });
 
-		Text* const text = entities->AddComponent<Text>(entity);
-		text->SetActive(true);
-		text->SetFont(vcrMono);
-		text->paragraphAlignment = PARAGRAPH_LEFT;
-		text->verticalAlignment = ALIGN_BOTTOM;
-		text->text = "LENGTH: 30s";
+		bpmLabel = entities->AddComponent<Text>(entity);
+		bpmLabel->SetActive(true);
+		bpmLabel->SetFont(vcrMono);
+		bpmLabel->paragraphAlignment = PARAGRAPH_LEFT;
+		bpmLabel->verticalAlignment = ALIGN_BOTTOM;
+		bpmLabel->text = "BPM: 30";
 	}
 
 	Transform* scoreTransform = nullptr;
@@ -260,13 +262,15 @@ void MenuScene::Create() {
 
 		MenuManager* const manager = entities->AddComponent<MenuManager>(entity);
 		manager->SetActive(true);
+		manager->bpmLabel = bpmLabel;
 		manager->bubble = bubble;
-		manager->AddSong(SongData{ "128C", "Files/Media/128C.wav", 128 });
-		manager->AddSong(SongData{ "BLACKPINK How You Like That", "Files/Media/HowYouLikeThat.wav", 132 });
-		manager->AddSong(SongData{ "LOUD - Thoughts", "Files/Media/LOUD - Thoughts.wav", 150 });
-		manager->AddSong(SongData{ "Ice Flow", "Files/Media/IceFlow.wav", 140 });
-		manager->AddSong(SongData{ "Ken Blast - The Top", "Files/Media/Ken Blast - The Top.wav", 160 });
-		manager->AddSong(SongData{ "Running in the 90's", "Files/Media/Running in the 90's.wav", 118 });
+		manager->SetSaveDir("Files/Data/Maps/");
+		//manager->AddSong(SongData{ "128C", "Files/Media/128C.wav", 128 });
+		//manager->AddSong(SongData{ "BLACKPINK How You Like That", "Files/Media/HowYouLikeThat.wav", 132 });
+		//manager->AddSong(SongData{ "LOUD - Thoughts", "Files/Media/LOUD - Thoughts.wav", 150 });
+		//manager->AddSong(SongData{ "Ice Flow", "Files/Media/IceFlow.wav", 140 });
+		//manager->AddSong(SongData{ "Ken Blast - The Top", "Files/Media/Ken Blast - The Top.wav", 160 });
+		//manager->AddSong(SongData{ "Running in the 90's", "Files/Media/Running in the 90's.wav", 118 });
 
 		// holder transform for tableview
 		const unsigned holder = entities->Create();

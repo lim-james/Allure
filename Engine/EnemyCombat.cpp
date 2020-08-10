@@ -25,7 +25,6 @@ void EnemyCombat::Update() {
 
 	if (weapon) {
 		if (isBeat) {
-			Debug::Log << "Trigger\n";
 			weapon->Trigger();
 			isBeat = false;
 		}

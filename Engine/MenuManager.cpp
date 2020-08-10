@@ -4,20 +4,40 @@
 #include "InputEvents.h"
 #include "CellScript.h"
 #include "MainGame.h"
+
+#include "EditorScene.h"
+
+#include <Helpers/FileHelpers.h>
 #include <Events/EventsManager.h>
 #include <GLFW/glfw3.h>
+
+#include <filesystem>
 
 MenuManager::MenuManager()
 	: selectionDelay(0.5f) {
 }
 
-void MenuManager::AddSong(SongData const & data) {
-	songs.push_back(data);
+//void MenuManager::AddMap(std::string const & filepath) {
+//	maps.push_back(std::make_pair(filepath, Load::Map(filepath)));
+//}
+
+void MenuManager::SetSaveDir(std::string const & dir) {
+	for (const auto& entry : std::filesystem::directory_iterator(dir)) {
+		const auto path = entry.path();
+		if (path.has_extension() && path.extension().string() == ".emd") {
+			const std::string filepath = path.string();
+
+			std::string name = path.filename().string();
+			name = name.substr(0, name.find_last_of('-'));
+
+			maps.push_back(std::make_pair(name, Load::Map(filepath)));
+		}
+	}
 }
 
 void MenuManager::NextSong() {
 	++selected;
-	if (selected >= static_cast<int>(songs.size()))
+	if (selected > static_cast<int>(maps.size()))
 		selected = 0;
 	SwitchingSong();
 }
@@ -25,25 +45,33 @@ void MenuManager::NextSong() {
 void MenuManager::PreviousSong() {
 	--selected;
 	if (selected < 0)
-		selected = songs.size() - 1;
+		selected = maps.size();
 	SwitchingSong();
 }
 
 unsigned MenuManager::NumberOfRows(TableViewScript * tableView) {
-	return songs.size();
+	return maps.size() + 1;
 }
 
 void MenuManager::CellForRow(TableViewScript * tableView, unsigned index, Transform * cell) {
 	CellScript* const script = entities->GetComponent<CellScript>(cell->entity);
 	script->index = index;	
 
-	script->button->handlers[MOUSE_CLICK].Bind(&MenuManager::SelectSong, this, index);
+	vec4f selectedColor;
 
-	script->titleLabel->text = songs[index].title;
+	if (index == maps.size()) {
+		script->button->handlers[MOUSE_CLICK].Bind(&MenuManager::OpenEditor, this, index);
+		script->titleLabel->text = "OPEN EDITOR";
+		selectedColor = COLOR_ORANGE;
+	} else {
+		script->button->handlers[MOUSE_CLICK].Bind(&MenuManager::SelectSong, this, index);
+		script->titleLabel->text = maps[index].first;
+		selectedColor = COLOR_RED;
+	}
 
 	vec4f color(0.f, 0.f, 0.f, 0.2f);
 	if (index == selected) {
-		color = COLOR_RED;
+		color = selectedColor;
 		color.a = 0.8f;
 
 		vec3f translation = cell->GetLocalTranslation();
@@ -62,7 +90,7 @@ void MenuManager::UpdateRow(TableViewScript * tableView, unsigned index, Transfo
 
 	if (index == selected) {
 		if (background->tint.a != 0.8f) {
-			vec4f selectedColor = COLOR_RED;
+			vec4f selectedColor = index == maps.size() ? COLOR_ORANGE : COLOR_RED;
 			selectedColor.a = 0.8f;
 			
 			animator->Clear(&background->tint);
@@ -131,7 +159,13 @@ void MenuManager::KeyHandler(Events::Event * event) {
 
 	if (input->action == GLFW_PRESS) {
 		if (input->key == GLFW_KEY_ENTER) {
-			Transition();
+			if (maps.size() <= selected) {
+				Transition(new EditorScene);
+			} else {
+				MainGame* scene = new MainGame;
+				scene->mapData = maps[selected].second;
+				Transition(scene);
+			}
 		}
 	}
 
@@ -144,9 +178,33 @@ void MenuManager::KeyHandler(Events::Event * event) {
 	}
 }
 
+void MenuManager::ScrollHandler(Events::Event * event) {
+	Events::ScrollInput* input = static_cast<Events::ScrollInput*>(event);
+	scrollBt = scrollDelay;
+	scrollOffset += input->data.y * scrollMultiplier;
+	if (scrollOffset >= 1.f) {
+		PreviousSong();
+		scrollOffset = 0.f;
+	} else if (scrollOffset <= -1.f) {
+		NextSong();
+		scrollOffset = 0.f;
+	}
+}
+
+void MenuManager::OpenEditor(unsigned index) {
+	if (selected == index) {
+		Transition(new EditorScene);
+	} else {
+		selected = index;
+		SwitchingSong();
+	}
+}
+
 void MenuManager::SelectSong(unsigned index) {
 	if (selected == index) {
-		Transition();
+		MainGame* scene = new MainGame;
+		scene->mapData = maps[selected].second;
+		Transition(scene);
 	} else {
 		selected = index;
 		SwitchingSong();
@@ -165,27 +223,20 @@ void MenuManager::SwitchingSong() {
 void MenuManager::UpdateSong() {
 	switched = false;
 	bt = 0.f;
-	bubble->Play(songs[selected]);
+
+	if (maps.size() <= selected) {
+		bpmLabel->text = "";
+		return;
+	}
+
+	MapData& map = maps[selected].second;
+	bubble->Play(SongData{ map.audioPath, map.bpm });
+
+	bpmLabel->text = "BPM: " + std::to_string(maps[selected].second.bpm);
 }
 
-void MenuManager::Transition() {
-	SongData song = songs[selected];
-	bubble->FadeOut(Handler<void, void>([song]() {
-		MainGame* destination = new MainGame;
-		destination->song = song;
+void MenuManager::Transition(Scene* const destination) {
+	bubble->FadeOut(Handler<void, void>([destination]() {
 		EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
 	}));
-}
-
-void MenuManager::ScrollHandler(Events::Event * event) {
-	Events::ScrollInput* input = static_cast<Events::ScrollInput*>(event);
-	scrollBt = scrollDelay;
-	scrollOffset += input->data.y * scrollMultiplier;
-	if (scrollOffset >= 1.f) {
-		PreviousSong();
-		scrollOffset = 0.f;
-	} else if (scrollOffset <= -1.f) {
-		NextSong();
-		scrollOffset = 0.f;
-	}
 }

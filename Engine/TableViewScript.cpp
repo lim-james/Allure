@@ -5,6 +5,7 @@
 #include <Events/EventsManager.h>
 
 void TableViewScript::ReloadData() {
+	const float rowCount = static_cast<float>(rows.size());
 	const float count = static_cast<float>(numberOfRows.InvokeReturn(this)[0]);
 	const float halfH = rowHeight * 0.5f;
 
@@ -13,13 +14,38 @@ void TableViewScript::ReloadData() {
 
 	const float stride = -GetRowStride();
 
-	for (float i = 0; i < count; ++i) {
-		Transform* const cTransform = cellPrefab->CreateIn(holder);
-		cTransform->SetLocalTranslation(vec3f(0.f, scrollOffset + i * stride, 0.f));
-		cTransform->SetScale(cellSize);
+	if (rowCount < count) {
+		float i = 0.f;
+		for (; i < rowCount; ++i) {
+			Transform* const cTransform = rows[static_cast<unsigned>(i)];
+			cTransform->SetLocalTranslation(vec3f(0.f, scrollOffset + i * stride, 0.f));
+			cTransform->SetScale(cellSize);
 
-		cellForRow.Invoke(this, static_cast<unsigned>(i), cTransform);
-		rows.push_back(cTransform);
+			cellForRow.Invoke(this, static_cast<unsigned>(i), cTransform);
+		}
+
+		for (; i < count; ++i) {
+			Transform* const cTransform = cellPrefab->CreateIn(holder);
+			cTransform->SetLocalTranslation(vec3f(0.f, scrollOffset + i * stride, 0.f));
+			cTransform->SetScale(cellSize);
+
+			cellForRow.Invoke(this, static_cast<unsigned>(i), cTransform);
+			rows.push_back(cTransform);
+		}
+	} else {
+		float i = 0.f;
+		for (; i < count; ++i) {
+			Transform* const cTransform = rows[static_cast<unsigned>(i)];
+			cTransform->SetLocalTranslation(vec3f(0.f, scrollOffset + i * stride, 0.f));
+			cTransform->SetScale(cellSize);
+
+			cellForRow.Invoke(this, static_cast<unsigned>(i), cTransform);
+		}
+
+		for (; i < rowCount; ++i) {
+			entities->Destroy(rows[static_cast<unsigned>(i)]->entity);
+			rows.erase(rows.begin() + static_cast<unsigned>(count));
+		}
 	}
 
 	contentHeight = -(count - 1) * stride;

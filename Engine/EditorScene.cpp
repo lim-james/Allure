@@ -452,7 +452,7 @@ void EditorScene::Create() {
 		Layout* const layout = entities->AddComponent<Layout>(entity);
 		layout->SetActive(true);
 		layout->AddConstraint(Constraint(LEFT_ANCHOR, avHolder, LEFT_ANCHOR, 1.f, 2.f, uiCamera));
-		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, beltTransform, CENTER_Y_ANCHOR, 1.f, 0.f, uiCamera));
+		layout->AddConstraint(Constraint(CENTER_Y_ANCHOR, nullptr, TOP_ANCHOR, 1.f, -4.f, uiCamera));
 		layout->AddConstraint(Constraint(WIDTH, nullptr, NA, 1.f, 1.5f, uiCamera));
 		layout->AddConstraint(Constraint(HEIGHT, nullptr, NA, 1.f, 1.5f, uiCamera));
 

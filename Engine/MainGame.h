@@ -31,6 +31,7 @@
 #include "CyclopsEnemy.h"
 // song
 #include "SongData.h"
+#include "MapData.h"
 
 class MainGame : public Scene {
 
@@ -62,7 +63,8 @@ class MainGame : public Scene {
 
 public:
 
-	SongData song;
+	//SongData song;
+	MapData mapData;
 
 private:
 

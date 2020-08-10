@@ -547,7 +547,7 @@ void MainGame::Create() {
 
 		backgroundAudio = entities->AddComponent<AudioSource>(entity);
 		backgroundAudio->SetActive(true);
-		backgroundAudio->audioClip = song.path;
+		backgroundAudio->audioClip = mapData.audioPath;
 		backgroundAudio->loop = true;
 	}
 
@@ -698,7 +698,7 @@ void MainGame::Create() {
 		beat->goodThreshold = 0.3f;
 		beat->greatThreshold = 0.15f;
 		beat->perfectThreshold = 0.075f;
-		beat->SetTempo(song.tempo);
+		beat->SetTempo(mapData.bpm);
 
 		gameManager->beatController = beat;
 	}
@@ -709,7 +709,7 @@ void MainGame::Create() {
 		entities->SetLayer(entity, ENEMY);
 
 		EnemyManager* const manager = entities->AddComponent<EnemyManager>(entity);
-		//manager->SetActive(true);
+		manager->SetActive(true);
 		manager->boundary = vec2f(80.f, 45.f);
 		manager->player = follow->player;
 		manager->sfxPrefab = sfxEmitter;
@@ -726,6 +726,8 @@ void MainGame::Create() {
 		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, trackPlayer, avoidPlayer });
 		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash });
 		manager->AddEnemy(EnemyData{ cyclopsEnemy, nullptr, 1.f, 0, 10, 5, false, slowRoam, slowTrack });
+
+		manager->SetSchedule(mapData.schedule);
 
 		//manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer, true, 170, 30, 1 });
 		//manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, trackPlayer, avoidPlayer, true, 60, 20, 1 });

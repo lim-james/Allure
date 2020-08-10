@@ -25,7 +25,8 @@ private:
 
 	std::vector<EnemyData> enemies;
 
-	int index, beatCount;
+	int index;
+	unsigned beatCount;
 	SpawnSchedule schedule;
 
 	void Awake() override;

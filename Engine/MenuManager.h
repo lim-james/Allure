@@ -2,21 +2,28 @@
 #define MENU_MANAGER_H
 
 #include "Script.h"
+#include "Text.h"
 #include "BubbleManager.h"
 #include "TableViewScript.h"
-#include "SongData.h"
+#include "MapData.h"
+#include "Scene.h"
 
 #include "TableViewScript.h"
+
+#include <Handler/Handler.h>
 
 struct MenuManager : Script {
 
 	using base_type = MenuManager;
 	
+	Text* bpmLabel;
 	BubbleManager* bubble;
+
+	Handler<void, std::string> rowChangeHandler;
 	
 	MenuManager();
 
-	void AddSong(SongData const& data);
+	void SetSaveDir(std::string const& dir);
 	void NextSong();
 	void PreviousSong();
 
@@ -35,7 +42,9 @@ private:
 	float selectionDelay;
 	float bt;
 	int selected;
-	std::vector<SongData> songs;
+
+	std::string saveDir;
+	std::vector<std::pair<std::string, MapData>> maps;
 
 	float scrollBt, scrollDelay;
 	float scrollOffset, scrollMultiplier;
@@ -45,13 +54,13 @@ private:
 	void Update() override;
 
 	void KeyHandler(Events::Event* event);
+	void ScrollHandler(Events::Event* event);
 
+	void OpenEditor(unsigned index);
 	void SelectSong(unsigned index);
 	void SwitchingSong();
 	void UpdateSong();
-	void Transition();
-
-	void ScrollHandler(Events::Event* event);
+	void Transition(Scene* const destination);
 
 };
 

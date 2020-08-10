@@ -26,12 +26,13 @@ MapData Load::Map(std::string const & filepath) {
 			int count;
 			ifs >> index >> count;
 
-			for (; count >= 0; --count) {
+			for (; count > 0; --count) {
 				vec3f position; 
 				ifs >> position;
 				group.enemies[index].push_back(position);
 			}
 		}
+		result.schedule.push_back(group);
 	}
 
 	return result;

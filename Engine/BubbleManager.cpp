@@ -17,6 +17,8 @@ void BubbleManager::FadeOut(Handler<void, void> const& completion) {
 	if (controller) {
 		controller->FadeOut(completion);
 		controller = nullptr;
+	} else {
+		completion.Invoke();
 	}
 }
 
@@ -26,7 +28,7 @@ void BubbleManager::Play(SongData const& song) {
 
 	file->Open(song.path);
 	duration = file->GetDuration();
-	bInv = Math::PI * static_cast<float>(song.tempo) / 60.f;
+	bInv = Math::PI * static_cast<float>(song.bpm) / 60.f;
 
 	{
 		const unsigned entity = audioPrefab->Create()->entity;

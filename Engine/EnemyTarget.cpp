@@ -7,7 +7,7 @@ void EnemyTarget::Chase() {
 	if (life->IsStunned()) return;
 
 	const vec3f diff = Math::Normalized(target - transform->GetWorldTranslation().xy);
-	physics->AddForce(diff * style->speed * magnitude);
+	physics->AddForce(diff * style->speed);
 }
 
 vec3f EnemyTarget::GetTarget() const {

@@ -238,6 +238,9 @@
     <Filter Include="Assets\Scripts\Main\MapData">
       <UniqueIdentifier>{e02b2a8d-f453-4afe-9d8f-df547849e0ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Main\Editor">
+      <UniqueIdentifier>{42e9575f-4130-49a4-bb7b-dec01bb83207}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -861,20 +864,8 @@
     <ClCompile Include="TilemapCamera.cpp">
       <Filter>Assets\Scripts\Scene\TilemapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="EditorCamera2D.cpp">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="AVButtonHandler.cpp">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="AVButton.cpp">
       <Filter>Assets\Prefabs\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="AVController.cpp">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="ScheduleController.cpp">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
     </ClCompile>
     <ClCompile Include="IceElementalPreview.cpp">
       <Filter>Assets\Prefabs\Enemies\Preview</Filter>
@@ -911,6 +902,18 @@
     </ClCompile>
     <ClCompile Include="MapData.cpp">
       <Filter>Assets\Scripts\Main\MapData</Filter>
+    </ClCompile>
+    <ClCompile Include="ScheduleController.cpp">
+      <Filter>Assets\Scripts\Main\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="AVButtonHandler.cpp">
+      <Filter>Assets\Scripts\Main\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="AVController.cpp">
+      <Filter>Assets\Scripts\Main\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorCamera2D.cpp">
+      <Filter>Assets\Scripts\Main\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1580,20 +1583,8 @@
     <ClInclude Include="TilemapCamera.h">
       <Filter>Assets\Scripts\Scene\TilemapEditor</Filter>
     </ClInclude>
-    <ClInclude Include="EditorCamera2D.h">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="AVButtonHandler.h">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="AVButton.h">
       <Filter>Assets\Prefabs\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="AVController.h">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="ScheduleController.h">
-      <Filter>Assets\Scripts\Scene\Editor</Filter>
     </ClInclude>
     <ClInclude Include="IceElementalPreview.h">
       <Filter>Assets\Prefabs\Enemies\Preview</Filter>
@@ -1633,6 +1624,18 @@
     </ClInclude>
     <ClInclude Include="MapData.h">
       <Filter>Assets\Scripts\Main\MapData</Filter>
+    </ClInclude>
+    <ClInclude Include="ScheduleController.h">
+      <Filter>Assets\Scripts\Main\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorCamera2D.h">
+      <Filter>Assets\Scripts\Main\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="AVButtonHandler.h">
+      <Filter>Assets\Scripts\Main\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="AVController.h">
+      <Filter>Assets\Scripts\Main\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
