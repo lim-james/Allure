@@ -7,12 +7,14 @@
 #include "CircleMaterial.h"
 #include "AudioPlayer.h"
 #include "TableViewCell.h"
+#include "SFXEmitter.h"
 
 class MenuScene : public Scene {
 	Material::SpectrumBubble* spectrumBubble;
 	Material::Circle* circle;
 	AudioPlayer* audioPlayer;
 	TableViewCell* tableViewCell;
+	SFXEmitter* sfxEmitter;
 
 	void Awake() override;
 	void Create() override;

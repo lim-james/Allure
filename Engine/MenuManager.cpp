@@ -1,5 +1,6 @@
 #include "MenuManager.h"
 
+#include "AudioSource.h"
 #include "ProjectDefines.h"
 #include "InputEvents.h"
 #include "CellScript.h"
@@ -14,9 +15,7 @@
 
 #include <filesystem>
 
-MenuManager::MenuManager()
-	: selectionDelay(0.5f) {
-}
+MenuManager::MenuManager() : selectionDelay(0.5f) {}
 
 //void MenuManager::AddMap(std::string const & filepath) {
 //	maps.push_back(std::make_pair(filepath, Load::Map(filepath)));
@@ -128,6 +127,10 @@ void MenuManager::Awake() {
 
 	EventsManager::Get()->Subscribe("KEY_INPUT", &MenuManager::KeyHandler, this);
 	EventsManager::Get()->Subscribe("SCROLL_INPUT", &MenuManager::ScrollHandler, this);
+
+	StatsManager* stats = StatsManager::Instance();
+	stats->SetFilepath("Files/Data/stats.data");
+	stats->Load();
 }
 
 void MenuManager::Start() {
@@ -203,6 +206,7 @@ void MenuManager::OpenEditor(unsigned index) {
 }
 
 void MenuManager::SelectSong(unsigned index) {
+
 	if (selected == index) {
 		MainGame* scene = new MainGame;
 		scene->mapPath = maps[selected].first;
@@ -215,6 +219,11 @@ void MenuManager::SelectSong(unsigned index) {
 }
 
 void MenuManager::SwitchingSong() {
+	const unsigned sfx = sfxEmitter->Create()->entity;
+	AudioSource* const source = entities->GetComponent<AudioSource>(sfx);
+	source->audioClip = "Files/Media/UI/switch.wav";
+	source->Play();
+
 	switched = true;
 	bt = 0.f;
 	bubble->FadeOut();
@@ -249,6 +258,11 @@ void MenuManager::UpdateSong() {
 }
 
 void MenuManager::Transition(Scene* const destination) {
+	const unsigned sfx = sfxEmitter->Create()->entity;
+	AudioSource* const source = entities->GetComponent<AudioSource>(sfx);
+	source->audioClip = "Files/Media/UI/normal_select.wav";
+	source->Play();
+
 	bubble->FadeOut(Handler<void, void>([destination]() {
 		EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
 	}));

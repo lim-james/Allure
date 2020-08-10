@@ -61,11 +61,12 @@ template<typename T>
 size_t AudioFile<T>::BPM(float const & t, size_t const & numBlocks) {
 	size_t result = 0;
 
+	const size_t blockSize = fmt.sampleRate / numBlocks;
+
 	const T c = C(t, numBlocks);
-	const T avg = AverageEnergy(t, numBlocks);
+	const T avg = AverageEnergy(t, numBlocks, blockSize);
 	const T threshold = c * avg;
 
-	const size_t blockSize = fmt.sampleRate / numBlocks;
 	const float blocks = static_cast<float>(numBlocks);
 	const float invT = 1.f / blocks;
 
@@ -190,10 +191,10 @@ T AudioFile<T>::AverageEnergy(float const& t, size_t const & numBlocks, size_t c
 
 template<typename T>
 T AudioFile<T>::Varience(float const& t, size_t const & numBlocks) {
-	const T avg = AverageEnergy(t, numBlocks);
+	const size_t blockSize = fmt.sampleRate / numBlocks;
+	const T avg = AverageEnergy(t, numBlocks, blockSize);
 	T sum = static_cast<T>(0);
 
-	const size_t blockSize = fmt.sampleRate / numBlocks;
 	const float blocks = static_cast<float>(numBlocks);
 	const float invT = 1.f / blocks;
 

@@ -8,6 +8,7 @@
 #include "Layout.h"
 #include "SpriteRender.h"
 
+#include <Audio/AudioFile.h>
 #include <Handler/Handler.h>
 
 struct AVController : Script {

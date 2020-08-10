@@ -18,6 +18,7 @@ void EnemyCombat::Awake() {
 void EnemyCombat::Start() {
 	holdDuration = 0.1f;
 	bt = 0.f;
+	beatBounce = beatStride;	
 }
 
 void EnemyCombat::Update() {
@@ -25,7 +26,11 @@ void EnemyCombat::Update() {
 
 	if (weapon) {
 		if (isBeat) {
-			weapon->Trigger();
+			--beatBounce;
+			if (beatBounce <= 0) {
+				beatBounce = beatStride;
+				weapon->Trigger();
+			}
 			isBeat = false;
 		}
 

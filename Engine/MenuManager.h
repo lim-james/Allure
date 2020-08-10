@@ -15,6 +15,8 @@
 struct MenuManager : Script {
 
 	using base_type = MenuManager;
+
+	Prefab* sfxEmitter;
 	
 	Text* bpmLabel;
 	Text* scoreLabel;

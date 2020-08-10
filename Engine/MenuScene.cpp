@@ -46,6 +46,9 @@ void MenuScene::Awake() {
 
 	tableViewCell = new TableViewCell;
 	tableViewCell->Initialize(entities);
+
+	sfxEmitter = new SFXEmitter;
+	sfxEmitter->Initialize(entities);
 }
 
 void MenuScene::Create() {
@@ -266,6 +269,7 @@ void MenuScene::Create() {
 
 		MenuManager* const manager = entities->AddComponent<MenuManager>(entity);
 		manager->SetActive(true);
+		manager->sfxEmitter = sfxEmitter;
 		manager->bpmLabel = bpmLabel;
 		manager->scoreLabel = scoreLabel;
 		manager->gradeLabel = gradeLabel;
@@ -303,4 +307,5 @@ void MenuScene::Destroy() {
 	delete spectrumBubble;
 	delete audioPlayer;
 	delete tableViewCell;
+	delete sfxEmitter;
 }

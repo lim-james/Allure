@@ -8,7 +8,7 @@ Transform * SFXEmitter::Create() {
 
 	AudioSource* const audio = entities->AddComponent<AudioSource>(entity);
 	audio->SetActive(true);
-	audio->volume = 0.f;
+	audio->volume = 0.25f;
 
 	AudioSelfDestruct* const destruct = entities->AddComponent<AudioSelfDestruct>(entity);
 	destruct->SetActive(true);

@@ -13,6 +13,8 @@ struct EnemyCombat : Script {
 
 	using base_type = EnemyCombat;
 
+	int beatStride;
+
 	float holdDuration;
 	Transform* weaponHolder;
 
@@ -22,6 +24,8 @@ private:
 
 	float bt;
 	bool isBeat;
+
+	int beatBounce;
 
 	EnemyLife* life;
 	EnemyTarget* target;

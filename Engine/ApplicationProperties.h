@@ -14,6 +14,7 @@
 #include "ProcessTest.h"
 #include "PackTest.h"
 #include "EditorScene.h"
+#include "TilemapEditorScene.h"
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900

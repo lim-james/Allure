@@ -723,10 +723,10 @@ void MainGame::Create() {
 		const TargetStyle roam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 150.f, 30.f };
 		const TargetStyle slowRoam = { TARGET_RANDOM, MOVEMENT_CONSTANT, 0.f, 30.f };
 		
-		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, true, trackPlayer, avoidPlayer });
-		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, trackPlayer, avoidPlayer });
-		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, roam, dash });
-		manager->AddEnemy(EnemyData{ cyclopsEnemy, nullptr, 1.f, 0, 10, 5, false, slowRoam, slowTrack });
+		manager->AddEnemy(EnemyData{ basicEnemy, shotgun, 1.f, 0, 5, 5, true, 5, trackPlayer, avoidPlayer });
+		manager->AddEnemy(EnemyData{ basicEnemy, pistol, 1.f, 0, 10, 5, true, 2, trackPlayer, avoidPlayer });
+		manager->AddEnemy(EnemyData{ fireElementalEnemy, nullptr, 1.f, 0, 1, 5, true, 0, roam, dash });
+		manager->AddEnemy(EnemyData{ cyclopsEnemy, nullptr, 1.f, 0, 10, 5, false, 0, slowRoam, slowTrack });
 
 		manager->SetSchedule(mapData.schedule);
 
