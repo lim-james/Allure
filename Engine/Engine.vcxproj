@@ -208,6 +208,7 @@
     <ClCompile Include="MapData.cpp" />
     <ClCompile Include="ShotgunPreview.cpp" />
     <ClCompile Include="SniperPreview.cpp" />
+    <ClCompile Include="StatsManager.cpp" />
     <ClCompile Include="TilemapCamera.cpp" />
     <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="TilemapEditorManager.cpp" />
@@ -424,6 +425,7 @@
     <ClInclude Include="MapData.h" />
     <ClInclude Include="ShotgunPreview.h" />
     <ClInclude Include="SniperPreview.h" />
+    <ClInclude Include="StatsManager.h" />
     <ClInclude Include="TilemapCamera.h" />
     <ClInclude Include="EditorManager.h" />
     <ClInclude Include="TilemapEditorManager.h" />

@@ -29,6 +29,7 @@ struct GameManager : Script {
 	Pixelated* pixelFX;
 	Vignette* vignetteFX;
 
+	std::string mapPath;
 
 private:
 

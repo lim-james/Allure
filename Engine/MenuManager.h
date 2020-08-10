@@ -17,6 +17,8 @@ struct MenuManager : Script {
 	using base_type = MenuManager;
 	
 	Text* bpmLabel;
+	Text* scoreLabel;
+	Text* gradeLabel;
 	BubbleManager* bubble;
 
 	Handler<void, std::string> rowChangeHandler;

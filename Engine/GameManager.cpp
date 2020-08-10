@@ -31,7 +31,7 @@ void GameManager::Update() {
 		if (t >= endDelay) {
 			endGame = false;
 			ScoreScene* destination = new ScoreScene;
-			//destination->sceneTexture = sceneTexture;
+			destination->mapPath = mapPath;
 			destination->data = data;
 			EventsManager::Get()->Trigger("PRESENT_SCENE", new Events::PresentScene(destination));
 		}

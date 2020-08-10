@@ -139,6 +139,7 @@ void MenuScene::Create() {
 	}
 
 	Transform* gradeTransform = nullptr;
+	Text* gradeLabel = nullptr;
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, UI);
@@ -162,6 +163,7 @@ void MenuScene::Create() {
 		text->SetFont(vcrMono);
 		text->scale = 1.5f;
 		text->text = "S+";
+		gradeLabel = text;
 	}
 
 	Transform* songTransform = nullptr;
@@ -188,6 +190,7 @@ void MenuScene::Create() {
 	}
 
 	Transform* scoreTransform = nullptr;
+	Text* scoreLabel = nullptr;
 	{
 		const unsigned entity = entities->Create();
 		entities->SetLayer(entity, UI);
@@ -207,6 +210,7 @@ void MenuScene::Create() {
 		text->paragraphAlignment = PARAGRAPH_LEFT;
 		text->verticalAlignment = ALIGN_TOP;
 		text->text = "BEST: 9020";
+		scoreLabel = text;
 	}
 
 	// spectrum bubble
@@ -263,6 +267,8 @@ void MenuScene::Create() {
 		MenuManager* const manager = entities->AddComponent<MenuManager>(entity);
 		manager->SetActive(true);
 		manager->bpmLabel = bpmLabel;
+		manager->scoreLabel = scoreLabel;
+		manager->gradeLabel = gradeLabel;
 		manager->bubble = bubble;
 		manager->SetSaveDir("Files/Data/Maps/");
 		//manager->AddSong(SongData{ "128C", "Files/Media/128C.wav", 128 });

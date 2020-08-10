@@ -1,5 +1,7 @@
 #include "ScoreManager.h"
 
+#include "StatsManager.h"
+
 void ScoreManager::Start() {
 	const float completion = data.lifetime / data.duration;
 	const float unit = 1.f / static_cast<float>(data.perfect + data.great + data.good + data.missed);
@@ -11,20 +13,57 @@ void ScoreManager::Start() {
 	score *= completion;
 	score *= static_cast<float>(data.health) / static_cast<float>(data.maxHealth);
 	
+	std::string grade = "-";
+
 	if (score >= 0.98f)
-		gradeLabel->text = "S+";
+		grade = "S+";
 	else if (score >= 0.8f) 
-		gradeLabel->text = "S";
+		grade = "S";
 	else if (score >= 0.75f) 
-		gradeLabel->text = "A";
+		grade = "A";
 	else if (score >= 0.65f) 
-		gradeLabel->text = "B";
+		grade = "B";
 	else if (score >= 0.55f) 
-		gradeLabel->text = "C";
+		grade = "C";
 	else if (score >= 0.45f) 
-		gradeLabel->text = "D";
+		grade = "D";
 	else if (score >= 0.35f) 
-		gradeLabel->text = "E";
+		grade = "E";
 	else 
-		gradeLabel->text = "F";
+		grade = "F";
+
+	gradeLabel->text = grade;
+
+	StatsManager* stats = StatsManager::Instance();
+
+	ScoreStats const& highscoreStat = stats->GetHighscore(mapPath);
+
+	if ((highscoreStat.grade == grade && highscoreStat.score < data.score) ||
+		(GetValue(grade) > GetValue(highscoreStat.grade))) {
+		highscore->SetActive(true);
+		stats->SetHighscore(mapPath, ScoreStats(data.score, grade));
+	} 
+}
+
+unsigned ScoreManager::GetValue(std::string const & grade) const {
+	if (grade == "S+") return 8;
+
+	switch (grade[0]) {
+	case 'S':
+		return 7;
+	case 'A':
+		return 6;
+	case 'B':
+		return 5;
+	case 'C':
+		return 4;
+	case 'D':
+		return 3;
+	case 'E':
+		return 2;
+	case 'F':
+		return 1;
+	default:
+		return 0;
+	}
 }

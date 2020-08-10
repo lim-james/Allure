@@ -64,6 +64,7 @@ class MainGame : public Scene {
 public:
 
 	//SongData song;
+	std::string mapPath;
 	MapData mapData;
 
 private:

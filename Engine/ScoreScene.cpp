@@ -49,6 +49,7 @@ void ScoreScene::Create() {
 	
 		manager = entities->AddComponent<ScoreManager>(entity);
 		manager->SetActive(true);
+		manager->mapPath = mapPath;
 		manager->data = data;
 	}
 
@@ -66,6 +67,30 @@ void ScoreScene::Create() {
 		layout->SetActive(true);
 		layout->AddConstraint(Constraint(WIDTH, nullptr, WIDTH, 1.f, 0.f, camera));
 		layout->AddConstraint(Constraint(HEIGHT, nullptr, HEIGHT, 1.f, 0.f, camera));
+	}
+
+	{
+		const unsigned entity = entities->Create();
+
+		Transform* const transform = entities->GetComponent<Transform>(entity);
+		transform->SetLocalTranslation(vec3f(0.f, 7.f, 0.f));
+
+		Text* const text = entities->AddComponent<Text>(entity);
+		text->SetActive(true);
+		text->SetFont(vcrMono);
+		text->text = "NEW HIGHSCORE";
+		text->color = COLOR_YELLOW;
+		text->color.a = 0.f;
+		text->offset.y = -1.f;
+		text->scale = 0;
+
+		Animator* const animation = entities->AddComponent<Animator>(entity);
+		//animation->SetActive(true);
+		animation->Queue(AnimationBase(false, 0.25f, 5.f), &text->offset.y, 0.f);
+		animation->Queue(AnimationBase(false, 0.25f, 5.f), &text->color.a, 1.f);
+		animation->Queue(AnimationBase(false, 0.25f, 5.f), &text->scale, 4.f);
+
+		manager->highscore = animation;
 	}
 
 	{

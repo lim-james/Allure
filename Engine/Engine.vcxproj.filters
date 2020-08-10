@@ -241,6 +241,9 @@
     <Filter Include="Assets\Scripts\Main\Editor">
       <UniqueIdentifier>{42e9575f-4130-49a4-bb7b-dec01bb83207}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts\Stats">
+      <UniqueIdentifier>{37d178ae-12ae-4511-bd4b-208d02d25315}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -914,6 +917,9 @@
     </ClCompile>
     <ClCompile Include="EditorCamera2D.cpp">
       <Filter>Assets\Scripts\Main\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="StatsManager.cpp">
+      <Filter>Assets\Scripts\Stats</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1636,6 +1642,9 @@
     </ClInclude>
     <ClInclude Include="AVController.h">
       <Filter>Assets\Scripts\Main\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="StatsManager.h">
+      <Filter>Assets\Scripts\Stats</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

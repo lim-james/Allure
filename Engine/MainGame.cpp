@@ -322,6 +322,7 @@ void MainGame::Create() {
 
 		gameManager = entities->AddComponent<GameManager>(entity);
 		gameManager->SetActive(true);
+		gameManager->mapPath = mapPath;
 		gameManager->fadeInDuration = 100.f;
 		gameManager->endDelay = 2.f;
 		gameManager->endLabel = endLabel;

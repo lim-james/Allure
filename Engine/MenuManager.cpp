@@ -6,6 +6,7 @@
 #include "MainGame.h"
 
 #include "EditorScene.h"
+#include "StatsManager.h"
 
 #include <Helpers/FileHelpers.h>
 #include <Events/EventsManager.h>
@@ -163,6 +164,7 @@ void MenuManager::KeyHandler(Events::Event * event) {
 				Transition(new EditorScene);
 			} else {
 				MainGame* scene = new MainGame;
+				scene->mapPath = maps[selected].first;
 				scene->mapData = maps[selected].second;
 				Transition(scene);
 			}
@@ -203,6 +205,7 @@ void MenuManager::OpenEditor(unsigned index) {
 void MenuManager::SelectSong(unsigned index) {
 	if (selected == index) {
 		MainGame* scene = new MainGame;
+		scene->mapPath = maps[selected].first;
 		scene->mapData = maps[selected].second;
 		Transition(scene);
 	} else {
@@ -229,10 +232,20 @@ void MenuManager::UpdateSong() {
 		return;
 	}
 
+	const std::string path = maps[selected].first;
 	MapData& map = maps[selected].second;
 	bubble->Play(SongData{ map.audioPath, map.bpm });
 
 	bpmLabel->text = "BPM: " + std::to_string(maps[selected].second.bpm);
+
+	StatsManager* stats = StatsManager::Instance();
+
+	if (!stats->HasHighscore(path)) 
+		stats->InitHighscore(path);
+	
+	ScoreStats const& highscore = stats->GetHighscore(path);
+	scoreLabel->text = "HIGH: "  + std::to_string(highscore.score);
+	gradeLabel->text = highscore.grade;
 }
 
 void MenuManager::Transition(Scene* const destination) {

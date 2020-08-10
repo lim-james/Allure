@@ -12,6 +12,7 @@ class ScoreScene : public Scene {
 
 public:
 
+	std::string mapPath;
 	unsigned sceneTexture;
 	ScoreData data;
 
