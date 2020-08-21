@@ -60,12 +60,7 @@ void EnemyManager::BeatHandler() {
 
 void EnemyManager::CreateEnemy(EnemyData const & data, vec3f const& position) {
 	Transform* const eTransform = data.prefab->Create();
-
-	const float radius = Math::RandMinMax(30.f, 50.f);
-	const float angle = Math::RandMinMax(0.f, 2.f * Math::PI);
-
-	const vec3f displacement = vec3f(cos(angle) * radius, sin(angle) * radius, 0.f);
-	eTransform->SetLocalTranslation(player->GetWorldTranslation() + displacement);
+	eTransform->SetLocalTranslation(position);
 
 	SpriteRender* const render = entities->GetComponent<SpriteRender>(eTransform->entity);
 	render->tint = data.colour;
